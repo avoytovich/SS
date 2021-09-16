@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+	    "jest": true
     },
 	"extends": [
 		"airbnb-base",
@@ -15,7 +16,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+	    "jest"
     ],
     "rules": {
 	    "no-underscore-dangle": ["off"],
@@ -25,8 +27,8 @@
 	    "import/no-extraneous-dependencies": ["off"],
 	    "no-param-reassign": ["off"],
 	    "no-tabs": 0,
-	    // "quotes": ["error", "single", { "allowTemplateLiterals": true }]
-	    "quotes": [2, "single"]
+	    "quotes": [2, "single"],
+	    "arrow-parens": [2, "as-needed"]
     },
 	"settings": {
 		"react": {

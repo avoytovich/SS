@@ -3,8 +3,10 @@ import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
-import { BrowserRouter as Router, Route, Switch, NavLink as RouterLink } from "react-router-dom";
-import Welcome from "./pages/Welcome";
+import {
+  BrowserRouter as Router, Route, Switch, NavLink as RouterLink,
+} from 'react-router-dom';
+import Welcome from './pages/Welcome';
 
 import './App.css';
 
