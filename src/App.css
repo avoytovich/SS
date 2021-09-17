@@ -8,3 +8,8 @@ a.MuiLink-root {
 a.MuiLink-root.active {
     text-shadow: 0 0 2px #FFFFFF;
 }
+
+.MuiBreadcrumbs-root a.MuiLink-root {
+    color: #000000;
+    margin-right: 0;
+}

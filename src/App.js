@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import { store } from './store';
 import Welcome from './pages/Welcome';
+import NeighborsList from './pages/NeighborsList';
 
 import './App.css';
 
@@ -33,6 +34,9 @@ export default function App() {
             <Switch>
               <Route path="/" exact={true}>
                 <Welcome/>
+              </Route>
+              <Route path="/neighbors" exact={true}>
+                <NeighborsList />
               </Route>
             </Switch>
           </Container>
