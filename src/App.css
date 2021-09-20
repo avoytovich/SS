@@ -13,6 +13,10 @@ a.MuiLink-root.active {
     color: #000000;
     margin-right: 0;
 }
+.MuiBreadcrumbs-root .MuiTypography-root {
+    display: flex;
+    align-items: center;
+}
 th.MuiTableCell-head,
 td.MuiTableCell-body,
 th.MuiTableCell-body {

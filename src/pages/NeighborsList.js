@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TagCloud } from 'react-tagcloud';
 
 const data = [
@@ -57,9 +58,11 @@ export default function NeighborsList() {
       <Box sx={{ my: 4 }}>
           <Breadcrumbs aria-label="breadcrumb" separator=''>
               <Link underline="hover" href="/">
-                  Arrow to back icon
+                  <Typography>
+                      <ArrowBackIcon />
+                  </Typography>
               </Link>
-              <Typography>Java</Typography>
+              <Typography variant={'h4'}>Java</Typography>
           </Breadcrumbs>
           <Box sx={{ display: 'grid', my: 4, gridTemplateColumns: 'repeat(2, 1fr)' }} textAlign="center">
               <Box sx={
