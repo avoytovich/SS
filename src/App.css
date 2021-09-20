@@ -13,3 +13,14 @@ a.MuiLink-root.active {
     color: #000000;
     margin-right: 0;
 }
+th.MuiTableCell-head,
+td.MuiTableCell-body,
+th.MuiTableCell-body {
+    border-bottom: none;
+}
+.MuiBox-root .MuiPaper-root {
+    box-shadow: none;
+}
+.MuiBox-root .MuiTableCell-root {
+    padding: 5px;
+}
