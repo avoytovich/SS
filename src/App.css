@@ -31,3 +31,13 @@ th.MuiTableCell-body {
 .MuiBox-root .MuiTableCell-root {
     padding: 5px;
 }
+td.MuiTableCell-body a {
+    color: #000000;
+    font-size: 14px;
+}
+.tag-cloud {
+    width: 675px;
+}
+.tag-cloud span:hover {
+    text-decoration: underline;
+}

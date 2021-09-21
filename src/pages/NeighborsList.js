@@ -91,12 +91,30 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+const customRenderer = (tag, size) => (
+    <Link underline="hover" href={`/skills/${tag.value}`}>
+        <span
+            key={tag.value}
+            style={{
+              margin: '3px',
+              padding: '3px',
+              fontSize: `${size}px`,
+              display: 'inline-block',
+              color: '#000',
+            }}
+        >
+            {tag.value}
+        </span>
+    </Link>
+);
+
 const SimpleCloud = (
     <TagCloud
         minSize={12}
         maxSize={35}
         tags={data}
         disableRandomColor={true}
+        renderer={customRenderer}
     />
 );
 
@@ -199,7 +217,11 @@ export default function NeighborsList() {
                                       </TableCell>
                                       <TableCell>{row.id}</TableCell>
                                       <TableCell>{row.skillsGroup}</TableCell>
-                                      <TableCell>{row.skillName}</TableCell>
+                                      <TableCell>
+                                          <Link underline="hover" href={`/skills/${row.skillName}`}>
+                                              {row.skillName}
+                                          </Link>
+                                      </TableCell>
                                       <TableCell>{row.engineersNumber}</TableCell>
                                   </TableRow>
                                 ))}
