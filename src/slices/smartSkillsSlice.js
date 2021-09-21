@@ -8,30 +8,30 @@ export const smartSkillsApi = createApi({
   endpoints(builder) {
     return {
       findSkills: builder.query({
-        query: skill => ({
+        query: skillName => ({
           url: 'skills/',
           method: 'POST',
           body: {
-            find: skill || 'all',
+            find: skillName || 'all',
           },
         }),
       }),
       similarSkills: builder.query({
-        query: (similar, limit) => ({
+        query: (skillName, limit) => ({
           url: 'skills/',
           method: 'POST',
           body: {
-            similar,
+            similar: skillName,
             ...(limit && { limit }),
           },
         }),
       }),
       neighborSkills: builder.query({
-        query: (neighbors, limit, groups) => ({
+        query: (skillName, limit, groups) => ({
           url: 'skills/',
           method: 'POST',
           body: {
-            neighbors,
+            neighbors: skillName,
             ...(limit && { limit }),
             ...(groups && { groups }),
           },

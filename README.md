@@ -50,7 +50,7 @@ For local development, an API proxy for webpack dev server is used so under the 
 
 The following RTK query hooks can be used:
 
-### `useFindSkillsQuery(name)` 
+### `useFindSkillsQuery(skillName)` 
 Returns skills list by name.
 Accepts `all` to obtain all records, exact skill names or regex expressions.
 Usage:
@@ -68,11 +68,11 @@ if (error) {
 return <div>{JSON.stringify(data)}</div>;
 ```
 
-### `useSimilarSkillsQuery(similar, limit)`
+### `useSimilarSkillsQuery(skillName, limit)`
 Returns skills similar to the one provided.
 By default algorithm limits the number of skills returned in the response to 3. Provide the parameter `limit` to override.
 
-### `useNeighborSkillsQuery(neighbors, limit)`
+### `useNeighborSkillsQuery(skillName, limit)`
 Returns the nearest neighbors of a requested skill.
 By default, algorithm returns the 10 nearest neighbors of the skill in request including itself. Provide the parameter `limit` to override.
 Set the parameter `groups` equal true to get information about corresponding groups of the nearest neighbors.
