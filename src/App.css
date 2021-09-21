@@ -17,6 +17,9 @@ a.MuiLink-root.active {
     display: flex;
     align-items: center;
 }
+.MuiBreadcrumbs-root h4 {
+    text-transform: capitalize;
+}
 th.MuiTableCell-head,
 td.MuiTableCell-body,
 th.MuiTableCell-body {

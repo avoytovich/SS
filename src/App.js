@@ -35,7 +35,7 @@ export default function App() {
               <Route path="/" exact={true}>
                 <Welcome/>
               </Route>
-              <Route path="/neighbors" exact={true}>
+              <Route path="/skills/:name" exact={true}>
                 <NeighborsList />
               </Route>
             </Switch>

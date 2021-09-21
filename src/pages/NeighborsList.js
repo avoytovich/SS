@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -9,9 +10,11 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TagCloud } from 'react-tagcloud';
+import { useParams } from 'react-router-dom';
 
 const data = [
   { value: 'JavaScript', count: 38, color: '#000000' },
@@ -44,6 +47,50 @@ const rows = [
   createData(0.01, 5, 'Java', 'JDBS', 344),
 ];
 
+const headCells = [
+  {
+    id: 'proximity',
+    numeric: true,
+    label: 'Proximity',
+  },
+  {
+    id: 'id',
+    numeric: true,
+    label: 'ID',
+  },
+  {
+    id: 'skillsGroup',
+    numeric: false,
+    label: 'Skills Group',
+  },
+  {
+    id: 'skillName',
+    numeric: false,
+    label: 'Skill Name',
+  },
+  {
+    id: 'engineersNumber',
+    numeric: false,
+    label: '# of Engineers',
+  },
+];
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
 const SimpleCloud = (
     <TagCloud
         minSize={12}
@@ -53,16 +100,65 @@ const SimpleCloud = (
     />
 );
 
+function EnhancedTableHead(props) {
+  const {
+    order, orderBy, onRequestSort,
+  } = props;
+  const createSortHandler = property => event => {
+    onRequestSort(event, property);
+  };
+
+  return (
+        <TableHead>
+            <TableRow>
+                {headCells.map(headCell => (
+                    <TableCell
+                        key={headCell.id}
+                        align={'left'}
+                        padding={headCell.disablePadding ? 'none' : 'normal'}
+                        sortDirection={orderBy === headCell.id ? order : false}
+                    >
+                        <TableSortLabel
+                            active={orderBy === headCell.id}
+                            direction={orderBy === headCell.id ? order : 'asc'}
+                            onClick={createSortHandler(headCell.id)}
+                        >
+                            {headCell.label}
+                        </TableSortLabel>
+                    </TableCell>
+                ))}
+            </TableRow>
+        </TableHead>
+  );
+}
+
+EnhancedTableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
+
 export default function NeighborsList() {
+  const { name } = useParams();
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('proximity');
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
   return (
       <Box sx={{ my: 4 }}>
           <Breadcrumbs aria-label="breadcrumb" separator=''>
-              <Link underline="hover" href="/">
+              <Link underline="hover" href="/skills">
                   <Typography>
                       <ArrowBackIcon />
                   </Typography>
               </Link>
-              <Typography variant={'h4'}>Java</Typography>
+              <Typography variant={'h4'}>{name}</Typography>
           </Breadcrumbs>
           <Box sx={{ display: 'grid', my: 4, gridTemplateColumns: 'repeat(2, 1fr)' }} textAlign="center">
               <Box sx={
@@ -85,17 +181,15 @@ export default function NeighborsList() {
               <div style={{ height: 400, width: '100%' }}>
                   <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                          <TableHead>
-                              <TableRow>
-                                  <TableCell>Proximity</TableCell>
-                                  <TableCell>ID</TableCell>
-                                  <TableCell>Skills Group</TableCell>
-                                  <TableCell>Skill Name</TableCell>
-                                  <TableCell># of Engineers</TableCell>
-                              </TableRow>
-                          </TableHead>
+                          <EnhancedTableHead
+                              order={order}
+                              orderBy={orderBy}
+                              onRequestSort={handleRequestSort}
+                          />
                           <TableBody>
-                              {rows.map(row => (
+                              {rows.slice()
+                                .sort(getComparator(order, orderBy))
+                                .map(row => (
                                   <TableRow
                                       key={row.id}
                                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -108,7 +202,7 @@ export default function NeighborsList() {
                                       <TableCell>{row.skillName}</TableCell>
                                       <TableCell>{row.engineersNumber}</TableCell>
                                   </TableRow>
-                              ))}
+                                ))}
                           </TableBody>
                       </Table>
                   </TableContainer>
