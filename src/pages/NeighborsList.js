@@ -40,6 +40,7 @@ function createData(proximity, id, skillsGroup, skillName, engineersNumber) {
   };
 }
 
+// Mocked data
 const rows = [
   createData(0.2, 1, 'Programming Languages', '.NET', 100),
   createData(0.18, 2, 'Java', 'Eclipse', 34),
@@ -170,6 +171,8 @@ export default function NeighborsList() {
   };
 
   const { data2, error, isLoading } = useNeighborSkillsQuery({ skillName: name, groups: true });
+  // eslint-disable-next-line max-len
+  // TODO: this data should be used for tag cloud (or chart, etc) and also for table when API will be extended
   console.log(data2, error, isLoading);
 
   return (
