@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TagCloud } from 'react-tagcloud';
 import { useParams } from 'react-router-dom';
+import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
 
 const data = [
   { value: 'JavaScript', count: 38, color: '#000000' },
@@ -167,6 +168,9 @@ export default function NeighborsList() {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+
+  const { data2, error, isLoading } = useNeighborSkillsQuery(name);
+  console.log(data2, error, isLoading);
 
   return (
       <Box sx={{ my: 4 }}>
