@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const smartSkillsApi = createApi({
   reducerPath: 'skills',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/',
+    baseUrl: '/api/',
   }),
   endpoints(builder) {
     return {
@@ -17,7 +17,7 @@ export const smartSkillsApi = createApi({
         }),
       }),
       similarSkills: builder.query({
-        query: (skillName, limit) => ({
+        query: ({ skillName, limit }) => ({
           url: 'skills/',
           method: 'POST',
           body: {
@@ -27,7 +27,7 @@ export const smartSkillsApi = createApi({
         }),
       }),
       neighborSkills: builder.query({
-        query: (skillName, limit, groups) => ({
+        query: ({ skillName, groups, limit }) => ({
           url: 'skills/',
           method: 'POST',
           body: {
@@ -38,7 +38,7 @@ export const smartSkillsApi = createApi({
         }),
       }),
       fetchEmployees: builder.query({
-        query: (ids, recommend) => ({
+        query: ({ ids, recommend }) => ({
           url: 'employees/',
           method: 'POST',
           body: {

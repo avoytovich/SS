@@ -169,7 +169,7 @@ export default function NeighborsList() {
     setOrderBy(property);
   };
 
-  const { data2, error, isLoading } = useNeighborSkillsQuery(name);
+  const { data2, error, isLoading } = useNeighborSkillsQuery({ skillName: name, groups: true });
   console.log(data2, error, isLoading);
 
   return (
