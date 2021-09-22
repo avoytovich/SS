@@ -8,3 +8,36 @@ a.MuiLink-root {
 a.MuiLink-root.active {
     text-shadow: 0 0 2px #FFFFFF;
 }
+
+.MuiBreadcrumbs-root a.MuiLink-root {
+    color: #000000;
+    margin-right: 0;
+}
+.MuiBreadcrumbs-root .MuiTypography-root {
+    display: flex;
+    align-items: center;
+}
+.MuiBreadcrumbs-root h4 {
+    text-transform: capitalize;
+}
+th.MuiTableCell-head,
+td.MuiTableCell-body,
+th.MuiTableCell-body {
+    border-bottom: none;
+}
+.MuiBox-root .MuiPaper-root {
+    box-shadow: none;
+}
+.MuiBox-root .MuiTableCell-root {
+    padding: 5px;
+}
+td.MuiTableCell-body a {
+    color: #000000;
+    font-size: 14px;
+}
+.tag-cloud {
+    width: 675px;
+}
+.tag-cloud span:hover {
+    text-decoration: underline;
+}

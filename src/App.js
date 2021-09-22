@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import { store } from './store';
 import Welcome from './pages/Welcome';
+import NeighborsList from './pages/NeighborsList';
 
 import './App.css';
 
@@ -21,7 +22,7 @@ export default function App() {
               <Link component={RouterLink} to="/" exact={true}>
                 Welcome
               </Link>
-              <Link component={RouterLink} to="/skills">
+              <Link component={RouterLink} to="/skills" exact={true}>
                 Skills
               </Link>
               <Link component={RouterLink} to="/employees">
@@ -31,8 +32,9 @@ export default function App() {
           </AppBar>
           <Container maxWidth="lg">
             <Switch>
-              <Route path="/" exact={true}>
-                <Welcome/>
+              <Route path="/" exact={true} component={Welcome} />
+              <Route path="/skills/:name">
+                <NeighborsList />
               </Route>
             </Switch>
           </Container>

@@ -68,15 +68,15 @@ if (error) {
 return <div>{JSON.stringify(data)}</div>;
 ```
 
-### `useSimilarSkillsQuery(skillName, limit)`
+### `useSimilarSkillsQuery({ skillName, limit })`
 Returns skills similar to the one provided.
 By default algorithm limits the number of skills returned in the response to 3. Provide the parameter `limit` to override.
 
-### `useNeighborSkillsQuery(skillName, limit)`
+### `useNeighborSkillsQuery({ skillName, limit })`
 Returns the nearest neighbors of a requested skill.
 By default, algorithm returns the 10 nearest neighbors of the skill in request including itself. Provide the parameter `limit` to override.
 Set the parameter `groups` equal true to get information about corresponding groups of the nearest neighbors.
 
-### `useFetchEmployeesQuery(ids, recommend)`
+### `useFetchEmployeesQuery({ ids, recommend })`
 Returns skill names and corresponding seniority levels for the employee(s) with ID(s) specified in `ids` param.
 Use `recommend` parameter to predict the most appropriate employees based on some job-specific skills.
