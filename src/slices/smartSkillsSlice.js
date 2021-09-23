@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import neighborSkills from '../mocks/neighborsSkills.js';
 
 export const smartSkillsApi = createApi({
   reducerPath: 'skills',
@@ -36,6 +37,8 @@ export const smartSkillsApi = createApi({
             ...(groups && { groups }),
           },
         }),
+        // TODO: mocked data
+        transformResponse: () => neighborSkills,
       }),
       fetchEmployees: builder.query({
         query: ({ ids, recommend }) => ({

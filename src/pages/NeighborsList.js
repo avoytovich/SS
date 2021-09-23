@@ -170,10 +170,13 @@ export default function NeighborsList() {
     setOrderBy(property);
   };
 
-  const { data2, error, isLoading } = useNeighborSkillsQuery({ skillName: name, groups: true });
+  const { data: skills, error, isLoading } = useNeighborSkillsQuery({
+    skillName: name,
+    groups: true,
+  });
   // eslint-disable-next-line max-len
   // TODO: this data should be used for tag cloud (or chart, etc) and also for table when API will be extended
-  console.log(data2, error, isLoading);
+  console.log(skills, error, isLoading);
 
   return (
       <Box sx={{ my: 4 }}>
