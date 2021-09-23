@@ -27,6 +27,10 @@ build-job:
   script:
     - echo "Building app..."
     - npm run build
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 week
 
 unit-test-job:
   stage: test
@@ -38,4 +42,12 @@ deploy-job:
   stage: deploy
   script:
     - echo "Deploying application..."
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - scp -prq ./build ubuntu@ssp-ub20-vm1.vlab.lohika.com:/home/ubuntu/smartskills/ui/
     - echo "Application successfully deployed."
+#  only:
+#    - master
