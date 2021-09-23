@@ -15,6 +15,7 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
+  policy: pull
 
 lint-job:
   stage: lint
@@ -47,7 +48,7 @@ deploy-job:
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - scp -prq ./build ubuntu@ssp-ub20-vm1.vlab.lohika.com:/home/ubuntu/smartskills/ui/
+    - scp -prq ./build $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - echo "Application successfully deployed."
-#  only:
-#    - master
+  only:
+    - master
