@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -8,46 +8,13 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TagCloud } from 'react-tagcloud';
-import { useParams } from 'react-router-dom';
+import SortedTableHead from '../components/table/sortedTableHead';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
-
-const data = [
-  { value: 'JavaScript', count: 38, color: '#000000' },
-  { value: 'React', count: 30, color: '#000000' },
-  { value: 'Nodejs', count: 28, color: '#000000' },
-  { value: 'Express.js', count: 25, color: '#000000' },
-  { value: 'HTML5', count: 33, color: '#000000' },
-  { value: 'MongoDB', count: 18, color: '#000000' },
-  { value: 'CSS3', count: 10, color: '#000000' },
-  { value: 'JavaScript', count: 38, color: '#000000' },
-  { value: 'React', count: 30, color: '#000000' },
-  { value: 'Nodejs', count: 28, color: '#000000' },
-  { value: 'Express.js', count: 25, color: '#000000' },
-  { value: 'HTML5', count: 33, color: '#000000' },
-  { value: 'MongoDB', count: 18, color: '#000000' },
-  { value: 'CSS3', count: 10, color: '#000000' },
-];
-
-function createData(proximity, id, skillsGroup, skillName, engineersNumber) {
-  return {
-    proximity, id, skillsGroup, skillName, engineersNumber,
-  };
-}
-
-// Mocked data
-const rows = [
-  createData(0.2, 1, 'Programming Languages', '.NET', 100),
-  createData(0.18, 2, 'Java', 'Eclipse', 34),
-  createData(0.67, 3, 'Platforms', 'Maven', 2321),
-  createData(0.12, 4, 'Platforms', 'Swing', 432),
-  createData(0.01, 5, 'Java', 'JDBS', 344),
-];
+import { getComparator } from '../common/helpers';
 
 const headCells = [
   {
@@ -61,38 +28,23 @@ const headCells = [
     label: 'ID',
   },
   {
-    id: 'skillsGroup',
+    id: 'SkillGroupName',
     numeric: false,
     label: 'Skills Group',
   },
   {
-    id: 'skillName',
+    id: 'SkillName',
     numeric: false,
     label: 'Skill Name',
   },
   {
-    id: 'engineersNumber',
-    numeric: false,
+    id: 'numberOfEngineers',
+    numeric: true,
     label: '# of Engineers',
   },
 ];
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
+// Custom renderer for Tag Cloud
 const customRenderer = (tag, size) => (
     <Link underline="hover" href={`/skills/${tag.value}`}>
         <span
@@ -110,7 +62,8 @@ const customRenderer = (tag, size) => (
     </Link>
 );
 
-const SimpleCloud = (
+// Tag Cloud component
+const SimpleCloud = data => (
     <TagCloud
         minSize={12}
         maxSize={35}
@@ -119,45 +72,6 @@ const SimpleCloud = (
         renderer={customRenderer}
     />
 );
-
-function EnhancedTableHead(props) {
-  const {
-    order, orderBy, onRequestSort,
-  } = props;
-  const createSortHandler = property => event => {
-    onRequestSort(event, property);
-  };
-
-  return (
-        <TableHead>
-            <TableRow>
-                {headCells.map(headCell => (
-                    <TableCell
-                        key={headCell.id}
-                        align={'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
 
 export default function NeighborsList() {
   const { name } = useParams();
@@ -170,13 +84,10 @@ export default function NeighborsList() {
     setOrderBy(property);
   };
 
-  const { data: skills, error, isLoading } = useNeighborSkillsQuery({
+  const { data: skills = [] } = useNeighborSkillsQuery({
     skillName: name,
     groups: true,
   });
-  // eslint-disable-next-line max-len
-  // TODO: this data should be used for tag cloud (or chart, etc) and also for table when API will be extended
-  console.log(skills, error, isLoading);
 
   return (
       <Box sx={{ my: 4 }}>
@@ -202,20 +113,25 @@ export default function NeighborsList() {
                   <Typography>Description: Bla-bla</Typography>
               </Box>
               <Box>
-                {SimpleCloud}
+                {SimpleCloud(skills.map(({ SkillName, proximity }) => ({
+                  value: SkillName,
+                  count: (1 - proximity) * 100,
+                  color: '#000',
+                })))}
               </Box>
           </Box>
           <Box>
               <div style={{ height: 400, width: '100%' }}>
                   <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                          <EnhancedTableHead
+                          <SortedTableHead
                               order={order}
                               orderBy={orderBy}
                               onRequestSort={handleRequestSort}
+                              headCells={headCells}
                           />
                           <TableBody>
-                              {rows.slice()
+                              {skills.slice()
                                 .sort(getComparator(order, orderBy))
                                 .map(row => (
                                   <TableRow
@@ -226,13 +142,13 @@ export default function NeighborsList() {
                                           {row.proximity}
                                       </TableCell>
                                       <TableCell>{row.id}</TableCell>
-                                      <TableCell>{row.skillsGroup}</TableCell>
+                                      <TableCell>{row.SkillGroupName}</TableCell>
                                       <TableCell>
-                                          <Link underline="hover" href={`/skills/${row.skillName}`}>
-                                              {row.skillName}
+                                          <Link underline="hover" href={`/skills/${row.SkillName}`}>
+                                              {row.SkillName}
                                           </Link>
                                       </TableCell>
-                                      <TableCell>{row.engineersNumber}</TableCell>
+                                      <TableCell>{row.numberOfEngineers}</TableCell>
                                   </TableRow>
                                 ))}
                           </TableBody>
