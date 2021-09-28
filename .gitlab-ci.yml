@@ -41,6 +41,8 @@ unit-test-job:
 
 deploy-job:
   stage: deploy
+  needs:
+    - build-job
   script:
     - echo "Deploying application..."
     - 'which ssh-agent || ( apt-get install -qq openssh-client )'
