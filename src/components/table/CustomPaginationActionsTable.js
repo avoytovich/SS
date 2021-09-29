@@ -88,6 +88,7 @@ export default function CustomPaginationActionsTable({
   orderBy,
   onSortHandler,
   isLoading,
+  showFilteredColumn = true,
 }) {
   const [filters, setFilters] = useState(null);
   const [filteredRows, setFilteredRows] = useState(rows);
@@ -132,9 +133,10 @@ export default function CustomPaginationActionsTable({
                     onRequestSort={onSortHandler}
                     headCells={headCells}
                 />
-                <FilterTableHead headCells={headCells} primaryData={rows}
+              {showFilteredColumn
+                && <FilterTableHead headCells={headCells} primaryData={rows}
                                  onFiltersChange={onFiltersChange}
-                />
+                />}
                 <TableBody>
                     {isLoading
                         && <TableRow style={{ height: 23 * rowsPerPage }}>
@@ -194,4 +196,5 @@ CustomPaginationActionsTable.propTypes = {
   orderBy: PropTypes.string.isRequired,
   onSortHandler: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  showFilteredColumn: PropTypes.bool,
 };
