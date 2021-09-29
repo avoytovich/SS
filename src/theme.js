@@ -14,6 +14,13 @@ const theme = createTheme({
       main: red.A400,
     },
   },
+  overrides: {
+    MuiTypography: {
+      root: {
+        textTransform: 'uppercase',
+      },
+    },
+  },
 });
 
 export default theme;
