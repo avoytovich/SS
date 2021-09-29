@@ -67,8 +67,6 @@ export default function FilterTableHead({
                   size='small'
                   placeholder={`Search by ${label}`}
                   onChange={e => {
-                    // eslint-disable-next-line no-debugger
-                    debugger;
                     filters[id] = e.target.value;
                     onFiltersChange(filters);
                   }}

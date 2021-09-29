@@ -1,20 +1,15 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TagCloud } from 'react-tagcloud';
-import SortedTableHead from '../components/table/sortedTableHead';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
 import { getComparator } from '../common/helpers';
+import CustomPaginationActionsTable
+  from '../components/table/CustomPaginationActionsTable';
 
 const headCells = [
   {
@@ -79,16 +74,19 @@ export default function NeighborsList() {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('proximity');
 
-  const handleRequestSort = (event, property) => {
+  const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const { data: skills = [] } = useNeighborSkillsQuery({
+  const { data = [], isLoading } = useNeighborSkillsQuery({
     skillName: name,
     groups: true,
   });
+
+  const rows = useMemo(() => [...data]
+    .sort(getComparator(order, orderBy)), [data, order, orderBy]);
 
   return (
       <Box sx={{ my: 4 }}>
@@ -114,48 +112,24 @@ export default function NeighborsList() {
                   <Typography>Description: Bla-bla</Typography>
               </Box>
               <Box>
-                {SimpleCloud(skills.map(({ SkillName, proximity }) => ({
+                {SimpleCloud(data.map(({ SkillName, proximity }) => ({
                   value: SkillName,
                   count: (1 - proximity) * 100,
                   color: '#000',
                 })))}
               </Box>
           </Box>
-          <Box>
-              <div style={{ height: 400, width: '100%' }}>
-                  <TableContainer component={Paper}>
-                      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                          <SortedTableHead
-                              order={order}
-                              orderBy={orderBy}
-                              onRequestSort={handleRequestSort}
-                              headCells={headCells}
-                          />
-                          <TableBody>
-                              {skills.slice()
-                                .sort(getComparator(order, orderBy))
-                                .map(row => (
-                                  <TableRow
-                                      key={row.id}
-                                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                  >
-                                      <TableCell component="th" scope="row">
-                                          {row.proximity}
-                                      </TableCell>
-                                      <TableCell>{row.id}</TableCell>
-                                      <TableCell>{row.SkillGroupName}</TableCell>
-                                      <TableCell>
-                                          <Link underline="hover" href={`/skills/${row.SkillName}`}>
-                                              {row.SkillName}
-                                          </Link>
-                                      </TableCell>
-                                      <TableCell>{row.numberOfEngineers}</TableCell>
-                                  </TableRow>
-                                ))}
-                          </TableBody>
-                      </Table>
-                  </TableContainer>
-              </div>
+          <Box sx={{ height: 400, width: '80%' }}>
+            <CustomPaginationActionsTable
+              rows={rows}
+              headCells={headCells}
+              rowsPerPage={25}
+              order={order}
+              orderBy={orderBy}
+              onSortHandler={onSortHandler}
+              isLoading={isLoading}
+              showFilteredColumn={false}
+            />
           </Box>
       </Box>
   );

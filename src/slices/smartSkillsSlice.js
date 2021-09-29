@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import neighborSkills from '../mocks/neighborsSkills';
 import employees from '../mocks/employees.json';
+import findSkills from '../mocks/findSkills';
 
 export const smartSkillsApi = createApi({
   reducerPath: 'skills',
@@ -18,6 +19,7 @@ export const smartSkillsApi = createApi({
             find: skillName || 'all',
           },
         }),
+        transformResponse: () => findSkills,
       }),
       similarSkills: builder.query({
         query: ({ skillName, limit }) => ({
