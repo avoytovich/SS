@@ -13,7 +13,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
-import Button from '@mui/material/Button';
 import { getComparator } from '../common/helpers';
 import SortedTableHead from '../components/table/sortedTableHead';
 import { useFindSkillsQuery } from '../slices/smartSkillsSlice';
@@ -112,7 +111,20 @@ export default function SkillsRegistry() {
               onChange={event => setSkillName(event.target.value)}
               value={skillName}
             />
-            <Button sx={{ display: 'flex', alignItems: 'flex-end', lineHeight: 1 }} size="small" variant="text" onClick={cleanFilters}>Clean Up</Button>
+            <Link
+              style={{
+                color: '#000',
+                fontSize: 12,
+                margin: 0,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'flex-end',
+                marginLeft: '10px',
+              }}
+              underline="hover"
+              onClick={cleanFilters}>
+              Clean Up
+            </Link>
           </FormControl>
         </Box>
         <div style={{ height: 400, width: '100%' }}>
