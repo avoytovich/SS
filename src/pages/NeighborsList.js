@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -75,6 +75,7 @@ const SimpleCloud = data => (
 
 export default function NeighborsList() {
   const { name } = useParams();
+  const history = useHistory();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('proximity');
 
@@ -92,11 +93,11 @@ export default function NeighborsList() {
   return (
       <Box sx={{ my: 4 }}>
           <Breadcrumbs aria-label="breadcrumb" separator=''>
-              <Link underline="hover" href="/skills">
+              <a onClick={history.goBack}>
                   <Typography>
                       <ArrowBackIcon />
                   </Typography>
-              </Link>
+              </a>
               <Typography variant={'h4'}>{name}</Typography>
           </Breadcrumbs>
           <Box sx={{ display: 'grid', my: 4, gridTemplateColumns: 'repeat(2, 1fr)' }} textAlign="center">

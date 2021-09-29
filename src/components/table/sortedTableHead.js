@@ -1,9 +1,9 @@
+import * as React from 'react';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
-import * as React from 'react';
 
 export default function SortedTableHead(props) {
   const {
@@ -20,6 +20,7 @@ export default function SortedTableHead(props) {
 					<TableCell
 						key={headCell.id}
 						align={'left'}
+            width={headCell.width ?? 'auto'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 					>
@@ -41,6 +42,5 @@ SortedTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
   headCells: PropTypes.array.isRequired,
 };

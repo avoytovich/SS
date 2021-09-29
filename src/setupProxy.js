@@ -5,9 +5,6 @@ module.exports = app => {
     ['/api'],
     createProxyMiddleware({
       target: 'http://172.20.134.20',
-      pathRewrite: {
-        '^/api/': '/',
-      },
       changeOrigin: true,
       logLevel: 'debug',
     }),

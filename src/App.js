@@ -10,6 +10,7 @@ import {
 import { store } from './store';
 import Welcome from './pages/Welcome';
 import NeighborsList from './pages/NeighborsList';
+import EmployeesList from './pages/EmployeesList';
 
 import './App.css';
 
@@ -35,6 +36,9 @@ export default function App() {
               <Route path="/" exact={true} component={Welcome} />
               <Route path="/skills/:name">
                 <NeighborsList />
+              </Route>
+              <Route path="/employees">
+                <EmployeesList />
               </Route>
             </Switch>
           </Container>
