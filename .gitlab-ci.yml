@@ -7,7 +7,7 @@ before_script:
 
 stages:
 #  - lint
-  - build
+#  - build
 #  - test
   - deploy
 
@@ -23,16 +23,16 @@ cache:
 #    - echo "Linting code..."
 #    - npm run lint
 
-build-job:
-  stage: build
-  script:
-    - echo "Building app..."
-    - echo "window.VERSION='$(calculated_version)'; window.COMMIT='$CI_COMMIT_SHORT_SHA'; window.PIPELINE='$CI_PIPELINE_ID';" > version.js
-    - npm run build
-  artifacts:
-    paths:
-      - build
-    expire_in: 1 week
+#build-job:
+#  stage: build
+#  script:
+#    - echo "Building app..."
+#    - echo "window.VERSION='$(calculated_version)'; window.COMMIT='$CI_COMMIT_SHORT_SHA'; window.PIPELINE='$CI_PIPELINE_ID';" > version.js
+#    - npm run build
+#  artifacts:
+#    paths:
+#      - build
+#    expire_in: 1 week
 
 #unit-test-job:
 #  stage: test
@@ -52,10 +52,10 @@ deploy-job:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - cd build/static
-    - touch "version.js"
+    - touch "version.txt"
     - ls
-    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME';" >> version.js
-    - cat version.js
+    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME';" >> version.txt
+    - cat version.txt
     - echo "Application successfully deployed."
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
