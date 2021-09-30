@@ -55,7 +55,7 @@ deploy-job:
     - ls
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME';" >> version.js
     - cat version.js
-    - scp -prq ../build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
+    - scp -prq ../../build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - echo "Application successfully deployed."
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
