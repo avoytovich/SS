@@ -1,9 +1,9 @@
 image: node:latest
 
 before_script:
-  - apt-get update -qq && apt-get install
-  - node -v && npm -v
-  - npm install
+#  - apt-get update -qq && apt-get install
+#  - node -v && npm -v
+#  - npm install
 
 stages:
 #  - lint
