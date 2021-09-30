@@ -1,11 +1,8 @@
 image: node:latest
 
-default:
-  before_script:
-    - 'echo "$CI_COMMIT_REF_NAME"'
-    - 'echo "$CI_COMMIT_SHA"'
-
 before_script:
+  - 'echo "$CI_COMMIT_REF_NAME"'
+  - 'echo "$CI_COMMIT_SHA"'
   - apt-get update -qq && apt-get install
   - node -v && npm -v
   - npm install
