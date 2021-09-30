@@ -55,6 +55,7 @@ deploy-job:
     - touch "version.js"
     - ls
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME';" >> version.js
+    - cat version.js
     - echo "Application successfully deployed."
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
