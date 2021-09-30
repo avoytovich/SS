@@ -76,7 +76,7 @@ export default function SkillsRegistry() {
   const skillsGroupNameList = data.map(({ SkillGroupName }) => SkillGroupName);
   const skillsGroupNameListOption = [...new Set(skillsGroupNameList)];
 
-  rows = filterSkills(data);
+  rows = filterSkills(rows);
 
   return (
     <Box sx={{ my: 4 }}>
@@ -94,6 +94,9 @@ export default function SkillsRegistry() {
               onChange={event => setSkillGroupName(event.target.value)}
               label="Skill Group Name"
             >
+              <MenuItem key="select-all" value="">
+                -- Select All --
+              </MenuItem>
               {skillsGroupNameListOption.map(skillsGroupName => <MenuItem
                 key={skillsGroupName}
                 value={skillsGroupName}>
