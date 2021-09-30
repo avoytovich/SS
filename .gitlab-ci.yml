@@ -1,9 +1,9 @@
 image: node:latest
 
 before_script:
-#  - apt-get update -qq && apt-get install
-#  - node -v && npm -v
-#  - npm install
+  - apt-get update -qq && apt-get install
+  - node -v && npm -v
+  - npm install
 
 stages:
 #  - lint
@@ -27,7 +27,6 @@ cache:
 #  stage: build
 #  script:
 #    - echo "Building app..."
-#    - echo "window.VERSION='$(calculated_version)'; window.COMMIT='$CI_COMMIT_SHORT_SHA'; window.PIPELINE='$CI_PIPELINE_ID';" > version.js
 #    - npm run build
 #  artifacts:
 #    paths:
@@ -45,17 +44,18 @@ deploy-job:
   allow_failure: true
   script:
     - echo "Deploying application..."
+    - npm run build
     - 'which ssh-agent || ( apt-get install -qq openssh-client )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - cd build/static
     - touch "version.txt"
     - ls
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME';" >> version.txt
     - cat version.txt
+    - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - echo "Application successfully deployed."
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
