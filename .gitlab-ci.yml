@@ -29,6 +29,7 @@ build-job:
   stage: build
   script:
     - echo "Building app..."
+    - echo "window.COMMIT='$CI_COMMIT_SHORT_SHA'; window.PIPELINE='$CI_PIPELINE_ID'; window.BRANCH='$CI_COMMIT_REF_NAME';" > version.js
     - npm run build
   artifacts:
     paths:
