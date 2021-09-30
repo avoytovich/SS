@@ -26,6 +26,10 @@ const headCells = [
     id: 'SkillName',
     numeric: false,
     label: 'Skill Name',
+    customRender: row => <Link underline="hover"
+      href={`/skills/${row.SkillName}`}>
+      {row.SkillName}
+    </Link>,
   },
   {
     id: 'numberOfEngineers',
