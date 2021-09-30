@@ -6,9 +6,9 @@ before_script:
   - npm install
 
 stages:
-#  - lint
-#  - build
-#  - test
+  - lint
+  - build
+  - test
   - deploy
 
 cache:
@@ -17,27 +17,27 @@ cache:
     - node_modules/
   policy: pull
 
-#lint-job:
-#  stage: lint
-#  script:
-#    - echo "Linting code..."
-#    - npm run lint
+lint-job:
+  stage: lint
+  script:
+    - echo "Linting code..."
+    - npm run lint
 
-#build-job:
-#  stage: build
-#  script:
-#    - echo "Building app..."
-#    - npm run build
-#  artifacts:
-#    paths:
-#      - build
-#    expire_in: 1 week
+build-job:
+  stage: build
+  script:
+    - echo "Building app..."
+    - npm run build
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 week
 
-#unit-test-job:
-#  stage: test
-#  script:
-#    - echo "Running tests..."
-#    - npm run test
+unit-test-job:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - npm run test
 
 deploy-job:
   stage: deploy
@@ -52,9 +52,7 @@ deploy-job:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - cd build/static
     - touch "version.js"
-    - ls
-    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME';" >> version.js
-    - cat version.js
+    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME';" > version.js
     - scp -prq ../../build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - echo "Application successfully deployed."
   rules:
