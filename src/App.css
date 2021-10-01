@@ -41,3 +41,7 @@ td.MuiTableCell-body a {
 .tag-cloud span:hover {
     text-decoration: underline;
 }
+
+footer a {
+    color: #000;
+}

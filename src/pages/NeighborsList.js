@@ -126,7 +126,7 @@ export default function NeighborsList() {
                 })))}
               </Box>
           </Box>
-          <Box sx={{ height: 400, width: '80%' }}>
+          <Box sx={{ width: '80%' }}>
             <CustomPaginationActionsTable
               rows={rows}
               headCells={headCells}
