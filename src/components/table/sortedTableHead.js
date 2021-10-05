@@ -16,9 +16,9 @@ export default function SortedTableHead(props) {
   return (
 		<TableHead>
 			<TableRow>
-				{headCells.map(headCell => (
+				{headCells.map((headCell, i) => (
 					<TableCell
-						key={headCell.id}
+						key={`${headCell.id}-${i}`}
 						align={'left'}
             width={headCell.width ?? 'auto'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
