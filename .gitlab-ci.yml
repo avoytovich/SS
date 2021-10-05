@@ -28,6 +28,9 @@ build-job:
   script:
     - echo "Building app..."
     - npm run build
+    - cd build/static
+    - touch "version.js"
+    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='https://gitlab.lohika.com/rnd-hub/smartskills-ui/-/commit/$CI_COMMIT_SHA'" > version.js
   artifacts:
     paths:
       - build
@@ -49,10 +52,7 @@ deploy-job:
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - cd build/static
-    - touch "version.js"
-    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='https://gitlab.lohika.com/rnd-hub/smartskills-ui/-/commit/$CI_COMMIT_SHA'" > version.js
-    - scp -prq ../../build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
+    - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - echo "Application successfully deployed."
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
