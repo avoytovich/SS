@@ -31,7 +31,8 @@ build-job:
     - cd build/static
     - touch "version.js"
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL' > version.js
-    - cd ../../
+    - echo pwd
+    - cd ./../
   artifacts:
     paths:
       - build
