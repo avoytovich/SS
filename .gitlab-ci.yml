@@ -31,7 +31,7 @@ build-job:
     - cd build/static
     - touch "version.js"
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
-    - echo pwd
+    - echo '$CI_PIPELINE_URL'
     - cd ../../
   artifacts:
     paths:
@@ -49,8 +49,6 @@ deploy-job:
   allow_failure: true
   script:
     - echo "Deploying application..."
-#    - should be deleted
-    - npm run build
     - 'which ssh-agent || ( apt-get install -qq openssh-client )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
