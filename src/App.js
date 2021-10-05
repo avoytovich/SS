@@ -48,17 +48,18 @@ export default function App() {
             <Box sx={{
               my: 4,
             }} textAlign="left">
-              <footer>
-                <Typography variant="caption" component="p" gutterBottom>
-                  Pipeline: <a href={window.PIPELINE_LINK} target="_blank" rel="noreferrer">
-                    {window.COMMIT}
-                  </a>
-                </Typography>
-                {window.BRANCH !== 'master'
-                  && <Typography variant="caption" component="p" gutterBottom>
-                    Branch: {window.BRANCH}
-                  </Typography>}
-              </footer>
+              {window.location.hostname !== 'localhost'
+                && <footer>
+                  <Typography variant="caption" component="p" gutterBottom>
+                    Pipeline: <a href={window.PIPELINE_LINK} target="_blank" rel="noreferrer">
+                      {window.COMMIT}
+                    </a>
+                  </Typography>
+                  {window.BRANCH !== 'master'
+                    && <Typography variant="caption" component="p" gutterBottom>
+                      Branch: {window.BRANCH}
+                    </Typography>}
+                </footer>}
             </Box>
           </Container>
         </Router>
