@@ -6,7 +6,7 @@ import PageTitle from '../components/PageTitle';
 export default function Welcome() {
   return (
     <>
-      <PageTitle title="Smart Skills" />
+      <PageTitle title="Smart Skills" includeAppName={false} />
       <Box sx={{ my: 4 }} textAlign="center">
         <Typography variant="h4" component="h1" gutterBottom>
           Smart Skills Web App
