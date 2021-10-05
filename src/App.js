@@ -4,6 +4,8 @@ import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import {
   BrowserRouter as Router, Route, Switch, NavLink as RouterLink,
 } from 'react-router-dom';
@@ -43,6 +45,22 @@ export default function App() {
                 <EmployeesList />
               </Route>
             </Switch>
+            <Box sx={{
+              my: 4,
+            }} textAlign="left">
+              {window.location.hostname !== 'localhost'
+                && <footer>
+                  <Typography variant="caption" component="p" gutterBottom>
+                    Pipeline: <a href={window.PIPELINE_LINK} target="_blank" rel="noreferrer">
+                      {window.COMMIT}
+                    </a>
+                  </Typography>
+                  {window.BRANCH !== 'master'
+                    && <Typography variant="caption" component="p" gutterBottom>
+                      Branch: {window.BRANCH}
+                    </Typography>}
+                </footer>}
+            </Box>
           </Container>
         </Router>
       </Provider>
