@@ -11,6 +11,7 @@ import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
 import { getComparator } from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
+import PageTitle from '../components/PageTitle';
 
 const headCells = [
   {
@@ -91,46 +92,49 @@ export default function EmployeesList() {
   };
 
   return (
-    <Box sx={{ my: 4 }}>
-      <Typography variant={'h4'} sx={{ textTransform: 'uppercase' }}>
-        Employees List
-      </Typography>
-      <Box sx={{ marginTop: '20px', marginBottom: '10px' }}>
-        <TextField
-          label="Search by Skills"
-          defaultValue={search}
-          onChange={e => {
-            searchInputRef.current.value = e.target.value;
-          }}
-          onKeyPress={e => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              handleSearchButtonClick();
-            }
-          }}
-          ref={searchInputRef}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={handleSearchButtonClick}>
-                  <SearchIcon/>
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+    <>
+      <PageTitle title="Employees List" />
+      <Box sx={{ my: 4 }}>
+        <Typography variant={'h4'} sx={{ textTransform: 'uppercase' }}>
+          Employees List
+        </Typography>
+        <Box sx={{ marginTop: '20px', marginBottom: '10px' }}>
+          <TextField
+            label="Search by Skills"
+            defaultValue={search}
+            onChange={e => {
+              searchInputRef.current.value = e.target.value;
+            }}
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearchButtonClick();
+              }
+            }}
+            ref={searchInputRef}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleSearchButtonClick}>
+                    <SearchIcon/>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+        <Box sx={{ height: 400, width: '80%' }}>
+          <CustomPaginationActionsTable
+            rows={rows}
+            headCells={headCells}
+            rowsPerPage={25}
+            order={order}
+            orderBy={orderBy}
+            onSortHandler={onSortHandler}
+            isLoading={isLoading}
+          />
+        </Box>
       </Box>
-      <Box sx={{ height: 400, width: '80%' }}>
-        <CustomPaginationActionsTable
-          rows={rows}
-          headCells={headCells}
-          rowsPerPage={25}
-          order={order}
-          orderBy={orderBy}
-          onSortHandler={onSortHandler}
-          isLoading={isLoading}
-        />
-      </Box>
-    </Box>
+    </>
   );
 }

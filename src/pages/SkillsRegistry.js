@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { getComparator } from '../common/helpers';
 import { useFindSkillsQuery } from '../slices/smartSkillsSlice';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
+import PageTitle from '../components/PageTitle';
 
 const headCells = [
   {
@@ -79,72 +80,75 @@ export default function SkillsRegistry() {
   rows = filterSkills(rows);
 
   return (
-    <Box sx={{ my: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Skills Registry
-      </Typography>
-      <Box>
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
-            <InputLabel id="skill-group-name">Skill Group Name</InputLabel>
-            <Select
-              labelId="skill-group-name"
-              id="skill-group-name"
-              value={skillGroupName}
-              onChange={event => setSkillGroupName(event.target.value)}
-              label="Skill Group Name"
-            >
-              <MenuItem key="select-all" value="">
-                -- Select All --
-              </MenuItem>
-              {skillsGroupNameListOption.map(skillsGroupName => <MenuItem
-                key={skillsGroupName}
-                value={skillsGroupName}>
-                {skillsGroupName}
-              </MenuItem>)}
-            </Select>
-          </FormControl>
-          <FormControl variant="standard" sx={{
-            m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
-          }}>
-            <TextField
-              id="standard-helperText"
-              label="Skill Name"
-              variant="standard"
-              placeholder="Skill Name (full / partial / RegExp)"
-              onChange={event => setSkillName(event.target.value)}
-              value={skillName}
+    <>
+      <PageTitle title="Skills Registry" />
+      <Box sx={{ my: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Skills Registry
+        </Typography>
+        <Box>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+              <InputLabel id="skill-group-name">Skill Group Name</InputLabel>
+              <Select
+                labelId="skill-group-name"
+                id="skill-group-name"
+                value={skillGroupName}
+                onChange={event => setSkillGroupName(event.target.value)}
+                label="Skill Group Name"
+              >
+                <MenuItem key="select-all" value="">
+                  -- Select All --
+                </MenuItem>
+                {skillsGroupNameListOption.map(skillsGroupName => <MenuItem
+                  key={skillsGroupName}
+                  value={skillsGroupName}>
+                  {skillsGroupName}
+                </MenuItem>)}
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" sx={{
+              m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
+            }}>
+              <TextField
+                id="standard-helperText"
+                label="Skill Name"
+                variant="standard"
+                placeholder="Skill Name (full / partial / RegExp)"
+                onChange={event => setSkillName(event.target.value)}
+                value={skillName}
+              />
+              <Link
+                style={{
+                  color: '#000',
+                  fontSize: 12,
+                  margin: 0,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  marginLeft: '10px',
+                  fontWeight: 'bold',
+                }}
+                underline="hover"
+                onClick={cleanFilters}>
+                Clean Up
+              </Link>
+            </FormControl>
+          </Box>
+          <Box sx={{ height: 400, width: '80%' }}>
+            <CustomPaginationActionsTable
+              rows={rows}
+              headCells={headCells}
+              rowsPerPage={25}
+              order={order}
+              orderBy={orderBy}
+              onSortHandler={onSortHandler}
+              isLoading={isLoading}
+              showFilteredColumn={false}
             />
-            <Link
-              style={{
-                color: '#000',
-                fontSize: 12,
-                margin: 0,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'flex-end',
-                marginLeft: '10px',
-                fontWeight: 'bold',
-              }}
-              underline="hover"
-              onClick={cleanFilters}>
-              Clean Up
-            </Link>
-          </FormControl>
-        </Box>
-        <Box sx={{ height: 400, width: '80%' }}>
-          <CustomPaginationActionsTable
-            rows={rows}
-            headCells={headCells}
-            rowsPerPage={25}
-            order={order}
-            orderBy={orderBy}
-            onSortHandler={onSortHandler}
-            isLoading={isLoading}
-            showFilteredColumn={false}
-          />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }

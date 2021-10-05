@@ -5,11 +5,12 @@ import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { TagCloud } from 'react-tagcloud';
+import TagCloud from 'react-tagcloud';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
 import { getComparator } from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
+import PageTitle from '../components/PageTitle';
 
 const headCells = [
   {
@@ -93,6 +94,8 @@ export default function NeighborsList() {
     .sort(getComparator(order, orderBy)), [data, order, orderBy]);
 
   return (
+    <>
+      <PageTitle title={`${name}: Neighbors List`} />
       <Box sx={{ my: 4 }}>
           <Breadcrumbs aria-label="breadcrumb" separator=''>
               <a onClick={history.goBack}>
@@ -136,5 +139,6 @@ export default function NeighborsList() {
             />
           </Box>
       </Box>
+    </>
   );
 }
