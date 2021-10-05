@@ -49,6 +49,8 @@ deploy-job:
   allow_failure: true
   script:
     - echo "Deploying application..."
+#    - should be deleted
+    - npm run build
     - 'which ssh-agent || ( apt-get install -qq openssh-client )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
