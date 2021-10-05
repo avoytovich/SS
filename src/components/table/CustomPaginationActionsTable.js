@@ -148,8 +148,8 @@ export default function CustomPaginationActionsTable({
                     {(rowsPerPage > 0
                       ? filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       : filteredRows
-                    ).map(row => (
-                        <TableRow key={row.Id}>
+                    ).map((row, i) => (
+                        <TableRow key={`${row.Id}-${i}`}>
                             {headCells.map(({ id, customRender }) => <TableCell
                                 key={id}>
                                 {customRender ? customRender(row) : row[id]}
