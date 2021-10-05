@@ -30,9 +30,9 @@ build-job:
     - npm run build
     - cd build/static
     - touch "version.js"
-    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL' > version.js
+    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
     - echo pwd
-    - cd ./../
+    - cd ../../
   artifacts:
     paths:
       - build
