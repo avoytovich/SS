@@ -34,10 +34,10 @@ export default function App() {
               </Link>
             </Toolbar>
           </AppBar>
-          <Container maxWidth="lg" style={{
+          <Container maxWidth="lg" sx={{
             display: 'flex',
-            minHeight: '100%',
             flexDirection: 'column',
+            flex: 1,
           }}>
             <Switch>
               <Route path="/" exact={true} component={Welcome} />
@@ -49,10 +49,7 @@ export default function App() {
                 <EmployeeList />
               </Route>
             </Switch>
-            <Box sx={{
-              // my: 4,
-              flex: 1,
-            }} textAlign="left" component="footer">
+            <Box sx={{ flex: 1 }} textAlign="left" component="footer">
               {window.location.hostname !== 'localhost'
                 && <>
                   <Typography variant="caption" component="p" gutterBottom>

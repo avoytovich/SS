@@ -94,7 +94,7 @@ export default function EmployeeList() {
   return (
     <>
       <PageTitle title="Employees List" />
-      <Box sx={{ my: 4 }} style={{ flex: 1 }}>
+      <Box sx={{ my: 4, flex: 1 }}>
         <Typography variant={'h4'}>
           Employee List
         </Typography>

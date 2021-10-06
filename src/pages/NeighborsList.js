@@ -47,18 +47,19 @@ const headCells = [
 // Custom renderer for Tag Cloud
 const customRenderer = (tag, size) => (
     <Link underline="hover" href={`/skills/${tag.value}`}>
-        <span
+        <Box
             key={tag.value}
-            style={{
+            sx={{
               margin: '3px',
               padding: '3px',
               fontSize: `${size}px`,
               display: 'inline-block',
               color: '#000',
             }}
+            component="span"
         >
             {tag.value}
-        </span>
+        </Box>
     </Link>
 );
 
@@ -96,7 +97,7 @@ export default function NeighborsList() {
   return (
     <>
       <PageTitle title={`${name}: Neighbors List`} />
-      <Box sx={{ my: 4 }} style={{ flex: 1 }}>
+      <Box sx={{ my: 4, flex: 1 }}>
           <Breadcrumbs aria-label="breadcrumb" separator=''>
               <a onClick={history.goBack}>
                   <Typography>

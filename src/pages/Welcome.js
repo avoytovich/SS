@@ -7,7 +7,7 @@ export default function Welcome() {
   return (
     <>
       <PageTitle title="Smart Skills" includeAppName={false} />
-      <Box sx={{ my: 4 }} style={{ flex: 1, textAlign: 'center' }}>
+      <Box sx={{ my: 4, flex: 1, textAlign: 'center' }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Smart Skills Web App
         </Typography>
