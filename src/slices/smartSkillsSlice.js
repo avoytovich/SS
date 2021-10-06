@@ -13,7 +13,7 @@ export const smartSkillsApi = createApi({
     return {
       findSkills: builder.query({
         query: skillName => ({
-          url: 'skills/',
+          url: 'skills',
           headers: {
             find: skillName || 'all',
           },
@@ -22,7 +22,7 @@ export const smartSkillsApi = createApi({
       }),
       similarSkills: builder.query({
         query: ({ skillName, limit }) => ({
-          url: 'skills/',
+          url: 'skills',
           headers: {
             similar: skillName,
             ...(limit && { limit }),
@@ -31,7 +31,7 @@ export const smartSkillsApi = createApi({
       }),
       neighborSkills: builder.query({
         query: ({ skillName, groups, limit = 500 }) => ({
-          url: 'skills/',
+          url: 'skills',
           headers: {
             neighbors: skillName,
             ...(limit && { limit }),
@@ -43,7 +43,7 @@ export const smartSkillsApi = createApi({
       }),
       fetchEmployees: builder.query({
         query: ({ ids, recommend, groups }) => ({
-          url: 'employees/',
+          url: 'employees',
           headers: {
             ids,
             ...(recommend && { recommend }),

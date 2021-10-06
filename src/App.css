@@ -1,3 +1,12 @@
+html, body, div#root {
+    height: 100%;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
 a.MuiLink-root {
     color: #FFFFFF;
     font-size: 20px;

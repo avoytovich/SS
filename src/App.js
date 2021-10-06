@@ -13,7 +13,7 @@ import { store } from './store';
 import Welcome from './pages/Welcome';
 import NeighborsList from './pages/NeighborsList';
 import SkillsRegistry from './pages/SkillsRegistry';
-import EmployeesList from './pages/EmployeesList';
+import EmployeeList from './pages/EmployeeList';
 
 import './App.css';
 
@@ -34,7 +34,11 @@ export default function App() {
               </Link>
             </Toolbar>
           </AppBar>
-          <Container maxWidth="lg">
+          <Container maxWidth="lg" sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+          }}>
             <Switch>
               <Route path="/" exact={true} component={Welcome} />
               <Route path="/skills" exact={true} component={SkillsRegistry} />
@@ -42,14 +46,12 @@ export default function App() {
                 <NeighborsList />
               </Route>
               <Route path="/employees">
-                <EmployeesList />
+                <EmployeeList />
               </Route>
             </Switch>
-            <Box sx={{
-              my: 4,
-            }} textAlign="left">
+            <Box sx={{ flex: 1 }} textAlign="left" component="footer">
               {window.location.hostname !== 'localhost'
-                && <footer>
+                && <>
                   <Typography variant="caption" component="p" gutterBottom>
                     Pipeline: <a href={window.PIPELINE_LINK} target="_blank" rel="noreferrer">
                       {window.COMMIT}
@@ -59,7 +61,7 @@ export default function App() {
                     && <Typography variant="caption" component="p" gutterBottom>
                       Branch: {window.BRANCH}
                     </Typography>}
-                </footer>}
+                </>}
             </Box>
           </Container>
         </Router>
