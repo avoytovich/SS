@@ -13,5 +13,5 @@ export default function PageTitle({ title = '', includeAppName = true }) {
 
 PageTitle.propTypes = {
   title: PropTypes.string.isRequired,
-  includeAppName: PropTypes.bool.isRequired,
+  includeAppName: PropTypes.bool,
 };

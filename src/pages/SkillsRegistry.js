@@ -82,7 +82,7 @@ export default function SkillsRegistry() {
   return (
     <>
       <PageTitle title="Skills Registry" />
-      <Box sx={{ my: 4 }}>
+      <Box sx={{ my: 4 }} style={{ flex: 1 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Skills Registry
         </Typography>

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import TagCloud from 'react-tagcloud';
+import { TagCloud } from 'react-tagcloud';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
 import { getComparator } from '../common/helpers';
 import CustomPaginationActionsTable
@@ -96,7 +96,7 @@ export default function NeighborsList() {
   return (
     <>
       <PageTitle title={`${name}: Neighbors List`} />
-      <Box sx={{ my: 4 }}>
+      <Box sx={{ my: 4 }} style={{ flex: 1 }}>
           <Breadcrumbs aria-label="breadcrumb" separator=''>
               <a onClick={history.goBack}>
                   <Typography>

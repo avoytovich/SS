@@ -48,7 +48,7 @@ const headCells = [
   },
 ];
 
-export default function EmployeesList() {
+export default function EmployeeList() {
   const searchInputRef = useRef();
   const location = useLocation();
   const history = useHistory();
@@ -94,9 +94,9 @@ export default function EmployeesList() {
   return (
     <>
       <PageTitle title="Employees List" />
-      <Box sx={{ my: 4 }}>
-        <Typography variant={'h4'} sx={{ textTransform: 'uppercase' }}>
-          Employees List
+      <Box sx={{ my: 4 }} style={{ flex: 1 }}>
+        <Typography variant={'h4'}>
+          Employee List
         </Typography>
         <Box sx={{ marginTop: '20px', marginBottom: '10px' }}>
           <TextField
