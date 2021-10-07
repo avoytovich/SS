@@ -9,6 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
@@ -93,7 +94,7 @@ export default function CustomPaginationActionsTable({
   const [filters, setFilters] = useState(null);
   const [filteredRows, setFilteredRows] = useState(rows);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const onFiltersChange = values => {
     setFilters(values);
@@ -137,6 +138,9 @@ export default function CustomPaginationActionsTable({
                 && <FilterTableHead headCells={headCells} primaryData={rows}
                                  onFiltersChange={onFiltersChange}
                 />}
+                <TableHead>
+                  <TableRow />
+                </TableHead>
                 <TableBody>
                     {isLoading
                         && <TableRow style={{ height: 23 * rowsPerPage }}>
@@ -166,7 +170,7 @@ export default function CustomPaginationActionsTable({
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[25, 50, 100, { label: 'All', value: -1 }]}
+                            rowsPerPageOptions={[10, 25, 50, 100, { label: 'All', value: -1 }]}
                             colSpan={headCells.length}
                             count={filteredRows.length}
                             rowsPerPage={rowsPerPage}

@@ -7,10 +7,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
+import { useTheme } from '@mui/material/styles';
 import { getComparator } from '../common/helpers';
 import { useFindSkillsQuery } from '../slices/smartSkillsSlice';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
+import { PagePanel } from '../components/PagePanel';
 
 const headCells = [
   {
@@ -40,9 +42,10 @@ const headCells = [
 ];
 
 export default function SkillsRegistry() {
+  const theme = useTheme();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('id');
-  const [skillGroupName, setSkillGroupName] = React.useState('');
+  const [skillGroupName, setSkillGroupName] = React.useState('all');
   const [skillName, setSkillName] = React.useState('');
 
   const onSortHandler = (event, property) => {
@@ -52,7 +55,7 @@ export default function SkillsRegistry() {
   };
 
   const cleanFilters = () => {
-    setSkillGroupName('');
+    setSkillGroupName('all');
     setSkillName('');
   };
 
@@ -63,7 +66,7 @@ export default function SkillsRegistry() {
 
   const filterSkills = skillsList => {
     let filteredSkills = [...skillsList];
-    if (skillGroupName) {
+    if (skillGroupName !== 'all') {
       filteredSkills = filteredSkills
         .filter(({ SkillGroupName }) => SkillGroupName === skillGroupName);
     }
@@ -82,73 +85,76 @@ export default function SkillsRegistry() {
   return (
     <>
       <PageTitle title="Skills Registry" />
-      <Box sx={{ my: 4, flex: 1 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Skills Registry
-        </Typography>
-        <Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
-              <InputLabel id="skill-group-name">Skill Group Name</InputLabel>
-              <Select
-                labelId="skill-group-name"
-                id="skill-group-name"
-                value={skillGroupName}
-                onChange={event => setSkillGroupName(event.target.value)}
-                label="Skill Group Name"
-              >
-                <MenuItem key="select-all" value="">
-                  -- Select All --
-                </MenuItem>
-                {skillsGroupNameListOption.map(skillsGroupName => <MenuItem
-                  key={skillsGroupName}
-                  value={skillsGroupName}>
-                  {skillsGroupName}
-                </MenuItem>)}
-              </Select>
-            </FormControl>
-            <FormControl variant="standard" sx={{
-              m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
-            }}>
-              <TextField
-                id="standard-helperText"
-                label="Skill Name"
-                variant="standard"
-                placeholder="Skill Name (full / partial / RegExp)"
-                onChange={event => setSkillName(event.target.value)}
-                value={skillName}
-              />
-              <Link
-                sx={{
-                  color: '#000',
-                  fontSize: 12,
-                  margin: 0,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  marginLeft: '10px',
-                  fontWeight: 'bold',
-                }}
-                underline="hover"
-                onClick={cleanFilters}>
-                Clean Up
-              </Link>
-            </FormControl>
-          </Box>
-          <Box sx={{ width: '80%' }}>
-            <CustomPaginationActionsTable
-              rows={rows}
-              headCells={headCells}
-              rowsPerPage={25}
-              order={order}
-              orderBy={orderBy}
-              onSortHandler={onSortHandler}
-              isLoading={isLoading}
-              showFilteredColumn={false}
+      <Typography variant="h4" component="h1" margin='24px 0'>
+        Skills Registry
+      </Typography>
+      <PagePanel>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          borderBottom: `1px solid ${theme.palette.primary.separator}`,
+          padding: '10px 10px 20px',
+        }}>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
+            <InputLabel id="skill-group-name">Filter by</InputLabel>
+            <Select
+              labelId="skill-group-name"
+              id="skill-group-name"
+              value={skillGroupName}
+              onChange={event => setSkillGroupName(event.target.value)}
+            >
+              <MenuItem key="select-all" value="all">
+                -- Skill Group Name --
+              </MenuItem>
+              {skillsGroupNameListOption.map(skillsGroupName => <MenuItem
+                key={skillsGroupName}
+                value={skillsGroupName}>
+                {skillsGroupName}
+              </MenuItem>)}
+            </Select>
+          </FormControl>
+          <FormControl variant="standard" sx={{
+            m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
+          }}>
+            <TextField
+              id="standard-helperText"
+              label="Skill Name"
+              variant="standard"
+              placeholder="Skill Name"
+              onChange={event => setSkillName(event.target.value)}
+              value={skillName}
             />
-          </Box>
+            <Link
+              sx={{
+                color: '#000',
+                fontSize: 12,
+                margin: 0,
+                cursor: 'pointer',
+                display: 'flex',
+                marginTop: '30px',
+                verticalAlign: 'middle',
+                marginLeft: '10px',
+                fontWeight: 500,
+              }}
+              underline="none"
+              onClick={cleanFilters}>
+              Clean Up
+            </Link>
+          </FormControl>
         </Box>
-      </Box>
+        <Box sx={{ padding: '0 20px' }}>
+          <CustomPaginationActionsTable
+            rows={rows}
+            headCells={headCells}
+            rowsPerPage={25}
+            order={order}
+            orderBy={orderBy}
+            onSortHandler={onSortHandler}
+            isLoading={isLoading}
+            showFilteredColumn={false}
+          />
+        </Box>
+      </PagePanel>
     </>
   );
 }

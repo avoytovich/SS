@@ -3,15 +3,14 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
+import { useTheme } from '@mui/material/styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
 import { getComparator } from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
+import { PagePanel } from '../components/PagePanel';
 
 const headCells = [
   {
@@ -49,6 +48,7 @@ const headCells = [
 ];
 
 export default function EmployeeList() {
+  const theme = useTheme();
   const searchInputRef = useRef();
   const location = useLocation();
   const history = useHistory();
@@ -93,37 +93,30 @@ export default function EmployeeList() {
 
   return (
     <>
-      <PageTitle title="Employees List" />
-      <Box sx={{ my: 4, flex: 1 }}>
-        <Typography variant={'h4'}>
-          Employee List
-        </Typography>
-        <Box sx={{ marginTop: '20px', marginBottom: '10px' }}>
+      <PageTitle title="Employees List"/>
+      <Typography variant={'h4'} component="h1" margin="24px 0">
+        Employee List
+      </Typography>
+      <PagePanel>
+        <Box sx={{
+          // display: 'flex',
+          // flexDirection: 'column',
+          borderBottom: `1px solid ${theme.palette.primary.separator}`,
+          padding: '10px 20px 20px',
+        }}>
           <TextField
             label="Search by Skills"
-            defaultValue={search}
+            variant="standard"
+            placeholder="Search by"
             onChange={e => {
               searchInputRef.current.value = e.target.value;
+              handleSearchButtonClick();
             }}
-            onKeyPress={e => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSearchButtonClick();
-              }
-            }}
+            defaultValue={search}
             ref={searchInputRef}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleSearchButtonClick}>
-                    <SearchIcon/>
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
           />
         </Box>
-        <Box sx={{ width: '80%' }}>
+        <Box sx={{ padding: '0 20px' }}>
           <CustomPaginationActionsTable
             rows={rows}
             headCells={headCells}
@@ -134,7 +127,7 @@ export default function EmployeeList() {
             isLoading={isLoading}
           />
         </Box>
-      </Box>
+      </PagePanel>
     </>
   );
 }
