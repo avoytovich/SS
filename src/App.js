@@ -15,6 +15,9 @@ import NeighborsList from './pages/NeighborsList';
 import SkillsRegistry from './pages/SkillsRegistry';
 import EmployeeList from './pages/EmployeeList';
 
+import './fonts/Ubuntu-Light.ttf';
+import './fonts/Ubuntu-Regular.ttf';
+import './fonts/Ubuntu-Medium.ttf';
 import './App.css';
 
 export default function App() {

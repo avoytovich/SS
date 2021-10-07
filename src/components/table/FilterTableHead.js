@@ -113,7 +113,7 @@ export default function FilterTableHead({
               margin: 0,
               cursor: 'pointer',
             }}>
-            Clean all
+            Clean up
           </Link>
         </TableCell>
       </TableRow>

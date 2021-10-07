@@ -11,6 +11,7 @@ import { getComparator } from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
+import { PagePanel } from '../components/PagePanel';
 
 const headCells = [
   {
@@ -33,7 +34,7 @@ const headCells = [
     numeric: false,
     label: 'Skill Name',
     customRender: row => <Link underline="hover"
-      href={`/skills/${row.SkillName}`}>
+                               href={`/skills/${row.SkillName}`}>
       {row.SkillName}
     </Link>,
   },
@@ -46,32 +47,32 @@ const headCells = [
 
 // Custom renderer for Tag Cloud
 const customRenderer = (tag, size) => (
-    <Link underline="hover" href={`/skills/${tag.value}`}>
-        <Box
-            key={tag.value}
-            sx={{
-              margin: '3px',
-              padding: '3px',
-              fontSize: `${size}px`,
-              display: 'inline-block',
-              color: '#000',
-            }}
-            component="span"
-        >
-            {tag.value}
-        </Box>
-    </Link>
+  <Link underline="hover" href={`/skills/${tag.value}`}>
+    <Box
+      key={tag.value}
+      sx={{
+        margin: '3px',
+        padding: '3px',
+        fontSize: `${size}px`,
+        display: 'inline-block',
+        color: '#000',
+      }}
+      component="span"
+    >
+      {tag.value}
+    </Box>
+  </Link>
 );
 
 // Tag Cloud component
 const SimpleCloud = data => (
-    <TagCloud
-        minSize={12}
-        maxSize={35}
-        tags={data}
-        disableRandomColor={true}
-        renderer={customRenderer}
-    />
+  <TagCloud
+    minSize={12}
+    maxSize={35}
+    tags={data}
+    disableRandomColor={true}
+    renderer={customRenderer}
+  />
 );
 
 export default function NeighborsList() {
@@ -91,55 +92,57 @@ export default function NeighborsList() {
     groups: true,
   });
 
-  const rows = useMemo(() => [...data]
-    .sort(getComparator(order, orderBy)), [data, order, orderBy]);
+  const rows = useMemo(() => [...data].sort(getComparator(order, orderBy)),
+    [data, order, orderBy]);
 
   return (
     <>
-      <PageTitle title={`${name}: Neighbors List`} />
-      <Box sx={{ my: 4, flex: 1 }}>
-          <Breadcrumbs aria-label="breadcrumb" separator=''>
-              <a onClick={history.goBack}>
-                  <Typography>
-                      <ArrowBackIcon />
-                  </Typography>
-              </a>
-              <Typography variant={'h4'}>{name}</Typography>
-          </Breadcrumbs>
-          <Box sx={{ display: 'grid', my: 4, gridTemplateColumns: 'repeat(2, 1fr)' }} textAlign="center">
-              <Box sx={
-                  {
-                    border: 1,
-                    padding: 2,
-                    maxWidth: { xs: 300, md: 250 },
-                    maxHeight: 125,
-                  }
-              } textAlign="left">
-                  <Typography>Group: Programming Languages</Typography>
-                  <Typography>Engineers: 500</Typography>
-                  <Typography>Description: Bla-bla</Typography>
-              </Box>
-              <Box>
-                {SimpleCloud(data.map(({ SkillName, proximity }) => ({
-                  value: SkillName,
-                  count: (1 - proximity) * 100,
-                  color: '#000',
-                })))}
-              </Box>
+      <PageTitle title={`${name}: Neighbors List`}/>
+      <Breadcrumbs aria-label="breadcrumb" separator="" margin='24px 0'>
+        <a onClick={history.goBack}>
+          <Typography>
+            <ArrowBackIcon/>
+          </Typography>
+        </a>
+        <Typography variant={'h4'}>{name}</Typography>
+      </Breadcrumbs>
+      <PagePanel>
+        <Box
+          sx={{ display: 'grid', m: 4, gridTemplateColumns: 'repeat(2, 1fr)' }}
+          textAlign="center">
+          <Box sx={
+            {
+              border: 1,
+              padding: 2,
+              maxWidth: { xs: 300, md: 250 },
+              maxHeight: 125,
+            }
+          } textAlign="left">
+            <Typography>Group: Programming Languages</Typography>
+            <Typography>Engineers: 500</Typography>
+            <Typography>Description: Bla-bla</Typography>
           </Box>
-          <Box sx={{ width: '80%' }}>
-            <CustomPaginationActionsTable
-              rows={rows}
-              headCells={headCells}
-              rowsPerPage={25}
-              order={order}
-              orderBy={orderBy}
-              onSortHandler={onSortHandler}
-              isLoading={isLoading}
-              showFilteredColumn={false}
-            />
+          <Box>
+            {SimpleCloud(data.map(({ SkillName, proximity }) => ({
+              value: SkillName,
+              count: (1 - proximity) * 100,
+              color: '#000',
+            })))}
           </Box>
-      </Box>
+        </Box>
+        <Box sx={{ padding: '0 20px' }}>
+          <CustomPaginationActionsTable
+            rows={rows}
+            headCells={headCells}
+            rowsPerPage={25}
+            order={order}
+            orderBy={orderBy}
+            onSortHandler={onSortHandler}
+            isLoading={isLoading}
+            showFilteredColumn={false}
+          />
+        </Box>
+      </PagePanel>
     </>
   );
 }

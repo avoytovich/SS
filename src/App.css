@@ -1,3 +1,24 @@
+@font-face {
+    font-family: "Ubuntu";
+    src: local("UbuntuLight"),
+    url("./fonts/Ubuntu-Light.ttf") format("truetype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: local("UbuntuRegular"),
+    url("./fonts/Ubuntu-Regular.ttf") format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: local("UbuntuMedium"),
+    url("./fonts/Ubuntu-Medium.ttf") format("truetype");
+    font-weight: 500;
+}
+
 html, body, div#root {
     height: 100%;
 }
@@ -5,17 +26,6 @@ html, body, div#root {
 #root {
     display: flex;
     flex-direction: column;
-}
-
-a.MuiLink-root {
-    color: #FFFFFF;
-    font-size: 20px;
-    margin-right: 40px;
-    text-decoration: none;
-}
-
-a.MuiLink-root.active {
-    text-shadow: 0 0 2px #FFFFFF;
 }
 
 .MuiBreadcrumbs-root a.MuiLink-root {
