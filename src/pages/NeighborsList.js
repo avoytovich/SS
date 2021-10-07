@@ -15,31 +15,31 @@ import { PagePanel } from '../components/PagePanel';
 
 const headCells = [
   {
-    id: 'proximity',
+    id: 'Proximity',
     numeric: true,
     label: 'Proximity',
   },
   {
-    id: 'id',
+    id: 'ID',
     numeric: true,
     label: 'ID',
   },
   {
-    id: 'SkillGroupName',
+    id: 'Group',
     numeric: false,
     label: 'Skills Group',
   },
   {
-    id: 'SkillName',
+    id: 'Name',
     numeric: false,
     label: 'Skill Name',
     customRender: row => <Link underline="hover"
-                               href={`/skills/${row.SkillName}`}>
-      {row.SkillName}
+                               href={`/skills/${row.Name}`}>
+      {row.Name}
     </Link>,
   },
   {
-    id: 'numberOfEngineers',
+    id: 'EngineersCount',
     numeric: true,
     label: '# of Engineers',
   },
@@ -79,7 +79,7 @@ export default function NeighborsList() {
   const { name } = useParams();
   const history = useHistory();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('proximity');
+  const [orderBy, setOrderBy] = React.useState('Proximity');
 
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -87,10 +87,12 @@ export default function NeighborsList() {
     setOrderBy(property);
   };
 
-  const { data = [], isLoading } = useNeighborSkillsQuery({
+  const { data: { data = [] } = {}, isLoading } = useNeighborSkillsQuery({
     skillName: name,
     groups: true,
   });
+
+  const tagCloudData = [...data.slice(0, 12)];
 
   const rows = useMemo(() => [...data].sort(getComparator(order, orderBy)),
     [data, order, orderBy]);
@@ -123,9 +125,9 @@ export default function NeighborsList() {
             <Typography>Description: Bla-bla</Typography>
           </Box>
           <Box>
-            {SimpleCloud(data.map(({ SkillName, proximity }) => ({
-              value: SkillName,
-              count: (1 - proximity) * 100,
+            {SimpleCloud(tagCloudData.map(({ Name, Proximity }) => ({
+              value: Name,
+              count: (1 - Proximity) * 100,
               color: '#000',
             })))}
           </Box>

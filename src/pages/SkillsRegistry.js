@@ -16,26 +16,26 @@ import { PagePanel } from '../components/PagePanel';
 
 const headCells = [
   {
-    id: 'id',
+    id: 'ID',
     numeric: true,
     label: 'ID',
   },
   {
-    id: 'SkillGroupName',
+    id: 'Group',
     numeric: false,
     label: 'Skills Group',
   },
   {
-    id: 'SkillName',
+    id: 'Name',
     numeric: false,
     label: 'Skill Name',
     customRender: row => <Link underline="hover"
-      href={`/skills/${row.SkillName}`}>
-      {row.SkillName}
+      href={`/skills/${row.Name}`}>
+      {row.Name}
     </Link>,
   },
   {
-    id: 'numberOfEngineers',
+    id: 'EngineersCount',
     numeric: true,
     label: '# of Engineers',
   },
@@ -59,7 +59,7 @@ export default function SkillsRegistry() {
     setSkillName('');
   };
 
-  const { data = [], isLoading } = useFindSkillsQuery('all');
+  const { data: { data = [] } = {}, isLoading } = useFindSkillsQuery('all');
 
   let rows = useMemo(() => [...data]
     .sort(getComparator(order, orderBy)), [data, order, orderBy]);
@@ -68,16 +68,16 @@ export default function SkillsRegistry() {
     let filteredSkills = [...skillsList];
     if (skillGroupName !== 'all') {
       filteredSkills = filteredSkills
-        .filter(({ SkillGroupName }) => SkillGroupName === skillGroupName);
+        .filter(({ Group }) => Group === skillGroupName);
     }
     if (skillName) {
       filteredSkills = filteredSkills
-        .filter(({ SkillName }) => SkillName.includes(skillName));
+        .filter(({ Name }) => Name.includes(skillName));
     }
     return filteredSkills;
   };
 
-  const skillsGroupNameList = data.map(({ SkillGroupName }) => SkillGroupName);
+  const skillsGroupNameList = data.map(({ Group }) => Group);
   const skillsGroupNameListOption = [...new Set(skillsGroupNameList)];
 
   rows = filterSkills(rows);
