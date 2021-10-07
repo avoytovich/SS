@@ -92,7 +92,7 @@ export default function NeighborsList() {
     groups: true,
   });
 
-  const tagCloudData = data.slice(0, 12);
+  const tagCloudData = [...data.slice(0, 12)];
 
   const rows = useMemo(() => [...data].sort(getComparator(order, orderBy)),
     [data, order, orderBy]);
@@ -125,7 +125,7 @@ export default function NeighborsList() {
             <Typography>Description: Bla-bla</Typography>
           </Box>
           <Box>
-            {SimpleCloud(data.map(({ Name, Proximity }) => ({
+            {SimpleCloud(tagCloudData.map(({ Name, Proximity }) => ({
               value: Name,
               count: (1 - Proximity) * 100,
               color: '#000',
