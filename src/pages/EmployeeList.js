@@ -1,8 +1,14 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, {
+  useState, useMemo,
+} from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 import { useTheme } from '@mui/material/styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
@@ -11,6 +17,7 @@ import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
+import employees from '../mocks/employees.json';
 
 const headCells = [
   {
@@ -18,14 +25,14 @@ const headCells = [
     numeric: false,
     label: 'Full Name',
     searchable: true,
-    width: '30%',
+    width: '23%',
   },
   {
     id: 'Competencies',
     numeric: false,
     label: 'Competency',
     filterable: true,
-    width: '20%',
+    width: '23%',
   },
   {
     id: 'PrimarySpecialization',
@@ -36,25 +43,34 @@ const headCells = [
       href={`/skills/${row.PrimarySpecialization}`}>
         {row.PrimarySpecialization}
     </Link>,
-    width: '20%',
+    width: '23%',
   },
   {
     id: 'Level',
     numeric: false,
     label: 'Level',
     filterable: true,
-    width: '20%',
+    width: '21%',
   },
 ];
 
 export default function EmployeeList() {
   const theme = useTheme();
-  const searchInputRef = useRef();
   const location = useLocation();
   const history = useHistory();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('fullName');
   const [search, setSearch] = useState(new URLSearchParams(location.search).get('skill'));
+
+  const filterKeys = useMemo(
+    () => headCells.map(({ id }) => id, [headCells]),
+  );
+  const [filters, setFilters] = useState(filterKeys.reduce((obj, item) => ({
+    ...obj,
+    [item]: [],
+  }), {}));
+
+  console.log(search);
 
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -62,22 +78,36 @@ export default function EmployeeList() {
     setOrderBy(property);
   };
 
-  const { data = [], isLoading } = useFetchEmployeesQuery({
+  const { data: d = [], isLoading: isl } = useFetchEmployeesQuery({
     ids: 'all',
     groups: true,
   });
+  console.log(d, isl);
+  const isLoading = false;
+  const data = employees;
 
-  let rows = useMemo(() => data
-    .map(item => ({ ...item, fullName: `${item.LastName}, ${item.FirstName}` }))
-    .sort(getComparator(order, orderBy)), [data, order, orderBy]);
+  const filterValues = useMemo(() => data.reduce((acc, current) => {
+    filterKeys.forEach(key => {
+      acc[key].add(current[key]);
+    });
+    return acc;
+  }, filterKeys.reduce((o, key) => ({ ...o, [key]: new Set() }), {})));
 
-  if (search) {
-    rows = rows.filter(row => search.toLowerCase().split(',')
-      .some(skill => row.Skills.some(item => item.toLowerCase().includes(skill))));
-  }
+  const handleChange = key => e => {
+    const { value } = e.target;
+    filters[key] = value;
+    setFilters({ ...filters });
+  };
 
-  const handleSearchButtonClick = () => {
-    const { value } = searchInputRef.current;
+  const cleanAllHandler = () => {
+    document.getElementById('filter-table-head-form').reset();
+    filterKeys.forEach(key => {
+      filters[key] = [];
+    });
+    setFilters({ ...filters });
+  };
+
+  const handleSkillsSearch = value => {
     setSearch(value);
     const searchParams = new URLSearchParams(location.search);
     if (value.length) {
@@ -91,6 +121,46 @@ export default function EmployeeList() {
     });
   };
 
+  let rows = useMemo(() => data
+    .map(item => ({ ...item, fullName: `${item.LastName}, ${item.FirstName}` }))
+    .sort(getComparator(order, orderBy)), [data, order, orderBy]);
+
+  if (search) {
+    rows = rows.filter(row => search.toLowerCase().split(',')
+      .some(skill => row.Skills.some(item => item.toLowerCase().includes(skill))));
+  }
+
+  const filteredData = rows.filter(row => filterKeys
+    .every(key => (typeof filters[key] === 'string'
+      && row[key].toLowerCase().includes(filters[key].toLowerCase()))
+    || filters[key].includes(row[key]) || filters[key].length === 0));
+
+  const renderFilterSelect = id => <FormControl style={{ width: '100%' }}>
+    <Select
+      value={filters[id]}
+      displayEmpty
+      multiple={true}
+      onChange={handleChange(id)}
+      style={{ width: '100%', height: '40px' }}
+      renderValue={selected => {
+        if (selected.length === 0) {
+          return <MenuItem disabled value="">
+            -- Select All --
+          </MenuItem>;
+        }
+        return selected.join(', ');
+      }}
+    >
+      {[...(filterValues[id])]
+        .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
+        .map(item => <MenuItem
+          key={item}
+          value={item}>
+          {item}
+        </MenuItem>)}
+    </Select>
+  </FormControl>;
+
   return (
     <>
       <PageTitle title="Employees List"/>
@@ -99,26 +169,61 @@ export default function EmployeeList() {
       </Typography>
       <PagePanel>
         <Box sx={{
-          // display: 'flex',
-          // flexDirection: 'column',
           borderBottom: `1px solid ${theme.palette.primary.separator}`,
           padding: '10px 20px 20px',
         }}>
           <TextField
+            id="skill-search-input"
             label="Search by Skills"
             variant="standard"
             placeholder="Search by"
-            onChange={e => {
-              searchInputRef.current.value = e.target.value;
-              handleSearchButtonClick();
-            }}
-            defaultValue={search}
-            ref={searchInputRef}
+            onChange={e => handleSkillsSearch(e.target.value)}
+            value={search}
           />
+          <form id='filter-table-head-form'>
+            <Grid container spacing={2} sx={{ paddingTop: '20px' }}>
+              <Grid item xs={6} md={3}>
+                <TextField
+                  defaultValue=''
+                  size='small'
+                  placeholder='Search by Full Name'
+                  onChange={e => {
+                    filters.fullName = e.target.value;
+                    setFilters({ ...filters });
+                  }}
+                  style={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={6} md={3}>
+                {renderFilterSelect('Competencies')}
+              </Grid>
+              <Grid item xs={6} md={3}>
+                {renderFilterSelect('PrimarySpecialization')}
+              </Grid>
+              <Grid item xs={6} md={2}>
+                {renderFilterSelect('Level')}
+              </Grid>
+              <Grid item xs={6} md={1}>
+                <Link
+                  underline="none"
+                  onClick={cleanAllHandler}
+                  style={{
+                    color: '#000',
+                    fontSize: 12,
+                    margin: 0,
+                    cursor: 'pointer',
+                    lineHeight: '38px',
+                    fontWeight: 500,
+                  }}>
+                  Clean up
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
         </Box>
         <Box sx={{ padding: '0 20px' }}>
           <CustomPaginationActionsTable
-            rows={rows}
+            rows={filteredData}
             headCells={headCells}
             rowsPerPage={25}
             order={order}

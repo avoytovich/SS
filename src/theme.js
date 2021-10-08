@@ -12,6 +12,7 @@ import {
   GREY_2,
   GREY_3,
   GREY_4,
+  BLACK,
 } from './common/colors';
 
 const breakpoints = createBreakpoints({});
@@ -64,7 +65,7 @@ const theme = createTheme({
               width: '1200px',
             },
             '& .MuiLink-root': {
-              borderRadius: '5px',
+              borderRadius: '4px',
               color: DARK_GREY,
               fontSize: '18px',
               marginRight: '40px',
@@ -82,10 +83,28 @@ const theme = createTheme({
         },
       },
     },
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        root: {
+          '.MuiTypography-root': {
+            color: BLACK,
+            display: 'flex',
+            alignItems: 'center',
+          },
+          '.MuiBreadcrumbs-li a': {
+            cursor: 'pointer',
+            '&:hover svg': {
+              color: GREY_4,
+            },
+          },
+        },
+      },
+    },
     MuiInput: {
       styleOverrides: {
         root: {
           backgroundColor: GREY_0,
+          border: `1px solid ${WHITE}`,
           '&:before,&:hover:not(.Mui-disabled):before,&:after': {
             borderBottom: 'none',
           },
@@ -93,9 +112,8 @@ const theme = createTheme({
             border: `1px solid ${VIBRANT_BLUE}`,
           },
           '& .MuiInput-input': {
-            // borderRadius: '4px',
             color: GREY_4,
-            paddingLeft: '6px',
+            paddingLeft: '8.5px',
             '&::placeholder': {
               color: GREY_4,
             },
@@ -111,7 +129,32 @@ const theme = createTheme({
         root: {
           color: GREY_4,
           zIndex: 2,
-          padding: '6px',
+          padding: '8.5px 14px',
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: GREY_0,
+          borderRadius: 0,
+          '& .MuiMenuItem-root ': {
+            borderBottom: 'none',
+          },
+          '& .MuiOutlinedInput-notchedOutline, &:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: WHITE,
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderWidth: '1px',
+          },
+        },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+          paddingBottom: 0,
         },
       },
     },

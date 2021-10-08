@@ -60,27 +60,27 @@ export default function FilterTableHead({
             width={width ?? 'auto'}
             padding={disablePadding ? 'none' : 'normal'}
           >
-            <form id="filter-table-head-form">
+            <form id='filter-table-head-form'>
               {searchable
                 && <TextField
-                  defaultValue=''
-                  size='small'
+                  defaultValue=""
+                  variant="standard"
                   placeholder={`Search by ${label}`}
                   onChange={e => {
                     filters[id] = e.target.value;
                     onFiltersChange(filters);
                   }}
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', height: '30px' }}
                />
               }
               {filterable
-              && <FormControl style={{ width: '190px' }}>
+              && <FormControl style={{ width: '100%' }}>
                 <Select
                   value={filters[id]}
                   displayEmpty
                   multiple={true}
                   onChange={handleChange(id)}
-                  style={{ width: '100%', height: '40px' }}
+                  style={{ width: '100%', height: '31px' }}
                   renderValue={selected => {
                     if (selected.length === 0) {
                       return <MenuItem disabled value="">
@@ -90,11 +90,13 @@ export default function FilterTableHead({
                     return selected.join(', ');
                   }}
                 >
-                  {[...(filterValues[id])].sort().map(item => <MenuItem
-                    key={item}
-                    value={item}>
-                    {item}
-                  </MenuItem>)}
+                  {[...(filterValues[id])]
+                    .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
+                    .map(item => <MenuItem
+                      key={item}
+                      value={item}>
+                      {item}
+                    </MenuItem>)}
                 </Select>
               </FormControl>}
             </form>

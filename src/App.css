@@ -28,17 +28,6 @@ html, body, div#root {
     flex-direction: column;
 }
 
-.MuiBreadcrumbs-root a.MuiLink-root {
-    color: #000000;
-    margin-right: 0;
-}
-.MuiBreadcrumbs-root .MuiTypography-root {
-    display: flex;
-    align-items: center;
-}
-.MuiBreadcrumbs-root h4 {
-    text-transform: capitalize;
-}
 th.MuiTableCell-head,
 td.MuiTableCell-body,
 th.MuiTableCell-body {

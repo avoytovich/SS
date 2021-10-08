@@ -20,6 +20,8 @@ import './fonts/Ubuntu-Regular.ttf';
 import './fonts/Ubuntu-Medium.ttf';
 import './App.css';
 
+const isActiveFn = path => (match, location) => location.pathname.startsWith(path);
+
 export default function App() {
   return (
       <Provider store={store}>
@@ -29,10 +31,10 @@ export default function App() {
               <Link component={RouterLink} to="/" exact={true}>
                 Welcome
               </Link>
-              <Link component={RouterLink} to="/skills" exact={true}>
+              <Link component={RouterLink} to="/skills" exact={true} isActive={isActiveFn('/skills')}>
                 Skills
               </Link>
-              <Link component={RouterLink} to="/employees">
+              <Link component={RouterLink} to="/employees" isActive={isActiveFn('/employees')}>
                 Employees
               </Link>
             </Toolbar>
@@ -52,7 +54,7 @@ export default function App() {
                 <EmployeeList />
               </Route>
             </Switch>
-            <Box sx={{ flex: 1 }} textAlign="left" component="footer">
+            <Box sx={{ flex: 0 }} textAlign="left" component="footer">
               {window.location.hostname !== 'localhost'
                 && <>
                   <Typography variant="caption" component="p" gutterBottom>
