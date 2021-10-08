@@ -25,6 +25,10 @@ const headCells = [
     label: 'Full Name',
     searchable: true,
     width: '23%',
+    customRender: ({ Id, FirstName, LastName }) => <Link underline="hover"
+      href={`/employees/${Id}`}>
+      {FirstName} {LastName}
+    </Link>,
   },
   {
     id: 'Competencies',
@@ -116,7 +120,6 @@ export default function EmployeeList() {
   };
 
   let rows = useMemo(() => data
-    .map(item => ({ ...item, fullName: `${item.LastName}, ${item.FirstName}` }))
     .sort(getComparator(order, orderBy)), [data, order, orderBy]);
 
   if (search) {

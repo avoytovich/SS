@@ -206,6 +206,31 @@ const theme = createTheme({
         },
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        employeeDetailsSettingsTitle: {
+          color: GREY_4,
+          fontWeight: 400,
+          marginBottom: 10,
+          display: 'block',
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          alignItems: 'flex-start',
+        },
+      },
+    },
   },
 });
 

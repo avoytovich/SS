@@ -48,6 +48,11 @@ export const smartSkillsApi = createApi({
         // TODO: replace mocked data with real one
         transformResponse: () => employees,
       }),
+      fetchEmployee: builder.query({
+        query: ({ id }) => ({
+          url: `employees/${id}`,
+        }),
+      }),
     };
   },
 });
@@ -57,4 +62,5 @@ export const {
   useSimilarSkillsQuery,
   useNeighborSkillsQuery,
   useFetchEmployeesQuery,
+  useFetchEmployeeQuery,
 } = smartSkillsApi;

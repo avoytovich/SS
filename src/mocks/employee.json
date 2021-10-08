@@ -1,0 +1,23 @@
+{
+  "ID": "DC35C108-74E6-4ED9-ACA5-1601459E5B15",
+  "FirstName": "Deborah",
+  "LastName": "Morales",
+  "Competency": "Front-end",
+  "PrimarySpecialization": "React",
+  "Level": "AE",
+  "SkillGroups": [
+    {
+      "Name": "Programming languages",
+      "Skills": [{
+        "Javascript": "Intermediate"
+      }]
+    },
+    {
+      "Name": "Javascript",
+      "Skills": [{
+        "React": "Intermediate",
+        "AngularJS": "Intermediate"
+      }]
+    }
+  ]
+}
