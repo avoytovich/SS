@@ -17,7 +17,6 @@ import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
-import employees from '../mocks/employees.json';
 
 const headCells = [
   {
@@ -60,7 +59,7 @@ export default function EmployeeList() {
   const history = useHistory();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('fullName');
-  const [search, setSearch] = useState(new URLSearchParams(location.search).get('skill'));
+  const [search, setSearch] = useState(new URLSearchParams(location.search).get('skill') || '');
 
   const filterKeys = useMemo(
     () => headCells.map(({ id }) => id, [headCells]),
@@ -70,21 +69,16 @@ export default function EmployeeList() {
     [item]: [],
   }), {}));
 
-  console.log(search);
-
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const { data: d = [], isLoading: isl } = useFetchEmployeesQuery({
+  const { data = [], isLoading } = useFetchEmployeesQuery({
     ids: 'all',
     groups: true,
   });
-  console.log(d, isl);
-  const isLoading = false;
-  const data = employees;
 
   const filterValues = useMemo(() => data.reduce((acc, current) => {
     filterKeys.forEach(key => {
@@ -179,6 +173,8 @@ export default function EmployeeList() {
             placeholder="Search by"
             onChange={e => handleSkillsSearch(e.target.value)}
             value={search}
+            style={{ width: '300px' }}
+            InputLabelProps={{ shrink: true }}
           />
           <form id='filter-table-head-form'>
             <Grid container spacing={2} sx={{ paddingTop: '20px' }}>

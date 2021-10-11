@@ -112,8 +112,8 @@ const theme = createTheme({
             border: `1px solid ${VIBRANT_BLUE}`,
           },
           '& .MuiInput-input': {
-            color: GREY_4,
-            paddingLeft: '8.5px',
+            color: BLACK,
+            padding: '8.5px 14px',
             '&::placeholder': {
               color: GREY_4,
             },
@@ -129,7 +129,6 @@ const theme = createTheme({
         root: {
           color: GREY_4,
           zIndex: 2,
-          padding: '8.5px 14px',
         },
       },
     },
@@ -138,6 +137,12 @@ const theme = createTheme({
         root: {
           backgroundColor: GREY_0,
           borderRadius: 0,
+          '&:focus': {
+            borderColor: VIBRANT_BLUE,
+          },
+          '&:not(.Mui-focused) .MuiOutlinedInput-input': {
+            color: GREY_4,
+          },
           '& .MuiMenuItem-root ': {
             borderBottom: 'none',
           },
@@ -146,6 +151,19 @@ const theme = createTheme({
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
+            borderColor: VIBRANT_BLUE,
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused': {
+            border: `1px solid ${VIBRANT_BLUE}`,
+          },
+          '& .MuiInputLabel-root.MuiInputLabel-animated': {
+            padding: '8.5px 14px',
           },
         },
       },
