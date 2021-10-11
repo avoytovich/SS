@@ -19,11 +19,13 @@ const headCells = [
     id: 'ID',
     numeric: true,
     label: 'ID',
+    width: '10%',
   },
   {
     id: 'Group',
     numeric: false,
     label: 'Skills Group',
+    width: '35%',
   },
   {
     id: 'Name',
@@ -33,11 +35,13 @@ const headCells = [
       href={`/skills/${row.Name}`}>
       {row.Name}
     </Link>,
+    width: '43%',
   },
   {
     id: 'EngineersCount',
     numeric: true,
-    label: '# of Engineers',
+    label: '# Engineers',
+    width: '12%',
   },
 ];
 
@@ -78,7 +82,8 @@ export default function SkillsRegistry() {
   };
 
   const skillsGroupNameList = data.map(({ Group }) => Group);
-  const skillsGroupNameListOption = [...new Set(skillsGroupNameList)];
+  const skillsGroupNameListOption = [...new Set(skillsGroupNameList)]
+    .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
 
   rows = filterSkills(rows);
 

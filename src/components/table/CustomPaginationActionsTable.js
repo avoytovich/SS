@@ -89,7 +89,7 @@ export default function CustomPaginationActionsTable({
   orderBy,
   onSortHandler,
   isLoading,
-  showFilteredColumn = true,
+  showFilteredColumn = false,
 }) {
   const [filters, setFilters] = useState(null);
   const [filteredRows, setFilteredRows] = useState(rows);
@@ -126,69 +126,78 @@ export default function CustomPaginationActionsTable({
   };
 
   return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="custom pagination table">
-                <SortedTableHead
-                    order={order}
-                    orderBy={orderBy}
-                    onRequestSort={onSortHandler}
-                    headCells={headCells}
-                />
-              {showFilteredColumn
-                && <FilterTableHead headCells={headCells} primaryData={rows}
-                                 onFiltersChange={onFiltersChange}
-                />}
-                <TableHead>
-                  <TableRow />
-                </TableHead>
-                <TableBody>
-                    {isLoading
-                        && <TableRow style={{ height: 23 * rowsPerPage }}>
-                            <TableCell align="center" colSpan={headCells.length}>
-                                <CircularProgress disableShrink />
-                            </TableCell>
-                        </TableRow>
-                    }
-                    {(rowsPerPage > 0
-                      ? filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      : filteredRows
-                    ).map((row, i) => (
-                        <TableRow key={`${row.Id}-${i}`}>
-                            {headCells.map(({ id, customRender }) => <TableCell
-                                key={id}>
-                                {customRender ? customRender(row) : row[id]}
-                            </TableCell>)}
-                        </TableRow>
-                    ))}
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="custom pagination table">
+        <colgroup>
+          {headCells.map(({ width, id }) => <col key={id} width={width} />)}
+        </colgroup>
+        <SortedTableHead
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={onSortHandler}
+          headCells={headCells}
+        />
+        {showFilteredColumn
+        && <FilterTableHead headCells={headCells} primaryData={rows}
+                            onFiltersChange={onFiltersChange}
+        />}
+        <TableHead>
+          <TableRow/>
+        </TableHead>
+        <TableBody>
+          {isLoading
+          && <TableRow style={{ height: 23 * rowsPerPage }}>
+            <TableCell align="center" colSpan={headCells.length}>
+              <CircularProgress disableShrink/>
+            </TableCell>
+          </TableRow>
+          }
+          {(rowsPerPage > 0
+            ? filteredRows.slice(page * rowsPerPage,
+              page * rowsPerPage + rowsPerPage)
+            : filteredRows
+          ).map((row, i) => (
+            <TableRow key={`${row.Id}-${i}`}>
+              {headCells.map(({ id, customRender }) => <TableCell
+                key={id}>
+                {customRender ? customRender(row) : row[id]}
+              </TableCell>)}
+            </TableRow>
+          ))}
 
-                    {emptyRows > 0 && (
-                        <TableRow style={{ height: 23 * emptyRows }}>
-                            <TableCell colSpan={headCells.length} />
-                        </TableRow>
-                    )}
-                </TableBody>
-                <TableFooter>
-                    <TableRow>
-                        <TablePagination
-                            rowsPerPageOptions={[10, 25, 50, 100, { label: 'All', value: -1 }]}
-                            colSpan={headCells.length}
-                            count={filteredRows.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            SelectProps={{
-                              inputProps: {
-                                'aria-label': 'rows per page',
-                              },
-                              native: true,
-                            }}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                            ActionsComponent={TablePaginationActions}
-                        />
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 23 * emptyRows }}>
+              <TableCell colSpan={headCells.length}/>
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[
+                10,
+                25,
+                50,
+                100,
+                { label: 'All', value: -1 }]}
+              colSpan={headCells.length}
+              count={filteredRows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'rows per page',
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
   );
 }
 

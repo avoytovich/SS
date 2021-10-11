@@ -18,16 +18,19 @@ const headCells = [
     id: 'Proximity',
     numeric: true,
     label: 'Proximity',
+    width: '10%',
   },
   {
     id: 'ID',
     numeric: true,
     label: 'ID',
+    width: '10%',
   },
   {
     id: 'Group',
     numeric: false,
     label: 'Skills Group',
+    width: '34%',
   },
   {
     id: 'Name',
@@ -37,17 +40,19 @@ const headCells = [
                                href={`/skills/${row.Name}`}>
       {row.Name}
     </Link>,
+    width: '34%',
   },
   {
     id: 'EngineersCount',
     numeric: true,
-    label: '# of Engineers',
+    label: '# Engineers',
+    width: '12%',
   },
 ];
 
 // Custom renderer for Tag Cloud
 const customRenderer = (tag, size) => (
-  <Link underline="hover" href={`/skills/${tag.value}`}>
+  <Link key={tag.value} underline="hover" href={`/skills/${tag.value}`}>
     <Box
       key={tag.value}
       sx={{
