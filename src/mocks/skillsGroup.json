@@ -1,0 +1,29 @@
+{
+  "SkillGroups": [
+    {
+      "Id": "6e5c1e17-ecf4-4e49-94ca-7bc56472d8d5",
+      "Name": "Programming languages",
+      "Skills": [ "Javascript", "Java", "C/C++"]
+    },
+    {
+      "Id": "a3304766-513a-4b4a-ba09-f9425b8280a0",
+      "Name": "Javascript",
+      "Skills": ["React", "AngularJS"]
+    },
+    {
+      "Id": "a3304766-513a-4b4a-ba09-f9425b8280a1",
+      "Name": ".NET skills",
+      "Skills": [".NET/Common Packages", "ASP.NET WF/MVC", "RestSharp", "Silverlight"]
+    },
+    {
+      "Id": "a3304766-513a-4b4a-ba09-f9425b8280a2",
+      "Name": "UI/UX skills",
+      "Skills": ["Accessibility Analysis", "Axure", "Card Sorting", "Figma", "Flinto"]
+    },
+    {
+      "Id": "a3304766-513a-4b4a-ba09-f9425b8280a3",
+      "Name": "DevOps skills",
+      "Skills": ["Docker", "Jenkins", "Puppet", "Marathon"]
+    }
+  ]
+}

@@ -53,6 +53,11 @@ export const smartSkillsApi = createApi({
           url: `employees/${id}`,
         }),
       }),
+      fetchSkillGroups: builder.query({
+        query: () => ({
+          url: 'skill-groups',
+        }),
+      }),
     };
   },
 });
@@ -63,4 +68,5 @@ export const {
   useNeighborSkillsQuery,
   useFetchEmployeesQuery,
   useFetchEmployeeQuery,
+  useFetchSkillGroupsQuery,
 } = smartSkillsApi;
