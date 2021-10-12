@@ -207,6 +207,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        root: {
+          margin: '24px 0',
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         employeeDetailsSettingsTitle: {

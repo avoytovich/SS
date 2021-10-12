@@ -5,6 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import PageTitle from '../components/PageTitle';
@@ -86,7 +87,7 @@ export default function EmployeeDetails() {
   return (
     <>
       <PageTitle title={fullName} />
-      <Breadcrumbs aria-label="breadcrumb" separator="" margin='24px 0'>
+      <Breadcrumbs aria-label="breadcrumb" separator="">
         <a onClick={window.history.goBack}>
           <Typography>
             <ArrowBackIcon/>
@@ -95,30 +96,27 @@ export default function EmployeeDetails() {
         <Typography variant={'h4'}>{fullName}</Typography>
       </Breadcrumbs>
       <PagePanel>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+        <Grid container spacing={2} sx={{
           borderBottom: `1px solid ${theme.palette.primary.separator}`,
           padding: '10px 20px 20px',
         }}>
-          <Box>
+          <Grid item xs={4}>
             <Typography variant={'employeeDetailsSettingsTitle'}>Details</Typography>
             <Box>
               <Typography>Specialization: <strong>{PrimarySpecialization}</strong></Typography>
               <Typography>Competency: <strong>{Competency}</strong></Typography>
               <Typography>Level: <strong>{Level}</strong></Typography>
             </Box>
-          </Box>
-          <Box>
+          </Grid>
+          <Grid item xs={4}>
             <Typography variant={'employeeDetailsSettingsTitle'}>Setting</Typography>
             <FormControlLabel control={
               <Checkbox
                 checked={showUnfilledSkills}
                 onChange={() => setShowUnfilledSkills(!showUnfilledSkills)} />
             } label="Show unfilled skills" />
-          </Box>
-          <Box>
+          </Grid>
+          <Grid item xs={4}>
             <Typography variant={'employeeDetailsSettingsTitle'}>Recommendations based on:</Typography>
             <FormControlLabel control={
               <Checkbox
@@ -135,17 +133,10 @@ export default function EmployeeDetails() {
                 checked={projectsInfoChecked}
                 onChange={() => setProjectsInfoChecked(!projectsInfoChecked)} />
             } label="Projects info" />
-          </Box>
-        </Box>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          padding: '36px 0 20px',
-        }}>
-          <Box sx={{
-            borderRight: `1px solid ${theme.palette.primary.separator}`,
-            width: '50%',
-          }}>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} sx={{ padding: '36px 0 20px' }}>
+          <Grid item xs={6}>
             <Typography variant={'employeeSkillsTitle'}>Skill Group</Typography>
             {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
               <Typography
@@ -157,19 +148,14 @@ export default function EmployeeDetails() {
                 <Typography variant={'skillsCount'}>({employeesSkillsCount}/{totalCount})</Typography>
               </Typography>
             ))}
-          </Box>
-          <Box sx={{
-            width: '50%',
-            display: 'flex',
-            flexDirection: 'row',
-            padding: '0 0 0 20px',
-          }}>
+          </Grid>
+          <Grid item xs={6}>
             {noEmployeeSkillsError
               ? <Typography variant={'employeeSkill'} component={'p'}>
                 {noEmployeeSkillsError}
               </Typography>
-              : <>
-                <Box sx={{ width: '50%' }}>
+              : <Grid container spaceing={2}>
+                <Grid iten xs={6}>
                   <Typography variant={'employeeSkillsTitle'}>Skill Name</Typography>
                   {fullSkillList.map(({ skill }) => (
                     <Typography
@@ -179,21 +165,21 @@ export default function EmployeeDetails() {
                       {skill}
                     </Typography>
                   ))}
-                </Box>
-                <Box sx={{ width: '50%' }}>
+                </Grid>
+                <Grid iten xs={6}>
                   <Typography variant={'employeeSkillsTitle'}>Seniority</Typography>
                   {fullSkillList.map(({ level }, i) => (
                     <Typography
                       variant={'employeeSkill'}
                       component={'p'}
                       key={`${level}-${i}`}>
-                    {level}
+                      {level}
                     </Typography>
                   ))}
-                </Box>
-              </>}
-          </Box>
-        </Box>
+                </Grid>
+              </Grid>}
+          </Grid>
+        </Grid>
       </PagePanel>
     </>
   );
