@@ -105,7 +105,7 @@ export default function NeighborsList() {
   return (
     <>
       <PageTitle title={`${name}: Neighbors List`}/>
-      <Breadcrumbs aria-label="breadcrumb" separator="" margin='24px 0'>
+      <Breadcrumbs aria-label="breadcrumb" separator="">
         <a onClick={history.goBack}>
           <Typography>
             <ArrowBackIcon/>

@@ -13,6 +13,7 @@ import {
   GREY_3,
   GREY_4,
   BLACK,
+  BLUE,
 } from './common/colors';
 
 const breakpoints = createBreakpoints({});
@@ -90,6 +91,7 @@ const theme = createTheme({
             color: BLACK,
             display: 'flex',
             alignItems: 'center',
+            margin: '24px 0',
           },
           '.MuiBreadcrumbs-li a': {
             cursor: 'pointer',
@@ -203,6 +205,56 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderBottom: 'none',
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        employeeDetailsSettingsTitle: {
+          color: GREY_4,
+          fontWeight: 400,
+          marginBottom: 10,
+          display: 'block',
+        },
+        employeeSkillsTitle: {
+          color: GREY_4,
+          fontWeight: 400,
+          marginBottom: 20,
+          display: 'block',
+          paddingLeft: '8px',
+        },
+        skillGroupName: {
+          padding: '8px',
+          cursor: 'pointer',
+        },
+        skillGroupNameSelected: {
+          padding: '8px',
+          cursor: 'pointer',
+          background: BLUE,
+          color: WHITE,
+          fontWeight: 'bold',
+        },
+        skillsCount: {
+          color: GREY_4,
+          marginLeft: 8,
+        },
+        employeeSkill: {
+          padding: '8px 0',
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          paddingTop: 0,
+        },
+      },
+    },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          alignItems: 'flex-start',
         },
       },
     },

@@ -14,6 +14,7 @@ import Welcome from './pages/Welcome';
 import NeighborsList from './pages/NeighborsList';
 import SkillsRegistry from './pages/SkillsRegistry';
 import EmployeeList from './pages/EmployeeList';
+import EmployeeDetails from './pages/EmployeeDetails';
 
 import './fonts/Ubuntu-Light.ttf';
 import './fonts/Ubuntu-Regular.ttf';
@@ -47,11 +48,14 @@ export default function App() {
             <Switch>
               <Route path="/" exact={true} component={Welcome} />
               <Route path="/skills" exact={true} component={SkillsRegistry} />
-              <Route path="/skills/:name">
+              <Route path="/skills/:name" exact={true}>
                 <NeighborsList />
               </Route>
-              <Route path="/employees">
+              <Route path="/employees" exact={true}>
                 <EmployeeList />
+              </Route>
+              <Route path="/employees/:employeeId" exact={true}>
+                <EmployeeDetails />
               </Route>
             </Switch>
             <Box sx={{ flex: 0 }} textAlign="left" component="footer">
