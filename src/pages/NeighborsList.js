@@ -37,7 +37,7 @@ const headCells = [
     numeric: false,
     label: 'Skill Name',
     customRender: row => <Link underline="hover"
-                               href={`/skills/${row.Name}`}>
+      href={`/skills/${row.Name}`}>
       {row.Name}
     </Link>,
     width: '34%',
@@ -47,6 +47,10 @@ const headCells = [
     numeric: true,
     label: '# Engineers',
     width: '12%',
+    customRender: row => <Link underline="hover"
+      href={`/employees?skill=${row.Name}`}>
+      {row.EngineersCount}
+    </Link>,
   },
 ];
 
