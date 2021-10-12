@@ -119,7 +119,7 @@ export default function EmployeeList() {
     });
   };
 
-  let rows = useMemo(() => data
+  let rows = useMemo(() => [...data]
     .sort(getComparator(order, orderBy)), [data, order, orderBy]);
 
   if (search) {

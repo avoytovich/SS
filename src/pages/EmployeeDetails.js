@@ -136,7 +136,7 @@ export default function EmployeeDetails() {
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={{ padding: '36px 0 20px' }}>
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{ borderRight: `1px solid ${theme.palette.primary.separator}` }}>
             <Typography variant={'employeeSkillsTitle'}>Skill Group</Typography>
             {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
               <Typography
