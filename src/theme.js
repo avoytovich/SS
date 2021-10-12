@@ -91,6 +91,7 @@ const theme = createTheme({
             color: BLACK,
             display: 'flex',
             alignItems: 'center',
+            margin: '24px 0',
           },
           '.MuiBreadcrumbs-li a': {
             cursor: 'pointer',
@@ -204,13 +205,6 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderBottom: 'none',
-        },
-      },
-    },
-    MuiBreadcrumbs: {
-      styleOverrides: {
-        root: {
-          margin: '24px 0',
         },
       },
     },
