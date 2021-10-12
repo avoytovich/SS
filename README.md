@@ -80,3 +80,9 @@ Set the parameter `groups` equal true to get information about corresponding gro
 ### `useFetchEmployeesQuery({ ids, recommend })`
 Returns skill names and corresponding seniority levels for the employee(s) with ID(s) specified in `ids` param.
 Use `recommend` parameter to predict the most appropriate employees based on some job-specific skills.
+
+## Cypress e2e (end to end) testing
+To run tests in console automatically (provide preferred browser):
+`npx cypress run --browser chrome`
+It's also possible to run Cypress app using the command:
+`yarn cypress:open` or `npm run cypress:open`
