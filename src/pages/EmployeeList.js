@@ -11,12 +11,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { useTheme } from '@mui/material/styles';
 import { useHistory, useLocation } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
 import { getComparator } from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
+import ErrorFallback from '../components/ErrorFallback';
 
 const headCells = [
   {
@@ -161,6 +163,7 @@ export default function EmployeeList() {
       <Typography variant={'h4'} component="h1" margin="24px 0">
         Employee List
       </Typography>
+      <ErrorBoundary FallbackComponent={ErrorFallback} >
       <PagePanel>
         <Box sx={{
           borderBottom: `1px solid ${theme.palette.primary.separator}`,
@@ -229,6 +232,7 @@ export default function EmployeeList() {
           />
         </Box>
       </PagePanel>
+      </ErrorBoundary>
     </>
   );
 }

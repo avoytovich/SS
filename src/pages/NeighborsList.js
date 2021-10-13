@@ -6,12 +6,14 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TagCloud } from 'react-tagcloud';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
 import { getComparator } from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
+import ErrorFallback from '../components/ErrorFallback';
 
 const headCells = [
   {
@@ -105,6 +107,7 @@ export default function NeighborsList() {
   return (
     <>
       <PageTitle title={`${name}: Neighbors List`}/>
+      <ErrorBoundary FallbackComponent={ErrorFallback} >
       <Breadcrumbs aria-label="breadcrumb" separator="" margin='24px 0'>
         <a onClick={history.goBack}>
           <Typography>
@@ -150,6 +153,7 @@ export default function NeighborsList() {
           />
         </Box>
       </PagePanel>
+      </ErrorBoundary>
     </>
   );
 }
