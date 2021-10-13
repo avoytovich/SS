@@ -8,11 +8,13 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import { useTheme } from '@mui/material/styles';
+import { ErrorBoundary } from 'react-error-boundary';
 import { getComparator } from '../common/helpers';
 import { useFindSkillsQuery } from '../slices/smartSkillsSlice';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
+import ErrorFallback from '../components/ErrorFallback';
 
 const headCells = [
   {
@@ -97,6 +99,7 @@ export default function SkillsRegistry() {
       <Typography variant="h4" component="h1" margin='24px 0'>
         Skills Registry
       </Typography>
+    <ErrorBoundary FallbackComponent={ErrorFallback} >
       <PagePanel>
         <Box sx={{
           display: 'flex',
@@ -164,6 +167,7 @@ export default function SkillsRegistry() {
           />
         </Box>
       </PagePanel>
+      </ErrorBoundary>
     </>
   );
 }
