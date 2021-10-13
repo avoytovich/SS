@@ -9,6 +9,7 @@ stages:
   - lint
   - build
   - test
+  - e2e
   - deploy
 
 cache:
@@ -17,13 +18,13 @@ cache:
     - node_modules/
   policy: pull
 
-lint-job:
+Lint:
   stage: lint
   script:
     - echo "Linting code..."
     - npm run lint
 
-build-job:
+Build:
   stage: build
   script:
     - echo "Building app..."
@@ -36,13 +37,13 @@ build-job:
       - build
     expire_in: 1 week
 
-unit-test-job:
+Unit Tests:
   stage: test
   script:
     - echo "Running tests..."
     - npm run test
 
-deploy-job:
+Deploy:
   stage: deploy
   allow_failure: true
   script:
@@ -59,3 +60,19 @@ deploy-job:
       when: always
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
+
+Cypress Tests:
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  stage: e2e
+  allow_failure: true
+  variables:
+    APP_PORT: 3001
+  script:
+    - npm run serve -- -l $APP_PORT &
+    - npx cypress run --browser chrome --config baseUrl=http://localhost:$APP_PORT
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 day

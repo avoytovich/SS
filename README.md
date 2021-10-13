@@ -25,7 +25,7 @@ Launches the linter using "airbnb-base",
 "plugin:react/recommended"
 See the section about [runing tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `yarn build` or `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -35,7 +35,11 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+### `yarn serve` or `npm run serve`
+Serves the static files from `build` folder. You can provide the port the app will be running at:
+`npm run serve -- -l 3001`
+
+### `yarn eject` or `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -80,3 +84,9 @@ Set the parameter `groups` equal true to get information about corresponding gro
 ### `useFetchEmployeesQuery({ ids, recommend })`
 Returns skill names and corresponding seniority levels for the employee(s) with ID(s) specified in `ids` param.
 Use `recommend` parameter to predict the most appropriate employees based on some job-specific skills.
+
+## Cypress e2e (end to end) testing
+To run tests in console automatically (provide preferred browser):
+`npx cypress run --browser chrome`
+It's also possible to run Cypress app using the command:
+`yarn cypress:open` or `npm run cypress:open`
