@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -18,6 +18,7 @@ import SkillGroups from '../mocks/skillsGroup.json';
 export default function EmployeeDetails() {
   const { employeeId } = useParams();
   const theme = useTheme();
+  const history = useHistory();
   const [showUnfilledSkills, setShowUnfilledSkills] = useState(true);
   const [techMatrixChecked, setTechMatrixChecked] = useState(true);
   const [employeesDBChecked, setEmployeesDBChecked] = useState(true);
@@ -88,7 +89,7 @@ export default function EmployeeDetails() {
     <>
       <PageTitle title={fullName} />
       <Breadcrumbs aria-label="breadcrumb" separator="">
-        <a onClick={window.history.goBack}>
+        <a onClick={history.goBack}>
           <Typography>
             <ArrowBackIcon/>
           </Typography>
