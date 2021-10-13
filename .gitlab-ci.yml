@@ -65,9 +65,11 @@ Cypress Tests:
   image: cypress/browsers:node14.17.0-chrome88-ff89
   stage: e2e
   allow_failure: true
+  variables:
+    APP_PORT: 3001
   script:
-    - npm run start &
-    - npx cypress run --browser chrome
+    - npm run serve -- -l $APP_PORT &
+    - npx cypress run --browser chrome --config baseUrl=http://localhost:$APP_PORT
   artifacts:
     when: always
     paths:
