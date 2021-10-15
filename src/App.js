@@ -9,12 +9,14 @@ import Typography from '@mui/material/Typography';
 import {
   BrowserRouter as Router, Route, Switch, NavLink as RouterLink,
 } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 import { store } from './store';
 import Welcome from './pages/Welcome';
 import NeighborsList from './pages/NeighborsList';
 import SkillsRegistry from './pages/SkillsRegistry';
 import EmployeeList from './pages/EmployeeList';
 import EmployeeDetails from './pages/EmployeeDetails';
+import ErrorFallback from './components/ErrorFallback';
 
 import './fonts/Ubuntu-Light.ttf';
 import './fonts/Ubuntu-Regular.ttf';
@@ -25,6 +27,7 @@ const isActiveFn = path => (match, location) => location.pathname.startsWith(pat
 
 export default function App() {
   return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Provider store={store}>
         <Router>
           <AppBar position="static">
@@ -75,5 +78,6 @@ export default function App() {
           </Container>
         </Router>
       </Provider>
+    </ErrorBoundary>
   );
 }
