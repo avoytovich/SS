@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
-import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 import { useTheme } from '@mui/material/styles';
 import { ErrorBoundary } from 'react-error-boundary';
 import {
@@ -115,7 +115,6 @@ export default function SkillsRegistry() {
   const debounceHandler = useCallback(debounce(async e => {
     const skill = e.target.value;
     if (skill.length > 1 && !rows.length) {
-      setSimilarSkillsLoading(true);
       const { data: similarSkillsList = [] } = await store.dispatch(
         smartSkillsApi.endpoints.similarSkills.initiate({
           skillName: skill,
@@ -126,6 +125,26 @@ export default function SkillsRegistry() {
       setSimilarSkillsLoading(false);
     }
   }, 500), []);
+
+  const similarSkillsRenderer = (<Box sx={{ mt: 5 }}>
+    {Boolean(!rows.length && similarSkills.length && !similarSkillsLoading)
+      && <>
+        <Typography>No skills found for <strong>&quot;{skillName}&quot;</strong>.</Typography>
+        <br />
+        <Typography>Did you mean {similarSkills
+          .map(({ Name }, i) => <Link sx={{ cursor: 'pointer' }} onClick={() => {
+            setSkillName(Name);
+            setSimilarSkills([]);
+          }} key={Name}>
+            {`${Name}${i < similarSkills.length - 1 ? ', ' : ''}`}
+          </Link>)}?</Typography>
+      </>}
+      {Boolean(!rows.length && !similarSkills.length && !similarSkillsLoading && skillName)
+        && <Typography>
+          No skills found for <strong>&quot;{skillName}&quot;</strong>.
+          Please make sure you typed the name correctly.
+        </Typography>}
+    </Box>);
 
   return (
     <>
@@ -182,9 +201,7 @@ export default function SkillsRegistry() {
               placeholder="Skill Name"
               onChange={e => {
                 setSkillName(e.target.value);
-                if (!rows.length) {
-                  setSimilarSkillsLoading(true);
-                }
+                setSimilarSkillsLoading(e.target.value.length > 1);
                 debounceHandler(e);
               }}
               value={skillName}
@@ -220,28 +237,14 @@ export default function SkillsRegistry() {
               showFilteredColumn={false}
             />
             : null}
-          {similarSkillsLoading ? <Box sx={{ display: 'flex', alighItems: 'center', justifyContant: 'center' }}>
-            <CircularProgress />
-          </Box> : null}
-          {(similarSkills.length && !rows.length && !similarSkillsLoading)
-            ? <>
-              <Typography>No skills found for <strong>&quot;{skillName}&quot;</strong></Typography>
-              <br />
-              <Typography>Did you mean {similarSkills
-                .map(({ Name }, i) => <Link onClick={() => {
-                  setSkillName(Name);
-                  setSimilarSkills([]);
-                }} key={Name}>
-                {`${Name}${i < similarSkills.length - 1 ? ', ' : '?'}`}
-              </Link>)}</Typography>
-            </>
-            : <>
-              {(!similarSkills.length && !rows.length && !similarSkillsLoading && !isLoading)
-                && <Typography>
-                  No skills found for <strong>&quot;{skillName}&quot;</strong>.
-                  Please make sure you typed the name correctly.
-                </Typography>}
-            </>}
+          {similarSkillsLoading && !rows.length
+            ? <Box sx={{
+              width: '100%',
+            }}>
+              <LinearProgress />
+            </Box>
+            : null}
+          {similarSkillsRenderer}
         </Box>
       </PagePanel>
       </ErrorBoundary>
