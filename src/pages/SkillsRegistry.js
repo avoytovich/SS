@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
-import LinearProgress from '@mui/material/LinearProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTheme } from '@mui/material/styles';
 import { ErrorBoundary } from 'react-error-boundary';
 import {
@@ -148,105 +148,109 @@ export default function SkillsRegistry() {
 
   return (
     <>
-      <PageTitle title="Skills Registry" />
-      <Typography variant="h4" component="h1" margin='24px 0'>
+      <PageTitle title="Skills Registry"/>
+      <Typography variant="h4" component="h1" margin="24px 0">
         Skills Registry
       </Typography>
-    <ErrorBoundary FallbackComponent={ErrorFallback} >
-      <PagePanel>
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          borderBottom: `1px solid ${theme.palette.primary.separator}`,
-          padding: '10px 10px 20px',
-        }}>
-           <FormControl variant="standard" sx={{ m: 1, width: 220 }}>
-             <InputLabel variant="fixed">Filter by</InputLabel>
-             <Select
-              label="Filter by"
-              id="skill-group-name"
-              displayEmpty
-              multiple={true}
-              value={skillGroups}
-              onChange={handleSkillGroupsChange}
-              style={{ width: '100%', height: '40px' }}
-              renderValue={selected => {
-                if (selected.length === 0) {
-                  return <MenuItem disabled value="" className='placeholder'>
-                    -- Skill Group Name --
-                  </MenuItem>;
-                }
-                return selected.join(', ');
-              }}
-            >
-               <MenuItem key="select-all" value="-- Skill Group Name --" disabled>
-                -- Skill Group Name --
-               </MenuItem>
-              {skillsGroupNameListOption
-                .sort(simpleLocaleComparator)
-                .map(skillsGroupName => <MenuItem
-                  key={skillsGroupName}
-                  value={skillsGroupName}>
-                  {skillsGroupName}
-                </MenuItem>)}
-            </Select>
-          </FormControl>
-          <FormControl variant="standard" sx={{
-            m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <PagePanel>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            borderBottom: `1px solid ${theme.palette.primary.separator}`,
+            padding: '10px 10px 20px',
           }}>
-            <TextField
-              id="standard-helperText"
-              label="Skill Name"
-              variant="standard"
-              placeholder="Skill Name"
-              onChange={e => {
-                setSkillName(e.target.value);
-                setSimilarSkillsLoading(e.target.value.length > 1);
-                debounceHandler(e);
-              }}
-              value={skillName}
-            />
-            <Link
-              sx={{
-                color: '#000',
-                fontSize: 12,
-                margin: 0,
-                cursor: 'pointer',
-                display: 'flex',
-                marginTop: '30px',
-                verticalAlign: 'middle',
-                marginLeft: '10px',
-                fontWeight: 500,
-              }}
-              underline="none"
-              onClick={cleanFilters}>
-              Clean Up
-            </Link>
-          </FormControl>
-        </Box>
-        <Box sx={{ padding: '0 20px' }}>
-          {rows.length
-            ? <CustomPaginationActionsTable
-              rows={rows}
-              headCells={headCells}
-              rowsPerPage={25}
-              order={order}
-              orderBy={orderBy}
-              onSortHandler={onSortHandler}
-              isLoading={isLoading}
-              showFilteredColumn={false}
-            />
-            : null}
-          {similarSkillsLoading && !rows.length
-            ? <Box sx={{
-              width: '100%',
+            <FormControl variant="standard" sx={{ m: 1, width: 220 }}>
+              <InputLabel variant="fixed">Filter by</InputLabel>
+              <Select
+                label="Filter by"
+                id="skill-group-name"
+                displayEmpty
+                multiple={true}
+                value={skillGroups}
+                onChange={handleSkillGroupsChange}
+                style={{ width: '100%', height: '40px' }}
+                renderValue={selected => {
+                  if (selected.length === 0) {
+                    return <MenuItem disabled value="" className="placeholder">
+                      -- Skill Group Name --
+                    </MenuItem>;
+                  }
+                  return selected.join(', ');
+                }}
+              >
+                <MenuItem key="select-all" value="-- Skill Group Name --"
+                          disabled>
+                  -- Skill Group Name --
+                </MenuItem>
+                {skillsGroupNameListOption.sort(simpleLocaleComparator)
+                  .map(skillsGroupName => <MenuItem
+                    key={skillsGroupName}
+                    value={skillsGroupName}>
+                    {skillsGroupName}
+                  </MenuItem>)}
+              </Select>
+            </FormControl>
+            <FormControl variant="standard" sx={{
+              m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
             }}>
-              <LinearProgress />
-            </Box>
-            : null}
-          {similarSkillsRenderer}
-        </Box>
-      </PagePanel>
+              <TextField
+                id="standard-helperText"
+                label="Skill Name"
+                variant="standard"
+                placeholder="Skill Name"
+                onChange={e => {
+                  setSkillName(e.target.value);
+                  setSimilarSkillsLoading(e.target.value.length > 1);
+                  debounceHandler(e);
+                }}
+                value={skillName}
+              />
+              <Link
+                sx={{
+                  color: '#000',
+                  fontSize: 12,
+                  margin: 0,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  marginTop: '30px',
+                  verticalAlign: 'middle',
+                  marginLeft: '10px',
+                  fontWeight: 500,
+                }}
+                underline="none"
+                onClick={cleanFilters}>
+                Clean Up
+              </Link>
+            </FormControl>
+          </Box>
+          <Box sx={{ padding: '0 20px' }}>
+            {rows.length || isLoading
+              ? <CustomPaginationActionsTable
+                rows={rows}
+                headCells={headCells}
+                rowsPerPage={25}
+                order={order}
+                orderBy={orderBy}
+                onSortHandler={onSortHandler}
+                isLoading={isLoading}
+                showFilteredColumn={false}
+              />
+              : null}
+            {similarSkillsLoading && !rows.length
+              ? <Box sx={{
+                width: '100%',
+                height: '200px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <CircularProgress disableShrink/>
+              </Box>
+              : null}
+            {similarSkillsRenderer}
+          </Box>
+        </PagePanel>
       </ErrorBoundary>
     </>
   );
