@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CircularProgress from '@mui/material/CircularProgress';
 import { TagCloud } from 'react-tagcloud';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
@@ -104,6 +105,7 @@ export default function NeighborsList() {
   });
 
   const tagCloudData = [...data.slice(0, 12)];
+  const details = data?.[0];
 
   const rows = useMemo(() => [...data].sort(getComparator(order, orderBy)),
     [data, order, orderBy]);
@@ -129,12 +131,20 @@ export default function NeighborsList() {
               border: 1,
               padding: 2,
               maxWidth: { xs: 300, md: 250 },
-              maxHeight: 125,
+              height: 125,
+              display: 'flex',
+              flexDirection: 'column',
             }
           } textAlign="left">
-            <Typography>Group: Programming Languages</Typography>
-            <Typography>Engineers: 500</Typography>
-            <Typography>Description: Bla-bla</Typography>
+            {isLoading
+              ? <Box style={{ justifyContent: 'center', margin: 'auto' }}>
+                  <CircularProgress disableShrink />
+                </Box>
+              : <>
+                <Typography>Group: {details?.Group}</Typography>
+                <Typography>Engineers: {details?.EngineersCount}</Typography>
+              </>
+            }
           </Box>
           <Box>
             {SimpleCloud(tagCloudData.map(({ Name, Proximity }) => ({
