@@ -131,6 +131,13 @@ const theme = createTheme({
         root: {
           color: GREY_4,
           zIndex: 2,
+          '&[data-shrink="true"]': {
+            padding: 0,
+          },
+        },
+        fixed: {
+          transform: 'translate(0, -1.5px) scale(0.75);',
+          padding: 0,
         },
       },
     },
@@ -163,9 +170,6 @@ const theme = createTheme({
         root: {
           '&.Mui-focused': {
             border: `1px solid ${VIBRANT_BLUE}`,
-          },
-          '& .MuiInputLabel-root.MuiInputLabel-animated': {
-            padding: '8.5px 14px',
           },
         },
       },
@@ -255,6 +259,22 @@ const theme = createTheme({
         root: {
           display: 'flex',
           alignItems: 'flex-start',
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          padding: '8.5px 14px',
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          '&:focus': {
+            backgroundColor: 'transparent',
+          },
         },
       },
     },
