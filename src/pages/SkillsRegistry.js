@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
+import debounce from 'lodash/debounce';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -7,7 +8,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useTheme } from '@mui/material/styles';
+import { ErrorBoundary } from 'react-error-boundary';
 import {
   ASC,
   DESC,
@@ -15,10 +18,12 @@ import {
   getLocaleComparator,
   simpleLocaleComparator,
 } from '../common/helpers';
-import { useFindSkillsQuery } from '../slices/smartSkillsSlice';
+import { useFindSkillsQuery, smartSkillsApi } from '../slices/smartSkillsSlice';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
+import ErrorFallback from '../components/ErrorFallback';
+import { store } from '../store';
 
 const headCells = [
   {
@@ -57,10 +62,12 @@ const headCells = [
 
 export default function SkillsRegistry() {
   const theme = useTheme();
-  const [order, setOrder] = React.useState(ASC);
-  const [orderBy, setOrderBy] = React.useState('ID');
-  const [skillGroups, setSkillGroups] = React.useState([]);
-  const [skillName, setSkillName] = React.useState('');
+  const [order, setOrder] = useState(ASC);
+  const [orderBy, setOrderBy] = useState('ID');
+  const [skillGroups, setSkillGroups] = useState([]);
+  const [skillName, setSkillName] = useState('');
+  const [similarSkills, setSimilarSkills] = useState([]);
+  const [similarSkillsLoading, setSimilarSkillsLoading] = useState(false);
 
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === ASC;
@@ -105,12 +112,28 @@ export default function SkillsRegistry() {
 
   rows = filterSkills(rows);
 
+  const debounceHandler = useCallback(debounce(async e => {
+    const skill = e.target.value;
+    if (skill.length > 1 && !rows.length) {
+      setSimilarSkillsLoading(true);
+      const { data: similarSkillsList = [] } = await store.dispatch(
+        smartSkillsApi.endpoints.similarSkills.initiate({
+          skillName: skill,
+          limit: 10,
+        }),
+      );
+      setSimilarSkills(similarSkillsList.data.filter(({ Proximity }) => Proximity <= 0.8));
+      setSimilarSkillsLoading(false);
+    }
+  }, 500), []);
+
   return (
     <>
       <PageTitle title="Skills Registry" />
       <Typography variant="h4" component="h1" margin='24px 0'>
         Skills Registry
       </Typography>
+    <ErrorBoundary FallbackComponent={ErrorFallback} >
       <PagePanel>
         <Box sx={{
           display: 'flex',
@@ -148,7 +171,7 @@ export default function SkillsRegistry() {
                   {skillsGroupName}
                 </MenuItem>)}
             </Select>
-           </FormControl>
+          </FormControl>
           <FormControl variant="standard" sx={{
             m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
           }}>
@@ -157,7 +180,13 @@ export default function SkillsRegistry() {
               label="Skill Name"
               variant="standard"
               placeholder="Skill Name"
-              onChange={event => setSkillName(event.target.value)}
+              onChange={e => {
+                setSkillName(e.target.value);
+                if (!rows.length) {
+                  setSimilarSkillsLoading(true);
+                }
+                debounceHandler(e);
+              }}
               value={skillName}
             />
             <Link
@@ -179,18 +208,43 @@ export default function SkillsRegistry() {
           </FormControl>
         </Box>
         <Box sx={{ padding: '0 20px' }}>
-          <CustomPaginationActionsTable
-            rows={rows}
-            headCells={headCells}
-            rowsPerPage={25}
-            order={order}
-            orderBy={orderBy}
-            onSortHandler={onSortHandler}
-            isLoading={isLoading}
-            showFilteredColumn={false}
-          />
+          {rows.length
+            ? <CustomPaginationActionsTable
+              rows={rows}
+              headCells={headCells}
+              rowsPerPage={25}
+              order={order}
+              orderBy={orderBy}
+              onSortHandler={onSortHandler}
+              isLoading={isLoading}
+              showFilteredColumn={false}
+            />
+            : null}
+          {similarSkillsLoading ? <Box sx={{ display: 'flex', alighItems: 'center', justifyContant: 'center' }}>
+            <CircularProgress />
+          </Box> : null}
+          {(similarSkills.length && !rows.length && !similarSkillsLoading)
+            ? <>
+              <Typography>No skills found for <strong>&quot;{skillName}&quot;</strong></Typography>
+              <br />
+              <Typography>Did you mean {similarSkills
+                .map(({ Name }, i) => <Link onClick={() => {
+                  setSkillName(Name);
+                  setSimilarSkills([]);
+                }} key={Name}>
+                {`${Name}${i < similarSkills.length - 1 ? ', ' : '?'}`}
+              </Link>)}</Typography>
+            </>
+            : <>
+              {(!similarSkills.length && !rows.length && !similarSkillsLoading && !isLoading)
+                && <Typography>
+                  No skills found for <strong>&quot;{skillName}&quot;</strong>.
+                  Please make sure you typed the name correctly.
+                </Typography>}
+            </>}
         </Box>
       </PagePanel>
+      </ErrorBoundary>
     </>
   );
 }
