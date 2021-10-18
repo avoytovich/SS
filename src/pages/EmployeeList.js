@@ -122,6 +122,7 @@ export default function EmployeeList() {
   };
 
   let rows = useMemo(() => [...data]
+    .map(item => ({ ...item, fullName: `${item.FirstName} ${item.LastName}` }))
     .sort(getComparator(order, orderBy)), [data, order, orderBy]);
 
   if (search) {

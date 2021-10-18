@@ -10,7 +10,7 @@ export default function ErrorFallback({ error }) {
     <Grid container justifyContent="center">
       <AlertIcon sx={{ fontSize: 120 }} color="error"/>
       <Grid container justifyContent="center">
-        <Typography variant="body1" color="initial">Oops.Something went wrong, please contact IT support.</Typography>
+        <Typography variant="body1" color="initial">Oops. Something went wrong, please contact IT support.</Typography>
       </Grid>
     </Grid>
   );
