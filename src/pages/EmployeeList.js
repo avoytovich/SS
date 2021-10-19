@@ -13,7 +13,10 @@ import { useTheme } from '@mui/material/styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
-import { getComparator } from '../common/helpers';
+import {
+  getLocaleComparator,
+  simpleLocaleComparator,
+} from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
@@ -123,7 +126,7 @@ export default function EmployeeList() {
 
   let rows = useMemo(() => [...data]
     .map(item => ({ ...item, fullName: `${item.FirstName} ${item.LastName}` }))
-    .sort(getComparator(order, orderBy)), [data, order, orderBy]);
+    .sort(getLocaleComparator(order, orderBy)), [data, order, orderBy]);
 
   if (search) {
     rows = rows.filter(row => search.toLowerCase().split(',')
@@ -152,7 +155,7 @@ export default function EmployeeList() {
       }}
     >
       {[...(filterValues[id])]
-        .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
+        .sort(simpleLocaleComparator)
         .map(item => <MenuItem
           key={item}
           value={item}>

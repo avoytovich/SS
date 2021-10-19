@@ -134,10 +134,10 @@ const theme = createTheme({
           '&[data-shrink="true"]': {
             padding: 0,
           },
-        },
-        fixed: {
-          transform: 'translate(0, -1.5px) scale(0.75);',
-          padding: 0,
+          '&.fixed': {
+            transform: 'translate(0, -1.5px) scale(0.75);',
+            padding: 0,
+          },
         },
       },
     },

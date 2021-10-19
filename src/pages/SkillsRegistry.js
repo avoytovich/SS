@@ -161,7 +161,7 @@ export default function SkillsRegistry() {
             padding: '10px 10px 20px',
           }}>
             <FormControl variant="standard" sx={{ m: 1, width: 220 }}>
-              <InputLabel variant="fixed">Filter by</InputLabel>
+              <InputLabel className="fixed">Filter by</InputLabel>
               <Select
                 label="Filter by"
                 id="skill-group-name"

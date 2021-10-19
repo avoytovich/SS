@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
+import { simpleLocaleComparator } from '../../common/helpers';
 
 export default function FilterTableHead({
   headCells,
@@ -91,7 +92,7 @@ export default function FilterTableHead({
                   }}
                 >
                   {[...(filterValues[id])]
-                    .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
+                    .sort(simpleLocaleComparator)
                     .map(item => <MenuItem
                       key={item}
                       value={item}>
