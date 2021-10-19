@@ -37,6 +37,25 @@ Build:
       - build
     expire_in: 1 week
 
+Build Branch:
+  stage: build
+  variables:
+    ASSET_PATH: /branches/$CI_COMMIT_REF_SLUG
+  script:
+    - echo "Building app..."
+    - mkdir branches/$CI_COMMIT_REF_SLUG
+    - npm run build
+    - touch "version.js"
+    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
+  only:
+    - branches
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 week
+  except:
+    - master
+
 Unit Tests:
   stage: test
   script:
