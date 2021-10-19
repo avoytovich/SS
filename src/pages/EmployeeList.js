@@ -214,10 +214,7 @@ export default function EmployeeList() {
                   underline="none"
                   onClick={cleanAllHandler}
                   style={{
-                    color: '#000',
-                    fontSize: 12,
                     margin: 0,
-                    cursor: 'pointer',
                     lineHeight: '38px',
                     fontWeight: 500,
                   }}>

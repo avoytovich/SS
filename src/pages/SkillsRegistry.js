@@ -160,7 +160,7 @@ export default function SkillsRegistry() {
             borderBottom: `1px solid ${theme.palette.primary.separator}`,
             padding: '10px 10px 20px',
           }}>
-            <FormControl variant="standard" sx={{ m: 1, width: 220 }}>
+            <FormControl variant="standard" sx={{ margin: '0 8px', width: 220 }}>
               <InputLabel className="fixed">Filter by</InputLabel>
               <Select
                 label="Filter by"
@@ -192,7 +192,7 @@ export default function SkillsRegistry() {
               </Select>
             </FormControl>
             <FormControl variant="standard" sx={{
-              m: 1, minWidth: 220, display: 'flex', flexDirection: 'row',
+              margin: '0 8px', minWidth: 220, display: 'flex', flexDirection: 'row',
             }}>
               <TextField
                 id="standard-helperText"
@@ -208,12 +208,9 @@ export default function SkillsRegistry() {
               />
               <Link
                 sx={{
-                  color: '#000',
-                  fontSize: 12,
                   margin: 0,
-                  cursor: 'pointer',
                   display: 'flex',
-                  marginTop: '30px',
+                  marginTop: '34px',
                   verticalAlign: 'middle',
                   marginLeft: '10px',
                   fontWeight: 500,

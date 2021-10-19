@@ -113,10 +113,14 @@ const theme = createTheme({
           '&.Mui-focused': {
             border: `1px solid ${VIBRANT_BLUE}`,
           },
+          '&:not(.Mui-focused) .MuiInput-input::placeholder': {
+            color: GREY_4,
+          },
           '& .MuiInput-input': {
             color: BLACK,
-            padding: '8.5px 14px',
+            padding: '7.5px 14px',
             '&::placeholder': {
+              opacity: 1,
               color: GREY_4,
             },
           },
@@ -134,6 +138,9 @@ const theme = createTheme({
           '&[data-shrink="true"]': {
             padding: 0,
           },
+          '&[data-shrink="false"]': {
+            transform: 'translate(0, 23px) scale(1)',
+          },
           '&.fixed': {
             transform: 'translate(0, -1.5px) scale(0.75);',
             padding: 0,
@@ -149,8 +156,15 @@ const theme = createTheme({
           '&:focus': {
             borderColor: VIBRANT_BLUE,
           },
-          '&:not(.Mui-focused) .MuiOutlinedInput-input': {
+          '&:not(.Mui-focused) .MuiOutlinedInput-input::placeholder': {
             color: GREY_4,
+          },
+          '& .MuiOutlinedInput-input': {
+            color: BLACK,
+            '&::placeholder': {
+              opacity: 1,
+              color: GREY_4,
+            },
           },
           '& .MuiMenuItem-root ': {
             borderBottom: 'none',
@@ -189,6 +203,10 @@ const theme = createTheme({
           '&.Mui-selected': {
             backgroundColor: VIBRANT_BLUE,
             color: WHITE,
+          },
+          '&.Mui-disabled': {
+            color: GREY_4,
+            opacity: 1,
           },
         },
       },
@@ -274,6 +292,18 @@ const theme = createTheme({
         select: {
           '&:focus': {
             backgroundColor: 'transparent',
+          },
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          cursor: 'pointer',
+          fontSize: 12,
+          color: BLACK,
+          '&:hover': {
+            opacity: 0.8,
           },
         },
       },
