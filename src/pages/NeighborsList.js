@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { TagCloud } from 'react-tagcloud';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
-import { getComparator } from '../common/helpers';
+import { getComparator, decodeQueryParam } from '../common/helpers';
 import CustomPaginationActionsTable
   from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
@@ -40,7 +40,7 @@ const headCells = [
     numeric: false,
     label: 'Skill Name',
     customRender: row => <Link underline="hover"
-      href={`/skills/${row.Name}`}>
+      href={`/skills/${encodeURIComponent(row.Name)}`}>
       {row.Name}
     </Link>,
     width: '34%',
@@ -51,7 +51,7 @@ const headCells = [
     label: '# Engineers',
     width: '12%',
     customRender: row => <Link underline="hover"
-      href={`/employees?skill=${row.Name}`}>
+      href={`/employees?skill=${encodeURIComponent(row.Name)}`}>
       {row.EngineersCount}
     </Link>,
   },
@@ -59,7 +59,7 @@ const headCells = [
 
 // Custom renderer for Tag Cloud
 const customRenderer = (tag, size) => (
-  <Link key={tag.value} underline="hover" href={`/skills/${tag.value}`}>
+  <Link key={tag.value} underline="hover" href={`/skills/${encodeURIComponent(tag.value)}`}>
     <Box
       key={tag.value}
       sx={{
@@ -89,6 +89,7 @@ const SimpleCloud = data => (
 
 export default function NeighborsList() {
   const { name } = useParams();
+  const skillName = decodeQueryParam(name);
   const history = useHistory();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Proximity');
@@ -100,7 +101,7 @@ export default function NeighborsList() {
   };
 
   const { data: { data = [] } = {}, isLoading } = useNeighborSkillsQuery({
-    skillName: name,
+    skillName,
     groups: true,
   });
 
@@ -112,7 +113,7 @@ export default function NeighborsList() {
 
   return (
     <>
-      <PageTitle title={`${name}: Neighbors List`}/>
+      <PageTitle title={`${skillName}: Neighbors List`}/>
       <ErrorBoundary FallbackComponent={ErrorFallback} >
       <Breadcrumbs aria-label="breadcrumb" separator="">
         <a onClick={history.goBack}>
@@ -120,7 +121,7 @@ export default function NeighborsList() {
             <ArrowBackIcon/>
           </Typography>
         </a>
-        <Typography variant={'h4'}>{name}</Typography>
+        <Typography variant={'h4'}>{skillName}</Typography>
       </Breadcrumbs>
       <PagePanel>
         <Box

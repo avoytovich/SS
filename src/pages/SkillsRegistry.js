@@ -43,7 +43,7 @@ const headCells = [
     numeric: false,
     label: 'Skill Name',
     customRender: row => <Link underline="hover"
-      href={`/skills/${row.Name}`}>
+      href={`/skills/${encodeURIComponent(row.Name)}`}>
       {row.Name}
     </Link>,
     width: '43%',
@@ -54,7 +54,7 @@ const headCells = [
     label: '# Engineers',
     width: '12%',
     customRender: row => <Link underline="hover"
-      href={`/employees?skill=${row.Name}`}>
+      href={`/employees?skill=${encodeURIComponent(row.Name)}`}>
       {row.EngineersCount}
     </Link>,
   },

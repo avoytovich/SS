@@ -44,3 +44,7 @@ export function getLocaleComparator(order, orderBy) {
     ? (a, b) => descendingLocaleComparator(a, b, orderBy)
     : (a, b) => descendingLocaleComparator(b, a, orderBy);
 }
+
+export function decodeQueryParam(p) {
+  return decodeURIComponent(p.replace(/\+/g, ' '));
+}
