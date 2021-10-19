@@ -20,11 +20,11 @@ function descendingComparator(a, b, orderBy) {
 }
 
 export function simpleLocaleComparator(a, b) {
-  return a.localeCompare(b, 'en', { numeric: true });
+  return a.localeCompare(b, 'en', { numeric: true, sensitivity: 'accent' });
 }
 
 function descendingLocaleComparator(a, b, orderBy) {
-  return a[orderBy].localeCompare(b[orderBy], 'en', { numeric: true });
+  return a[orderBy].localeCompare(b[orderBy], 'en', { numeric: true, sensitivity: 'accent' });
 }
 
 /**
