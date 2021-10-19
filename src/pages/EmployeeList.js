@@ -45,7 +45,7 @@ const headCells = [
     label: 'Primary Specialization',
     filterable: true,
     customRender: row => <Link underline="hover"
-      href={`/skills/${row.PrimarySpecialization}`}>
+      href={`/skills/${encodeURIComponent(row.PrimarySpecialization)}`}>
         {row.PrimarySpecialization}
     </Link>,
     width: '23%',

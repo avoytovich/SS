@@ -155,7 +155,7 @@ export default function EmployeeDetails() {
               ? <Typography variant={'employeeSkill'} component={'p'}>
                 {noEmployeeSkillsError}
               </Typography>
-              : <Grid container spaceing={2}>
+              : <Grid container spacing={2}>
                 <Grid iten xs={6}>
                   <Typography variant={'employeeSkillsTitle'}>Skill Name</Typography>
                   {fullSkillList.map(({ skill }) => (
