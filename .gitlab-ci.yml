@@ -6,7 +6,7 @@ before_script:
   - npm install
 
 stages:
-  - lint
+#  - lint
   - build
   - test
   - e2e
@@ -18,11 +18,11 @@ cache:
     - node_modules/
   policy: pull
 
-Lint:
-  stage: lint
-  script:
-    - echo "Linting code..."
-    - npm run lint
+#Lint:
+#  stage: lint
+#  script:
+#    - echo "Linting code..."
+#    - npm run lint
 
 Build:
   stage: build
@@ -46,18 +46,22 @@ Build Branch:
   script:
     - echo "Building app..."
     - mkdir -p branches/{$CI_COMMIT_REF_SLUG}
+    - cd branches/{$CI_COMMIT_REF_SLUG}
     - ls
     - npm run build
     - touch "version.js"
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
   only:
     - branches
+  except:
+    - master
   artifacts:
     paths:
       - build
     expire_in: 1 week
-  except:
-    - master
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    url: http://172.20.134.20/branches/$CI_COMMIT_REF_SLUG
 
 Unit Tests:
   stage: test
