@@ -51,6 +51,7 @@ Build Branch:
     - npm run build
     - touch "version.js"
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
+    - ls
   only:
     - branches
   except:
@@ -100,7 +101,6 @@ Deploy Branch:
     - ls
     - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG
     - echo "Application successfully deployed."
-  when: manual
   only:
     - branches
   except:
