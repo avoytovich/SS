@@ -47,12 +47,11 @@ Build Branch:
     - echo "Building app..."
     - mkdir -p branches/{$CI_COMMIT_REF_SLUG}
     - ls
-    - cd branches/{$CI_COMMIT_REF_SLUG}
     - npm run build
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
-    - mv dist/index.html index.html
-    - cp -Rf index.html dist/index.html
-    - cp -Rf version.js dist/version.js
+    - mv dist branches/{$CI_COMMIT_REF_SLUG}
+    - ls
+    - cd branches
     - ls
   only:
     - branches
