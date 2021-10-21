@@ -45,12 +45,12 @@ Build Branch:
     ASSET_PATH: /branches/$CI_COMMIT_REF_SLUG
   script:
     - echo "Building app..."
-    - mkdir -p branches/$CI_COMMIT_REF_SLUG
-    - ls
     - npm run build
+    - cd build
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
+    - sed -i'' "s/<base href='\\/'>/<base href='\\/branches\\/$CI_COMMIT_REF_SLUG\\/'>/" index.html
+    - sed -i'' "s/<script src='\\/static\\/version.js'>/<script src='\\/branches\\/$CI_COMMIT_REF_SLUG\\/static\\/version.js'>/" index.html
     - ls
-    - mkdir $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG
   only:
     - branches
   except:
