@@ -44,7 +44,7 @@ export default function EmployeeDetails() {
   const skillGroupsList = useMemo(() => skillGroups.map(({ Name, Skills }) => {
     // find whether employee has current skillGroup
     const employeeSkillGroup = employeeDetails.SkillGroups
-      .find(({ Name: employeeSkillGroupName }) => employeeSkillGroupName === Name);
+    .find(({ Name: employeeSkillGroupName }) => employeeSkillGroupName === Name);
     // set new array to render actual list of skillGropus
     return {
       name: Name,
@@ -52,38 +52,38 @@ export default function EmployeeDetails() {
       skills: Skills,
       employeesSkillsCount: employeeSkillGroup
         ? Skills.filter(skill => employeeSkillGroup.Skills
-          .map(sk => Object.keys(sk))[0].includes(skill)).length
+        .map(sk => Object.keys(sk))[0].includes(skill)).length
         : 0,
     };
   }), [employeeDetails, skillGroups]);
 
   // set an array of employee's skills according to selected skillGroup
   const employeeSkillsList = useMemo(() => [...employeeDetails.SkillGroups]
-    .filter(({ Name }) => Name === selectedSkillGroup)
-    .map(({ Skills }) => [...Skills])
-    .flat()[0], [selectedSkillGroup, employeeDetails]);
+  .filter(({ Name }) => Name === selectedSkillGroup)
+  .map(({ Skills }) => [...Skills])
+  .flat()[0], [selectedSkillGroup, employeeDetails]);
 
   const fullSkillList = useMemo(() => skillGroups
-    .filter(({ Name }) => Name === selectedSkillGroup)
-    .map(({ Skills }) => [...Skills])
-    .flat()
-    .map(skill => {
-      const employeeSkill = employeeSkillsList
-        && Object.entries({ ...employeeSkillsList }).find(sk => sk[0] === skill);
-      return {
-        skill,
-        level: employeeSkill
-          ? employeeSkill[1]
-          : 'None',
-      };
-    })
-    .filter(({ level }) => showUnfilledSkills
-      || (!showUnfilledSkills && level !== 'None')), [skillGroups, selectedSkillGroup, showUnfilledSkills]);
+  .filter(({ Name }) => Name === selectedSkillGroup)
+  .map(({ Skills }) => [...Skills])
+  .flat()
+  .map(skill => {
+    const employeeSkill = employeeSkillsList
+      && Object.entries({ ...employeeSkillsList }).find(sk => sk[0] === skill);
+    return {
+      skill,
+      level: employeeSkill
+        ? employeeSkill[1]
+        : 'None',
+    };
+  })
+  .filter(({ level }) => showUnfilledSkills
+    || (!showUnfilledSkills && level !== 'None')), [skillGroups, selectedSkillGroup, showUnfilledSkills]);
 
   const noEmployeeSkillsError = selectedSkillGroup === null
     ? 'Please choose skill group to see employee\'s skills'
     : !fullSkillList.length
-      && 'This employee doesn\'t have any filled skills in selected skill group';
+    && 'This employee doesn\'t have any filled skills in selected skill group';
 
   return (
     <>
