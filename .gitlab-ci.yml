@@ -48,11 +48,9 @@ Build Branch:
     - npm run build
     - ls
     - cd build
-    - more index.html
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
-    - sed "s/<base href='\\/'>/<base href='\\/branches\\/$CI_COMMIT_REF_SLUG\\/'>/" index.html
-    - sed "s/<script src='\\/version.js'>/<script src='\\/branches\\/$CI_COMMIT_REF_SLUG\\/version.js'>/" index.html
-    - ls
+    - sed 's/<base href="\\/">/<base href="\\/branches\\/$CI_COMMIT_REF_SLUG\\/">/' index.html
+    - sed 's/<script src="\\/version.js">/<script src="\\/branches\\/$CI_COMMIT_REF_SLUG\\/version.js">/' index.html
   only:
     - branches
   except:
