@@ -46,8 +46,8 @@ Build Branch:
   script:
     - echo "Building app..."
     - mkdir -p branches/{$CI_COMMIT_REF_SLUG}
-    - cd branches/{$CI_COMMIT_REF_SLUG}
     - ls
+    - cd branches/{$CI_COMMIT_REF_SLUG}
     - npm run build
     - touch "version.js"
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
