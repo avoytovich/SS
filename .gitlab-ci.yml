@@ -50,8 +50,7 @@ Build Branch:
     - npm run build
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'" > version.js
     - ls
-    - cd branches
-    - ls
+    - mkdir $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG
   only:
     - branches
   except:
@@ -99,7 +98,7 @@ Deploy Branch:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ls
-    - ssh $USER_NAME@$SERVER_NAME 'mkdir /home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG'
+    - mkdir $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG
     - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG
     - echo "Application successfully deployed."
   only:
