@@ -12,27 +12,28 @@ export default function SortedTableHead(props) {
   };
 
   return (
-    <TableHead>
-      <TableRow>
-        {headCells.map((headCell, i) => (
-          <TableCell
-            key={`${headCell.id}-${i}`}
-            align={'left'}
-            width={headCell.width ?? 'auto'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
+		<TableHead data-testid="sorted-table-head">
+			<TableRow>
+				{headCells.map((headCell, i) => (
+					<TableCell
+					key={`${headCell.id}-${i}`}
+					align={'left'}
+					width={headCell.width ?? 'auto'}
+					padding={headCell.disablePadding ? 'none' : 'normal'}
+					sortDirection={orderBy === headCell.id ? order : false}
+					>
+						<TableSortLabel
+							role="cell-label"
+							active={orderBy === headCell.id}
+							direction={orderBy === headCell.id ? order : 'asc'}
+							onClick={createSortHandler(headCell.id)}
+						>
+							{headCell.label}
+						</TableSortLabel>
+					</TableCell>
+				))}
+			</TableRow>
+		</TableHead>
   );
 }
 
