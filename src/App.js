@@ -6,9 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {
-  BrowserRouter as Router, Route, Switch, NavLink as RouterLink,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, NavLink as RouterLink } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { store } from './store';
 import Welcome from './pages/Welcome';
@@ -35,7 +33,12 @@ export default function App() {
               <Link component={RouterLink} to="/" exact={true}>
                 Welcome
               </Link>
-              <Link component={RouterLink} to="/skills" exact={true} isActive={isActiveFn('/skills')}>
+              <Link
+                component={RouterLink}
+                to="/skills"
+                exact={true}
+                isActive={isActiveFn('/skills')}
+              >
                 Skills
               </Link>
               <Link component={RouterLink} to="/employees" isActive={isActiveFn('/employees')}>
@@ -43,11 +46,14 @@ export default function App() {
               </Link>
             </Toolbar>
           </AppBar>
-          <Container maxWidth="lg" sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-          }}>
+          <Container
+            maxWidth="lg"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+            }}
+          >
             <Switch>
               <Route path="/" exact={true} component={Welcome} />
               <Route path="/skills" exact={true} component={SkillsRegistry} />
@@ -62,18 +68,21 @@ export default function App() {
               </Route>
             </Switch>
             <Box sx={{ flex: 0 }} textAlign="left" component="footer">
-              {window.location.hostname !== 'localhost'
-                && <>
+              {window.location.hostname !== 'localhost' && (
+                <>
                   <Typography variant="caption" component="p" gutterBottom>
-                    Pipeline: <a href={window.PIPELINE_LINK} target="_blank" rel="noreferrer">
+                    Pipeline:{' '}
+                    <a href={window.PIPELINE_LINK} target="_blank" rel="noreferrer">
                       {window.COMMIT}
                     </a>
                   </Typography>
-                  {window.BRANCH !== 'master'
-                    && <Typography variant="caption" component="p" gutterBottom>
+                  {window.BRANCH !== 'master' && (
+                    <Typography variant="caption" component="p" gutterBottom>
                       Branch: {window.BRANCH}
-                    </Typography>}
-                </>}
+                    </Typography>
+                  )}
+                </>
+              )}
             </Box>
           </Container>
         </Router>

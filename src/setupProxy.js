@@ -7,6 +7,6 @@ module.exports = app => {
       target: 'http://172.20.134.20',
       changeOrigin: true,
       logLevel: 'debug',
-    }),
+    })
   );
 };

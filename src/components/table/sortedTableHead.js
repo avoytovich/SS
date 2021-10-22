@@ -6,35 +6,33 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import PropTypes from 'prop-types';
 
 export default function SortedTableHead(props) {
-  const {
-    order, orderBy, onRequestSort, headCells,
-  } = props;
+  const { order, orderBy, onRequestSort, headCells } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
 
   return (
-		<TableHead>
-			<TableRow>
-				{headCells.map((headCell, i) => (
-					<TableCell
-						key={`${headCell.id}-${i}`}
-						align={'left'}
+    <TableHead>
+      <TableRow>
+        {headCells.map((headCell, i) => (
+          <TableCell
+            key={`${headCell.id}-${i}`}
+            align={'left'}
             width={headCell.width ?? 'auto'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
-						sortDirection={orderBy === headCell.id ? order : false}
-					>
-						<TableSortLabel
-							active={orderBy === headCell.id}
-							direction={orderBy === headCell.id ? order : 'asc'}
-							onClick={createSortHandler(headCell.id)}
-						>
-							{headCell.label}
-						</TableSortLabel>
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
+            padding={headCell.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
   );
 }
 
