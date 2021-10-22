@@ -197,7 +197,7 @@ export default function EmployeeDetails() {
               </Typography>
             ) : (
               <Grid container spacing={2}>
-                <Grid iten xs={6}>
+                <Grid item xs={6}>
                   <Typography variant={'employeeSkillsTitle'}>Skill Name</Typography>
                   {fullSkillList.map(({ skill }) => (
                     <Typography variant={'employeeSkill'} component={'p'} key={skill}>
@@ -205,7 +205,7 @@ export default function EmployeeDetails() {
                     </Typography>
                   ))}
                 </Grid>
-                <Grid iten xs={6}>
+                <Grid item xs={6}>
                   <Typography variant={'employeeSkillsTitle'}>Seniority</Typography>
                   {fullSkillList.map(({ level }, i) => (
                     <Typography variant={'employeeSkill'} component={'p'} key={`${level}-${i}`}>
