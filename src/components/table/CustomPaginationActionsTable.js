@@ -20,9 +20,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import SortedTableHead from './sortedTableHead';
 import FilterTableHead from './FilterTableHead';
 
-function TablePaginationActions({
-  count, page, rowsPerPage, onPageChange,
-}) {
+function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
   const theme = useTheme();
 
   const handleFirstPageButtonClick = event => {
@@ -43,34 +41,38 @@ function TablePaginationActions({
 
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-        <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="first page"
-          size="large">
-            {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton
-          onClick={handleBackButtonClick}
-          disabled={page === 0}
-          aria-label="previous page"
-          size="large">
-            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="next page"
-          size="large">
-            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="last page"
-          size="large">
-            {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
     </Box>
   );
 }
@@ -98,10 +100,14 @@ export default function CustomPaginationActionsTable({
 
   const onFiltersChange = values => {
     setFilters(values);
-    const filtered = rows.filter(row => Object.keys(values)
-      .every(key => (typeof values[key] === 'string'
-        && row[key].includes(values[key]))
-      || values[key].includes(row[key]) || values[key].length === 0));
+    const filtered = rows.filter(row =>
+      Object.keys(values).every(
+        key =>
+          (typeof values[key] === 'string' && row[key].includes(values[key])) ||
+          values[key].includes(row[key]) ||
+          values[key].length === 0
+      )
+    );
     setFilteredRows(filtered);
   };
 
@@ -129,7 +135,9 @@ export default function CustomPaginationActionsTable({
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="custom pagination table">
         <colgroup>
-          {headCells.map(({ width, id }) => <col key={id} width={width} />)}
+          {headCells.map(({ width, id }) => (
+            <col key={id} width={width} />
+          ))}
         </colgroup>
         <SortedTableHead
           order={order}
@@ -137,49 +145,45 @@ export default function CustomPaginationActionsTable({
           onRequestSort={onSortHandler}
           headCells={headCells}
         />
-        {showFilteredColumn
-        && <FilterTableHead headCells={headCells} primaryData={rows}
-                            onFiltersChange={onFiltersChange}
-        />}
+        {showFilteredColumn && (
+          <FilterTableHead
+            headCells={headCells}
+            primaryData={rows}
+            onFiltersChange={onFiltersChange}
+          />
+        )}
         <TableHead>
-          <TableRow/>
+          <TableRow />
         </TableHead>
         <TableBody>
-          {isLoading
-          && <TableRow style={{ height: 23 * rowsPerPage }}>
-            <TableCell align="center" colSpan={headCells.length}>
-              <CircularProgress disableShrink/>
-            </TableCell>
-          </TableRow>
-          }
+          {isLoading && (
+            <TableRow style={{ height: 23 * rowsPerPage }}>
+              <TableCell align="center" colSpan={headCells.length}>
+                <CircularProgress disableShrink />
+              </TableCell>
+            </TableRow>
+          )}
           {(rowsPerPage > 0
-            ? filteredRows.slice(page * rowsPerPage,
-              page * rowsPerPage + rowsPerPage)
+            ? filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : filteredRows
           ).map((row, i) => (
             <TableRow key={`${row.Id}-${i}`}>
-              {headCells.map(({ id, customRender }) => <TableCell
-                key={id}>
-                {customRender ? customRender(row) : row[id]}
-              </TableCell>)}
+              {headCells.map(({ id, customRender }) => (
+                <TableCell key={id}>{customRender ? customRender(row) : row[id]}</TableCell>
+              ))}
             </TableRow>
           ))}
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 23 * emptyRows }}>
-              <TableCell colSpan={headCells.length}/>
+              <TableCell colSpan={headCells.length} />
             </TableRow>
           )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[
-                10,
-                25,
-                50,
-                100,
-                { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[10, 25, 50, 100, { label: 'All', value: -1 }]}
               colSpan={headCells.length}
               count={filteredRows.length}
               rowsPerPage={rowsPerPage}

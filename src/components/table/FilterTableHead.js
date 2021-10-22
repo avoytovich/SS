@@ -10,26 +10,31 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import { simpleLocaleComparator } from '../../common/helpers';
 
-export default function FilterTableHead({
-  headCells,
-  primaryData,
-  onFiltersChange,
-}) {
-  const filterKeys = useMemo(
-    () => headCells.filter(({ filterable, searchable }) => filterable || searchable)
-      .map(({ id }) => id),
+export default function FilterTableHead({ headCells, primaryData, onFiltersChange }) {
+  const filterKeys = useMemo(() =>
+    headCells.filter(({ filterable, searchable }) => filterable || searchable).map(({ id }) => id)
   );
-  const [filters] = useState(filterKeys.reduce((obj, item) => ({
-    ...obj,
-    [item]: [],
-  }), {}));
+  const [filters] = useState(
+    filterKeys.reduce(
+      (obj, item) => ({
+        ...obj,
+        [item]: [],
+      }),
+      {}
+    )
+  );
 
-  const filterValues = useMemo(() => primaryData.reduce((acc, current) => {
-    filterKeys.forEach(key => {
-      acc[key].add(current[key]);
-    });
-    return acc;
-  }, filterKeys.reduce((o, key) => ({ ...o, [key]: new Set() }), {})));
+  const filterValues = useMemo(() =>
+    primaryData.reduce(
+      (acc, current) => {
+        filterKeys.forEach(key => {
+          acc[key].add(current[key]);
+        });
+        return acc;
+      },
+      filterKeys.reduce((o, key) => ({ ...o, [key]: new Set() }), {})
+    )
+  );
 
   const handleChange = key => e => {
     const { value } = e.target;
@@ -52,18 +57,16 @@ export default function FilterTableHead({
   return (
     <TableHead>
       <TableRow>
-        {headCells.map(({
-          id, width, disablePadding, filterable, searchable, label,
-        }) => (
+        {headCells.map(({ id, width, disablePadding, filterable, searchable, label }) => (
           <TableCell
             key={id}
             align={'left'}
             width={width ?? 'auto'}
             padding={disablePadding ? 'none' : 'normal'}
           >
-            <form id='filter-table-head-form'>
-              {searchable
-                && <TextField
+            <form id="filter-table-head-form">
+              {searchable && (
+                <TextField
                   defaultValue=""
                   variant="standard"
                   placeholder={`Search by ${label}`}
@@ -72,50 +75,49 @@ export default function FilterTableHead({
                     onFiltersChange(filters);
                   }}
                   style={{ width: '100%', height: '30px' }}
-               />
-              }
-              {filterable
-              && <FormControl style={{ width: '100%' }}>
-                <Select
-                  value={filters[id]}
-                  displayEmpty
-                  multiple={true}
-                  onChange={handleChange(id)}
-                  style={{ width: '100%', height: '31px' }}
-                  renderValue={selected => {
-                    if (selected.length === 0) {
-                      return <MenuItem disabled value="">
-                        -- Select All --
-                      </MenuItem>;
-                    }
-                    return selected.join(', ');
-                  }}
-                >
-                  {[...(filterValues[id])]
-                    .sort(simpleLocaleComparator)
-                    .map(item => <MenuItem
-                      key={item}
-                      value={item}>
-                      {item}
-                    </MenuItem>)}
-                </Select>
-              </FormControl>}
+                />
+              )}
+              {filterable && (
+                <FormControl style={{ width: '100%' }}>
+                  <Select
+                    value={filters[id]}
+                    displayEmpty
+                    multiple={true}
+                    onChange={handleChange(id)}
+                    style={{ width: '100%', height: '31px' }}
+                    renderValue={selected => {
+                      if (selected.length === 0) {
+                        return (
+                          <MenuItem disabled value="">
+                            -- Select All --
+                          </MenuItem>
+                        );
+                      }
+                      return selected.join(', ');
+                    }}
+                  >
+                    {[...filterValues[id]].sort(simpleLocaleComparator).map(item => (
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
             </form>
           </TableCell>
         ))}
-        <TableCell
-          key="clean-all"
-          align={'left'}
-          width="20%"
-        >
-          <Link underline="hover"
+        <TableCell key="clean-all" align={'left'} width="20%">
+          <Link
+            underline="hover"
             onClick={cleanAllHandler}
             style={{
               color: '#000',
               fontSize: 12,
               margin: 0,
               cursor: 'pointer',
-            }}>
+            }}
+          >
             Clean up
           </Link>
         </TableCell>

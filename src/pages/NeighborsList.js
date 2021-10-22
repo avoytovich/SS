@@ -10,8 +10,7 @@ import { TagCloud } from 'react-tagcloud';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
 import { getComparator, decodeQueryParam } from '../common/helpers';
-import CustomPaginationActionsTable
-  from '../components/table/CustomPaginationActionsTable';
+import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
@@ -39,10 +38,11 @@ const headCells = [
     id: 'Name',
     numeric: false,
     label: 'Skill Name',
-    customRender: row => <Link underline="hover"
-      href={`/skills/${encodeURIComponent(row.Name)}`}>
-      {row.Name}
-    </Link>,
+    customRender: row => (
+      <Link underline="hover" href={`/skills/${encodeURIComponent(row.Name)}`}>
+        {row.Name}
+      </Link>
+    ),
     width: '34%',
   },
   {
@@ -50,10 +50,11 @@ const headCells = [
     numeric: true,
     label: '# Engineers',
     width: '12%',
-    customRender: row => <Link underline="hover"
-      href={`/employees?skill=${encodeURIComponent(row.Name)}`}>
-      {row.EngineersCount}
-    </Link>,
+    customRender: row => (
+      <Link underline="hover" href={`/employees?skill=${encodeURIComponent(row.Name)}`}>
+        {row.EngineersCount}
+      </Link>
+    ),
   },
 ];
 
@@ -108,66 +109,70 @@ export default function NeighborsList() {
   const tagCloudData = [...data.slice(0, 12)];
   const details = data?.[0];
 
-  const rows = useMemo(() => [...data].sort(getComparator(order, orderBy)),
-    [data, order, orderBy]);
+  const rows = useMemo(() => [...data].sort(getComparator(order, orderBy)), [data, order, orderBy]);
 
   return (
     <>
-      <PageTitle title={`${skillName}: Neighbors List`}/>
-      <ErrorBoundary FallbackComponent={ErrorFallback} >
-      <Breadcrumbs aria-label="breadcrumb" separator="">
-        <a onClick={history.goBack}>
-          <Typography>
-            <ArrowBackIcon/>
-          </Typography>
-        </a>
-        <Typography variant={'h4'}>{skillName}</Typography>
-      </Breadcrumbs>
-      <PagePanel>
-        <Box
-          sx={{ display: 'grid', m: 4, gridTemplateColumns: 'repeat(2, 1fr)' }}
-          textAlign="center">
-          <Box sx={
-            {
-              border: 1,
-              padding: 2,
-              maxWidth: { xs: 300, md: 250 },
-              height: 125,
-              display: 'flex',
-              flexDirection: 'column',
-            }
-          } textAlign="left">
-            {isLoading
-              ? <Box style={{ justifyContent: 'center', margin: 'auto' }}>
+      <PageTitle title={`${skillName}: Neighbors List`} />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Breadcrumbs aria-label="breadcrumb" separator="">
+          <a onClick={history.goBack}>
+            <Typography>
+              <ArrowBackIcon />
+            </Typography>
+          </a>
+          <Typography variant={'h4'}>{skillName}</Typography>
+        </Breadcrumbs>
+        <PagePanel>
+          <Box
+            sx={{ display: 'grid', m: 4, gridTemplateColumns: 'repeat(2, 1fr)' }}
+            textAlign="center"
+          >
+            <Box
+              sx={{
+                border: 1,
+                padding: 2,
+                maxWidth: { xs: 300, md: 250 },
+                height: 125,
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+              textAlign="left"
+            >
+              {isLoading ? (
+                <Box style={{ justifyContent: 'center', margin: 'auto' }}>
                   <CircularProgress disableShrink />
                 </Box>
-              : <>
-                <Typography>Group: {details?.Group}</Typography>
-                <Typography>Engineers: {details?.EngineersCount}</Typography>
-              </>
-            }
+              ) : (
+                <>
+                  <Typography>Group: {details?.Group}</Typography>
+                  <Typography>Engineers: {details?.EngineersCount}</Typography>
+                </>
+              )}
+            </Box>
+            <Box>
+              {SimpleCloud(
+                tagCloudData.map(({ Name, Proximity }) => ({
+                  value: Name,
+                  count: (1 - Proximity) * 100,
+                  color: '#000',
+                }))
+              )}
+            </Box>
           </Box>
-          <Box>
-            {SimpleCloud(tagCloudData.map(({ Name, Proximity }) => ({
-              value: Name,
-              count: (1 - Proximity) * 100,
-              color: '#000',
-            })))}
+          <Box sx={{ padding: '0 20px' }}>
+            <CustomPaginationActionsTable
+              rows={rows}
+              headCells={headCells}
+              rowsPerPage={25}
+              order={order}
+              orderBy={orderBy}
+              onSortHandler={onSortHandler}
+              isLoading={isLoading}
+              showFilteredColumn={false}
+            />
           </Box>
-        </Box>
-        <Box sx={{ padding: '0 20px' }}>
-          <CustomPaginationActionsTable
-            rows={rows}
-            headCells={headCells}
-            rowsPerPage={25}
-            order={order}
-            orderBy={orderBy}
-            onSortHandler={onSortHandler}
-            isLoading={isLoading}
-            showFilteredColumn={false}
-          />
-        </Box>
-      </PagePanel>
+        </PagePanel>
       </ErrorBoundary>
     </>
   );
