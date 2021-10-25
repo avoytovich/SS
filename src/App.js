@@ -78,7 +78,9 @@ export default function App() {
                   </Typography>
                   {window.BRANCH !== 'master' && (
                     <Typography variant="caption" component="p" gutterBottom>
-                      Branch: {window.BRANCH}
+                      Branch: <a href={window.BRANCH_LINK} target="_blank" rel="noreferrer">
+                        {window.BRANCH}
+                      </a>
                     </Typography>
                   )}
                 </>
