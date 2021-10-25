@@ -44,7 +44,7 @@ Build Branch:
   variables:
     ASSET_PATH: /branches/$CI_COMMIT_REF_SLUG
     BRANCH_LINK: $CI_MERGE_REQUEST_PROJECT_URL/$CI_MERGE_REQUEST_REF_PATH
-    LOWERCASE_BRANCH_NAME: ${$CI_COMMIT_REF_NAME,,}
+    LOWERCASE_BRANCH_NAME: awk '{print tolower($CI_COMMIT_REF_NAME)}'
   script:
     - echo "Building app..."
     - npm run build
