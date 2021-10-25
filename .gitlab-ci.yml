@@ -6,10 +6,10 @@ before_script:
   - npm install
 
 stages:
-#  - lint
+  - lint
   - build
-#  - test
-#  - e2e
+  - test
+  - e2e
   - deploy
 
 cache:
@@ -18,11 +18,11 @@ cache:
     - node_modules/
   policy: pull
 
-#Lint:
-#  stage: lint
-#  script:
-#    - echo "Linting code..."
-#    - npm run lint
+Lint:
+  stage: lint
+  script:
+    - echo "Linting code..."
+    - npm run lint
 
 Build:
   stage: build
@@ -53,7 +53,6 @@ Build Branch:
     - sed -i'' 's/<script src="\/version.js">/<script src="\/branches\/'$CI_COMMIT_REF_SLUG'\/version.js">/' index.html
     - sed -i'' "s/\/static\/js/\/branches\/$CI_COMMIT_REF_SLUG\/static\/js/g" index.html
     - sed -i'' "s/\/static\/css/\/branches\/$CI_COMMIT_REF_SLUG\/static\/css/g" index.html
-    - more index.html
   only:
     - branches
   except:
@@ -66,11 +65,11 @@ Build Branch:
     name: $CI_COMMIT_REF_SLUG
     url: http://172.20.134.20/branches/$CI_COMMIT_REF_SLUG
 
-#Unit Tests:
-#  stage: test
-#  script:
-#    - echo "Running tests..."
-#    - npm run test
+Unit Tests:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - npm run test
 
 Deploy:
   stage: deploy
@@ -84,11 +83,10 @@ Deploy:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
     - echo "Application successfully deployed."
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-      when: manual
+  only:
+    - master
+  except:
+    - branches
 
 Deploy Branch:
   stage: deploy
@@ -108,18 +106,18 @@ Deploy Branch:
   except:
     - master
 
-#Cypress Tests:
-#  image: cypress/browsers:node14.17.0-chrome88-ff89
-#  stage: e2e
-#  allow_failure: true
-#  variables:
-#    APP_PORT: 3001
-#  script:
-#    - npm run serve -- -l $APP_PORT &
-#    - npx cypress run --browser chrome --config baseUrl=http://localhost:$APP_PORT
-#  artifacts:
-#    when: always
-#    paths:
-#      - cypress/videos/**/*.mp4
-#      - cypress/screenshots/**/*.png
-#    expire_in: 1 day
+Cypress Tests:
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  stage: e2e
+  allow_failure: true
+  variables:
+    APP_PORT: 3001
+  script:
+    - npm run serve -- -l $APP_PORT &
+    - npx cypress run --browser chrome --config baseUrl=http://localhost:$APP_PORT
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 day
