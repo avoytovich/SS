@@ -48,6 +48,8 @@ Build Branch:
   script:
     - echo $BRANCH_LINK
     - echo $LOWERCASE_BRANCH_NAME
+    - echo $ASSET_PATH
+    - echo '$ASSET_PATH'
     - echo "Building app..."
     - npm run build
     - ls
