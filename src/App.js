@@ -27,7 +27,7 @@ export default function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Provider store={store}>
-        <Router>
+        <Router basename={window.BASEPATH}>
           <AppBar position="static">
             <Toolbar variant="regular">
               <Link component={RouterLink} to="/" exact={true}>
