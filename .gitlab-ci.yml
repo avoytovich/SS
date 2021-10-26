@@ -46,8 +46,8 @@ Build Branch:
     MERGE_REQUEST_ID: $CI_OPEN_MERGE_REQUESTS | awk -F "!" '{print $2}'
     BRANCH_LINK: echo $CI_PROJECT_URL/-/merge-requests/$MERGE_REQUEST_ID
   script:
-    - echo $BRANCH_LINK
-    - echo $MERGE_REQUEST_ID
+    - echo $CI_MERGE_REQUEST_REF_PATH
+    - echo $CI_MERGE_REQUEST_IID
     - echo "Building app..."
     - npm run build
     - ls
@@ -59,7 +59,7 @@ Build Branch:
     - sed -i'' "s/\/static\/css/\/branches\/$CI_COMMIT_REF_SLUG\/static\/css/g" index.html
     - more index.html
   only:
-    - branches
+    - merge_requests
   except:
     - master
   artifacts:
