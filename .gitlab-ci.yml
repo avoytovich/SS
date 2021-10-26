@@ -1,7 +1,7 @@
 image: node:latest
 
 before_script:
-  - echo $CI_OPEN_MERGE_REQUESTS
+  - echo $CI_OPEN_MERGE_REQUESTS | awk -F "!" '{print $2}'
   - apt-get update -qq && apt-get install
   - node -v && npm -v
   - npm install
