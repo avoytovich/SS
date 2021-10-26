@@ -7,9 +7,13 @@ import { AlertIcon } from './icons';
 export default function ErrorFallback({ error }) {
   console.error(error);
   return (
-    <Grid container flexDirection="column" alignItems="center" >
-      <AlertIcon sx={{ fontSize: 120 }} color="error"/>
-      <Typography variant="body1" color="initial">Oops.Something went wrong, please contact IT support.</Typography>
+    <Grid container justifyContent="center">
+      <AlertIcon sx={{ fontSize: 120 }} color="error" />
+      <Grid container justifyContent="center">
+        <Typography variant="body1" color="initial">
+          Oops. Something went wrong, please contact IT support.
+        </Typography>
+      </Grid>
     </Grid>
   );
 }

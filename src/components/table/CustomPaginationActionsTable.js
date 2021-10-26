@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,12 +11,78 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Typography } from '@mui/material';
-import TablePaginationActions from '../TablePaginationActions';
-import SortedTableHead from '../SortedTableHead';
-import FilterTableHead from '../FilterTableHead';
-import { useStyles } from './styles';
+import SortedTableHead from './sortedTableHead';
+import FilterTableHead from './FilterTableHead';
+
+function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
+  const theme = useTheme();
+
+  const handleFirstPageButtonClick = event => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = event => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = event => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = event => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+        size="large"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
 
 export default function CustomPaginationActionsTable({
   rows,
@@ -29,9 +97,6 @@ export default function CustomPaginationActionsTable({
   const [filteredRows, setFilteredRows] = useState(rows);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
-  const classes = useStyles({ rowsPerPage, emptyRows });
 
   const onFiltersChange = values => {
     setFilters(values);
@@ -54,6 +119,9 @@ export default function CustomPaginationActionsTable({
     }
   }, [rows, order, orderBy]);
 
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -63,19 +131,9 @@ export default function CustomPaginationActionsTable({
     setPage(0);
   };
 
-  const ContentCenterRow = ({ children }) => <TableRow classes={{ root: classes.loadingRow }}>
-    <TableCell align="center" colSpan={headCells.length}>
-      {children}
-    </TableCell>
-  </TableRow>;
-
-  ContentCenterRow.propTypes = {
-    children: PropTypes.any,
-  };
   return (
-    <>
-      <TableContainer component={Paper}>
-      <Table data-testid="custom-table" sx={{ minWidth: 650 }} aria-label="custom pagination table">
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="custom pagination table">
         <colgroup>
           {headCells.map(({ width, id }) => (
             <col key={id} width={width} />
@@ -98,17 +156,13 @@ export default function CustomPaginationActionsTable({
           <TableRow />
         </TableHead>
         <TableBody>
-
-          {isLoading
-          && <ContentCenterRow>
-              <CircularProgress disableShrink/>
-          </ContentCenterRow>}
-
-          {(filteredRows.length === 0 && !isLoading)
-          && <ContentCenterRow>
-            <Typography variant="body1" component="div">No data received.</Typography>
-          </ContentCenterRow>}
-
+          {isLoading && (
+            <TableRow style={{ height: 23 * rowsPerPage }}>
+              <TableCell align="center" colSpan={headCells.length}>
+                <CircularProgress disableShrink />
+              </TableCell>
+            </TableRow>
+          )}
           {(rowsPerPage > 0
             ? filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : filteredRows
@@ -121,8 +175,8 @@ export default function CustomPaginationActionsTable({
           ))}
 
           {emptyRows > 0 && (
-            <TableRow classes={{ root: classes.emptyRow }}>
-              <TableCell colSpan={headCells.length}/>
+            <TableRow style={{ height: 23 * emptyRows }}>
+              <TableCell colSpan={headCells.length} />
             </TableRow>
           )}
         </TableBody>
@@ -148,7 +202,6 @@ export default function CustomPaginationActionsTable({
         </TableFooter>
       </Table>
     </TableContainer>
-    </>
   );
 }
 

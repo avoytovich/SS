@@ -8,18 +8,20 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
-import { simpleLocaleComparator } from '../../../common/helpers';
-import { useStyles } from './styles';
+import { simpleLocaleComparator } from '../../common/helpers';
 
-export default function FilterTableHead({
-  headCells,
-  primaryData,
-  onFiltersChange,
-}) {
-  const classes = useStyles();
-  const filterKeys = useMemo(
-    () => headCells.filter(({ filterable, searchable }) => filterable || searchable)
-      .map(({ id }) => id),
+export default function FilterTableHead({ headCells, primaryData, onFiltersChange }) {
+  const filterKeys = useMemo(() =>
+    headCells.filter(({ filterable, searchable }) => filterable || searchable).map(({ id }) => id)
+  );
+  const [filters] = useState(
+    filterKeys.reduce(
+      (obj, item) => ({
+        ...obj,
+        [item]: [],
+      }),
+      {}
+    )
   );
 
   const filterValues = useMemo(() =>
@@ -53,7 +55,7 @@ export default function FilterTableHead({
   }, [primaryData]);
 
   return (
-    <TableHead data-testid="filter-table-head">
+    <TableHead>
       <TableRow>
         {headCells.map(({ id, width, disablePadding, filterable, searchable, label }) => (
           <TableCell
@@ -72,35 +74,36 @@ export default function FilterTableHead({
                     filters[id] = e.target.value;
                     onFiltersChange(filters);
                   }}
-                  classes={{ root: classes.input }}
-               />
-              }
-              {filterable
-              && <FormControl classes={{ root: classes.formControl }}>
-                <Select
-                  value={filters[id]}
-                  displayEmpty
-                  multiple={true}
-                  onChange={handleChange(id)}
-                  classes={{ root: classes.input }}
-                  renderValue={selected => {
-                    if (selected.length === 0) {
-                      return <MenuItem disabled value="">
-                        -- Select All --
-                      </MenuItem>;
-                    }
-                    return selected.join(', ');
-                  }}
-                >
-                  {[...(filterValues[id])]
-                    .sort(simpleLocaleComparator)
-                    .map(item => <MenuItem
-                      key={item}
-                      value={item}>
-                      {item}
-                    </MenuItem>)}
-                </Select>
-              </FormControl>}
+                  style={{ width: '100%', height: '30px' }}
+                />
+              )}
+              {filterable && (
+                <FormControl style={{ width: '100%' }}>
+                  <Select
+                    value={filters[id]}
+                    displayEmpty
+                    multiple={true}
+                    onChange={handleChange(id)}
+                    style={{ width: '100%', height: '31px' }}
+                    renderValue={selected => {
+                      if (selected.length === 0) {
+                        return (
+                          <MenuItem disabled value="">
+                            -- Select All --
+                          </MenuItem>
+                        );
+                      }
+                      return selected.join(', ');
+                    }}
+                  >
+                    {[...filterValues[id]].sort(simpleLocaleComparator).map(item => (
+                      <MenuItem key={item} value={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
             </form>
           </TableCell>
         ))}
@@ -108,7 +111,13 @@ export default function FilterTableHead({
           <Link
             underline="hover"
             onClick={cleanAllHandler}
-            classes={{ root: classes.cleanUpLink }}>
+            style={{
+              color: '#000',
+              fontSize: 12,
+              margin: 0,
+              cursor: 'pointer',
+            }}
+          >
             Clean up
           </Link>
         </TableCell>
