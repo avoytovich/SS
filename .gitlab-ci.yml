@@ -43,9 +43,9 @@ Build Branch:
   stage: build
   variables:
     ASSET_PATH: /branches/$CI_COMMIT_REF_SLUG
-    BRANCH_LINK: $CI_MERGE_REQUEST_PROJECT_URL/$CI_MERGE_REQUEST_REF_PATH
+    BRANCH_LINK: $CI_PROJECT_URL/-/merge-requests/$CI_MERGE_REQUEST_IID
   script:
-    - echo $CI_OPEN_MERGE_REQUESTS
+    - echo $BRANCH_LINK
     - echo "Building app..."
     - npm run build
     - ls
