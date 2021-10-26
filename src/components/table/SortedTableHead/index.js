@@ -12,7 +12,7 @@ export default function SortedTableHead(props) {
   };
 
   return (
-    <TableHead>
+    <TableHead data-testid="sorted-table-head">
       <TableRow>
         {headCells.map((headCell, i) => (
           <TableCell
@@ -23,6 +23,7 @@ export default function SortedTableHead(props) {
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
+              role="cell-label"
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
