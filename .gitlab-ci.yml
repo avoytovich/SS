@@ -23,6 +23,9 @@ Lint:
   script:
     - echo "Linting code..."
     - npm run lint
+  only:
+    - master
+    - merge_requests
 
 Build:
   stage: build
@@ -48,7 +51,6 @@ Build Branch:
     - echo $BRANCH_LINK
     - echo "Building app..."
     - npm run build
-    - ls
     - cd build
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'; window.BASEPATH='/branches/$CI_COMMIT_REF_SLUG/'; window.BRANCH_LINK='$BRANCH_LINK'" > version.js
     - sed -i'' 's/<base href="\/">/<base href="\/branches\/'$CI_COMMIT_REF_SLUG'\/">/' index.html
@@ -72,6 +74,9 @@ Unit Tests:
   script:
     - echo "Running tests..."
     - npm run test
+  only:
+    - master
+    - merge_requests
 
 Deploy:
   stage: deploy
@@ -123,3 +128,6 @@ Cypress Tests:
       - cypress/videos/**/*.mp4
       - cypress/screenshots/**/*.png
     expire_in: 1 day
+  only:
+    - master
+    - merge_requests
