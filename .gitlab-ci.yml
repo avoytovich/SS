@@ -1,7 +1,7 @@
 image: node:latest
 
 before_script:
-  - echo awk -F "!" '{print $2}' $CI_OPEN_MERGE_REQUESTS
+  - echo $CI_PROJECT_URL/-/merge-requests/$CI_OPEN_MERGE_REQUESTS | awk -F "!" '{print $2}'
   - apt-get update -qq && apt-get install
   - node -v && npm -v
   - npm install
@@ -45,7 +45,7 @@ Build Branch:
   variables:
     ASSET_PATH: /branches/$CI_COMMIT_REF_SLUG
     MERGE_REQUEST_ID: awk -F "!" '{print $2}' $CI_OPEN_MERGE_REQUESTS
-    BRANCH_LINK: $CI_PROJECT_URL/-/merge-requests/$MERGE_REQUEST_ID
+    BRANCH_LINK: echo $CI_PROJECT_URL/-/merge-requests/$CI_OPEN_MERGE_REQUESTS | awk -F "!" '{print $2}'
   script:
     - echo $BRANCH_LINK
     - echo "Building app..."
