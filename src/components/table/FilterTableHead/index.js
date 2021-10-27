@@ -8,12 +8,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
-import { simpleLocaleComparator } from '../../common/helpers';
+import { simpleLocaleComparator } from '../../../common/helpers';
+import { useStyles } from './styles';
 
 export default function FilterTableHead({ headCells, primaryData, onFiltersChange }) {
+  const classes = useStyles();
   const filterKeys = useMemo(() =>
     headCells.filter(({ filterable, searchable }) => filterable || searchable).map(({ id }) => id)
   );
+
   const [filters] = useState(
     filterKeys.reduce(
       (obj, item) => ({
@@ -55,7 +58,7 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
   }, [primaryData]);
 
   return (
-    <TableHead>
+    <TableHead data-testid="filter-table-head">
       <TableRow>
         {headCells.map(({ id, width, disablePadding, filterable, searchable, label }) => (
           <TableCell
@@ -74,17 +77,17 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
                     filters[id] = e.target.value;
                     onFiltersChange(filters);
                   }}
-                  style={{ width: '100%', height: '30px' }}
+                  classes={{ root: classes.input }}
                 />
               )}
               {filterable && (
-                <FormControl style={{ width: '100%' }}>
+                <FormControl classes={{ root: classes.formControl }}>
                   <Select
                     value={filters[id]}
                     displayEmpty
                     multiple={true}
                     onChange={handleChange(id)}
-                    style={{ width: '100%', height: '31px' }}
+                    classes={{ root: classes.input }}
                     renderValue={selected => {
                       if (selected.length === 0) {
                         return (
@@ -108,16 +111,7 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
           </TableCell>
         ))}
         <TableCell key="clean-all" align={'left'} width="20%">
-          <Link
-            underline="hover"
-            onClick={cleanAllHandler}
-            style={{
-              color: '#000',
-              fontSize: 12,
-              margin: 0,
-              cursor: 'pointer',
-            }}
-          >
+          <Link underline="hover" onClick={cleanAllHandler} classes={{ root: classes.cleanUpLink }}>
             Clean up
           </Link>
         </TableCell>
