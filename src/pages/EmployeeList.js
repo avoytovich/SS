@@ -24,14 +24,14 @@ const headCells = [
     label: 'Full Name',
     searchable: true,
     width: '23%',
-    customRender: ({ Id, FirstName, LastName }) => (
-      <Link underline="hover" href={`/employees/${Id}`}>
+    customRender: ({ ID, FirstName, LastName }) => (
+      <Link underline="hover" href={`/employees/${ID}`}>
         {FirstName} {LastName}
       </Link>
     ),
   },
   {
-    id: 'Competencies',
+    id: 'Competency',
     numeric: false,
     label: 'Competency',
     filterable: true,
@@ -222,7 +222,7 @@ export default function EmployeeList() {
                   />
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  {renderFilterSelect('Competencies')}
+                  {renderFilterSelect('Competency')}
                 </Grid>
                 <Grid item xs={6} md={3}>
                   {renderFilterSelect('PrimarySpecialization')}

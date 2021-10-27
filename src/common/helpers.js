@@ -20,7 +20,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 export function simpleLocaleComparator(a, b) {
-  return a.localeCompare(b, 'en', { numeric: true, sensitivity: 'accent' });
+  return a && a.localeCompare(b, 'en', { numeric: true, sensitivity: 'accent' });
 }
 
 function descendingLocaleComparator(a, b, orderBy) {
