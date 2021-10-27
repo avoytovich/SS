@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { useTheme } from '@mui/material/styles';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link as RouterLink } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
 import { getStringFieldComparator, simpleLocaleComparator } from '../common/helpers';
@@ -25,7 +25,7 @@ const headCells = [
     searchable: true,
     width: '23%',
     customRender: ({ ID, FirstName, LastName }) => (
-      <Link underline="hover" href={`/employees/${ID}`}>
+      <Link component={RouterLink} underline="hover" to={`/employees/${ID}`}>
         {FirstName} {LastName}
       </Link>
     ),
@@ -43,7 +43,11 @@ const headCells = [
     label: 'Primary Specialization',
     filterable: true,
     customRender: row => (
-      <Link underline="hover" href={`/skills/${encodeURIComponent(row.PrimarySpecialization)}`}>
+      <Link
+        underline="hover"
+        component={RouterLink}
+        to={`/skills/${encodeURIComponent(row.PrimarySpecialization)}`}
+      >
         {row.PrimarySpecialization}
       </Link>
     ),
