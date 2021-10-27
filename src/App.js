@@ -27,7 +27,7 @@ export default function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Provider store={store}>
-        <Router>
+        <Router basename={window.BASEPATH}>
           <AppBar position="static">
             <Toolbar variant="regular">
               <Link component={RouterLink} to="/" exact={true}>
@@ -78,7 +78,9 @@ export default function App() {
                   </Typography>
                   {window.BRANCH !== 'master' && (
                     <Typography variant="caption" component="p" gutterBottom>
-                      Branch: {window.BRANCH}
+                      Branch: <a href={window.BRANCH_LINK} target="_blank" rel="noreferrer">
+                        {window.BRANCH}
+                      </a>
                     </Typography>
                   )}
                 </>
