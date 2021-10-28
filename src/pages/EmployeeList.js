@@ -11,7 +11,7 @@ import { useTheme } from '@mui/material/styles';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
-import { getLocaleComparator, simpleLocaleComparator } from '../common/helpers';
+import { getStringFieldComparator, simpleLocaleComparator } from '../common/helpers';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
@@ -132,7 +132,7 @@ export default function EmployeeList() {
     () =>
       [...data]
         .map(item => ({ ...item, fullName: `${item.FirstName} ${item.LastName}` }))
-        .sort(getLocaleComparator(order, orderBy)),
+        .sort(getStringFieldComparator(order, orderBy)),
     [data, order, orderBy]
   );
 

@@ -27,6 +27,19 @@ function descendingLocaleComparator(a, b, orderBy) {
   return a[orderBy].localeCompare(b[orderBy], 'en', { numeric: true, sensitivity: 'accent' });
 }
 
+function stringFieldComparator(a, b, orderBy) {
+  const A = a[orderBy].toUpperCase();
+  const B = b[orderBy].toUpperCase();
+
+  let comparison = 0;
+  if (A > B) {
+    comparison = 1;
+  } else if (A < B) {
+    comparison = -1;
+  }
+  return comparison;
+}
+
 /**
  * Define direction of sorting
  * @param order
@@ -41,8 +54,14 @@ export function getComparator(order, orderBy) {
 
 export function getLocaleComparator(order, orderBy) {
   return order === DESC
-    ? (a, b) => descendingLocaleComparator(a, b, orderBy)
-    : (a, b) => descendingLocaleComparator(b, a, orderBy);
+    ? (a, b) => descendingLocaleComparator(b, a, orderBy)
+    : (a, b) => descendingLocaleComparator(a, b, orderBy);
+}
+
+export function getStringFieldComparator(order, orderBy) {
+  return order === DESC
+    ? (a, b) => stringFieldComparator(b, a, orderBy)
+    : (a, b) => stringFieldComparator(a, b, orderBy);
 }
 
 export function decodeQueryParam(p) {
