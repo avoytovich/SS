@@ -17,6 +17,8 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 
+const EMPTY_VALUE = ' <Empty>';
+
 const headCells = [
   {
     id: 'fullName',
@@ -96,7 +98,7 @@ export default function EmployeeList() {
     data.reduce(
       (acc, current) => {
         filterKeys.forEach(key => {
-          acc[key].add(current[key]);
+          acc[key].add(current[key] ?? EMPTY_VALUE);
         });
         return acc;
       },
@@ -155,11 +157,12 @@ export default function EmployeeList() {
         (typeof filters[key] === 'string' &&
           row[key].toLowerCase().includes(filters[key].toLowerCase())) ||
         filters[key].includes(row[key]) ||
+        (filters[key].includes(EMPTY_VALUE) && !row[key]) ||
         filters[key].length === 0
     )
   );
 
-  const renderFilterSelect = id => (
+  const renderFilterSelect = (id, name = id) => (
     <FormControl style={{ width: '100%' }}>
       <Select
         value={filters[id]}
@@ -178,6 +181,9 @@ export default function EmployeeList() {
           return selected.join(', ');
         }}
       >
+        <MenuItem key="select-all" value={`-- ${name} Name --`} disabled>
+          -- {name} Name --
+        </MenuItem>
         {[...filterValues[id]].sort(simpleLocaleComparator).map(item => (
           <MenuItem key={item} value={item}>
             {item}
@@ -229,7 +235,7 @@ export default function EmployeeList() {
                   {renderFilterSelect('Competency')}
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  {renderFilterSelect('PrimarySpecialization')}
+                  {renderFilterSelect('PrimarySpecialization', 'Primary Specialization')}
                 </Grid>
                 <Grid item xs={6} md={2}>
                   {renderFilterSelect('Level')}

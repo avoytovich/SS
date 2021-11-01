@@ -12,12 +12,13 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
 
-// import Employee from '../mocks/employee.json';
-// import SkillGroups from '../mocks/skillsGroup.json';
+import { useStyles } from './styles';
 
 export default function EmployeeDetails() {
-  const { employeeId } = useParams();
   const theme = useTheme();
+  const classes = useStyles();
+  console.log(classes);
+  const { employeeId } = useParams();
   const history = useHistory();
   const [showUnfilledSkills, setShowUnfilledSkills] = useState(true);
   const [techMatrixChecked, setTechMatrixChecked] = useState(true);
@@ -25,7 +26,6 @@ export default function EmployeeDetails() {
   const [projectsInfoChecked, setProjectsInfoChecked] = useState(false);
   const [selectedSkillGroup, setSelectedSkillGroup] = useState(null);
 
-  // TODO: 'data = employee' - mocked data
   const { data: employeeDetails = {} } = useFetchEmployeeQuery({ id: employeeId });
   const { data: skillGroups = [] } = useFetchSkillGroupsQuery();
 
@@ -185,22 +185,24 @@ export default function EmployeeDetails() {
         </Grid>
         <Grid container spacing={2} sx={{ padding: '36px 0 20px' }}>
           <Grid item xs={6} sx={{ borderRight: `1px solid ${theme.palette.primary.separator}` }}>
-            <Typography variant={'employeeSkillsTitle'}>Skill Group</Typography>
-            {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
-              <Typography
-                variant={`${
-                  selectedSkillGroup === name ? 'skillGroupNameSelected' : 'skillGroupName'
-                }`}
-                component={'p'}
-                key={name}
-                onClick={() => setSelectedSkillGroup(name)}
-              >
-                {name}
-                <Typography variant={'skillsCount'}>
-                  ({employeesSkillsCount}/{totalCount})
+            <Typography variant="employeeSkillsTitle">Skill Group</Typography>
+            <Box className={classes.employeeSkillBlock}>
+              {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
+                <Typography
+                  variant={`${
+                    selectedSkillGroup === name ? 'skillGroupNameSelected' : 'skillGroupName'
+                  }`}
+                  component={'p'}
+                  key={name}
+                  onClick={() => setSelectedSkillGroup(name)}
+                >
+                  {name}
+                  <Typography variant={'skillsCount'}>
+                    ({employeesSkillsCount}/{totalCount})
+                  </Typography>
                 </Typography>
-              </Typography>
-            ))}
+              ))}
+            </Box>
           </Grid>
           <Grid item xs={6}>
             {noEmployeeSkillsError ? (
@@ -217,20 +219,22 @@ export default function EmployeeDetails() {
                     <Typography variant={'employeeSkillsTitle'}>Seniority</Typography>
                   </Grid>
                 </Grid>
-                {fullSkillList.map(({ skill, level }, i) => (
-                  <Grid container spacing={2} key={i}>
-                    <Grid item xs={6}>
-                      <Typography variant={'employeeSkill'} component={'p'} key={skill}>
-                        {skill}
-                      </Typography>
+                <Box className={classes.employeeSkillBlock}>
+                  {fullSkillList.map(({ skill, level }, i) => (
+                    <Grid container spacing={2} key={i}>
+                      <Grid item xs={6}>
+                        <Typography variant={'employeeSkill'} component={'p'} key={skill}>
+                          {skill}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography variant={'employeeSkill'} component={'p'} key={`${level}-${i}`}>
+                          {level}
+                        </Typography>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <Typography variant={'employeeSkill'} component={'p'} key={`${level}-${i}`}>
-                        {level}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                ))}
+                  ))}
+                </Box>
               </>
             )}
           </Grid>
