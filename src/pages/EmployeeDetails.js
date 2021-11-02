@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
+import { SvgIcon } from '@mui/material';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
@@ -17,7 +19,6 @@ import { useStyles } from './styles';
 export default function EmployeeDetails() {
   const theme = useTheme();
   const classes = useStyles();
-  console.log(classes);
   const { employeeId } = useParams();
   const history = useHistory();
   const [showUnfilledSkills, setShowUnfilledSkills] = useState(true);
@@ -99,10 +100,21 @@ export default function EmployeeDetails() {
   );
 
   const noEmployeeSkillsError =
-    selectedSkillGroup === null
-      ? 'Please choose skill group to see employee\'s skills'
-      : !fullSkillList.length &&
-        'This employee doesn\'t have any filled skills in selected skill group';
+    selectedSkillGroup === null ? (
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <SvgIcon sx={{ mr: 1 }} component={WarningAmberIcon} color={'warning'} />
+        <Typography>Please choose skill group to see employee&apos;s skills</Typography>
+      </Box>
+    ) : (
+      !fullSkillList.length && (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <SvgIcon sx={{ mr: 1 }} component={WarningAmberIcon} color={'warning'} />
+          <Typography>
+            This employee doesn&apos;t have any filled skills in selected skill group
+          </Typography>
+        </Box>
+      )
+    );
 
   return (
     <>

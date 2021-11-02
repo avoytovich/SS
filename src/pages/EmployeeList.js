@@ -147,7 +147,7 @@ export default function EmployeeList() {
       search
         .toLowerCase()
         .split(',')
-        .some(skill => row.Skills.some(item => item.toLowerCase().includes(skill)))
+        .some(skill => (row.Skills || []).some(item => item.toLowerCase().includes(skill)))
     );
   }
 

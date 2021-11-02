@@ -20,7 +20,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 export function simpleLocaleComparator(a, b) {
-  return a && a.localeCompare(b, 'en', { numeric: true, sensitivity: 'accent' });
+  return (a || '').localeCompare(b, 'en', { numeric: true, sensitivity: 'accent' });
 }
 
 function descendingLocaleComparator(a, b, orderBy) {
@@ -28,8 +28,8 @@ function descendingLocaleComparator(a, b, orderBy) {
 }
 
 function stringFieldComparator(a, b, orderBy) {
-  const A = a[orderBy].toUpperCase();
-  const B = b[orderBy].toUpperCase();
+  const A = (a[orderBy] || '').toUpperCase();
+  const B = (b[orderBy] || '').toUpperCase();
 
   let comparison = 0;
   if (A > B) {
