@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { useTheme } from '@mui/material/styles';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link as RouterLink } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
 import { getStringFieldComparator, simpleLocaleComparator } from '../common/helpers';
@@ -17,6 +17,8 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 
+const EMPTY_VALUE = ' <Empty>';
+
 const headCells = [
   {
     id: 'fullName',
@@ -24,14 +26,14 @@ const headCells = [
     label: 'Full Name',
     searchable: true,
     width: '23%',
-    customRender: ({ Id, FirstName, LastName }) => (
-      <Link underline="hover" href={`/employees/${Id}`}>
+    customRender: ({ ID, FirstName, LastName }) => (
+      <Link component={RouterLink} underline="hover" to={`/employees/${ID}`}>
         {FirstName} {LastName}
       </Link>
     ),
   },
   {
-    id: 'Competencies',
+    id: 'Competency',
     numeric: false,
     label: 'Competency',
     filterable: true,
@@ -43,7 +45,11 @@ const headCells = [
     label: 'Primary Specialization',
     filterable: true,
     customRender: row => (
-      <Link underline="hover" href={`/skills/${encodeURIComponent(row.PrimarySpecialization)}`}>
+      <Link
+        underline="hover"
+        component={RouterLink}
+        to={`/skills/${encodeURIComponent(row.PrimarySpecialization)}`}
+      >
         {row.PrimarySpecialization}
       </Link>
     ),
@@ -92,7 +98,7 @@ export default function EmployeeList() {
     data.reduce(
       (acc, current) => {
         filterKeys.forEach(key => {
-          acc[key].add(current[key]);
+          acc[key].add(current[key] ?? EMPTY_VALUE);
         });
         return acc;
       },
@@ -151,11 +157,12 @@ export default function EmployeeList() {
         (typeof filters[key] === 'string' &&
           row[key].toLowerCase().includes(filters[key].toLowerCase())) ||
         filters[key].includes(row[key]) ||
+        (filters[key].includes(EMPTY_VALUE) && !row[key]) ||
         filters[key].length === 0
     )
   );
 
-  const renderFilterSelect = id => (
+  const renderFilterSelect = (id, name = id) => (
     <FormControl style={{ width: '100%' }}>
       <Select
         value={filters[id]}
@@ -174,6 +181,9 @@ export default function EmployeeList() {
           return selected.join(', ');
         }}
       >
+        <MenuItem key="select-all" value={`-- ${name} Name --`} disabled>
+          -- {name} Name --
+        </MenuItem>
         {[...filterValues[id]].sort(simpleLocaleComparator).map(item => (
           <MenuItem key={item} value={item}>
             {item}
@@ -222,10 +232,10 @@ export default function EmployeeList() {
                   />
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  {renderFilterSelect('Competencies')}
+                  {renderFilterSelect('Competency')}
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  {renderFilterSelect('PrimarySpecialization')}
+                  {renderFilterSelect('PrimarySpecialization', 'Primary Specialization')}
                 </Grid>
                 <Grid item xs={6} md={2}>
                   {renderFilterSelect('Level')}

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link as RouterLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -39,7 +39,7 @@ const headCells = [
     numeric: false,
     label: 'Skill Name',
     customRender: row => (
-      <Link underline="hover" href={`/skills/${encodeURIComponent(row.Name)}`}>
+      <Link component={RouterLink} underline="hover" to={`/skills/${encodeURIComponent(row.Name)}`}>
         {row.Name}
       </Link>
     ),
@@ -51,7 +51,11 @@ const headCells = [
     label: '# Engineers',
     width: '12%',
     customRender: row => (
-      <Link underline="hover" href={`/employees?skill=${encodeURIComponent(row.Name)}`}>
+      <Link
+        component={RouterLink}
+        underline="hover"
+        to={`/employees?skill=${encodeURIComponent(row.Name)}`}
+      >
         {row.EngineersCount}
       </Link>
     ),
@@ -60,7 +64,12 @@ const headCells = [
 
 // Custom renderer for Tag Cloud
 const customRenderer = (tag, size) => (
-  <Link key={tag.value} underline="hover" href={`/skills/${encodeURIComponent(tag.value)}`}>
+  <Link
+    component={RouterLink}
+    key={tag.value}
+    underline="hover"
+    to={`/skills/${encodeURIComponent(tag.value)}`}
+  >
     <Box
       key={tag.value}
       sx={{

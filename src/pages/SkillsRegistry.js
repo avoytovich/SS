@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import debounce from 'lodash/debounce';
+import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -43,7 +44,7 @@ const headCells = [
     numeric: false,
     label: 'Skill Name',
     customRender: row => (
-      <Link underline="hover" href={`/skills/${encodeURIComponent(row.Name)}`}>
+      <Link component={RouterLink} underline="hover" to={`/skills/${encodeURIComponent(row.Name)}`}>
         {row.Name}
       </Link>
     ),
@@ -55,7 +56,11 @@ const headCells = [
     label: '# Engineers',
     width: '12%',
     customRender: row => (
-      <Link underline="hover" href={`/employees?skill=${encodeURIComponent(row.Name)}`}>
+      <Link
+        component={RouterLink}
+        underline="hover"
+        to={`/employees?skill=${encodeURIComponent(row.Name)}`}
+      >
         {row.EngineersCount}
       </Link>
     ),

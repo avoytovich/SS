@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import employees from '../mocks/employees.json';
 
 export const smartSkillsApi = createApi({
   reducerPath: 'skills',
@@ -45,18 +44,19 @@ export const smartSkillsApi = createApi({
             ...(groups && { groups }),
           },
         }),
-        // TODO: replace mocked data with real one
-        transformResponse: () => employees,
+        transformResponse: response => response.data,
       }),
       fetchEmployee: builder.query({
         query: ({ id }) => ({
           url: `employees/${id}`,
         }),
+        transformResponse: response => response.data[0][0],
       }),
       fetchSkillGroups: builder.query({
         query: () => ({
           url: 'skill-groups',
         }),
+        transformResponse: response => response.SkillGroups,
       }),
     };
   },

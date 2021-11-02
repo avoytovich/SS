@@ -261,7 +261,7 @@ const theme = createTheme({
           marginLeft: 8,
         },
         employeeSkill: {
-          padding: '8px 0',
+          padding: '8px',
         },
       },
     },

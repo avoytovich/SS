@@ -12,12 +12,13 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
 
-import Employee from '../mocks/employee.json';
-import SkillGroups from '../mocks/skillsGroup.json';
+import { useStyles } from './styles';
 
 export default function EmployeeDetails() {
-  const { employeeId } = useParams();
   const theme = useTheme();
+  const classes = useStyles();
+  console.log(classes);
+  const { employeeId } = useParams();
   const history = useHistory();
   const [showUnfilledSkills, setShowUnfilledSkills] = useState(true);
   const [techMatrixChecked, setTechMatrixChecked] = useState(true);
@@ -25,11 +26,17 @@ export default function EmployeeDetails() {
   const [projectsInfoChecked, setProjectsInfoChecked] = useState(false);
   const [selectedSkillGroup, setSelectedSkillGroup] = useState(null);
 
-  // TODO: 'data = employee' - mocked data
-  const { data: employeeDetails = Employee } = useFetchEmployeeQuery({ id: employeeId });
-  const { data: skillGroups = SkillGroups.SkillGroups } = useFetchSkillGroupsQuery();
+  const { data: employeeDetails = {} } = useFetchEmployeeQuery({ id: employeeId });
+  const { data: skillGroups = [] } = useFetchSkillGroupsQuery();
 
-  const { FirstName, LastName, Competency, Level, PrimarySpecialization } = employeeDetails;
+  const {
+    FirstName = '',
+    LastName = '',
+    Competency,
+    Level,
+    PrimarySpecialization,
+    SkillGroups: employeeSkillGroups = [],
+  } = employeeDetails;
 
   const fullName = `${FirstName} ${LastName}`;
 
@@ -39,8 +46,9 @@ export default function EmployeeDetails() {
     () =>
       skillGroups.map(({ Name, Skills }) => {
         // find whether employee has current skillGroup
-        const employeeSkillGroup = employeeDetails.SkillGroups.find(
-          ({ Name: employeeSkillGroupName }) => employeeSkillGroupName === Name
+        const employeeSkillGroup = employeeSkillGroups.find(
+          ({ Name: employeeSkillGroupName }) =>
+            employeeSkillGroupName === Name || employeeSkillGroupName === `${Name} skills`
         );
         // set new array to render actual list of skillGropus
         return {
@@ -60,8 +68,10 @@ export default function EmployeeDetails() {
   // set an array of employee's skills according to selected skillGroup
   const employeeSkillsList = useMemo(
     () =>
-      [...employeeDetails.SkillGroups]
-        .filter(({ Name }) => Name === selectedSkillGroup)
+      [...employeeSkillGroups]
+        .filter(
+          ({ Name }) => Name === selectedSkillGroup || Name === `${selectedSkillGroup} skills`
+        )
         .map(({ Skills }) => [...Skills])
         .flat()[0],
     [selectedSkillGroup, employeeDetails]
@@ -76,7 +86,9 @@ export default function EmployeeDetails() {
         .map(skill => {
           const employeeSkill =
             employeeSkillsList &&
-            Object.entries({ ...employeeSkillsList }).find(sk => sk[0] === skill);
+            Object.entries({ ...employeeSkillsList }).find(
+              sk => sk[0] === skill || sk[0] === `${skill} skills`
+            );
           return {
             skill,
             level: employeeSkill ? employeeSkill[1] : 'None',
@@ -173,22 +185,24 @@ export default function EmployeeDetails() {
         </Grid>
         <Grid container spacing={2} sx={{ padding: '36px 0 20px' }}>
           <Grid item xs={6} sx={{ borderRight: `1px solid ${theme.palette.primary.separator}` }}>
-            <Typography variant={'employeeSkillsTitle'}>Skill Group</Typography>
-            {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
-              <Typography
-                variant={`${
-                  selectedSkillGroup === name ? 'skillGroupNameSelected' : 'skillGroupName'
-                }`}
-                component={'p'}
-                key={name}
-                onClick={() => setSelectedSkillGroup(name)}
-              >
-                {name}
-                <Typography variant={'skillsCount'}>
-                  ({employeesSkillsCount}/{totalCount})
+            <Typography variant="employeeSkillsTitle">Skill Group</Typography>
+            <Box className={classes.employeeSkillBlock}>
+              {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
+                <Typography
+                  variant={`${
+                    selectedSkillGroup === name ? 'skillGroupNameSelected' : 'skillGroupName'
+                  }`}
+                  component={'p'}
+                  key={name}
+                  onClick={() => setSelectedSkillGroup(name)}
+                >
+                  {name}
+                  <Typography variant={'skillsCount'}>
+                    ({employeesSkillsCount}/{totalCount})
+                  </Typography>
                 </Typography>
-              </Typography>
-            ))}
+              ))}
+            </Box>
           </Grid>
           <Grid item xs={6}>
             {noEmployeeSkillsError ? (
@@ -196,24 +210,32 @@ export default function EmployeeDetails() {
                 {noEmployeeSkillsError}
               </Typography>
             ) : (
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Typography variant={'employeeSkillsTitle'}>Skill Name</Typography>
-                  {fullSkillList.map(({ skill }) => (
-                    <Typography variant={'employeeSkill'} component={'p'} key={skill}>
-                      {skill}
-                    </Typography>
-                  ))}
+              <>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Typography variant={'employeeSkillsTitle'}>Skill Name</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography variant={'employeeSkillsTitle'}>Seniority</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <Typography variant={'employeeSkillsTitle'}>Seniority</Typography>
-                  {fullSkillList.map(({ level }, i) => (
-                    <Typography variant={'employeeSkill'} component={'p'} key={`${level}-${i}`}>
-                      {level}
-                    </Typography>
+                <Box className={classes.employeeSkillBlock}>
+                  {fullSkillList.map(({ skill, level }, i) => (
+                    <Grid container spacing={2} key={i}>
+                      <Grid item xs={6}>
+                        <Typography variant={'employeeSkill'} component={'p'} key={skill}>
+                          {skill}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography variant={'employeeSkill'} component={'p'} key={`${level}-${i}`}>
+                          {level}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   ))}
-                </Grid>
-              </Grid>
+                </Box>
+              </>
             )}
           </Grid>
         </Grid>
