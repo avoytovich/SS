@@ -210,11 +210,8 @@ export default function EmployeeDetails() {
               <Grid
                 item
                 xs={6}
-                sx={{
-                  borderRight: `1px solid ${theme.palette.primary.separator}`,
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
+                sx={{ borderRight: `1px solid ${theme.palette.primary.separator}` }}
+                className={classes.flexColumn}
               >
                 <Typography variant="employeeSkillsTitle">Skill Group</Typography>
                 <Box className={classes.parentScrollContainer}>
@@ -237,7 +234,7 @@ export default function EmployeeDetails() {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Grid item xs={6} className={classes.flexColumn}>
                 {noEmployeeSkillsError ? (
                   <Typography variant={'employeeSkill'} component={'p'}>
                     {noEmployeeSkillsError}
