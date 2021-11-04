@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { PropTypes } from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -94,8 +95,39 @@ export default function EmployeeList() {
     groups: true,
   });
 
-  const filterValues = useMemo(() =>
-    data.reduce(
+  let rows = useMemo(
+    () =>
+      [...data]
+        .map(item => ({ ...item, fullName: `${item.FirstName} ${item.LastName}` }))
+        .sort(getStringFieldComparator(order, orderBy)),
+    [data, order, orderBy]
+  );
+
+  const getFilteredData = filter =>
+    rows.filter(row =>
+      filterKeys.every(
+        key =>
+          (typeof filter[key] === 'string' &&
+            row[key].toLowerCase().includes(filter[key].toLowerCase())) ||
+          filter[key].includes(row[key]) ||
+          (filter[key].includes(EMPTY_VALUE) && !row[key]) ||
+          filter[key].length === 0
+      )
+    );
+
+  const setDynamicValues = (values, filterName) => {
+    values[filterName].clear();
+    const filtersCopy = { ...filters };
+    filtersCopy[filterName] = [];
+
+    const valuesForDynamicFilter = getFilteredData(filtersCopy);
+    valuesForDynamicFilter.forEach(item => {
+      values[filterName].add(item[filterName]);
+    });
+  };
+
+  const filterValues = useMemo(() => {
+    const values = data.reduce(
       (acc, current) => {
         filterKeys.forEach(key => {
           acc[key].add(current[key] ?? EMPTY_VALUE);
@@ -103,8 +135,19 @@ export default function EmployeeList() {
         return acc;
       },
       filterKeys.reduce((o, key) => ({ ...o, [key]: new Set() }), {})
-    )
-  );
+    );
+
+    if (filters.Competency.length > 0) {
+      setDynamicValues(values, 'PrimarySpecialization');
+    }
+    if (filters.PrimarySpecialization.length > 0) {
+      setDynamicValues(values, 'Competency');
+    }
+    if (filters.Competency.length > 0 || filters.PrimarySpecialization.length > 0) {
+      setDynamicValues(values, 'Level');
+    }
+    return values;
+  }, [filters.Competency, filters.PrimarySpecialization, data, filterKeys]);
 
   const handleChange = key => e => {
     const { value } = e.target;
@@ -134,14 +177,6 @@ export default function EmployeeList() {
     });
   };
 
-  let rows = useMemo(
-    () =>
-      [...data]
-        .map(item => ({ ...item, fullName: `${item.FirstName} ${item.LastName}` }))
-        .sort(getStringFieldComparator(order, orderBy)),
-    [data, order, orderBy]
-  );
-
   if (search) {
     rows = rows.filter(row =>
       search
@@ -151,18 +186,7 @@ export default function EmployeeList() {
     );
   }
 
-  const filteredData = rows.filter(row =>
-    filterKeys.every(
-      key =>
-        (typeof filters[key] === 'string' &&
-          row[key].toLowerCase().includes(filters[key].toLowerCase())) ||
-        filters[key].includes(row[key]) ||
-        (filters[key].includes(EMPTY_VALUE) && !row[key]) ||
-        filters[key].length === 0
-    )
-  );
-
-  const renderFilterSelect = (id, name = id) => (
+  const FilterSelect = ({ id, name = id }) => (
     <FormControl style={{ width: '100%' }}>
       <Select
         value={filters[id]}
@@ -192,6 +216,7 @@ export default function EmployeeList() {
       </Select>
     </FormControl>
   );
+  FilterSelect.propTypes = { id: PropTypes.string, name: PropTypes.string };
 
   return (
     <>
@@ -232,13 +257,13 @@ export default function EmployeeList() {
                   />
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  {renderFilterSelect('Competency')}
+                  <FilterSelect id="Competency" />
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  {renderFilterSelect('PrimarySpecialization', 'Primary Specialization')}
+                  <FilterSelect id="PrimarySpecialization" name="Primary Specialization" />
                 </Grid>
                 <Grid item xs={6} md={2}>
-                  {renderFilterSelect('Level')}
+                  <FilterSelect id="Level" />
                 </Grid>
                 <Grid item xs={6} md={1}>
                   <Link
@@ -258,7 +283,7 @@ export default function EmployeeList() {
           </Box>
           <Box sx={{ padding: '0 20px' }}>
             <CustomPaginationActionsTable
-              rows={filteredData}
+              rows={getFilteredData(filters)}
               headCells={headCells}
               rowsPerPage={25}
               order={order}
