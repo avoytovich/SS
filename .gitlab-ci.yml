@@ -66,7 +66,7 @@ Build Branch:
     expire_in: 1 week
   environment:
     name: $CI_COMMIT_REF_SLUG
-    url: http://172.20.134.20/branches/$CI_COMMIT_REF_SLUG
+    url: http://skills.lohika.com/branches/$CI_COMMIT_REF_SLUG
 
 Unit Tests:
   stage: test

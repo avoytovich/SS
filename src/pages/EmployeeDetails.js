@@ -133,7 +133,7 @@ export default function EmployeeDetails() {
       </Breadcrumbs>
       <PagePanel>
         {isLoading ? (
-          <Box style={{ justifyContent: 'center', margin: 'auto' }}>
+          <Box className={classes.centerContent}>
             <CircularProgress disableShrink />
           </Box>
         ) : (

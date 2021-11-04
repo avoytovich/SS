@@ -19,4 +19,8 @@ export const useStyles = makeStyles({
     bottom: 0,
     overflow: 'auto',
   },
+  centerContent: {
+    justifyContent: 'center',
+    margin: 'auto',
+  },
 });

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams, useHistory, Link as RouterLink } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -14,6 +15,9 @@ import CustomPaginationActionsTable from '../components/table/CustomPaginationAc
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
+import { BLACK } from '../common/colors';
+
+import { useStyles } from './styles';
 
 const headCells = [
   {
@@ -77,7 +81,7 @@ const customRenderer = (tag, size) => (
         padding: '3px',
         fontSize: `${size}px`,
         display: 'inline-block',
-        color: '#000',
+        color: BLACK,
       }}
       component="span"
     >
@@ -87,7 +91,7 @@ const customRenderer = (tag, size) => (
 );
 
 // Tag Cloud component
-const SimpleCloud = data => (
+const SimpleCloud = ({ data }) => (
   <TagCloud
     minSize={12}
     maxSize={35}
@@ -96,11 +100,13 @@ const SimpleCloud = data => (
     renderer={customRenderer}
   />
 );
+SimpleCloud.propTypes = { data: PropTypes.array };
 
 export default function NeighborsList() {
   const { name } = useParams();
   const skillName = decodeQueryParam(name);
   const history = useHistory();
+  const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Proximity');
 
@@ -110,8 +116,8 @@ export default function NeighborsList() {
     setOrderBy(property);
   };
 
-  const { data: { data = [] } = {}, isLoading } = useNeighborSkillsQuery({
-    skillName,
+  const { data: { data = [] } = {}, isFetching } = useNeighborSkillsQuery({
+    neighbors: skillName,
     groups: true,
   });
 
@@ -123,64 +129,63 @@ export default function NeighborsList() {
   return (
     <>
       <PageTitle title={`${skillName}: Neighbors List`} />
+      <Breadcrumbs aria-label="breadcrumb" separator="">
+        <a onClick={history.goBack}>
+          <Typography>
+            <ArrowBackIcon />
+          </Typography>
+        </a>
+        <Typography variant={'h4'}>{skillName}</Typography>
+      </Breadcrumbs>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Breadcrumbs aria-label="breadcrumb" separator="">
-          <a onClick={history.goBack}>
-            <Typography>
-              <ArrowBackIcon />
-            </Typography>
-          </a>
-          <Typography variant={'h4'}>{skillName}</Typography>
-        </Breadcrumbs>
         <PagePanel>
-          <Box
-            sx={{ display: 'grid', m: 4, gridTemplateColumns: 'repeat(2, 1fr)' }}
-            textAlign="center"
-          >
-            <Box
-              sx={{
-                border: 1,
-                padding: 2,
-                maxWidth: { xs: 300, md: 250 },
-                height: 125,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-              textAlign="left"
-            >
-              {isLoading ? (
-                <Box style={{ justifyContent: 'center', margin: 'auto' }}>
-                  <CircularProgress disableShrink />
-                </Box>
-              ) : (
-                <>
+          {isFetching ? (
+            <Box className={classes.centerContent}>
+              <CircularProgress disableShrink />
+            </Box>
+          ) : (
+            <>
+              <Box
+                sx={{ display: 'grid', m: 4, gridTemplateColumns: 'repeat(2, 1fr)' }}
+                textAlign="center"
+              >
+                <Box
+                  sx={{
+                    border: 1,
+                    padding: 2,
+                    maxWidth: { xs: 300, md: 250 },
+                    height: 125,
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                  textAlign="left"
+                >
                   <Typography>Group: {details?.Group}</Typography>
                   <Typography>Engineers: {details?.EngineersCount}</Typography>
-                </>
-              )}
-            </Box>
-            <Box>
-              {SimpleCloud(
-                tagCloudData.map(({ Name, Proximity }) => ({
-                  value: Name,
-                  count: (1 - Proximity) * 100,
-                  color: '#000',
-                }))
-              )}
-            </Box>
-          </Box>
-          <Box sx={{ padding: '0 20px' }}>
-            <CustomPaginationActionsTable
-              rows={rows}
-              headCells={headCells}
-              rowsPerPage={25}
-              order={order}
-              orderBy={orderBy}
-              onSortHandler={onSortHandler}
-              isLoading={isLoading}
-              showFilteredColumn={false}
-            />
-          </Box>
+                </Box>
+                <Box>
+                  <SimpleCloud
+                    data={tagCloudData.map(({ Name, Proximity }) => ({
+                      value: Name,
+                      count: (1 - Proximity) * 100,
+                    }))}
+                  />
+                </Box>
+              </Box>
+              <Box sx={{ padding: '0 20px' }}>
+                <CustomPaginationActionsTable
+                  rows={rows}
+                  headCells={headCells}
+                  rowsPerPage={25}
+                  order={order}
+                  orderBy={orderBy}
+                  onSortHandler={onSortHandler}
+                  isLoading={isFetching}
+                  showFilteredColumn={false}
+                />
+              </Box>
+            </>
+          )}
         </PagePanel>
       </ErrorBoundary>
     </>
