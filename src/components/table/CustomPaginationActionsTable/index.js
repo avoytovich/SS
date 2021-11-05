@@ -104,35 +104,36 @@ export default function CustomPaginationActionsTable({
             <TableRow />
           </TableHead>
           <TableBody>
-            {isLoading && (
+            {isLoading ? (
               <ContentCenterRow>
                 <CircularProgress disableShrink />
               </ContentCenterRow>
-            )}
-
-            {filteredRows.length === 0 && !isLoading && (
-              <ContentCenterRow>
-                <Typography variant="body1" component="div">
-                  No data received.
-                </Typography>
-              </ContentCenterRow>
-            )}
-
-            {(rowsPerPage > 0
-              ? filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : filteredRows
-            ).map((row, i) => (
-              <TableRow key={`${row.Id}-${i}`}>
-                {headCells.map(({ id, customRender }) => (
-                  <TableCell key={id}>{customRender ? customRender(row) : row[id]}</TableCell>
+            ) : (
+              <>
+                {filteredRows.length === 0 && !isLoading && (
+                  <ContentCenterRow>
+                    <Typography variant="body1" component="div">
+                      No data received.
+                    </Typography>
+                  </ContentCenterRow>
+                )}
+                {(rowsPerPage > 0
+                  ? filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : filteredRows
+                ).map((row, i) => (
+                  <TableRow key={`${row.Id}-${i}`}>
+                    {headCells.map(({ id, customRender }) => (
+                      <TableCell key={id}>{customRender ? customRender(row) : row[id]}</TableCell>
+                    ))}
+                  </TableRow>
                 ))}
-              </TableRow>
-            ))}
 
-            {emptyRows > 0 && (
-              <TableRow classes={{ root: classes.emptyRow }}>
-                <TableCell colSpan={headCells.length} />
-              </TableRow>
+                {emptyRows > 0 && (
+                  <TableRow classes={{ root: classes.emptyRow }}>
+                    <TableCell colSpan={headCells.length} />
+                  </TableRow>
+                )}
+              </>
             )}
           </TableBody>
           <TableFooter>

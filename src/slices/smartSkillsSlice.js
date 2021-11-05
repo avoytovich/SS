@@ -26,10 +26,10 @@ export const smartSkillsApi = createApi({
         }),
       }),
       neighborSkills: builder.query({
-        query: ({ skillName, groups, limit = 500 }) => ({
+        query: ({ neighbors, groups, limit = 500 }) => ({
           url: 'skills',
           headers: {
-            neighbors: skillName,
+            neighbors,
             ...(limit && { limit }),
             ...(groups && { groups }),
           },
