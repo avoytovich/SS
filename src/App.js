@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Switch, NavLink as RouterLink } from 'r
 import { ErrorBoundary } from 'react-error-boundary';
 import { store } from './store';
 import Welcome from './pages/Welcome';
+import NotFound from './pages/NotFound';
 import NeighborsList from './pages/NeighborsList';
 import SkillsRegistry from './pages/SkillsRegistry';
 import EmployeeList from './pages/EmployeeList';
@@ -57,15 +58,10 @@ export default function App() {
             <Switch>
               <Route path="/" exact={true} component={Welcome} />
               <Route path="/skills" exact={true} component={SkillsRegistry} />
-              <Route path="/skills/:name" exact={true}>
-                <NeighborsList />
-              </Route>
-              <Route path="/employees" exact={true}>
-                <EmployeeList />
-              </Route>
-              <Route path="/employees/:employeeId" exact={true}>
-                <EmployeeDetails />
-              </Route>
+              <Route path="/skills/:name" exact={true} component={NeighborsList} />
+              <Route path="/employees" exact={true} component={EmployeeList} />
+              <Route path="/employees/:employeeId" exact={true} component={EmployeeDetails} />
+              <Route component={NotFound} />
             </Switch>
             <Box sx={{ flex: 0 }} textAlign="left" component="footer">
               {window.location.hostname !== 'localhost' && (
