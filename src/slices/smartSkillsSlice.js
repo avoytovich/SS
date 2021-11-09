@@ -50,7 +50,7 @@ export const smartSkillsApi = createApi({
         query: ({ id }) => ({
           url: `employees/${id}`,
         }),
-        transformResponse: response => response.data[0][0],
+        transformResponse: response => response.data,
       }),
       fetchSkillGroups: builder.query({
         query: () => ({
