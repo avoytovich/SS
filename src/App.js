@@ -4,17 +4,16 @@ import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { BrowserRouter as Router, Route, Switch, NavLink as RouterLink } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { store } from './store';
-import Welcome from './pages/Welcome';
+import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import NeighborsList from './pages/NeighborsList';
 import SkillsRegistry from './pages/SkillsRegistry';
 import EmployeeList from './pages/EmployeeList';
 import EmployeeDetails from './pages/EmployeeDetails';
+import Footer from './components/Footer';
 import ErrorFallback from './components/ErrorFallback';
 
 import './fonts/Ubuntu-Light.ttf';
@@ -56,33 +55,14 @@ export default function App() {
             }}
           >
             <Switch>
-              <Route path="/" exact={true} component={Welcome} />
+              <Route path="/" exact={true} component={Home} />
               <Route path="/skills" exact={true} component={SkillsRegistry} />
               <Route path="/skills/:name" exact={true} component={NeighborsList} />
               <Route path="/employees" exact={true} component={EmployeeList} />
               <Route path="/employees/:employeeId" exact={true} component={EmployeeDetails} />
               <Route component={NotFound} />
             </Switch>
-            <Box sx={{ flex: 0 }} textAlign="left" component="footer">
-              {window.location.hostname !== 'localhost' && (
-                <>
-                  <Typography variant="caption" component="p" gutterBottom>
-                    Pipeline:{' '}
-                    <a href={window.PIPELINE_LINK} target="_blank" rel="noreferrer">
-                      {window.COMMIT}
-                    </a>
-                  </Typography>
-                  {window.BRANCH !== 'master' && (
-                    <Typography variant="caption" component="p" gutterBottom>
-                      Branch:{' '}
-                      <a href={window.BRANCH_LINK} target="_blank" rel="noreferrer">
-                        {window.BRANCH}
-                      </a>
-                    </Typography>
-                  )}
-                </>
-              )}
-            </Box>
+            <Footer />
           </Container>
         </Router>
       </Provider>
