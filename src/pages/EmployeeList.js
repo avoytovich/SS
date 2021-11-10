@@ -208,11 +208,14 @@ export default function EmployeeList() {
         <MenuItem key="select-all" value={`-- ${name} Name --`} disabled>
           -- {name} Name --
         </MenuItem>
-        {[...filterValues[id]].sort(simpleLocaleComparator).map(item => (
-          <MenuItem key={item} value={item}>
-            {item}
-          </MenuItem>
-        ))}
+        {[...filterValues[id]]
+          .filter(val => val)
+          .sort(simpleLocaleComparator)
+          .map(item => (
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );
