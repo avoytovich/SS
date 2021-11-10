@@ -9,8 +9,9 @@ stages:
   - lint
   - build
   - test
-  - e2e
   - deploy
+  - e2e
+
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -115,10 +116,9 @@ Cypress Tests:
   stage: e2e
   allow_failure: true
   variables:
-    APP_PORT: 3001
+    BASE_URL: "http://${SERVER_NAME}"
   script:
-    - npm run serve -- -l $APP_PORT &
-    - npx cypress run --browser chrome --config baseUrl=http://localhost:$APP_PORT
+    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
   artifacts:
     when: always
     paths:
@@ -127,4 +127,22 @@ Cypress Tests:
     expire_in: 1 day
   only:
     - master
+
+Branch Cypress Tests:
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  stage: e2e
+  allow_failure: true
+  variables:
+    BASE_URL: "http://${SERVER_NAME}/branches/${CI_COMMIT_REF_SLUG}"
+  script:
+    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 day
+  only:
     - merge_requests
+  except:
+    - master
