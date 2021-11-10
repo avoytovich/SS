@@ -5,13 +5,14 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import PageTitle from '../components/PageTitle';
 import { Logo } from '../components/icons';
+import { PagePanel } from '../components/PagePanel';
 
 import { useStyles } from './styles';
 
 export default function Welcome() {
   const classes = useStyles();
   return (
-    <>
+    <PagePanel>
       <PageTitle title="Page Not Found" includeAppName={false} />
       <Box className={`${classes.centerContent} ${classes.flexColumn}`}>
         <Logo sx={{ fontSize: 120 }} className={classes.centerContent} />
@@ -22,6 +23,6 @@ export default function Welcome() {
           <Typography textAlign="center">Go Home</Typography>
         </Link>
       </Box>
-    </>
+    </PagePanel>
   );
 }

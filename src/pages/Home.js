@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import PageTitle from '../components/PageTitle';
 import { Logo } from '../components/icons';
 
-export default function Welcome() {
+export default function Home() {
   return (
     <>
       <PageTitle title="Smart Skills" includeAppName={false} />
