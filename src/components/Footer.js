@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { CapgeminiLogo } from './icons/CapgeminiLogo';
+import { CapgeminiLogo } from './icons';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
