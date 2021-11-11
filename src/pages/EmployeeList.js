@@ -202,7 +202,7 @@ export default function EmployeeList() {
               </MenuItem>
             );
           }
-          return selected.join(', ');
+          return selected.map(filter => filter || EMPTY_VALUE).join(', ');
         }}
       >
         <MenuItem key="select-all" value={`-- ${name} Name --`} disabled>
@@ -210,7 +210,7 @@ export default function EmployeeList() {
         </MenuItem>
         {[...filterValues[id]].sort(simpleLocaleComparator).map(item => (
           <MenuItem key={item} value={item}>
-            {item || '<Empty>'}
+            {item || EMPTY_VALUE}
           </MenuItem>
         ))}
       </Select>
