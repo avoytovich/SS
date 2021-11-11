@@ -193,7 +193,7 @@ export default function SkillsRegistry() {
               <InputLabel className="fixed">Filter by</InputLabel>
               <Select
                 label="Filter by"
-                id="skill-group-name"
+                data-cy="skill-group-name"
                 displayEmpty
                 multiple={true}
                 value={skillGroups}
@@ -210,7 +210,12 @@ export default function SkillsRegistry() {
                   return selected.join(', ');
                 }}
               >
-                <MenuItem key="select-all" value="-- Skill Group Name --" disabled>
+                <MenuItem
+                  data-cy="skill-group-item"
+                  key="select-all"
+                  value="-- Skill Group Name --"
+                  disabled
+                >
                   -- Skill Group Name --
                 </MenuItem>
                 {skillsGroupNameListOption.sort(simpleLocaleComparator).map(skillsGroupName => (
@@ -230,7 +235,7 @@ export default function SkillsRegistry() {
               }}
             >
               <TextField
-                id="standard-helperText"
+                id="skill-name-input"
                 label="Skill Name"
                 variant="standard"
                 placeholder="Skill Name"
@@ -242,6 +247,7 @@ export default function SkillsRegistry() {
                 value={skillName}
               />
               <Link
+                data-cy="skill-cleanup-btn"
                 sx={{
                   margin: 0,
                   display: 'flex',
