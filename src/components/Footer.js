@@ -38,7 +38,7 @@ export default function Footer() {
         }}
       >
         &copy;&nbsp;
-        <a href="https://capgemini-engineering.com/" target="_blank" rel="noreferrer">
+        <a href="https://capgemini-engineering.com.ua/" target="_blank" rel="noreferrer">
           <CapgeminiLogo sx={{ fontSize: 180, height: '30px' }} />
         </a>
         &nbsp;{currentYear}
