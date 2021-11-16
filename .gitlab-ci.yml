@@ -6,11 +6,11 @@ before_script:
   - npm install
 
 stages:
-  - lint
+#  - lint
   - build
-  - test
+#  - test
   - deploy
-  - e2e
+#  - e2e
 
 
 cache:
@@ -68,6 +68,7 @@ Build Branch:
   environment:
     name: $CI_COMMIT_REF_SLUG
     url: http://skills.lohika.com/branches/$CI_COMMIT_REF_SLUG
+    on_stop: Remove Branch Directory
 
 Unit Tests:
   stage: test
@@ -111,7 +112,7 @@ Deploy Branch:
   except:
     - master
 
-Remove Branch Directory After Merging:
+Remove Branch Directory:
   stage: deploy
   script: make delete-app
   when: manual
