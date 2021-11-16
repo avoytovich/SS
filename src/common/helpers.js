@@ -67,3 +67,10 @@ export function getStringFieldComparator(order, orderBy) {
 export function decodeQueryParam(p) {
   return decodeURIComponent(p.replace(/\+/g, ' '));
 }
+
+export function yesNo(value) {
+  if (value == null) {
+    return 'N/A';
+  }
+  return value ? 'Yes' : 'No';
+}

@@ -9,4 +9,5 @@ export const PagePanel = styled(withTheme(Box))(({ theme }) => ({
   flexDirection: 'column',
   backgroundColor: theme.palette.background.paper,
   borderRadius: '6px',
+  minHeight: '200px',
 }));
