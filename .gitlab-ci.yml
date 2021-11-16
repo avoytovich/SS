@@ -111,6 +111,14 @@ Deploy Branch:
   except:
     - master
 
+Remove Branch Directory After Merging:
+  stage: deploy
+  script: make delete-app
+  when: manual
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    action: stop
+
 Cypress Tests:
   image: cypress/browsers:node14.17.0-chrome88-ff89
   stage: e2e
