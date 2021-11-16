@@ -114,8 +114,13 @@ Deploy Branch:
 
 Remove Branch Directory:
   stage: deploy
-  script: make delete-app
+  script:
+    - echo "Removing"
   when: manual
+  only:
+    - merge_requests
+  except:
+    - master
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
