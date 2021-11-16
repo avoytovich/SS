@@ -68,6 +68,7 @@ Build Branch:
   environment:
     name: $CI_COMMIT_REF_SLUG
     url: http://skills.lohika.com/branches/$CI_COMMIT_REF_SLUG
+    on_stop: Remove Branch Directory
 
 Unit Tests:
   stage: test
@@ -110,6 +111,27 @@ Deploy Branch:
     - merge_requests
   except:
     - master
+
+Remove Branch Directory:
+  before_script:
+    - echo "Ignoring global before_script"
+  stage: deploy
+  script:
+    - echo "Removing branch directory"
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
+  when: manual
+  only:
+    - merge_requests
+  except:
+    - master
+  environment:
+    name: $CI_COMMIT_REF_SLUG
+    action: stop
 
 Cypress Tests:
   image: cypress/browsers:node14.17.0-chrome88-ff89
