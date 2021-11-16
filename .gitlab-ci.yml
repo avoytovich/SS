@@ -123,7 +123,7 @@ Remove Branch Directory:
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
+    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
   when: manual
   environment:
     name: $CI_COMMIT_REF_SLUG
