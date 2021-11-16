@@ -113,9 +113,12 @@ Deploy Branch:
     - master
 
 Remove Branch Directory:
+  before_script:
+    - echo "Ignoring global before_script"
   stage: deploy
   script:
-    - echo "Removing"
+    - echo "Removing branch directory"
+    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
   when: manual
   only:
     - merge_requests
