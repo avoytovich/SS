@@ -125,8 +125,6 @@ Remove Branch Directory:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
   when: manual
-  only:
-    - merge_requests
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
