@@ -19,14 +19,14 @@ cache:
     - node_modules/
   policy: pull
 
-Lint:
-  stage: lint
-  script:
-    - echo "Linting code..."
-    - npm run lint
-  only:
-    - master
-    - merge_requests
+#Lint:
+#  stage: lint
+#  script:
+#    - echo "Linting code..."
+#    - npm run lint
+#  only:
+#    - master
+#    - merge_requests
 
 Build:
   stage: build
@@ -70,14 +70,14 @@ Build Branch:
     url: http://skills.lohika.com/branches/$CI_COMMIT_REF_SLUG
     on_stop: Remove Branch Directory
 
-Unit Tests:
-  stage: test
-  script:
-    - echo "Running tests..."
-    - npm run test
-  only:
-    - master
-    - merge_requests
+#Unit Tests:
+#  stage: test
+#  script:
+#    - echo "Running tests..."
+#    - npm run test
+#  only:
+#    - master
+#    - merge_requests
 
 Deploy:
   stage: deploy
@@ -120,38 +120,38 @@ Remove Branch Directory:
     name: $CI_COMMIT_REF_SLUG
     action: stop
 
-Cypress Tests:
-  image: cypress/browsers:node14.17.0-chrome88-ff89
-  stage: e2e
-  allow_failure: true
-  variables:
-    BASE_URL: "http://${SERVER_NAME}"
-  script:
-    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
-  artifacts:
-    when: always
-    paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
-    expire_in: 1 day
-  only:
-    - master
-
-Branch Cypress Tests:
-  image: cypress/browsers:node14.17.0-chrome88-ff89
-  stage: e2e
-  allow_failure: true
-  variables:
-    BASE_URL: "http://${SERVER_NAME}/branches/${CI_COMMIT_REF_SLUG}"
-  script:
-    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
-  artifacts:
-    when: always
-    paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
-    expire_in: 1 day
-  only:
-    - merge_requests
-  except:
-    - master
+#Cypress Tests:
+#  image: cypress/browsers:node14.17.0-chrome88-ff89
+#  stage: e2e
+#  allow_failure: true
+#  variables:
+#    BASE_URL: "http://${SERVER_NAME}"
+#  script:
+#    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
+#  artifacts:
+#    when: always
+#    paths:
+#      - cypress/videos/**/*.mp4
+#      - cypress/screenshots/**/*.png
+#    expire_in: 1 day
+#  only:
+#    - master
+#
+#Branch Cypress Tests:
+#  image: cypress/browsers:node14.17.0-chrome88-ff89
+#  stage: e2e
+#  allow_failure: true
+#  variables:
+#    BASE_URL: "http://${SERVER_NAME}/branches/${CI_COMMIT_REF_SLUG}"
+#  script:
+#    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
+#  artifacts:
+#    when: always
+#    paths:
+#      - cypress/videos/**/*.mp4
+#      - cypress/screenshots/**/*.png
+#    expire_in: 1 day
+#  only:
+#    - merge_requests
+#  except:
+#    - master
