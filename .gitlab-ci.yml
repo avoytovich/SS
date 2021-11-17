@@ -1,6 +1,7 @@
 image: node:16.13.0
 
 before_script:
+  - echo $BRANCH_NAME_TO_DELETE
   - apt-get update -qq && apt-get install
   - node -v && npm -v
   - npm install
@@ -11,7 +12,14 @@ stages:
   - test
   - deploy
   - e2e
+  - cleanup
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        BRANCH_NAME_TO_DELETE: $CI_COMMIT_REF_SLUG
+    - when: always
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -22,7 +30,6 @@ cache:
 Lint:
   stage: lint
   script:
-    - echo $CI_PIPELINE_SOURCE
     - echo "Linting code..."
     - npm run lint
   only:
@@ -117,8 +124,9 @@ Deploy Branch:
 Remove Branch Directory:
   before_script:
     - echo "Ignoring global before_script"
-  stage: deploy
+  stage: cleanup
   script:
+    - echo $BRANCH_NAME_TO_DELETE
     - echo "Removing branch directory"
     - 'which ssh-agent || ( apt-get install -qq openssh-client )'
     - eval $(ssh-agent -s)
@@ -126,7 +134,7 @@ Remove Branch Directory:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
-  when: always
+  when: manual
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
