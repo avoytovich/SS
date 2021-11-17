@@ -22,6 +22,7 @@ cache:
 Lint:
   stage: lint
   script:
+    - echo $CI_PIPELINE_SOURCE
     - echo "Linting code..."
     - npm run lint
   only:
@@ -104,6 +105,7 @@ Deploy Branch:
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $USER_NAME@$SERVER_NAME "mkdir -p ~/smartskills/ui/branches"
     - ssh $USER_NAME@$SERVER_NAME "mkdir -p ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
     - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG
     - echo "Application successfully deployed."
@@ -123,8 +125,8 @@ Remove Branch Directory:
     - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
-  when: manual
+    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
+  when: always
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
