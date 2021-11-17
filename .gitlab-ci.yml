@@ -137,10 +137,6 @@ Remove Branch Directory:
     action: stop
 
 
-    SOURCE=$(echo "Merge branch 'AAA' into 'master'" | sed -e "s/^Merge branch '\\([^']*\\)' into 'master'/\\1/")
-    declare -l SOURCE
-
-
 #Cypress Tests:
 #  image: cypress/browsers:node14.17.0-chrome88-ff89
 #  stage: e2e
