@@ -1,7 +1,7 @@
 image: node:16.13.0
 
 before_script:
-  - echo "Source docker-tag to remove $SOURCE_BRANCH"
+  - echo $CI_COMMIT_TITLE
   - apt-get update -qq && apt-get install
   - node -v && npm -v
   - npm install
@@ -127,7 +127,8 @@ Remove Branch Directory:
 #    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 #    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
     - echo $CI_COMMIT_MESSAGE
-    - SOURCE_BRANCH=$(echo $CI_COMMIT_MESSAGE |  grep -Po '"title":.*?[^\\]"' | sed 's/title//; s/Merge branch//; s/://; s/into//; s/master//; s/ //g; s/"//g;' | sed "s/'//g")
+    - echo $CI_COMMIT_TITLE
+    - SOURCE_BRANCH=$(echo $CI_COMMIT_MESSAGE | sed 's/title//; s/Merge branch//; s/://; s/into//; s/master//; s/ //g; s/"//g;' | sed "s/'//g")
     - echo $SOURCE_BRANCH
     - 'echo "Commit sha: $CI_COMMIT_SHA"'
     - 'echo " ====> API request: $CI_API_V4_URL/projects/$PROJECT_ID/repository/commits/$CI_COMMIT_SHA"'
