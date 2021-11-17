@@ -1,6 +1,7 @@
 image: node:16.13.0
 
 before_script:
+  - echo $CI_COMMIT_MESSAGE
   - apt-get update -qq && apt-get install
   - node -v && npm -v
   - npm install
@@ -127,7 +128,7 @@ Remove Branch Directory:
     - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
   when: manual
   only:
-    - merge_requests
+    - master
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
