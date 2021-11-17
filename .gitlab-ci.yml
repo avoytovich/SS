@@ -7,11 +7,11 @@ before_script:
   - npm install
 
 stages:
-  - lint
+#  - lint
   - build
-  - test
+#  - test
   - deploy
-  - e2e
+#  - e2e
   - cleanup
 
 cache:
@@ -20,14 +20,14 @@ cache:
     - node_modules/
   policy: pull
 
-Lint:
-  stage: lint
-  script:
-    - echo "Linting code..."
-    - npm run lint
-  only:
-    - master
-    - merge_requests
+#Lint:
+#  stage: lint
+#  script:
+#    - echo "Linting code..."
+#    - npm run lint
+#  only:
+#    - master
+#    - merge_requests
 
 Build:
   stage: build
@@ -70,15 +70,15 @@ Build Branch:
     name: $CI_COMMIT_REF_SLUG
     url: http://skills.lohika.com/branches/$CI_COMMIT_REF_SLUG
     on_stop: Remove Branch Directory
-
-Unit Tests:
-  stage: test
-  script:
-    - echo "Running tests..."
-    - npm run test
-  only:
-    - master
-    - merge_requests
+#
+#Unit Tests:
+#  stage: test
+#  script:
+#    - echo "Running tests..."
+#    - npm run test
+#  only:
+#    - master
+#    - merge_requests
 
 Deploy:
   stage: deploy
@@ -119,13 +119,20 @@ Remove Branch Directory:
     - echo "Ignoring global before_script"
   stage: cleanup
   script:
-    - echo "Removing branch directory"
-    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
+#    - echo "Removing branch directory"
+#    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+#    - eval $(ssh-agent -s)
+#    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+#    - mkdir -p ~/.ssh
+#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
+    - 'echo "Commit sha: $CI_COMMIT_SHA"'
+    - 'echo " ====> API request: $CI_API_V4_URL/projects/$PROJECT_ID/repository/commits/$CI_COMMIT_SHA"'
+    - 'RESPONSE=$(curl --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" "$CI_API_V4_URL/projects/$PROJECT_ID/repository/commits/$CI_COMMIT_SHA")'
+    - 'echo "response: $RESPONSE"'
+    - SOURCE_BRANCH=$(echo $RESPONSE |  grep -Po '"title":.*?[^\\]"' | sed 's/title//; s/Merge branch//; s/://; s/into//; s/master//; s/ //g; s/"//g;' | sed "s/'//g")
+    - echo "Source docker-tag to remove $SOURCE_BRANCH"
+    - 'curl --silent --request DELETE --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" "$CI_API_V4_URL/projects/$PROJECT_ID/registry/repositories/$REGISTRY_ID/tags/$SOURCE_BRANCH"'
   when: manual
   only:
     - master
@@ -133,38 +140,38 @@ Remove Branch Directory:
     name: $CI_COMMIT_REF_SLUG
     action: stop
 
-Cypress Tests:
-  image: cypress/browsers:node14.17.0-chrome88-ff89
-  stage: e2e
-  allow_failure: true
-  variables:
-    BASE_URL: "http://${SERVER_NAME}"
-  script:
-    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
-  artifacts:
-    when: always
-    paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
-    expire_in: 1 day
-  only:
-    - master
-
-Branch Cypress Tests:
-  image: cypress/browsers:node14.17.0-chrome88-ff89
-  stage: e2e
-  allow_failure: true
-  variables:
-    BASE_URL: "http://${SERVER_NAME}/branches/${CI_COMMIT_REF_SLUG}"
-  script:
-    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
-  artifacts:
-    when: always
-    paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
-    expire_in: 1 day
-  only:
-    - merge_requests
-  except:
-    - master
+#Cypress Tests:
+#  image: cypress/browsers:node14.17.0-chrome88-ff89
+#  stage: e2e
+#  allow_failure: true
+#  variables:
+#    BASE_URL: "http://${SERVER_NAME}"
+#  script:
+#    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
+#  artifacts:
+#    when: always
+#    paths:
+#      - cypress/videos/**/*.mp4
+#      - cypress/screenshots/**/*.png
+#    expire_in: 1 day
+#  only:
+#    - master
+#
+#Branch Cypress Tests:
+#  image: cypress/browsers:node14.17.0-chrome88-ff89
+#  stage: e2e
+#  allow_failure: true
+#  variables:
+#    BASE_URL: "http://${SERVER_NAME}/branches/${CI_COMMIT_REF_SLUG}"
+#  script:
+#    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
+#  artifacts:
+#    when: always
+#    paths:
+#      - cypress/videos/**/*.mp4
+#      - cypress/screenshots/**/*.png
+#    expire_in: 1 day
+#  only:
+#    - merge_requests
+#  except:
+#    - master
