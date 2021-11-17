@@ -1,11 +1,7 @@
 image: node:16.13.0
 
 before_script:
-  - echo $CI_PROJECT_DIR
-  - echo $CI_PROJECT_NAME
-  - echo $CI_PROJECT_NAMESPACE
-  - echo $CI_PROJECT_PATH
-  - echo $CI_PROJECT_URL
+  - echo $CI_COMMIT_MESSAGE
   - SOURCE_BRANCH=$(echo $CI_COMMIT_MESSAGE |  grep -Po '"title":.*?[^\\]"' | sed 's/title//; s/Merge branch//; s/://; s/into//; s/master//; s/ //g; s/"//g;' | sed "s/'//g")
   - echo "Source docker-tag to remove $SOURCE_BRANCH"
   - apt-get update -qq && apt-get install
