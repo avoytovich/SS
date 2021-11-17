@@ -6,6 +6,8 @@ before_script:
   - echo $CI_PROJECT_NAMESPACE
   - echo $CI_PROJECT_PATH
   - echo $CI_PROJECT_URL
+  - 'RESPONSE=$(curl --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/commits/$CI_COMMIT_SHA")'
+  - 'echo "response: $RESPONSE"'
   - apt-get update -qq && apt-get install
   - node -v && npm -v
   - npm install
@@ -132,7 +134,7 @@ Remove Branch Directory:
 #    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
     - 'echo "Commit sha: $CI_COMMIT_SHA"'
     - 'echo " ====> API request: $CI_API_V4_URL/projects/$PROJECT_ID/repository/commits/$CI_COMMIT_SHA"'
-    - 'RESPONSE=$(curl --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" "$CI_API_V4_URL/projects/$PROJECT_ID/repository/commits/$CI_COMMIT_SHA")'
+    - 'RESPONSE=$(curl --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/commits/$CI_COMMIT_SHA")'
     - 'echo "response: $RESPONSE"'
     - SOURCE_BRANCH=$(echo $RESPONSE |  grep -Po '"title":.*?[^\\]"' | sed 's/title//; s/Merge branch//; s/://; s/into//; s/master//; s/ //g; s/"//g;' | sed "s/'//g")
     - echo "Source docker-tag to remove $SOURCE_BRANCH"
