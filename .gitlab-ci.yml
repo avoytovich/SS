@@ -128,7 +128,7 @@ Remove Branch Directory:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$SOURCE_BRANCH"
-  when: manual
+  when: always
   only:
     - master
   environment:
