@@ -119,30 +119,27 @@ Remove Branch Directory:
     - echo "Ignoring global before_script"
   stage: cleanup
   script:
-#    - echo "Removing branch directory"
-#    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-#    - eval $(ssh-agent -s)
-#    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
-#    - mkdir -p ~/.ssh
-#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-#    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
-    - echo $CI_COMMIT_MESSAGE
-    - echo $CI_COMMIT_TITLE
-    - SOURCE_BRANCH=$(echo $CI_COMMIT_MESSAGE | sed 's/title//; s/Merge branch//; s/://; s/into//; s/master//; s/ //g; s/"//g;' | sed "s/'//g")
-    - echo $SOURCE_BRANCH
-    - 'echo "Commit sha: $CI_COMMIT_SHA"'
-    - 'echo " ====> API request: $CI_API_V4_URL/projects/$PROJECT_ID/repository/commits/$CI_COMMIT_SHA"'
-    - 'RESPONSE=$(curl --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/commits/$CI_COMMIT_SHA")'
-    - 'echo "response: $RESPONSE"'
-    - SOURCE_BRANCH=$(echo $RESPONSE |  grep -Po '"title":.*?[^\\]"' | sed 's/title//; s/Merge branch//; s/://; s/into//; s/master//; s/ //g; s/"//g;' | sed "s/'//g")
-    - echo "Source docker-tag to remove $SOURCE_BRANCH"
-    - 'curl --silent --request DELETE --header "PRIVATE-TOKEN: $CI_PRIVATE_TOKEN" "$CI_API_V4_URL/projects/$PROJECT_ID/registry/repositories/$REGISTRY_ID/tags/$SOURCE_BRANCH"'
+    - echo "Removing branch directory..."
+    - echo "Getting source branch..."
+    - SOURCE_BRANCH=$(echo $CI_COMMIT_TITLE | sed "s/^Merge branch '\\([^']*\\)' into 'master'/\\1/" | tr "[:upper:]" "[:lower:]")
+    - echo "Source branch --- $SOURCE_BRANCH"
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh $USER_NAME@$SERVER_NAME "rm -r ~/smartskills/ui/branches/$SOURCE_BRANCH"
   when: manual
   only:
     - master
   environment:
     name: $CI_COMMIT_REF_SLUG
     action: stop
+
+
+    SOURCE=$(echo "Merge branch 'AAA' into 'master'" | sed -e "s/^Merge branch '\\([^']*\\)' into 'master'/\\1/")
+    declare -l SOURCE
+
 
 #Cypress Tests:
 #  image: cypress/browsers:node14.17.0-chrome88-ff89
