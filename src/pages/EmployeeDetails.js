@@ -16,6 +16,7 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
+import { yesNo } from '../common/helpers';
 
 import { useStyles } from './styles';
 
@@ -42,6 +43,7 @@ export default function EmployeeDetails() {
     Competency,
     Level,
     PrimarySpecialization,
+    isOnBench,
     SkillGroups: employeeSkillGroups = [],
   } = employeeDetails;
 
@@ -160,6 +162,9 @@ export default function EmployeeDetails() {
                       </Typography>
                       <Typography>
                         Level: <strong>{Level}</strong>
+                      </Typography>
+                      <Typography>
+                        Is on bench: <strong>{yesNo(isOnBench)}</strong>
                       </Typography>
                     </Box>
                   </Grid>
