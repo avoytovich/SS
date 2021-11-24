@@ -24,11 +24,13 @@ export default function CustomPaginationActionsTable({
   onSortHandler,
   isLoading,
   showFilteredColumn = false,
+  showFooter = true,
+  ...props
 }) {
   const [filters, setFilters] = useState(null);
   const [filteredRows, setFilteredRows] = useState(rows);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(showFooter ? 10 : -1);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
   const classes = useStyles({ rowsPerPage, emptyRows });
@@ -81,6 +83,7 @@ export default function CustomPaginationActionsTable({
           data-testid="custom-table"
           sx={{ minWidth: 650 }}
           aria-label="custom pagination table"
+          {...props}
         >
           <colgroup>
             {headCells.map(({ width, id }) => (
@@ -136,26 +139,28 @@ export default function CustomPaginationActionsTable({
               </>
             )}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 50, 100, { label: 'All', value: -1 }]}
-                colSpan={headCells.length}
-                count={filteredRows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
+          {showFooter && (
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 50, 100, { label: 'All', value: -1 }]}
+                  colSpan={headCells.length}
+                  count={filteredRows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      'aria-label': 'rows per page',
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          )}
         </Table>
       </TableContainer>
     </>
@@ -165,10 +170,10 @@ export default function CustomPaginationActionsTable({
 CustomPaginationActionsTable.propTypes = {
   rows: PropTypes.array.isRequired,
   headCells: PropTypes.array.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   onSortHandler: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  showFooter: PropTypes.bool,
   showFilteredColumn: PropTypes.bool,
 };
