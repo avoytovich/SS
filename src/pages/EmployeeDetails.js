@@ -33,7 +33,6 @@ const headCells = [
   },
   {
     id: 'level',
-    customRender: ({ level }) => levels[level],
     numeric: false,
     filterable: true,
     label: 'Seniority',
@@ -160,7 +159,11 @@ export default function EmployeeDetails() {
     () =>
       [...fullSkillList]
         .map(item => transformLevelForSort(item))
-        .sort(getComparator(order, orderBy)),
+        .sort(getComparator(order, orderBy))
+        .map(item => {
+          item.level = levels[item.level];
+          return item;
+        }),
     [fullSkillList, order, orderBy]
   );
 
