@@ -16,9 +16,30 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
-import { yesNo } from '../common/helpers';
+import { getComparator, yesNo } from '../common/helpers';
 
 import { useStyles } from './styles';
+import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
+
+const levels = { 0: 'None', 1: 'Basic', 2: 'Intermediate', 3: 'Advanced', 4: 'Expert' };
+
+const headCells = [
+  {
+    id: 'skill',
+    numeric: false,
+    filterable: true,
+    label: 'Skill Name',
+    width: '50%',
+  },
+  {
+    id: 'level',
+    customRender: ({ level }) => levels[level],
+    numeric: false,
+    filterable: true,
+    label: 'Seniority',
+    width: '25%',
+  },
+];
 
 export default function EmployeeDetails() {
   const theme = useTheme();
@@ -30,6 +51,14 @@ export default function EmployeeDetails() {
   const [employeesDBChecked, setEmployeesDBChecked] = useState(true);
   const [projectsInfoChecked, setProjectsInfoChecked] = useState(false);
   const [selectedSkillGroup, setSelectedSkillGroup] = useState(null);
+  const [order, setOrder] = useState('desc');
+  const [orderBy, setOrderBy] = useState('level');
+
+  const onSortHandler = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
   const { data: employeeDetails = {}, isLoading: employeeLoading } = useFetchEmployeeQuery({
     id: employeeId,
@@ -105,6 +134,34 @@ export default function EmployeeDetails() {
         })
         .filter(({ level }) => showUnfilledSkills || (!showUnfilledSkills && level !== 'None')),
     [skillGroups, selectedSkillGroup, showUnfilledSkills]
+  );
+
+  const transformLevelForSort = item => {
+    switch (item.level) {
+      case 'Basic':
+        item.level = 1;
+        break;
+      case 'Intermediate':
+        item.level = 2;
+        break;
+      case 'Advanced':
+        item.level = 3;
+        break;
+      case 'Expert':
+        item.level = 4;
+        break;
+      default:
+        item.level = 0;
+    }
+    return item;
+  };
+
+  const rows = useMemo(
+    () =>
+      [...fullSkillList]
+        .map(item => transformLevelForSort(item))
+        .sort(getComparator(order, orderBy)),
+    [fullSkillList, order, orderBy]
   );
 
   const noEmployeeSkillsError =
@@ -251,34 +308,17 @@ export default function EmployeeDetails() {
                     </Typography>
                   ) : (
                     <>
-                      <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <Typography variant={'employeeSkillsTitle'}>Skill Name</Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Typography variant={'employeeSkillsTitle'}>Seniority</Typography>
-                        </Grid>
-                      </Grid>
                       <Box className={classes.parentScrollContainer}>
                         <Box className={classes.parentScroll}>
-                          {fullSkillList.map(({ skill, level }, i) => (
-                            <Grid container spacing={2} key={i}>
-                              <Grid item xs={6}>
-                                <Typography variant={'employeeSkill'} component={'p'} key={skill}>
-                                  {skill}
-                                </Typography>
-                              </Grid>
-                              <Grid item xs={6}>
-                                <Typography
-                                  variant={'employeeSkill'}
-                                  component={'p'}
-                                  key={`${level}-${i}`}
-                                >
-                                  {level ?? 'N/A'}
-                                </Typography>
-                              </Grid>
-                            </Grid>
-                          ))}
+                          <CustomPaginationActionsTable
+                            rows={rows}
+                            headCells={headCells}
+                            order={order}
+                            orderBy={orderBy}
+                            onSortHandler={onSortHandler}
+                            isLoading={isLoading}
+                            showFooter={false}
+                          />
                         </Box>
                       </Box>
                     </>
