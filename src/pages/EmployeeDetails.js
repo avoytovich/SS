@@ -11,12 +11,13 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { SvgIcon } from '@mui/material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CircularProgress from '@mui/material/CircularProgress';
+import Avatar from '@mui/material/Avatar';
 import { ErrorBoundary } from 'react-error-boundary';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
-import { getComparator, yesNo } from '../common/helpers';
+import { getComparator, yesNo, stringToColor } from '../common/helpers';
 
 import { useStyles } from './styles';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
@@ -66,6 +67,7 @@ export default function EmployeeDetails() {
   const isLoading = employeeLoading || skillsLoading;
 
   const {
+    ID,
     FirstName = '',
     LastName = '',
     Competency,
@@ -76,6 +78,13 @@ export default function EmployeeDetails() {
   } = employeeDetails;
 
   const fullName = `${FirstName} ${LastName}`;
+
+  const stringAvatar = (id, firstName, lastName) => ({
+    sx: {
+      bgcolor: stringToColor(id),
+    },
+    children: `${firstName[0]}${lastName[0]}`,
+  });
 
   // set whole skillGroups List with total count
   // and number of skills which are selected for employee
@@ -193,7 +202,11 @@ export default function EmployeeDetails() {
             <ArrowBackIcon />
           </Typography>
         </a>
-        <Typography variant={'h4'}>{fullName}</Typography>
+        <Typography variant={'h4'}>
+          {ID && <Avatar {...stringAvatar(ID, FirstName, LastName)} />}
+          &nbsp;
+          {fullName}
+        </Typography>
       </Breadcrumbs>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
