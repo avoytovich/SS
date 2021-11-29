@@ -7,4 +7,7 @@ export const useStyles = makeStyles({
   emptyRow: {
     height: ({ emptyRows }) => 23 * emptyRows,
   },
+  customTableContainer: {
+    overflowX: 'initial',
+  },
 });

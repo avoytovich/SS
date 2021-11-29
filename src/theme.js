@@ -308,6 +308,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiTableCell: {
+      styleOverrides: {
+        stickyHeader: {
+          backgroundColor: WHITE,
+        },
+      },
+    },
   },
 });
 

@@ -78,7 +78,7 @@ export default function CustomPaginationActionsTable({
   };
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer classes={{ root: classes.customTableContainer }} component={Paper}>
         <Table
           data-testid="custom-table"
           sx={{ minWidth: 650 }}
