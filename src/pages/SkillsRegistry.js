@@ -266,6 +266,7 @@ export default function SkillsRegistry() {
           <Box sx={{ padding: '0 20px' }}>
             {rows.length || isLoading ? (
               <CustomPaginationActionsTable
+                data-cy="skills-table"
                 rows={rows}
                 headCells={headCells}
                 rowsPerPage={25}
