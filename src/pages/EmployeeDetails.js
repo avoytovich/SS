@@ -209,7 +209,7 @@ export default function EmployeeDetails() {
         </Typography>
       </Breadcrumbs>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <PagePanel>
+        <PagePanel data-cy="employee-details-page">
           {isLoading ? (
             <Box className={classes.centerContent}>
               <CircularProgress disableShrink />

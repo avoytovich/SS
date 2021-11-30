@@ -4,7 +4,7 @@ describe('Employee details test scenarios', () => {
     cy.waitUntilDataAppearsInTable().then(() => {
       cy.get('[data-cy=employee-list-table')
         .find('tbody tr')
-        .eq(0)
+        .eq(1)
         .find('a')
         .eq(0)
         .then(a => {
