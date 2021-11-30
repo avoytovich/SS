@@ -188,9 +188,10 @@ export default function EmployeeList() {
     );
   }
 
-  const FilterSelect = ({ id, name = id }) => (
+  const FilterSelect = ({ id, name = id, ...props }) => (
     <FormControl style={{ width: '100%' }}>
       <Select
+        {...props}
         value={filters[id]}
         displayEmpty
         multiple={true}
@@ -229,6 +230,7 @@ export default function EmployeeList() {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
           <Box
+            data-cy="employee-filter-block"
             sx={{
               borderBottom: `1px solid ${theme.palette.primary.separator}`,
               padding: '10px 20px 20px',
@@ -248,6 +250,7 @@ export default function EmployeeList() {
               <Grid container spacing={2} sx={{ paddingTop: '20px' }}>
                 <Grid item xs={6} md={3}>
                   <TextField
+                    id="employee-name-input"
                     defaultValue=""
                     size="small"
                     placeholder="Search by Full Name"
@@ -259,17 +262,22 @@ export default function EmployeeList() {
                   />
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  <FilterSelect id="Competency" />
+                  <FilterSelect data-cy="employee-select-competency" id="Competency" />
                 </Grid>
                 <Grid item xs={6} md={3}>
-                  <FilterSelect id="PrimarySpecialization" name="Primary Specialization" />
+                  <FilterSelect
+                    data-cy="employee-select-specialization"
+                    id="PrimarySpecialization"
+                    name="Primary Specialization"
+                  />
                 </Grid>
                 <Grid item xs={6} md={2}>
-                  <FilterSelect id="Level" />
+                  <FilterSelect data-cy="employee-select-level" id="Level" />
                 </Grid>
                 <Grid item xs={6} md={1}>
                   <Link
                     underline="none"
+                    data-cy="employee-cleanup-btn"
                     onClick={cleanAllHandler}
                     style={{
                       margin: 0,
