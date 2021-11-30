@@ -80,6 +80,7 @@ export default function CustomPaginationActionsTable({
     <>
       <TableContainer classes={{ root: classes.customTableContainer }} component={Paper}>
         <Table
+          {...props}
           data-testid="custom-table"
           sx={{ minWidth: 650 }}
           aria-label="custom pagination table"

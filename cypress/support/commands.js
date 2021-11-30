@@ -23,3 +23,18 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('getCustomTableTotalRowsCount', () =>
+  cy
+    .get('[data-cy=custom-table-pagination')
+    .find('.MuiTablePagination-displayedRows')
+    .invoke('text')
+    .then(t => t.split('of ')[1])
+);
+
+Cypress.Commands.add('waitUntilDataAppearsInTable', () =>
+  cy
+    .get('[data-testid=custom-table]')
+    .find('tbody tr', { timeout: 10000 })
+    .should('have.length.gte', 2)
+);

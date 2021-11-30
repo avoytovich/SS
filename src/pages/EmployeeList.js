@@ -283,6 +283,7 @@ export default function EmployeeList() {
           </Box>
           <Box sx={{ padding: '0 20px' }}>
             <CustomPaginationActionsTable
+              data-cy="employee-list-table"
               rows={getFilteredData(filters)}
               headCells={headCells}
               rowsPerPage={25}

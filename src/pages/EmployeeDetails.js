@@ -197,7 +197,7 @@ export default function EmployeeDetails() {
     <>
       <PageTitle title={fullName} />
       <Breadcrumbs aria-label="breadcrumb" separator="">
-        <a onClick={history.goBack}>
+        <a data-cy="employee-details-backBtn" onClick={history.goBack}>
           <Typography>
             <ArrowBackIcon />
           </Typography>
@@ -226,7 +226,7 @@ export default function EmployeeDetails() {
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     <Typography variant={'employeeDetailsSettingsTitle'}>Details</Typography>
-                    <Box>
+                    <Box data-cy="employee-details-block">
                       <Typography>
                         Specialization: <strong>{PrimarySpecialization}</strong>
                       </Typography>
@@ -246,6 +246,7 @@ export default function EmployeeDetails() {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          data-cy="employee-details-show-unfilled-skills"
                           checked={showUnfilledSkills}
                           onChange={() => setShowUnfilledSkills(!showUnfilledSkills)}
                         />
@@ -296,7 +297,7 @@ export default function EmployeeDetails() {
                 >
                   <Typography variant="employeeSkillsTitle">Skill Group</Typography>
                   <Box className={classes.parentScrollContainer}>
-                    <Box className={classes.parentScroll}>
+                    <Box data-cy="employee-details-skill-group" className={classes.parentScroll}>
                       {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
                         <Typography
                           variant={`${
@@ -317,7 +318,12 @@ export default function EmployeeDetails() {
                     </Box>
                   </Box>
                 </Grid>
-                <Grid item xs={6} className={classes.flexColumn}>
+                <Grid
+                  data-cy="employee-details-skill-list-grid"
+                  item
+                  xs={6}
+                  className={classes.flexColumn}
+                >
                   {noEmployeeSkillsError ? (
                     <Typography variant={'employeeSkill'} component={'p'}>
                       {noEmployeeSkillsError}
@@ -327,6 +333,7 @@ export default function EmployeeDetails() {
                       <Box className={classes.parentScrollContainer}>
                         <Box className={classes.parentScroll}>
                           <CustomPaginationActionsTable
+                            data-cy="employee-details-skill-list"
                             rows={rows}
                             headCells={headCells}
                             order={order}
