@@ -93,6 +93,7 @@ const customRenderer = (tag, size) => (
 // Tag Cloud component
 const SimpleCloud = ({ data }) => (
   <TagCloud
+    data-cy="neighbors-cloud"
     minSize={12}
     maxSize={35}
     tags={data}
@@ -130,7 +131,7 @@ export default function NeighborsList() {
     <>
       <PageTitle title={`${skillName}: Neighbors List`} />
       <Breadcrumbs aria-label="breadcrumb" separator="">
-        <a onClick={history.goBack}>
+        <a data-cy="neighbor-backBtn" onClick={history.goBack}>
           <Typography>
             <ArrowBackIcon />
           </Typography>
@@ -174,6 +175,7 @@ export default function NeighborsList() {
               </Box>
               <Box sx={{ padding: '0 20px' }}>
                 <CustomPaginationActionsTable
+                  data-cy="neighbors-table"
                   rows={rows}
                   headCells={headCells}
                   rowsPerPage={25}
