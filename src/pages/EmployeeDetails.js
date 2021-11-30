@@ -334,6 +334,7 @@ export default function EmployeeDetails() {
                             onSortHandler={onSortHandler}
                             isLoading={isLoading}
                             showFooter={false}
+                            stickyHeader
                           />
                         </Box>
                       </Box>
