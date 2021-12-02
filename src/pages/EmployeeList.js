@@ -9,14 +9,17 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { useTheme } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
+import { CircularProgress, IconButton, Paper } from '@mui/material';
 import { useHistory, useLocation, Link as RouterLink } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
+import { useFetchEmployeeQuery, useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
 import { getStringFieldComparator, simpleLocaleComparator } from '../common/helpers';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
+import { useStyles } from './styles';
 
 const EMPTY_VALUE = ' <Empty>';
 
@@ -67,11 +70,15 @@ const headCells = [
 
 export default function EmployeeList() {
   const theme = useTheme();
+  const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('fullName');
   const [search, setSearch] = useState(new URLSearchParams(location.search).get('skill') || '');
+  const [similarEmployeeId, setSimilarEmployeeId] = useState(
+    new URLSearchParams(location.search).get('similar') || ''
+  );
 
   const filterKeys = useMemo(() => headCells.map(({ id }) => id, [headCells]));
   const [filters, setFilters] = useState(
@@ -89,6 +96,10 @@ export default function EmployeeList() {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+
+  const { data: employeeDetails = {}, isLoading: employeeLoading } = useFetchEmployeeQuery({
+    id: similarEmployeeId,
+  });
 
   const { data = [], isLoading } = useFetchEmployeesQuery({
     ids: 'all',
@@ -188,6 +199,64 @@ export default function EmployeeList() {
     );
   }
 
+  const SimilarEngineer = () => {
+    const {
+      FirstName = '',
+      LastName = '',
+      Competency,
+      Level,
+      PrimarySpecialization,
+      isOnBench,
+    } = employeeDetails;
+
+    const onCloseClick = () => {
+      history.push('/employees');
+      setSimilarEmployeeId('');
+    };
+
+    return (
+      <>
+        {similarEmployeeId && (
+          <Paper classes={{ root: classes.similarEngineerPaper }}>
+            {employeeLoading ? (
+              <CircularProgress disableShrink />
+            ) : (
+              <>
+                <Grid container>
+                  <Grid item xs={11}>
+                    <Typography color="gray">Showing engineers similar to:</Typography>
+                  </Grid>
+                  <Grid xs={1} display="flex" justifyContent="flex-end">
+                    <IconButton onClick={onCloseClick}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
+                <Typography variant="h4">{`${FirstName} ${LastName}`}</Typography>
+
+                <Box className={classes.similarEngineerDetails}>
+                  <Typography>
+                    Specialization: <b>{PrimarySpecialization}</b>
+                  </Typography>
+                  <Typography>
+                    Compentency: <b>{Competency}</b>
+                  </Typography>
+                  <Typography>
+                    Level: <b>{Level}</b>
+                  </Typography>
+                  <Typography>
+                    Is on bench: <b>{isOnBench ? 'Yes' : 'No'}</b>
+                  </Typography>
+                </Box>
+              </>
+            )}
+          </Paper>
+        )}
+      </>
+    );
+  };
+
   const FilterSelect = ({ id, name = id, ...props }) => (
     <FormControl style={{ width: '100%' }}>
       <Select
@@ -228,6 +297,7 @@ export default function EmployeeList() {
         Employee List
       </Typography>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <SimilarEngineer />
         <PagePanel>
           <Box
             data-cy="employee-filter-block"

@@ -2,13 +2,13 @@ import React, { useState, useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link as RouterLink, useHistory, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { SvgIcon } from '@mui/material';
+import { Button, SvgIcon } from '@mui/material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CircularProgress from '@mui/material/CircularProgress';
 import Avatar from '@mui/material/Avatar';
@@ -198,18 +198,33 @@ export default function EmployeeDetails() {
   return (
     <>
       <PageTitle title={fullName} />
-      <Breadcrumbs aria-label="breadcrumb" separator="">
-        <a data-cy="employee-details-backBtn" onClick={history.goBack}>
-          <Typography>
-            <ArrowBackIcon />
-          </Typography>
-        </a>
-        <Typography variant={'h4'}>
-          {ID && <Avatar {...stringAvatar(ID, FirstName, LastName)} />}
-          &nbsp;
-          {fullName}
-        </Typography>
-      </Breadcrumbs>
+      <Grid container spacing={2}>
+        <Grid item xs={10}>
+          <Breadcrumbs aria-label="breadcrumb" separator="">
+            <a data-cy="employee-details-backBtn" onClick={history.goBack}>
+              <Typography>
+                <ArrowBackIcon />
+              </Typography>
+            </a>
+            <Typography variant={'h4'}>
+              {ID && <Avatar {...stringAvatar(ID, FirstName, LastName)} />}
+              &nbsp;
+              {fullName}
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+
+        <Grid display="flex" alignItems="center" item xs={2}>
+          <Button
+            component={RouterLink}
+            to={`/employees?similar=${ID}`}
+            color="info"
+            variant="contained"
+          >
+            Find similar engineer
+          </Button>
+        </Grid>
+      </Grid>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel data-cy="employee-details-page">
           {isLoading ? (
