@@ -91,8 +91,8 @@ export default function CustomPaginationActionsTable({
             ))}
           </colgroup>
           <SortedTableHead
-            order={order}
-            orderBy={orderBy}
+            order={Array.isArray(order) ? order[0] : order}
+            orderBy={Array.isArray(orderBy) ? orderBy[0] : orderBy}
             onRequestSort={onSortHandler}
             headCells={headCells}
           />
@@ -170,8 +170,14 @@ export default function CustomPaginationActionsTable({
 CustomPaginationActionsTable.propTypes = {
   rows: PropTypes.array.isRequired,
   headCells: PropTypes.array.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
+  order: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.arrayOf(PropTypes.string.isRequired),
+  ]),
+  orderBy: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.arrayOf(PropTypes.string.isRequired),
+  ]),
   onSortHandler: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   showFooter: PropTypes.bool,

@@ -47,6 +47,17 @@ function stringFieldComparator(a, b, orderBy) {
  * @returns {{(*=, *=): number, (*=, *=): number}}
  */
 export function getComparator(order, orderBy) {
+  if (Array.isArray(order)) {
+    return (a, b) => {
+      for (let i = 0; i < orderBy.length; i += 1) {
+        const r = descendingComparator(a, b, orderBy[i]) * (order[i] === 'DESC' ? 1 : -1);
+        if (r !== 0) {
+          return r;
+        }
+      }
+      return 0;
+    };
+  }
   return order === DESC
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
