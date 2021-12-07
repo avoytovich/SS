@@ -51,11 +51,13 @@ export default function EmployeeDetails() {
   const [employeesDBChecked, setEmployeesDBChecked] = useState(true);
   const [projectsInfoChecked, setProjectsInfoChecked] = useState(false);
   const [selectedSkillGroup, setSelectedSkillGroup] = useState(null);
-  const [order, setOrder] = useState('desc');
-  const [orderBy, setOrderBy] = useState('level');
+  const [order, setOrder] = useState(['desc', 'asc']);
+  const [orderBy, setOrderBy] = useState(['level', 'skill']);
 
   const onSortHandler = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
+    const isAsc =
+      (Array.isArray(orderBy) ? orderBy[0] : orderBy) === property &&
+      (Array.isArray(order) ? order[0] : order) === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
