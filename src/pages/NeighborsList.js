@@ -178,7 +178,6 @@ export default function NeighborsList() {
                   data-cy="neighbors-table"
                   rows={rows}
                   headCells={headCells}
-                  rowsPerPage={25}
                   order={order}
                   orderBy={orderBy}
                   onSortHandler={onSortHandler}

@@ -34,4 +34,10 @@ export const useStyles = makeStyles({
       marginRight: '15px',
     },
   },
+
+  employeeListRadioContainer: {
+    '& label': {
+      alignItems: 'center',
+    },
+  },
 });

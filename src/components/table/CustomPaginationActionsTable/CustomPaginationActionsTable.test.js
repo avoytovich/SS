@@ -16,7 +16,6 @@ test('should render component', () => {
         },
       ]}
       headCells={[]}
-      rowsPerPage={25}
       order={'asc'}
       orderBy={'id'}
       onSortHandler={() => {}}
@@ -33,7 +32,6 @@ test('no data check', () => {
     <CustomPaginationActionsTable
       rows={[]}
       headCells={[]}
-      rowsPerPage={25}
       order={'asc'}
       orderBy={'id'}
       onSortHandler={() => {}}

@@ -46,6 +46,16 @@ export const smartSkillsApi = createApi({
         }),
         transformResponse: response => response.data,
       }),
+
+      fetchSimilarEmployees: builder.query({
+        query: ({ similar }) => ({
+          url: 'employees',
+          headers: {
+            similar,
+          },
+        }),
+        transformResponse: response => response.data,
+      }),
       fetchEmployee: builder.query({
         query: ({ id }) => ({
           url: `employees/${id}`,
@@ -67,6 +77,7 @@ export const {
   useSimilarSkillsQuery,
   useNeighborSkillsQuery,
   useFetchEmployeesQuery,
+  useFetchSimilarEmployeesQuery,
   useFetchEmployeeQuery,
   useFetchSkillGroupsQuery,
 } = smartSkillsApi;

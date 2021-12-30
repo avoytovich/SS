@@ -17,12 +17,11 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
-import { getComparator, yesNo, stringToColor } from '../common/helpers';
+import { getComparator, yesNo, stringToColor, transformLevelForSort } from '../common/helpers';
 
 import { useStyles } from './styles';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
-
-const levels = { 0: 'None', 1: 'Basic', 2: 'Intermediate', 3: 'Advanced', 4: 'Expert' };
+import { employeeSkillLevels } from '../common/constants';
 
 const headCells = [
   {
@@ -98,7 +97,7 @@ export default function EmployeeDetails() {
           ({ Name: employeeSkillGroupName }) =>
             employeeSkillGroupName === Name || employeeSkillGroupName === `${Name} skills`
         );
-        // set new array to render actual list of skillGropus
+        // set new array to render actual list of skillGroups
         return {
           name: Name,
           totalCount: Skills.length,
@@ -146,33 +145,13 @@ export default function EmployeeDetails() {
     [skillGroups, selectedSkillGroup, showUnfilledSkills]
   );
 
-  const transformLevelForSort = item => {
-    switch (item.level) {
-      case 'Basic':
-        item.level = 1;
-        break;
-      case 'Intermediate':
-        item.level = 2;
-        break;
-      case 'Advanced':
-        item.level = 3;
-        break;
-      case 'Expert':
-        item.level = 4;
-        break;
-      default:
-        item.level = 0;
-    }
-    return item;
-  };
-
   const rows = useMemo(
     () =>
       [...fullSkillList]
         .map(item => transformLevelForSort(item))
         .sort(getComparator(order, orderBy))
         .map(item => {
-          item.level = levels[item.level];
+          item.level = employeeSkillLevels[item.level];
           return item;
         }),
     [fullSkillList, order, orderBy]
