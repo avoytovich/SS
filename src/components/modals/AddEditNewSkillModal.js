@@ -9,7 +9,10 @@ import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import { FormControl, InputLabel } from '@mui/material';
+import { FormControl, IconButton, InputLabel } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import { invert } from 'lodash';
 import { employeeSkillLevels } from '../../common/constants';
 import { getSkillsFromCurrentData, simpleLocaleComparator } from '../../common/helpers';
 
@@ -21,37 +24,51 @@ export default function AddEditNewSkillModal({
   level: levelProp = '',
   skill: skillProp = '',
 }) {
-  const [level, setLevel] = useState(levelProp);
-  const [skill, setSkill] = useState(skillProp);
+  const [data, setData] = useState([{ skill: '', level: '' }]);
   const employeeSkills = useMemo(() => getSkillsFromCurrentData(employees), [employees]);
+  // employeeSkills = useMemo(
+  //   () => employeeSkills.filter(value => !data.find(f => f.skill === value)),
+  //   [data]
+  // );
 
-  const isDataFilled = level && skill;
+  const isDataFilled = useMemo(() => {
+    let isFilled = true;
+    data.forEach(d => {
+      if (!d.skill || !d.level) {
+        isFilled = false;
+      }
+    });
+    return isFilled;
+  }, [data]);
 
-  const onSkillChange = e => {
-    setSkill(e.target.value);
-  };
-
-  const onLevelChange = e => {
-    setLevel(e.target.value);
+  const onDataChange = (e, i, field) => {
+    const newData = [...data];
+    newData[i][field] = e.target.value;
+    setData(newData);
   };
 
   const onOk = () => {
-    onSubmit({ filterToChange: skillProp, level, skill });
-    setLevel('');
-    setSkill('');
+    onSubmit({ filterToChange: skillProp, data });
+    setData([{ level: '', skill: '' }]);
     toggle();
   };
 
   const onCancel = () => {
-    setLevel('');
-    setSkill('');
+    setData([{ level: '', skill: '' }]);
     toggle();
+  };
+
+  const onAddMore = () => {
+    setData([...data, { skill: '', level: '' }]);
+  };
+
+  const onDataDelete = deleteIndex => () => {
+    setData(data.filter((value, index) => index !== deleteIndex));
   };
 
   useEffect(() => {
     if (levelProp && skillProp) {
-      setLevel(levelProp);
-      setSkill(skillProp);
+      setData([{ level: levelProp, skill: skillProp }]);
     }
   }, [levelProp, skillProp]);
 
@@ -68,36 +85,52 @@ export default function AddEditNewSkillModal({
           <Typography marginBottom variant="body2" color="gray">
             Pick the Skill and its Seniority level that you want to find among the employees.
           </Typography>
-
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <FormControl variant="standard" fullWidth>
-                <InputLabel shrink>Skill</InputLabel>
-                <Select onChange={onSkillChange} value={skill}>
-                  {employeeSkills.sort(simpleLocaleComparator).map((value, key) => (
-                    <MenuItem key={`skill${key}`} value={value}>
-                      {value}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormControl variant="standard" fullWidth>
-                <InputLabel shrink>Seniority Level</InputLabel>
-                <Select onChange={onLevelChange} value={level}>
-                  {Object.entries({ 5: 'All', ...employeeSkillLevels })
-                    .filter(s => s[0] !== '0')
-                    .map(([key, value]) => (
-                      <MenuItem key={`level${key}`} value={value}>
+          {data.map(({ skill, level }, i) => (
+            <Grid container spacing={2} key={`filter-${i}`}>
+              <Grid item xs={6}>
+                <FormControl variant="standard" fullWidth>
+                  <InputLabel shrink>Skill</InputLabel>
+                  <Select onChange={e => onDataChange(e, i, 'skill')} value={skill}>
+                    {employeeSkills.sort(simpleLocaleComparator).map((value, key) => (
+                      <MenuItem key={`skill${key}`} value={value}>
                         {value}
                       </MenuItem>
                     ))}
-                </Select>
-              </FormControl>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={5}>
+                <FormControl variant="standard" fullWidth>
+                  <InputLabel shrink>Seniority Level</InputLabel>
+                  <Select onChange={e => onDataChange(e, i, 'level')} value={level}>
+                    {Object.entries({
+                      5: 'All',
+                      ...invert(Object.fromEntries(employeeSkillLevels)),
+                    })
+                      .filter(s => s[0] !== '0')
+                      .map(([key, value]) => (
+                        <MenuItem key={`level${key}`} value={value}>
+                          {value}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid display="flex" alignItems="flex-end" item xs={1}>
+                {data.length > 1 && (
+                  <IconButton onClick={onDataDelete(i)}>
+                    <CloseIcon />
+                  </IconButton>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
+          ))}
+          {!levelProp && !skillProp && (
+            <Button startIcon={<AddIcon />} onClick={onAddMore}>
+              Add more
+            </Button>
+          )}
         </DialogContent>
 
         <DialogActions>

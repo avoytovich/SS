@@ -121,19 +121,24 @@ export default function EmployeeList() {
     )
   );
 
-  const onExtendedFilterChange = ({ filterToChange, level, skill }) => {
+  const onExtendedFilterChange = ({ filterToChange, data }) => {
     if (filterToChange) {
       setExtendedFilter(
         extendedFilter.map(f => {
           if (f.name === filterToChange) {
-            f.name = skill;
-            f.level = level;
+            f.name = data[0].skill;
+            f.level = data[0].level;
           }
           return f;
         })
       );
     } else {
-      setExtendedFilter([{ key: extendedFilter.length, name: skill, level }, ...extendedFilter]);
+      const newFilters = data.map(({ skill, level }, i) => ({
+        key: extendedFilter.length + i,
+        name: skill,
+        level,
+      }));
+      setExtendedFilter([...newFilters, ...extendedFilter]);
     }
 
     setFilterToEdit({ level: '', skill: '' });
@@ -211,7 +216,7 @@ export default function EmployeeList() {
             Object.keys(skill)[0] === f.name && Object.values(skill)[0] === f.level;
           const findBySkillAndAllLevels = skill =>
             Object.keys(skill)[0] === f.name &&
-            Object.values(employeeSkillLevels)
+            [...employeeSkillLevels.keys()]
               .filter(l => l !== 'None')
               .includes(Object.values(skill)[0]);
 

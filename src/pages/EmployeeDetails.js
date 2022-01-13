@@ -17,7 +17,13 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
-import { getComparator, yesNo, stringToColor, transformLevelForSort } from '../common/helpers';
+import {
+  getComparator,
+  yesNo,
+  stringToColor,
+  transformLevelForSort,
+  getValueByKeyFromMap,
+} from '../common/helpers';
 
 import { useStyles } from './styles';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
@@ -151,7 +157,7 @@ export default function EmployeeDetails() {
         .map(item => transformLevelForSort(item))
         .sort(getComparator(order, orderBy))
         .map(item => {
-          item.level = employeeSkillLevels[item.level];
+          item.level = getValueByKeyFromMap(employeeSkillLevels, item.level);
           return item;
         }),
     [fullSkillList, order, orderBy]

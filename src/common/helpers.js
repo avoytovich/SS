@@ -109,52 +109,41 @@ export function stringToColor(string) {
 }
 
 export const transformLevelForSort = item => {
-  switch (item.level) {
-    case 'Basic':
-      item.level = 1;
-      break;
-    case 'Intermediate':
-      item.level = 2;
-      break;
-    case 'Advanced':
-      item.level = 3;
-      break;
-    case 'Expert':
-      item.level = 4;
-      break;
-    default:
-      item.level = 0;
-  }
+  item.level = employeeSkillLevels.get(item.level);
   return item;
 };
 
-export const transformSkillGroupsToArray = skillGroups => {
-  let skills = [];
+export function getValueByKeyFromMap(map, searchValue) {
+  return [...map].find(([, val]) => val === searchValue)[0];
+}
 
-  const pushSkillToArray = s => {
-    Object.entries(s).forEach(([key, value]) => {
-      skills.push({ name: key, level: value });
-    });
-  };
+// export const transformSkillGroupsToArray = skillGroups => {
+//   let skills = [];
 
-  skillGroups
-    .map(({ Skills }) => [...Skills])
-    .flat()
-    .forEach(i => {
-      pushSkillToArray(i);
-    });
+//   const pushSkillToArray = s => {
+//     Object.entries(s).forEach(([key, value]) => {
+//       skills.push({ name: key, level: value });
+//     });
+//   };
 
-  skills = skills
-    .map(item => transformLevelForSort(item))
-    .sort(getComparator('desc', 'level'))
-    .map((item, index) => {
-      item.key = index;
-      item.level = employeeSkillLevels[item.level];
-      return item;
-    });
+//   skillGroups
+//     .map(({ Skills }) => [...Skills])
+//     .flat()
+//     .forEach(i => {
+//       pushSkillToArray(i);
+//     });
 
-  return skills;
-};
+//   skills = skills
+//     .map(item => transformLevelForSort(item))
+//     .sort(getComparator('desc', 'level'))
+//     .map((item, index) => {
+//       item.key = index;
+//       item.level = getValueByKeyFromMap(employeeSkillLevels, item.level);
+//       return item;
+//     });
+
+//   return skills;
+// };
 
 export const getSkillsFromCurrentData = data => {
   const skills = new Set();

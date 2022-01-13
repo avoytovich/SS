@@ -1,7 +1,7 @@
-export const employeeSkillLevels = {
-  0: 'None',
-  1: 'Basic',
-  2: 'Intermediate',
-  3: 'Advanced',
-  4: 'Expert',
-};
+export const employeeSkillLevels = new Map([
+  ['None', 0],
+  ['Basic', 1],
+  ['Intermediate', 2],
+  ['Advanced', 3],
+  ['Expert', 4],
+]);
