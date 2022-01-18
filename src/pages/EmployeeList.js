@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -8,17 +8,39 @@ import Grid from '@mui/material/Grid';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import CircularProgress from '@mui/material/CircularProgress';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import Paper from '@mui/material/Paper';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 import { useTheme } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
 import { useHistory, useLocation, Link as RouterLink } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useFetchEmployeesQuery } from '../slices/smartSkillsSlice';
-import { getStringFieldComparator, simpleLocaleComparator } from '../common/helpers';
+import {
+  useFetchEmployeeQuery,
+  useFetchEmployeesQuery,
+  useFetchSimilarEmployeesQuery,
+} from '../slices/smartSkillsSlice';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
+import { useStyles } from './styles';
+import ChipsArray from '../components/ChipsArray';
+import {
+  getStringFieldComparator,
+  simpleLocaleComparator,
+  yesNo,
+  // transformSkillGroupsToArray,
+} from '../common/helpers';
+import AddEditNewSkillModal from '../components/modals/AddEditNewSkillModal';
+import { useModal } from '../common/hooks';
+import { employeeSkillLevels } from '../common/constants';
 
 const EMPTY_VALUE = ' <Empty>';
+const filterModes = { simple: { id: 1, label: 'Simple' }, extended: { id: 2, label: 'Extended' } };
 
 const headCells = [
   {
@@ -67,11 +89,26 @@ const headCells = [
 
 export default function EmployeeList() {
   const theme = useTheme();
+  const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
+  const [similarEmployeeId, setSimilarEmployeeId] = useState(
+    new URLSearchParams(location.search).get('similar') || ''
+  );
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('fullName');
+  const [orderBy, setOrderBy] = useState(similarEmployeeId || 'fullName');
   const [search, setSearch] = useState(new URLSearchParams(location.search).get('skill') || '');
+  const [extendedFilter, setExtendedFilter] = useState(
+    JSON.parse(localStorage.getItem('extendedFilter')) ?? []
+  );
+
+  localStorage.setItem('extendedFilter', JSON.stringify(extendedFilter));
+
+  const [filterMode, setFilterMode] = useState(
+    extendedFilter.length > 0 ? filterModes.extended.id : filterModes.simple.id
+  );
+  const [filterToEdit, setFilterToEdit] = useState({ level: '', skill: '' });
+  const AddEditSkillModal = useModal();
 
   const filterKeys = useMemo(() => headCells.map(({ id }) => id, [headCells]));
   const [filters, setFilters] = useState(
@@ -84,16 +121,70 @@ export default function EmployeeList() {
     )
   );
 
+  const onExtendedFilterChange = ({ filterToChange, data }) => {
+    if (filterToChange) {
+      setExtendedFilter(
+        extendedFilter.map(f => {
+          if (f.name === filterToChange) {
+            f.name = data[0].skill;
+            f.level = data[0].level;
+          }
+          return f;
+        })
+      );
+    } else {
+      const newFilters = data.map(({ skill, level }, i) => ({
+        key: extendedFilter.length + i,
+        name: skill,
+        level,
+      }));
+      setExtendedFilter([...newFilters, ...extendedFilter]);
+    }
+
+    setFilterToEdit({ level: '', skill: '' });
+  };
+  const onChipClick = ({ level, skill }) => {
+    setFilterToEdit({ level, skill });
+    AddEditSkillModal.toggle();
+  };
+
+  const onFilterModeChange = e => {
+    setFilterMode(+e.target.value);
+  };
+
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  const { data = [], isLoading } = useFetchEmployeesQuery({
+  const { data: employeeDetails = {}, isLoading: employeeLoading } = useFetchEmployeeQuery({
+    id: similarEmployeeId,
+  });
+
+  const { data: employees = [], isEmployeesLoading } = useFetchEmployeesQuery({
     ids: 'all',
     groups: true,
   });
+
+  const { data: similarEmployeesIds = [], isLoading: isSimilarLoading } =
+    useFetchSimilarEmployeesQuery({
+      similar: similarEmployeeId,
+    });
+
+  const similarEmployees = useMemo(() => {
+    if (similarEmployeesIds.length > 0) {
+      const similar = [];
+      similarEmployeesIds.forEach(id => {
+        const foundSimilar = employees.find(row => row.ID === id);
+        if (foundSimilar) similar.push(foundSimilar);
+      });
+      return similar;
+    }
+    return [];
+  }, [similarEmployeesIds]);
+
+  const data = similarEmployeeId ? similarEmployees : employees;
 
   let rows = useMemo(
     () =>
@@ -103,8 +194,8 @@ export default function EmployeeList() {
     [data, order, orderBy]
   );
 
-  const getFilteredData = filter =>
-    rows.filter(row =>
+  const getFilteredData = filter => {
+    let filteredData = rows.filter(row =>
       filterKeys.every(
         key =>
           (typeof filter[key] === 'string' &&
@@ -114,6 +205,38 @@ export default function EmployeeList() {
           filter[key].length === 0
       )
     );
+    if (extendedFilter.length > 0) {
+      // TODO:add extended filter logic
+      const rowsByExtendedFilter = [];
+      filteredData.forEach(row => {
+        let numberOfMatches = 0;
+
+        extendedFilter.forEach(f => {
+          const findBySkillAndLevel = skill =>
+            Object.keys(skill)[0] === f.name && Object.values(skill)[0] === f.level;
+          const findBySkillAndAllLevels = skill =>
+            Object.keys(skill)[0] === f.name &&
+            [...employeeSkillLevels.keys()]
+              .filter(l => l !== 'None')
+              .includes(Object.values(skill)[0]);
+
+          const skillFound = row.Skills.find(
+            f.level === 'All' ? findBySkillAndAllLevels : findBySkillAndLevel
+          );
+
+          if (skillFound) {
+            numberOfMatches += 1;
+          }
+        });
+
+        if (numberOfMatches === extendedFilter.length) {
+          rowsByExtendedFilter.push(row);
+        }
+      });
+      filteredData = rowsByExtendedFilter;
+    }
+    return filteredData;
+  };
 
   const setDynamicValues = (values, filterName) => {
     values[filterName].clear();
@@ -188,6 +311,66 @@ export default function EmployeeList() {
     );
   }
 
+  const SimilarEngineer = () => {
+    const {
+      FirstName = '',
+      LastName = '',
+      Competency,
+      Level,
+      PrimarySpecialization,
+      isOnBench,
+    } = employeeDetails;
+
+    const onCloseClick = () => {
+      history.push('/employees');
+      setSimilarEmployeeId('');
+      setFilterMode(filterModes.simple.id);
+      setExtendedFilter([]);
+    };
+
+    return (
+      <>
+        {similarEmployeeId && (
+          <Paper classes={{ root: classes.similarEngineerPaper }}>
+            {employeeLoading ? (
+              <CircularProgress disableShrink />
+            ) : (
+              <>
+                <Grid container>
+                  <Grid item xs={11}>
+                    <Typography color="gray">Showing engineers similar to:</Typography>
+                  </Grid>
+                  <Grid item xs={1} display="flex" justifyContent="flex-end">
+                    <IconButton onClick={onCloseClick}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
+                <Typography variant="h4">{`${FirstName} ${LastName}`}</Typography>
+
+                <Box className={classes.similarEngineerDetails}>
+                  <Typography>
+                    Specialization: <b>{PrimarySpecialization}</b>
+                  </Typography>
+                  <Typography>
+                    Competency: <b>{Competency}</b>
+                  </Typography>
+                  <Typography>
+                    Level: <b>{Level}</b>
+                  </Typography>
+                  <Typography>
+                    Is on bench: <b>{yesNo(isOnBench)}</b>
+                  </Typography>
+                </Box>
+              </>
+            )}
+          </Paper>
+        )}
+      </>
+    );
+  };
+
   const FilterSelect = ({ id, name = id, ...props }) => (
     <FormControl style={{ width: '100%' }}>
       <Select
@@ -221,6 +404,14 @@ export default function EmployeeList() {
   );
   FilterSelect.propTypes = { id: PropTypes.string, name: PropTypes.string };
 
+  useEffect(() => {
+    if (similarEmployeeId) {
+      setOrderBy('');
+    } else {
+      setOrderBy('fullName');
+    }
+  }, [similarEmployeeId]);
+
   return (
     <>
       <PageTitle title="Employees List" />
@@ -228,24 +419,69 @@ export default function EmployeeList() {
         Employee List
       </Typography>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <SimilarEngineer />
+
         <PagePanel>
           <Box
-            data-cy="employee-filter-block"
             sx={{
               borderBottom: `1px solid ${theme.palette.primary.separator}`,
               padding: '10px 20px 20px',
             }}
+            data-cy="employee-filter-block"
           >
-            <TextField
-              id="skill-search-input"
-              label="Search by Skills"
-              variant="standard"
-              placeholder="Search by"
-              onChange={e => handleSkillsSearch(e.target.value)}
-              value={search}
-              style={{ width: '300px' }}
-              InputLabelProps={{ shrink: true }}
-            />
+            <Typography color="gray">Search by Skills</Typography>
+
+            <FormControl>
+              <RadioGroup
+                classes={{ root: classes.employeeListRadioContainer }}
+                row
+                value={filterMode}
+                onChange={onFilterModeChange}
+              >
+                <FormControlLabel
+                  value={filterModes.simple.id}
+                  control={<Radio />}
+                  label={filterModes.simple.label}
+                />
+                <FormControlLabel
+                  value={filterModes.extended.id}
+                  control={<Radio />}
+                  label={filterModes.extended.label}
+                />
+              </RadioGroup>
+            </FormControl>
+
+            {filterMode === filterModes.extended.id && (
+              <ChipsArray
+                chipData={extendedFilter}
+                setChipData={setExtendedFilter}
+                {...{ onChipClick }}
+              />
+            )}
+
+            {filterMode === filterModes.extended.id && (
+              <AddEditNewSkillModal
+                employees={data}
+                onSubmit={onExtendedFilterChange}
+                {...AddEditSkillModal}
+                {...filterToEdit}
+              />
+            )}
+
+            {filterMode === filterModes.simple.id && (
+              <Box>
+                <TextField
+                  id="skill-search-input"
+                  variant="standard"
+                  placeholder="Search by"
+                  onChange={e => handleSkillsSearch(e.target.value)}
+                  value={search}
+                  style={{ width: '300px' }}
+                  InputLabelProps={{ shrink: true }}
+                />
+              </Box>
+            )}
+
             <form id="filter-table-head-form">
               <Grid container spacing={2} sx={{ paddingTop: '20px' }}>
                 <Grid item xs={6} md={3}>
@@ -296,11 +532,10 @@ export default function EmployeeList() {
               data-cy="employee-list-table"
               rows={getFilteredData(filters)}
               headCells={headCells}
-              rowsPerPage={25}
               order={order}
               orderBy={orderBy}
               onSortHandler={onSortHandler}
-              isLoading={isLoading}
+              isLoading={isEmployeesLoading || isSimilarLoading}
             />
           </Box>
         </PagePanel>

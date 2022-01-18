@@ -23,4 +23,21 @@ export const useStyles = makeStyles({
     justifyContent: 'center',
     margin: 'auto',
   },
+  similarEngineerPaper: {
+    padding: '20px',
+    marginBottom: '10px',
+  },
+  similarEngineerDetails: {
+    marginTop: '15px',
+    display: 'flex',
+    '& .MuiTypography-root': {
+      marginRight: '15px',
+    },
+  },
+
+  employeeListRadioContainer: {
+    '& label': {
+      alignItems: 'center',
+    },
+  },
 });

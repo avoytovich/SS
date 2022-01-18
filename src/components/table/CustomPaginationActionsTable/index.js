@@ -25,12 +25,13 @@ export default function CustomPaginationActionsTable({
   isLoading,
   showFilteredColumn = false,
   showFooter = true,
+  rowsPerPage: rowsPerPageProp,
   ...props
 }) {
   const [filters, setFilters] = useState(null);
   const [filteredRows, setFilteredRows] = useState(rows);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(showFooter ? 10 : -1);
+  const [rowsPerPage, setRowsPerPage] = useState(showFooter ? rowsPerPageProp ?? 25 : -1);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
   const classes = useStyles({ rowsPerPage, emptyRows });
@@ -183,4 +184,6 @@ CustomPaginationActionsTable.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   showFooter: PropTypes.bool,
   showFilteredColumn: PropTypes.bool,
+  rowsPerPageProp: PropTypes.number,
+  rowsPerPage: PropTypes.number,
 };

@@ -2,13 +2,13 @@ import React, { useState, useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link as RouterLink, useHistory, useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { SvgIcon } from '@mui/material';
+import { Button, SvgIcon } from '@mui/material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CircularProgress from '@mui/material/CircularProgress';
 import Avatar from '@mui/material/Avatar';
@@ -17,12 +17,17 @@ import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
-import { getComparator, yesNo, stringToColor } from '../common/helpers';
+import {
+  getComparator,
+  yesNo,
+  stringToColor,
+  transformLevelForSort,
+  getValueByKeyFromMap,
+} from '../common/helpers';
 
 import { useStyles } from './styles';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
-
-const levels = { 0: 'None', 1: 'Basic', 2: 'Intermediate', 3: 'Advanced', 4: 'Expert' };
+import { employeeSkillLevels } from '../common/constants';
 
 const headCells = [
   {
@@ -98,7 +103,7 @@ export default function EmployeeDetails() {
           ({ Name: employeeSkillGroupName }) =>
             employeeSkillGroupName === Name || employeeSkillGroupName === `${Name} skills`
         );
-        // set new array to render actual list of skillGropus
+        // set new array to render actual list of skillGroups
         return {
           name: Name,
           totalCount: Skills.length,
@@ -146,33 +151,13 @@ export default function EmployeeDetails() {
     [skillGroups, selectedSkillGroup, showUnfilledSkills]
   );
 
-  const transformLevelForSort = item => {
-    switch (item.level) {
-      case 'Basic':
-        item.level = 1;
-        break;
-      case 'Intermediate':
-        item.level = 2;
-        break;
-      case 'Advanced':
-        item.level = 3;
-        break;
-      case 'Expert':
-        item.level = 4;
-        break;
-      default:
-        item.level = 0;
-    }
-    return item;
-  };
-
   const rows = useMemo(
     () =>
       [...fullSkillList]
         .map(item => transformLevelForSort(item))
         .sort(getComparator(order, orderBy))
         .map(item => {
-          item.level = levels[item.level];
+          item.level = getValueByKeyFromMap(employeeSkillLevels, item.level);
           return item;
         }),
     [fullSkillList, order, orderBy]
@@ -198,18 +183,33 @@ export default function EmployeeDetails() {
   return (
     <>
       <PageTitle title={fullName} />
-      <Breadcrumbs aria-label="breadcrumb" separator="">
-        <a data-cy="employee-details-backBtn" onClick={history.goBack}>
-          <Typography>
-            <ArrowBackIcon />
-          </Typography>
-        </a>
-        <Typography variant={'h4'}>
-          {ID && <Avatar {...stringAvatar(ID, FirstName, LastName)} />}
-          &nbsp;
-          {fullName}
-        </Typography>
-      </Breadcrumbs>
+      <Grid container spacing={2}>
+        <Grid item xs={10}>
+          <Breadcrumbs aria-label="breadcrumb" separator="">
+            <a data-cy="employee-details-backBtn" onClick={history.goBack}>
+              <Typography>
+                <ArrowBackIcon />
+              </Typography>
+            </a>
+            <Typography variant={'h4'}>
+              {ID && <Avatar {...stringAvatar(ID, FirstName, LastName)} />}
+              &nbsp;
+              {fullName}
+            </Typography>
+          </Breadcrumbs>
+        </Grid>
+
+        <Grid display="flex" alignItems="center" item xs={2}>
+          <Button
+            component={RouterLink}
+            to={`/employees?similar=${ID}`}
+            color="info"
+            variant="contained"
+          >
+            Find similar engineer
+          </Button>
+        </Grid>
+      </Grid>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel data-cy="employee-details-page">
           {isLoading ? (

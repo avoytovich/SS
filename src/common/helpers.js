@@ -6,6 +6,8 @@
  * @returns {number}
  */
 
+import { employeeSkillLevels } from './constants';
+
 export const ASC = 'asc';
 export const DESC = 'desc';
 
@@ -105,3 +107,46 @@ export function stringToColor(string) {
 
   return color;
 }
+
+export const transformLevelForSort = item => {
+  item.level = employeeSkillLevels.get(item.level);
+  return item;
+};
+
+export function getValueByKeyFromMap(map, searchValue) {
+  return [...map].find(([, val]) => val === searchValue)[0];
+}
+
+// export const transformSkillGroupsToArray = skillGroups => {
+//   let skills = [];
+
+//   const pushSkillToArray = s => {
+//     Object.entries(s).forEach(([key, value]) => {
+//       skills.push({ name: key, level: value });
+//     });
+//   };
+
+//   skillGroups
+//     .map(({ Skills }) => [...Skills])
+//     .flat()
+//     .forEach(i => {
+//       pushSkillToArray(i);
+//     });
+
+//   skills = skills
+//     .map(item => transformLevelForSort(item))
+//     .sort(getComparator('desc', 'level'))
+//     .map((item, index) => {
+//       item.key = index;
+//       item.level = getValueByKeyFromMap(employeeSkillLevels, item.level);
+//       return item;
+//     });
+
+//   return skills;
+// };
+
+export const getSkillsFromCurrentData = data => {
+  const skills = new Set();
+  data.forEach(employee => employee.Skills.forEach(skill => skills.add(Object.keys(skill)[0])));
+  return [...skills.values()];
+};
