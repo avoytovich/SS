@@ -99,11 +99,8 @@ export default function EmployeeList() {
   const [orderBy, setOrderBy] = useState(similarEmployeeId || 'fullName');
   const [search, setSearch] = useState(new URLSearchParams(location.search).get('skill') || '');
   const [extendedFilter, setExtendedFilter] = useState(
-    JSON.parse(localStorage.getItem('extendedFilter')) ?? []
+    JSON.parse(localStorage.getItem('employeeFilters'))?.extendedFilter ?? []
   );
-
-  localStorage.setItem('extendedFilter', JSON.stringify(extendedFilter));
-
   const [filterMode, setFilterMode] = useState(
     extendedFilter.length > 0 ? filterModes.extended.id : filterModes.simple.id
   );
@@ -112,14 +109,17 @@ export default function EmployeeList() {
 
   const filterKeys = useMemo(() => headCells.map(({ id }) => id, [headCells]));
   const [filters, setFilters] = useState(
-    filterKeys.reduce(
-      (obj, item) => ({
-        ...obj,
-        [item]: [],
-      }),
-      {}
-    )
+    JSON.parse(localStorage.getItem('employeeFilters'))?.filters ??
+      filterKeys.reduce(
+        (obj, item) => ({
+          ...obj,
+          [item]: [],
+        }),
+        {}
+      )
   );
+
+  localStorage.setItem('employeeFilters', JSON.stringify({ filters, extendedFilter }));
 
   const onExtendedFilterChange = ({ filterToChange, data }) => {
     if (filterToChange) {
