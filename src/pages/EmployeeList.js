@@ -174,6 +174,8 @@ export default function EmployeeList() {
 
   const similarEmployees = useMemo(() => {
     if (similarEmployeesIds.length > 0) {
+      filters.fullName = [];
+      setFilters({ ...filters });
       const similar = [];
       similarEmployeesIds.forEach(id => {
         const foundSimilar = employees.find(row => row.ID === id);
@@ -487,7 +489,7 @@ export default function EmployeeList() {
                 <Grid item xs={6} md={3}>
                   <TextField
                     id="employee-name-input"
-                    defaultValue=""
+                    value={filters.fullName}
                     size="small"
                     placeholder="Search by Full Name"
                     onChange={e => {
