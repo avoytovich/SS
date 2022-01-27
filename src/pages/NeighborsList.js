@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import { useParams, useHistory, Link as RouterLink } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import CircularProgress from '@mui/material/CircularProgress';
-import { TagCloud } from 'react-tagcloud';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
 import { getComparator, decodeQueryParam } from '../common/helpers';
@@ -15,9 +14,8 @@ import CustomPaginationActionsTable from '../components/table/CustomPaginationAc
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
-import { BLACK } from '../common/colors';
-
 import { useStyles } from './styles';
+import CircularBarplot from '../components/charts/circular-barplot';
 
 const headCells = [
   {
@@ -66,43 +64,6 @@ const headCells = [
   },
 ];
 
-// Custom renderer for Tag Cloud
-const customRenderer = (tag, size) => (
-  <Link
-    component={RouterLink}
-    key={tag.value}
-    underline="hover"
-    to={`/skills/${encodeURIComponent(tag.value)}`}
-  >
-    <Box
-      key={tag.value}
-      sx={{
-        margin: '3px',
-        padding: '3px',
-        fontSize: `${size}px`,
-        display: 'inline-block',
-        color: BLACK,
-      }}
-      component="span"
-    >
-      {tag.value}
-    </Box>
-  </Link>
-);
-
-// Tag Cloud component
-const SimpleCloud = ({ data }) => (
-  <TagCloud
-    data-cy="neighbors-cloud"
-    minSize={12}
-    maxSize={35}
-    tags={data}
-    disableRandomColor={true}
-    renderer={customRenderer}
-  />
-);
-SimpleCloud.propTypes = { data: PropTypes.array };
-
 export default function NeighborsList() {
   const { name } = useParams();
   const skillName = decodeQueryParam(name);
@@ -110,6 +71,9 @@ export default function NeighborsList() {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Proximity');
+
+  const hotLegendRectangle = <div className={classes.shape} style={{ background: '#67001f' }} />;
+  const coldLegendRectangle = <div className={classes.shape} style={{ background: '#053061' }} />;
 
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -122,7 +86,7 @@ export default function NeighborsList() {
     groups: true,
   });
 
-  const tagCloudData = [...data.slice(0, 12)];
+  const tagCloudData = [...data.slice(0, 25)];
   const details = data?.[0];
 
   const rows = useMemo(() => [...data].sort(getComparator(order, orderBy)), [data, order, orderBy]);
@@ -152,25 +116,55 @@ export default function NeighborsList() {
               >
                 <Box
                   sx={{
-                    border: 1,
-                    padding: 2,
-                    maxWidth: { xs: 300, md: 250 },
-                    height: 125,
                     display: 'flex',
+                    justifyContent: 'space-between',
                     flexDirection: 'column',
                   }}
-                  textAlign="left"
                 >
-                  <Typography>Group: {details?.Group}</Typography>
-                  <Typography>Engineers: {details?.EngineersCount}</Typography>
+                  <Box
+                    sx={{
+                      border: 1,
+                      padding: 2,
+                      maxWidth: { xs: 300, md: 250 },
+                      height: 125,
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                    textAlign="left"
+                  >
+                    <Typography>Group: {details?.Group}</Typography>
+                    <Typography>Engineers: {details?.EngineersCount}</Typography>
+                  </Box>
+                  <Box
+                    className="legend"
+                    sx={{
+                      textAlign: 'right',
+                      marginTop: '50px',
+                      marginRight: '50px',
+                    }}
+                  >
+                    <Box className={classes.legendItem}>
+                      {hotLegendRectangle}
+                      <Typography variant="caption">
+                        As it closer to red this skill is more closer to current
+                      </Typography>
+                    </Box>
+                    <Box className={classes.legendItem}>
+                      {coldLegendRectangle}
+                      <Typography variant="caption">
+                        As it closer to blue this skill is less closer to current
+                      </Typography>
+                    </Box>
+                    <Box className={classes.legendItem}>
+                      <BarChartIcon className={classes.shape} style={{ width: '30px' }} />
+                      <Typography variant="caption">
+                        The height of column means how popular skill is
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Box>
                 <Box>
-                  <SimpleCloud
-                    data={tagCloudData.map(({ Name, Proximity }) => ({
-                      value: Name,
-                      count: (1 - Proximity) * 100,
-                    }))}
-                  />
+                  <CircularBarplot data={tagCloudData || []} />
                 </Box>
               </Box>
               <Box sx={{ padding: '0 20px' }}>
