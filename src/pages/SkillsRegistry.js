@@ -71,10 +71,16 @@ export default function SkillsRegistry() {
   const theme = useTheme();
   const [order, setOrder] = useState(ASC);
   const [orderBy, setOrderBy] = useState('ID');
-  const [skillGroups, setSkillGroups] = useState([]);
-  const [skillName, setSkillName] = useState('');
+  const [skillGroups, setSkillGroups] = useState(
+    JSON.parse(localStorage.getItem('skillsFilters'))?.skillGroups ?? []
+  );
+  const [skillName, setSkillName] = useState(
+    JSON.parse(localStorage.getItem('skillsFilters'))?.skillName ?? ''
+  );
   const [similarSkills, setSimilarSkills] = useState([]);
   const [similarSkillsLoading, setSimilarSkillsLoading] = useState(false);
+
+  localStorage.setItem('skillsFilters', JSON.stringify({ skillName, skillGroups }));
 
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === ASC;
