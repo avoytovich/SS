@@ -40,4 +40,17 @@ export const useStyles = makeStyles({
       alignItems: 'center',
     },
   },
+  shape: {
+    width: 40,
+    height: 20,
+    marginRight: 8,
+    marginBottom: 4,
+  },
+  legendItem: {
+    display: 'flex',
+    flexFlow: 'row',
+    justifyContent: 'flex-start',
+    textAlign: 'left',
+    alignItems: 'center',
+  },
 });

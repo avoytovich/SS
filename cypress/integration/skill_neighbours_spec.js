@@ -1,5 +1,5 @@
 describe('Skill neighbours test scenarios', () => {
-  it('The user navigates to the specified Skill neighbours page, the skills tag cloud and neighbours table is shown', () => {
+  it('The user navigates to the specified Skill neighbours page, the skills graph and neighbours table is shown', () => {
     cy.visit('/skills');
     cy.get('[data-testid=custom-table]')
       .find('tbody tr')
@@ -8,7 +8,7 @@ describe('Skill neighbours test scenarios', () => {
       .eq(2)
       .find('a')
       .click();
-    cy.get('[data-cy=neighbors-cloud]').should('exist');
+    cy.get('[data-cy=neighbors-graph]').should('exist');
     cy.get('[data-cy=neighbors-table]').should('exist');
   });
 
