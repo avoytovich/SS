@@ -85,6 +85,13 @@ const headCells = [
     filterable: true,
     width: '21%',
   },
+  {
+    id: 'isOnBench',
+    numeric: false,
+    label: 'Bench',
+    filterable: true,
+    width: '21%',
+  },
 ];
 
 export default function EmployeeList() {
@@ -162,7 +169,7 @@ export default function EmployeeList() {
     id: similarEmployeeId,
   });
 
-  const { data: employees = [], isEmployeesLoading } = useFetchEmployeesQuery({
+  const { data: employees = [], isLoading: isEmployeesLoading } = useFetchEmployeesQuery({
     ids: 'all',
     groups: true,
   });
@@ -191,7 +198,11 @@ export default function EmployeeList() {
   let rows = useMemo(
     () =>
       [...data]
-        .map(item => ({ ...item, fullName: `${item.FirstName} ${item.LastName}` }))
+        .map(item => ({
+          ...item,
+          fullName: `${item.FirstName} ${item.LastName}`,
+          isOnBench: yesNo(item.isOnBench),
+        }))
         .sort(getStringFieldComparator(order, orderBy)),
     [data, order, orderBy]
   );
@@ -252,7 +263,7 @@ export default function EmployeeList() {
   };
 
   const filterValues = useMemo(() => {
-    const values = data.reduce(
+    const values = rows.reduce(
       (acc, current) => {
         filterKeys.forEach(key => {
           acc[key].add(current[key] ?? EMPTY_VALUE);
@@ -272,7 +283,7 @@ export default function EmployeeList() {
       setDynamicValues(values, 'Level');
     }
     return values;
-  }, [filters.Competency, filters.PrimarySpecialization, data, filterKeys]);
+  }, [filters.Competency, filters.PrimarySpecialization, rows, filterKeys]);
 
   const handleChange = key => e => {
     const { value } = e.target;
@@ -286,6 +297,8 @@ export default function EmployeeList() {
       filters[key] = [];
     });
     setFilters({ ...filters });
+    setSearch('');
+    history.push('/employees');
   };
 
   const handleSkillsSearch = value => {
@@ -393,8 +406,12 @@ export default function EmployeeList() {
           return selected.map(filter => filter || EMPTY_VALUE).join(', ');
         }}
       >
-        <MenuItem key="select-all" value={`-- ${name} Name --`} disabled>
-          -- {name} Name --
+        <MenuItem
+          key="select-all"
+          value={id === name ? `-- ${name} Name --` : `-- ${name} --`}
+          disabled
+        >
+          {id === name ? `-- ${name} Name --` : `-- ${name} --`}
         </MenuItem>
         {[...filterValues[id]].sort(simpleLocaleComparator).map(item => (
           <MenuItem key={item} value={item}>
@@ -486,7 +503,7 @@ export default function EmployeeList() {
 
             <form id="filter-table-head-form">
               <Grid container spacing={2} sx={{ paddingTop: '20px' }}>
-                <Grid item xs={6} md={3}>
+                <Grid item xs={6} md={2}>
                   <TextField
                     id="employee-name-input"
                     value={filters.fullName}
@@ -511,6 +528,9 @@ export default function EmployeeList() {
                 </Grid>
                 <Grid item xs={6} md={2}>
                   <FilterSelect data-cy="employee-select-level" id="Level" />
+                </Grid>
+                <Grid item xs={6} md={2}>
+                  <FilterSelect id="isOnBench" name="Is On Bench" />
                 </Grid>
                 <Grid item xs={6} md={1}>
                   <Link
