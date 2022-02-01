@@ -24,6 +24,10 @@ Lint:
   script:
     - echo "Linting code..."
     - npm run lint
+  only:
+    - master
+    - merge_requests
+    - branches
 
 Build:
   stage: build
@@ -72,6 +76,10 @@ Unit Tests:
   script:
     - echo "Running tests..."
     - npm run test
+  only:
+    - master
+    - merge_requests
+    - branches
 
 Deploy:
   stage: deploy
