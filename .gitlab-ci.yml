@@ -24,8 +24,6 @@ Lint:
   script:
     - echo "Linting code..."
     - npm run lint
-  when:
-    - always
 
 Build:
   stage: build
@@ -74,8 +72,6 @@ Unit Tests:
   script:
     - echo "Running tests..."
     - npm run test
-  when:
-    - always
 
 Deploy:
   stage: deploy
