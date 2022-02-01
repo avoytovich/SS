@@ -52,6 +52,7 @@ export default function EmployeeDetails() {
   const { employeeId } = useParams();
   const history = useHistory();
   const [showUnfilledSkills, setShowUnfilledSkills] = useState(true);
+  const [showUnfilledGroups, setShowUnfilledGroups] = useState(false);
   const [techMatrixChecked, setTechMatrixChecked] = useState(true);
   const [employeesDBChecked, setEmployeesDBChecked] = useState(true);
   const [projectsInfoChecked, setProjectsInfoChecked] = useState(false);
@@ -95,7 +96,7 @@ export default function EmployeeDetails() {
 
   // set whole skillGroups List with total count
   // and number of skills which are selected for employee
-  const skillGroupsList = useMemo(
+  const unfilledSkillGroups = useMemo(
     () =>
       skillGroups.map(({ Name, Skills }) => {
         // find whether employee has current skillGroup
@@ -117,6 +118,13 @@ export default function EmployeeDetails() {
       }),
     [employeeDetails, skillGroups]
   );
+
+  const filledSkillGroups = useMemo(
+    () => unfilledSkillGroups.filter(s => s.employeesSkillsCount > 0),
+    [unfilledSkillGroups]
+  );
+
+  const skillGroupsList = showUnfilledGroups ? unfilledSkillGroups : filledSkillGroups;
 
   // set an array of employee's skills according to selected skillGroup
   const employeeSkillsList = useMemo(
@@ -254,6 +262,15 @@ export default function EmployeeDetails() {
                         />
                       }
                       label="Show unfilled skills"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={showUnfilledGroups}
+                          onChange={() => setShowUnfilledGroups(!showUnfilledGroups)}
+                        />
+                      }
+                      label="Show unfilled groups"
                     />
                   </Grid>
                   <Grid item xs={4}>
