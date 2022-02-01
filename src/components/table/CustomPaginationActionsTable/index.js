@@ -80,12 +80,7 @@ export default function CustomPaginationActionsTable({
   return (
     <>
       <TableContainer classes={{ root: classes.customTableContainer }} component={Paper}>
-        <Table
-          data-testid="custom-table"
-          sx={{ minWidth: 650 }}
-          aria-label="custom pagination table"
-          {...props}
-        >
+        <Table data-testid="custom-table" aria-label="custom pagination table" {...props}>
           <colgroup>
             {headCells.map(({ width, id }) => (
               <col key={id} width={width} />

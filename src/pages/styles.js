@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import { GREY_4 } from '../common/colors';
 
 export const useStyles = makeStyles({
   flexColumn: {
@@ -6,7 +7,7 @@ export const useStyles = makeStyles({
     flexDirection: 'column',
   },
   parentScrollContainer: {
-    overflow: 'hidden',
+    overflowY: 'scroll',
     flexGrow: 1,
     minHeight: '250px',
     position: 'relative',
@@ -17,7 +18,25 @@ export const useStyles = makeStyles({
     left: 0,
     right: 0,
     bottom: 0,
-    overflow: 'auto',
+    overflowY: 'scroll',
+    '&::-webkit-scrollbar': {
+      backgroundColor: 'white',
+      width: '16px',
+    },
+    '&::-webkit-scrollbar-track:vertical': {
+      backgroundColor: 'white',
+    },
+    '&::-webkit-scrollbar-track:vertical:hover': {
+      backgroundColor: 'white',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: GREY_4,
+      borderRadius: '16px',
+      border: '5px solid white',
+    },
+    '&::-webkit-scrollbar-button': {
+      display: 'none',
+    },
   },
   centerContent: {
     justifyContent: 'center',
