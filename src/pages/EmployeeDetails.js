@@ -35,7 +35,7 @@ const headCells = [
     numeric: false,
     filterable: true,
     label: 'Skill Name',
-    width: '50%',
+    width: '75%',
   },
   {
     id: 'level',
