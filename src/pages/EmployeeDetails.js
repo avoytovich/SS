@@ -266,6 +266,7 @@ export default function EmployeeDetails() {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          data-cy="employee-details-show-unfilled-skill-groups"
                           checked={showUnfilledGroups}
                           onChange={() => setShowUnfilledGroups(!showUnfilledGroups)}
                         />
