@@ -24,9 +24,8 @@ Lint:
   script:
     - echo "Linting code..."
     - npm run lint
-  only:
-    - master
-    - merge_requests
+  when:
+    - always
 
 Build:
   stage: build
@@ -75,9 +74,8 @@ Unit Tests:
   script:
     - echo "Running tests..."
     - npm run test
-  only:
-    - master
-    - merge_requests
+  when:
+    - always
 
 Deploy:
   stage: deploy
@@ -169,5 +167,6 @@ Branch Cypress Tests:
     expire_in: 1 day
   only:
     - merge_requests
+    - branches
   except:
     - master
