@@ -18,18 +18,6 @@ describe('Employee details test scenarios', () => {
   it('When the user checks each skill group, appropriate skills with levels are shown. If the employee has not entered any level of the skill - None is shown instead', () => {
     cy.get('[data-cy=employee-details-skill-group]')
       .find('p')
-      .filter(':contains("(0/")')
-      .each(el => {
-        cy.wrap(el).click();
-        cy.get('[data-cy=employee-details-skill-list')
-          .find('tbody tr td + td')
-          .each(seniority => {
-            cy.wrap(seniority).contains('None');
-          });
-      });
-
-    cy.get('[data-cy=employee-details-skill-group]')
-      .find('p')
       .not(':contains("(0/")')
       .each(el => {
         cy.wrap(el).click();
@@ -39,9 +27,23 @@ describe('Employee details test scenarios', () => {
             cy.wrap(seniority).invoke('text').should('have.length.gte', 1);
           });
       });
+
+    cy.get('[data-cy=employee-details-show-unfilled-skill-groups]').click();
+
+    cy.get('[data-cy=employee-details-skill-group]')
+      .find('p')
+      .filter(':contains("(0/")')
+      .each(el => {
+        cy.wrap(el).click();
+        cy.get('[data-cy=employee-details-skill-list')
+          .find('tbody tr td + td')
+          .each(seniority => {
+            cy.wrap(seniority).contains('None');
+          });
+      });
   });
 
-  it('If the user unchecks Show unfilled skills checkbox, only filled-in skills are shown.', () => {
+  it('If the user unchecks Show unfilled skills and Show unfilled skill groups checkboxes, only filled-in skills are shown.', () => {
     cy.get('[data-cy=employee-details-show-unfilled-skills]').click();
 
     cy.get('[data-cy=employee-details-skill-group]')
@@ -65,6 +67,16 @@ describe('Employee details test scenarios', () => {
           .each(seniority => {
             cy.wrap(seniority).invoke('text').should('not.equal', 'None');
           });
+      });
+  });
+
+  it('If the user unchecks Show unfilled skill groups checkbox, only filled-in skill groups are shown.', () => {
+    cy.get('[data-cy=employee-details-show-unfilled-skill-groups]').click();
+
+    cy.get('[data-cy=employee-details-skill-group]')
+      .find('p')
+      .each(el => {
+        el.not(':contains("(0/")');
       });
   });
 
