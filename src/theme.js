@@ -1,6 +1,6 @@
 import { red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
-import createBreakpoints from '@mui/system/esm/createTheme/createBreakpoints';
+
 import {
   CAPGEMINI_BLUE,
   VIBRANT_BLUE,
@@ -16,7 +16,7 @@ import {
   BLUE,
 } from './common/colors';
 
-const breakpoints = createBreakpoints({});
+const { breakpoints } = createTheme();
 
 const theme = createTheme({
   palette: {
