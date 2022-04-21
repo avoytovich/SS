@@ -13,5 +13,6 @@ export const useModal = () => {
   return {
     isOpen,
     toggle,
+    setIsOpen,
   };
 };
