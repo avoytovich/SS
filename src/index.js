@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import App from './App';
+import App from './containers/App/App';
 import theme from './theme';
 import reportWebVitals from './reportWebVitals';
 import { persistor, store } from './store';

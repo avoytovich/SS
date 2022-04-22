@@ -6,24 +6,24 @@ import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import { BrowserRouter as Router, Route, Switch, NavLink as RouterLink } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import NeighborsList from './pages/NeighborsList';
-import SkillsRegistry from './pages/SkillsRegistry';
-import EmployeeList from './pages/EmployeeList';
-import EmployeeDetails from './pages/EmployeeDetails';
-import Footer from './components/Footer';
-import ErrorFallback from './components/ErrorFallback';
+import Login from '../../pages/Login';
+import Home from '../../pages/Home';
+import NotFound from '../../pages/NotFound';
+import NeighborsList from '../../pages/NeighborsList';
+import SkillsRegistry from '../../pages/SkillsRegistry';
+import EmployeeList from '../../pages/EmployeeList';
+import EmployeeDetails from '../../pages/EmployeeDetails';
+import Footer from '../../components/Footer';
+import ErrorFallback from '../../components/ErrorFallback';
 
-import PublicRoute from './routes/PublicRoute';
-import PrivateRoute from './routes/PrivateRoute';
+import PublicRoute from '../../routes/PublicRoute';
+import PrivateRoute from '../../routes/PrivateRoute';
 
-import './fonts/Ubuntu-Light.ttf';
-import './fonts/Ubuntu-Regular.ttf';
-import './fonts/Ubuntu-Medium.ttf';
+import '../../assets/fonts/Ubuntu-Light.ttf';
+import '../../assets/fonts/Ubuntu-Regular.ttf';
+import '../../assets/fonts/Ubuntu-Medium.ttf';
 import './App.css';
-import UserMenu from './components/UserMenu';
+import UserMenu from '../../components/UserMenu';
 
 const isActiveFn = path => (match, location) => location.pathname.startsWith(path);
 
