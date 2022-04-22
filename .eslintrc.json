@@ -1,42 +1,42 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true,
-	    "jest": true
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:react/recommended",
+    "plugin:cypress/recommended",
+    "eslint-config-prettier"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-	"extends": [
-		"airbnb-base",
-		"plugin:react/recommended",
-		"plugin:cypress/recommended",
-		"eslint-config-prettier"
-	],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-	    "jest",
-		"eslint-plugin-prettier"
-    ],
-    "rules": {
-	    "no-underscore-dangle": ["off"],
-	    "no-console": ["off"],
-	    "import/extensions": ["off"],
-	    "import/prefer-default-export": ["off"],
-	    "import/no-extraneous-dependencies": ["off"],
-	    "no-param-reassign": ["off"],
-	    "no-tabs": 0,
-	    "quotes": [2, "single", { "avoidEscape": false }],
-	    "arrow-parens": [0],
-		"max-len": [1, { "code": 100, "ignoreComments": true, "ignoreTemplateLiterals": true, "ignoreStrings": true }]
-    },
-	"settings": {
-		"react": {
-			"version": "detect"
-		}
-	}
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "jest", "eslint-plugin-prettier"],
+  "rules": {
+    "react/prop-types": 0,
+    "no-underscore-dangle": ["off"],
+    "no-console": ["off"],
+    "import/extensions": ["off"],
+    "import/prefer-default-export": ["off"],
+    "import/no-extraneous-dependencies": ["off"],
+    "no-param-reassign": ["off"],
+    "no-tabs": 0,
+    "quotes": [2, "single", { "avoidEscape": false }],
+    "arrow-parens": [0],
+    "max-len": [
+      1,
+      { "code": 100, "ignoreComments": true, "ignoreTemplateLiterals": true, "ignoreStrings": true }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
