@@ -11,8 +11,8 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import auth from './slices/auth';
-import { smartSkillsApi } from './slices/smartSkillsSlice';
+import auth from '../slices/auth';
+import { smartSkillsApi } from '../slices/smartSkillsSlice';
 
 const persistConfig = {
   key: 'auth',
