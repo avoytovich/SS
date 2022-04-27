@@ -14,11 +14,11 @@ import {
   GREY_4,
   BLACK,
   BLUE,
-} from './common/colors';
+} from '../common/colors';
 
 const { breakpoints } = createTheme();
 
-const theme = createTheme({
+const themeConfig = createTheme({
   palette: {
     primary: {
       light: VIBRANT_BLUE,
@@ -325,4 +325,4 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+export default themeConfig;

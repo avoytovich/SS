@@ -1,12 +1,5 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const connectProxyMiddleware = require('../server/proxy');
 
 module.exports = app => {
-  app.use(
-    ['/api'],
-    createProxyMiddleware({
-      target: 'http://skills.lohika.com',
-      changeOrigin: true,
-      logLevel: 'debug',
-    })
-  );
+  connectProxyMiddleware(app);
 };
