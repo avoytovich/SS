@@ -19,7 +19,7 @@ export default function Welcome() {
         <Typography variant="h4" component="h1" gutterBottom>
           404 Page Not Found
         </Typography>
-        <Link component={RouterLink} underline="hover" to={'/'}>
+        <Link component={RouterLink} underline="hover" to={'/home'}>
           <Typography textAlign="center">Go Home</Typography>
         </Link>
       </Box>

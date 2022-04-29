@@ -7,22 +7,23 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import CardActionArea from '@mui/material/CardActionArea';
-import { loginByToken } from '../slices/auth';
+import { loginByToken } from 'slices/auth';
+import { userRoles } from 'constants/user';
 
 export default function Login() {
   const dispatch = useDispatch();
 
-  const onUserClick = name => () => {
+  const onUserClick = role => () => {
     const data = {
-      profile: { name },
-      token: name,
+      profile: { name: role.name },
+      token: role.id,
     };
     dispatch(loginByToken(data));
   };
 
-  const UserCard = ({ name }) => (
+  const UserCard = ({ role }) => (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea onClick={onUserClick(name)}>
+      <CardActionArea onClick={onUserClick(role)}>
         <CardContent>
           <Box justifyContent="center" display="flex">
             <Avatar
@@ -33,7 +34,7 @@ export default function Login() {
             />
           </Box>
           <Typography textAlign="center" gutterBottom variant="h5" component="div">
-            {name}
+            {role.name}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -46,18 +47,11 @@ export default function Login() {
         Login as:
       </Typography>
       <Grid spacing={2} container justifyContent="center">
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Super Admin" />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Moderator" />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Manager" />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Employee" />
-        </Grid>
+        {Object.values(userRoles).map(role => (
+          <Grid item xs={12} md={3} lg={3} key={role.id}>
+            <UserCard role={role} />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );
