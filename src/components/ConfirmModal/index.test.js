@@ -9,8 +9,8 @@ test('Render confirm modal and check if text displayed', () => {
       bodyContent={{ title: 'title', text: 'text', cancelText: 'No', confirmText: 'Yes' }}
     />
   );
-  expect(screen.getByText(/title/i)).toBeInTheDocument();
-  expect(screen.getByText(/text/i)).toBeInTheDocument();
-  expect(screen.getByText(/No/i)).toBeInTheDocument();
-  expect(screen.getByText(/Yes/i)).toBeInTheDocument();
+  expect(screen.getByTestId('confirm-modal-title')).toHaveTextContent('title');
+  expect(screen.getByTestId('confirm-modal-text')).toHaveTextContent('text');
+  expect(screen.getByTestId('confirm-modal-cancel-btn')).toHaveTextContent('No');
+  expect(screen.getByTestId('confirm-modal-confirm-btn')).toHaveTextContent('Yes');
 });

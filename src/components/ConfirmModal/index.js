@@ -11,13 +11,17 @@ import PropTypes from 'prop-types';
 function ConfirmModal({ modalOpen, toggle, bodyContent, handleSubmit }) {
   return (
     <Dialog open={modalOpen} onClose={toggle}>
-      <DialogTitle>{bodyContent?.title}</DialogTitle>
+      <DialogTitle data-testid="confirm-modal-title">{bodyContent?.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{bodyContent?.text}</DialogContentText>
+        <DialogContentText data-testid="confirm-modal-text">{bodyContent?.text}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={toggle}>{bodyContent?.cancelText}</Button>
-        <Button onClick={handleSubmit}>{bodyContent?.confirmText}</Button>
+        <Button data-testid="confirm-modal-cancel-btn" onClick={toggle}>
+          {bodyContent?.cancelText}
+        </Button>
+        <Button data-testid="confirm-modal-confirm-btn" onClick={handleSubmit}>
+          {bodyContent?.confirmText}
+        </Button>
       </DialogActions>
     </Dialog>
   );
