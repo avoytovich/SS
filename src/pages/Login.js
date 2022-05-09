@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -9,16 +9,14 @@ import Avatar from '@mui/material/Avatar';
 import CardActionArea from '@mui/material/CardActionArea';
 import { loginByToken } from 'slices/auth';
 import { userRoles } from 'constants/user';
+import { useSigninUserMutation } from 'api/auth';
 
 export default function Login() {
   const dispatch = useDispatch();
+  const [signinUser, { data, isSuccess }] = useSigninUserMutation();
 
   const onUserClick = role => () => {
-    const data = {
-      profile: { name: role.name },
-      token: role.id,
-    };
-    dispatch(loginByToken(data));
+    signinUser({ role: role.id });
   };
 
   const UserCard = ({ role }) => (
@@ -34,12 +32,18 @@ export default function Login() {
             />
           </Box>
           <Typography textAlign="center" gutterBottom variant="h5" component="div">
-            {role.name}
+            {role.label}
           </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
   );
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(loginByToken(data));
+    }
+  }, [isSuccess]);
 
   return (
     <Box sx={{ my: 4, flex: 1, textAlign: 'center' }}>

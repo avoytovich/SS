@@ -10,25 +10,26 @@ import NeighborsList from 'pages/NeighborsList';
 import EmployeeList from 'pages/EmployeeList';
 import EmployeeDetails from 'pages/EmployeeDetails';
 import NotFound from 'pages/NotFound';
+import { appRoutes } from 'constants/appRoutes';
 
 const AppRouter = () => (
   <Switch>
-    <PublicRoute path={['/', '/login']} restricted exact={true}>
+    <PublicRoute path={['/', appRoutes.login]} restricted exact={true}>
       <Login />
     </PublicRoute>
-    <PrivateRoute path="/home" exact={true}>
+    <PrivateRoute path={appRoutes.home} exact={true}>
       <Home />
     </PrivateRoute>
-    <PrivateRoute path="/skills" exact={true}>
+    <PrivateRoute path={appRoutes.skills} exact={true}>
       <SkillsRegistry />
     </PrivateRoute>
-    <PrivateRoute path="/skills/:name" exact={true}>
+    <PrivateRoute path={appRoutes.neighbors} exact={true}>
       <NeighborsList />
     </PrivateRoute>
-    <PrivateRoute path="/employees" exact={true}>
+    <PrivateRoute path={appRoutes.employees} exact={true}>
       <EmployeeList />
     </PrivateRoute>
-    <PrivateRoute path="/employees/:employeeId" exact={true}>
+    <PrivateRoute path={appRoutes.employeeDetails} exact={true}>
       <EmployeeDetails />
     </PrivateRoute>
     <Route component={NotFound} />

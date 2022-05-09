@@ -36,7 +36,7 @@ export default function UserMenu() {
         aria-expanded={isOpen ? 'true' : undefined}
         onClick={handleClick}
       >
-        {profile?.name}
+        {`${profile?.first_name} ${profile?.last_name}`}
       </Button>
       <Menu
         id="user-menu"
