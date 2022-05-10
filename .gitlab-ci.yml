@@ -6,7 +6,6 @@ stages:
   - build
   - quality
   - security
-  - release
   - deploy
 
 variables:
@@ -38,12 +37,27 @@ unit-tests:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker run $CONTAINER_TEST_IMAGE npm run test
 
-release-image:
-  stage: release
+build-and-push-to-registry:
+  stage: deploy
   extends: .before_script_template
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker run $CONTAINER_RELEASE_IMAGE npm run build
     - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - develop
+
+deploy-development-server:
+  stage: deploy
+  script:
+    - chmod og= $DEPLOY_STAGING_KEY
+    - apk update && apk add openssh-client
+    - ssh -i $DEPLOY_STAGING_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - ssh -i $DEPLOY_STAGING_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "docker pull $CONTAINER_RELEASE_IMAGE"
+    - ssh -i $DEPLOY_STAGING_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "cd /home/ubuntu/smartskills-deployment && docker-compose up -d"
+  environment:
+    name: development
+    url: http://172.30.27.132
   only:
     - develop
