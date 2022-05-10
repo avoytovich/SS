@@ -26,9 +26,9 @@ build-test-image:
 linter:
   stage: quality
   extends: .before_script_template
+  image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker run $CONTAINER_TEST_IMAGE npm run lint
+    - npm run lint
 
 unit-tests:
   stage: quality
