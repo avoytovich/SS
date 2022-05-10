@@ -29,14 +29,14 @@ linter:
   extends: .before_script_template
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run npm run lint
+    - docker run $CONTAINER_TEST_IMAGE npm run lint
 
 unit-tests:
   stage: quality
   extends: .before_script_template
   script:
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker run npm run test
+    - docker run $CONTAINER_TEST_IMAGE npm run test
 
 release-image:
   stage: release
