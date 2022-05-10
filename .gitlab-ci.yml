@@ -1,176 +1,49 @@
-image: node:16.13.0
-
-before_script:
-  - apt-get update -qq && apt-get install
-  - node -v && npm -v
-  - npm install
+image: docker:20.10.10
+services:
+  - docker:20.10.10-dind
 
 stages:
-  - lint
   - build
-  - test
+  - quality
+  - security
+  - release
   - deploy
-  - e2e
-  - cleanup
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
-  policy: pull
+variables:
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
-Lint:
-  stage: lint
-  script:
-    - echo "Linting code..."
-    - npm run lint
-  only:
-    - master
-    - merge_requests
-    - branches
-
-Build:
-  stage: build
-  script:
-    - echo "Building app..."
-    - npm run build
-    - cd build
-    - touch "version.js"
-    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'; window.BASEPATH='/'" > version.js
-  artifacts:
-    paths:
-      - build
-    expire_in: 1 week
-  only:
-    - master
-
-Build Branch:
-  stage: build
-  variables:
-    ASSET_PATH: /branches/$CI_COMMIT_REF_SLUG
-    BRANCH_LINK: $CI_PROJECT_URL/-/merge_requests/$CI_MERGE_REQUEST_IID
-  script:
-    - echo "Building app..."
-    - npm run build
-    - cd build
-    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'; window.BASEPATH='/branches/$CI_COMMIT_REF_SLUG/'; window.BRANCH_LINK='$BRANCH_LINK'" > version.js
-    - sed -i'' 's/<base href="\/">/<base href="\/branches\/'$CI_COMMIT_REF_SLUG'\/">/' index.html
-    - sed -i'' 's/<script src="\/version.js">/<script src="\/branches\/'$CI_COMMIT_REF_SLUG'\/version.js">/' index.html
-    - sed -i'' "s/\/static\/js/\/branches\/$CI_COMMIT_REF_SLUG\/static\/js/g" index.html
-    - sed -i'' "s/\/static\/css/\/branches\/$CI_COMMIT_REF_SLUG\/static\/css/g" index.html
-  only:
-    - merge_requests
-  except:
-    - master
-  artifacts:
-    paths:
-      - build
-    expire_in: 1 week
-  environment:
-    name: $CI_COMMIT_REF_SLUG
-    url: http://skills.lohika.com/branches/$CI_COMMIT_REF_SLUG
-    on_stop: Remove Branch Directory
-
-Unit Tests:
-  stage: test
-  script:
-    - echo "Running tests..."
-    - npm run test
-  only:
-    - master
-    - merge_requests
-    - branches
-
-Deploy:
-  stage: deploy
-  allow_failure: true
-  script:
-    - echo "Deploying application..."
-    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/
-    - echo "Application successfully deployed."
-  only:
-    - master
-
-Deploy Branch:
-  stage: deploy
-  allow_failure: true
-  script:
-    - echo "Deploying application..."
-    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh $USER_NAME@$SERVER_NAME "mkdir -p ~/smartskills/ui/branches"
-    - ssh $USER_NAME@$SERVER_NAME "mkdir -p ~/smartskills/ui/branches/$CI_COMMIT_REF_SLUG"
-    - scp -prq ./build/* $USER_NAME@$SERVER_NAME:/home/$USER_NAME/smartskills/ui/branches/$CI_COMMIT_REF_SLUG
-    - echo "Application successfully deployed."
-  only:
-    - merge_requests
-  except:
-    - master
-
-Remove Branch Directory:
+.before_script_template:
   before_script:
-    - echo "Ignoring global before_script"
-  stage: cleanup
-  script:
-    - echo "Removing branch directory..."
-    - echo "Getting source branch..."
-    - SOURCE_BRANCH=$(echo $CI_COMMIT_TITLE | sed "s/^Merge branch '\\([^']*\\)' into 'master'/\\1/" | tr "[:upper:]" "[:lower:]")
-    - echo "Source branch --- $SOURCE_BRANCH"
-    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - ssh $USER_NAME@$SERVER_NAME "rm -rf ~/smartskills/ui/branches/$SOURCE_BRANCH"
-  when: always
-  only:
-    - master
-  environment:
-    name: $CI_COMMIT_REF_SLUG
-    action: stop
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
 
+build-test-image:
+    stage: build
+    extends: .before_script_template
+    script:
+      - docker build -t $CONTAINER_TEST_IMAGE -f src/Dockerfile .
+      - docker push $CONTAINER_TEST_IMAGE
 
-Cypress Tests:
-  image: cypress/browsers:node14.17.0-chrome88-ff89
-  stage: e2e
-  allow_failure: true
-  variables:
-    BASE_URL: "http://${SERVER_NAME}"
+linter:
+  stage: quality
+  extends: .before_script_template
   script:
-    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
-  artifacts:
-    when: always
-    paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
-    expire_in: 1 day
-  only:
-    - master
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker run npm run lint
 
-Branch Cypress Tests:
-  image: cypress/browsers:node14.17.0-chrome88-ff89
-  stage: e2e
-  allow_failure: true
-  variables:
-    BASE_URL: "http://${SERVER_NAME}/branches/${CI_COMMIT_REF_SLUG}"
+unit-tests:
+  stage: quality
+  extends: .before_script_template
   script:
-    - npx cypress run --browser chrome --config baseUrl=$BASE_URL
-  artifacts:
-    when: always
-    paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
-    expire_in: 1 day
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker run npm run test
+
+release-image:
+  stage: release
+  extends: .before_script_template
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
   only:
-    - merge_requests
-    - branches
-  except:
-    - master
+    - develop
