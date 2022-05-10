@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -7,22 +7,21 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import CardActionArea from '@mui/material/CardActionArea';
-import { loginByToken } from '../slices/auth';
+import { loginByToken } from 'slices/auth';
+import { userRoles } from 'constants/user';
+import { useSigninUserMutation } from 'api/auth';
 
 export default function Login() {
   const dispatch = useDispatch();
+  const [signinUser, { data, isSuccess }] = useSigninUserMutation();
 
-  const onUserClick = name => () => {
-    const data = {
-      profile: { name },
-      token: name,
-    };
-    dispatch(loginByToken(data));
+  const onUserClick = role => () => {
+    signinUser({ role: role.id });
   };
 
-  const UserCard = ({ name }) => (
+  const UserCard = ({ role }) => (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea onClick={onUserClick(name)}>
+      <CardActionArea onClick={onUserClick(role)}>
         <CardContent>
           <Box justifyContent="center" display="flex">
             <Avatar
@@ -33,12 +32,18 @@ export default function Login() {
             />
           </Box>
           <Typography textAlign="center" gutterBottom variant="h5" component="div">
-            {name}
+            {role.label}
           </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
   );
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(loginByToken(data));
+    }
+  }, [isSuccess]);
 
   return (
     <Box sx={{ my: 4, flex: 1, textAlign: 'center' }}>
@@ -46,18 +51,11 @@ export default function Login() {
         Login as:
       </Typography>
       <Grid spacing={2} container justifyContent="center">
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Super Admin" />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Moderator" />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Manager" />
-        </Grid>
-        <Grid item xs={12} md={3} lg={3}>
-          <UserCard name="Employee" />
-        </Grid>
+        {Object.values(userRoles).map(role => (
+          <Grid item xs={12} md={3} lg={3} key={role.id}>
+            <UserCard role={role} />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

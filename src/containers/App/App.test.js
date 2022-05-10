@@ -1,18 +1,14 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from 'utils/test-utils';
 import React from 'react';
 import * as redux from 'react-redux';
+import { userRoles } from 'constants/user';
 import App from './App';
-import { store } from '../../store/store';
 
-test('renders learn react link', () => {
+test('render app', () => {
   const spy = jest.spyOn(redux, 'useSelector');
-  spy.mockReturnValue({ auth: { token: 'Super Admin' } });
+  spy.mockReturnValue({ auth: { token: userRoles.SUPER_ADMIN.id } });
 
-  render(
-    <redux.Provider store={store}>
-      <App />
-    </redux.Provider>
-  );
+  render(<App />);
 
   const linkElement = screen.getByText(/Smart Skills/i);
   expect(linkElement).toBeInTheDocument();

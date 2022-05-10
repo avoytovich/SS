@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { HelmetProvider } from 'react-helmet-async';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import App from './containers/App/App';
@@ -13,11 +14,14 @@ ReactDOM.render(
   <ThemeProvider theme={themeConfig}>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <CssBaseline />
-        <App />
+        <HelmetProvider>
+          <CssBaseline />
+          <App />
+        </HelmetProvider>
       </PersistGate>
     </Provider>
   </ThemeProvider>,
+
   document.getElementById('root')
 );
 
