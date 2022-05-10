@@ -25,7 +25,6 @@ build-test-image:
 
 linter:
   stage: quality
-  extends: .before_script_template
   image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   script:
     - npm run lint
