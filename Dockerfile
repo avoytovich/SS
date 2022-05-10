@@ -1,5 +1,5 @@
 # get the base node image
-FROM node:alpine
+FROM node:16.15.0
 
 # set the working dir for container
 WORKDIR /app
@@ -11,4 +11,4 @@ COPY package.json ./
 RUN npm install
 
 # copy other project files
-COPY src ./
+COPY . .
