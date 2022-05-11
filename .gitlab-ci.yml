@@ -39,6 +39,8 @@ unit-tests:
 
 build-and-push-to-registry:
   stage: build_release_image
+  services:
+    - docker:20.10.10-dind
   extends: .before_script_template
   script:
     - docker pull $CONTAINER_TEST_IMAGE
