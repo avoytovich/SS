@@ -46,9 +46,10 @@ build-and-push-to-registry:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker run $CONTAINER_RELEASE_IMAGE npm run build
+    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'; window.BRANCH_LINK='$BRANCH_LINK'" > version.js
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
-    - develop
+    - ci_cd_pipeline
 
 deploy-development-server:
   stage: deploy
@@ -62,4 +63,4 @@ deploy-development-server:
     name: development
     url: http://172.30.27.132
   only:
-    - develop
+    - ci_cd_pipeline
