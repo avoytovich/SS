@@ -24,7 +24,7 @@ import CustomPaginationActionsTable from '../components/table/CustomPaginationAc
 import PageTitle from '../components/PageTitle';
 import { PagePanel } from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
-import { store } from '../store';
+import { store } from '../store/store';
 
 const headCells = [
   {

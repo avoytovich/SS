@@ -10,6 +10,7 @@
     "plugin:cypress/recommended",
     "eslint-config-prettier"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -17,8 +18,9 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "jest", "eslint-plugin-prettier"],
+  "plugins": ["react", "jsx-a11y" ,"jest", "eslint-plugin-prettier"],
   "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prop-types": 0,
     "no-underscore-dangle": ["off"],
     "no-console": ["off"],
@@ -37,6 +39,11 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
     }
   }
 }
