@@ -1,22 +1,22 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { apiUrls } from 'constants/apiURLs';
-import { API_URL_PREFIXES } from 'constants/apiUrlPrefixes';
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {apiUrls} from 'constants/apiURLs';
+import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
 
-const { PREFIX_BASE_URL, PREFIX_API_VERSION } = API_URL_PREFIXES;
+const {PREFIX_BASE_URL} = API_URL_PREFIXES;
 
 const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${PREFIX_BASE_URL}${PREFIX_API_VERSION}` }),
+  baseQuery: fetchBaseQuery({baseUrl: `${PREFIX_BASE_URL}`}),
   endpoints: builder => ({
     signinUser: builder.mutation({
-      query: ({ role }) => ({
+      query: ({role}) => ({
         url: apiUrls.userProfile,
         method: 'get',
-        params: { role },
-      }),
-    }),
-  }),
+        params: {role}
+      })
+    })
+  })
 });
 
 export default authApi;
-export const { useSigninUserMutation } = authApi;
+export const {useSigninUserMutation} = authApi;
