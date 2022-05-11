@@ -5,7 +5,11 @@ const routes = {
     list: '/tags'
   },
   skills: {
-    list: '/skills'
+    list: '/skills',
+    details: {
+      path: '/skills/:id',
+      link: id => `/skills/${id}`
+    }
   },
   employees: {
     list: 'employees',
