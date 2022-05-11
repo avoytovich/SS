@@ -1,6 +1,4 @@
 image: docker:20.10.10
-services:
-  - docker:20.10.10-dind
 
 stages:
   - build_test_image
@@ -18,6 +16,8 @@ variables:
 
 build-test-image:
     stage: build_test_image
+    services:
+    - docker:20.10.10-dind
     extends: .before_script_template
     script:
       - docker build -t $CONTAINER_TEST_IMAGE .
@@ -44,7 +44,6 @@ build-and-push-to-registry:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
     - docker run $CONTAINER_RELEASE_IMAGE npm run build
-    - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'; window.BRANCH_LINK='$BRANCH_LINK'" > version.js
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - ci_cd_pipeline
