@@ -50,11 +50,11 @@ build-and-push-to-registry:
 deploy-development-server:
   stage: deploy
   script:
-    - chmod og= $DEPLOY_STAGING_KEY
+    - chmod og= $DEPLOY_DEVELOP_SSH_KEY
     - apk update && apk add openssh-client
-    - ssh -i $DEPLOY_STAGING_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
-    - ssh -i $DEPLOY_STAGING_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "docker pull $CONTAINER_RELEASE_IMAGE"
-    - ssh -i $DEPLOY_STAGING_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "cd /home/ubuntu/smartskills-deployment && docker-compose up -d"
+    - ssh -i $DEPLOY_DEVELOP_SSH_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - ssh -i $DEPLOY_DEVELOP_SSH_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "docker pull $CONTAINER_RELEASE_IMAGE"
+    - ssh -i $DEPLOY_DEVELOP_SSH_KEY -o StrictHostKeyChecking=no $STAGING_SERVER_USER@$STAGING_SERVER_IP "cd /home/ubuntu/smartskills-deployment && docker-compose up -d"
   environment:
     name: development
     url: http://172.30.27.132
