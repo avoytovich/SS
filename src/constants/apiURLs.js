@@ -1,4 +1,4 @@
 export const apiUrls = {
-  profiles: '/profiles',
-  userProfile: 'profiles/me',
+  usersList: '/users',
+  userProfile: 'users/me'
 };
