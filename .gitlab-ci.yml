@@ -49,7 +49,7 @@ build-and-push-to-registry:
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'; window.BRANCH_LINK='$BRANCH_LINK'" > version.js
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
-    - ci_cd_pipeline
+    - develop
 
 deploy-development-server:
   stage: deploy
@@ -63,4 +63,4 @@ deploy-development-server:
     name: development
     url: http://172.30.27.132
   only:
-    - ci_cd_pipeline
+    - develop
