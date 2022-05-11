@@ -27,6 +27,7 @@ linter:
   stage: quality
   image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   script:
+    - cd /app
     - npm run lint
 
 unit-tests:
