@@ -3,8 +3,9 @@ services:
   - docker:20.10.10-dind
 
 stages:
-  - build
+  - build_test_image
   - quality
+  - build_release_image
   - deploy
 
 variables:
@@ -16,7 +17,7 @@ variables:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
 
 build-test-image:
-    stage: build
+    stage: build_test_image
     extends: .before_script_template
     script:
       - docker build -t $CONTAINER_TEST_IMAGE .
@@ -37,7 +38,7 @@ unit-tests:
     - npm run test
 
 build-and-push-to-registry:
-  stage: deploy
+  stage: build_release_image
   extends: .before_script_template
   script:
     - docker pull $CONTAINER_TEST_IMAGE
