@@ -48,7 +48,7 @@ build-and-push-to-registry:
     - docker run $CONTAINER_RELEASE_IMAGE npm run build
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
-    - develop
+    - ci_cd_pipeline
 
 deploy-development-server:
   stage: deploy
@@ -62,4 +62,4 @@ deploy-development-server:
     name: development
     url: http://172.30.27.132
   only:
-    - develop
+    - ci_cd_pipeline
