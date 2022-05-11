@@ -11,7 +11,6 @@ const Footer = () => {
       sx={{flex: 0, display: 'flex', flexDirection: 'row', marginBottom: 2, textAlign: 'left'}}
       component="footer"
     >
-      {process.env}
       {window.location.hostname !== 'localhost' && (
         <Box marginBottom={1}>
           <Typography variant="caption" component="p" gutterBottom>

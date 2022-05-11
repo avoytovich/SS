@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
-    "@material-ui/core": "^4.12.3",
-    "@mui/icons-material": "^5.0.0",
-    "@mui/material": "^5.6.2",
-    "@reduxjs/toolkit": "^1.6.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
+    "babel/preset-react": "^7.16.7",
+    "testing-library/jest-dom": "^5.16.4",
+    "emotion/react": "^11.4.1",
+    "emotion/styled": "^11.3.0",
+    "material-ui/core": "^4.12.3",
+    "mui/icons-material": "^5.0.0",
+    "mui/material": "^5.6.2",
+    "reduxjs/toolkit": "^1.6.1",
+    "testing-library/react": "^11.1.0",
+    "testing-library/user-event": "^12.1.10",
     "d3": "^7.2.1",
     "http-proxy-middleware": "^2.0.1",
     "lodash": "^4.17.21",
@@ -32,7 +33,7 @@
     "serve": "serve build",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint ./src --fix --ext .js,.jsx,.ts,.tsx",
-    "test": "react-scripts test  --watchAll=false --transformIgnorePatterns \"./node_modules/(?!d3|d3-array)/\"",
+    "test": "react-scripts test --watchAll=false --transformIgnorePatterns \"./node_modules/(?!d3|d3-array)/\"",
     "test:watch": "react-scripts test  --watch",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "cypress:open": "cypress run",
@@ -83,5 +84,38 @@
     "prettier-eslint": "^13.0.0",
     "prettier-eslint-cli": "^5.0.1",
     "serve": "^12.0.1"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,mjs}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "coverageReporters": ["text", "lcov"],
+    "coveragePathIgnorePatterns": ["store/index.js$", "index.js$", "constants"],
+    "moduleNameMapper": {
+      "^constants/(.*)$": "<rootDir>/src/constants/$1",
+      "^assets/(.*)$": "<rootDir>/src/assets/$1",
+      "^components/(.*)$": "<rootDir>/src/components/$1",
+      "^pages/(.*)$": "<rootDir>/src/pages/$1",
+      "^theme/(.*)$": "<rootDir>/src/theme/$1",
+      "^utils/(.*)$": "<rootDir>/src/utils/$1",
+      "^hooks/(.*)$": "<rootDir>/src/hooks/$1",
+      "^routers/(.*)$": "<rootDir>/src/routers/$1",
+      "^containers/(.*)$": "<rootDir>/src/containers/$1",
+      "^store/(.*)$": "<rootDir>/src/store/$1",
+      "^slices/(.*)$": "<rootDir>/src/slices/$1",
+      "^api/(.*)$": "<rootDir>/src/api/$1"
+    },
+    "transformIgnorePatterns": ["<rootDir>/node_modules/"]
   }
 }

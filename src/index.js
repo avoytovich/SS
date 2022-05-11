@@ -5,10 +5,10 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {HelmetProvider} from 'react-helmet-async';
 import CssBaseline from '@mui/material/CssBaseline';
 import {ThemeProvider} from '@mui/material/styles';
-import App from './containers/App/App';
-import themeConfig from './theme/themeConfig';
+import App from 'containers/App/App';
+import themeConfig from 'theme/themeConfig';
+import {persistor, store} from 'store/store';
 import reportWebVitals from './reportWebVitals';
-import {persistor, store} from './store/store';
 
 ReactDOM.render(
   <ThemeProvider theme={themeConfig}>

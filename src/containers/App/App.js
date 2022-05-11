@@ -16,7 +16,7 @@ import './App.css';
 export default function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Router basename={window.BASEPATH}>
+      <Router>
         <MainContainer>
           <AppRouter />
         </MainContainer>
