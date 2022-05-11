@@ -17,7 +17,7 @@ variables:
 build-test-image:
     stage: build_test_image
     services:
-    - docker:20.10.10-dind
+      - docker:20.10.10-dind
     extends: .before_script_template
     script:
       - docker build -t $CONTAINER_TEST_IMAGE .
@@ -46,7 +46,7 @@ build-and-push-to-registry:
     - docker run $CONTAINER_RELEASE_IMAGE npm run build
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
-    - develop
+    - ci_cd_pipeline
 
 deploy-development-server:
   stage: deploy
@@ -60,4 +60,4 @@ deploy-development-server:
     name: development
     url: http://172.30.27.132
   only:
-    - develop
+    - ci_cd_pipeline
