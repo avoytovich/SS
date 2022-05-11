@@ -13,14 +13,14 @@ import '../../assets/fonts/Ubuntu-Medium.ttf';
 
 import './App.css';
 
-export default function App() {
-  return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Router>
-        <MainContainer>
-          <AppRouter />
-        </MainContainer>
-      </Router>
-    </ErrorBoundary>
-  );
-}
+const App = () => (
+  <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <Router>
+      <MainContainer>
+        <AppRouter />
+      </MainContainer>
+    </Router>
+  </ErrorBoundary>
+);
+
+export default App;

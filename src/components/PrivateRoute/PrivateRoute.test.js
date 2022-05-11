@@ -1,26 +1,18 @@
 import React from 'react';
 import {render} from 'utils/test-utils';
+import {createMemoryHistory} from 'history';
+import {Router} from 'react-router-dom';
+import AppRouter from 'routers/AppRouter';
+import routes from '../../constants/routes';
 
-import PrivateRoute from './PrivateRoute';
+test('Redirect unauthenticated users to login page', () => {
+  const history = createMemoryHistory({initialEntries: [routes.home]});
 
-describe('PrivateRoute', () => {
-  it('Redirect unauthenticated request', () => {
-    jest.mock('react-redux', () => ({
-      useSelector: () => ({auth: {token: 'token'}})
-    }));
+  render(
+    <Router history={history}>
+      <AppRouter />
+    </Router>
+  );
 
-    render(
-      <PrivateRoute>
-        <div data-testid="test-children" />
-      </PrivateRoute>
-    );
-
-    expect(screen.getByTestId('test-children')).not.toBeVisible();
-  });
-
-  it('Redirect authenticated request', () => {
-    render(<PrivateRoute />);
-
-    expect(screen.getByTestId('test-children')).toBeVisible();
-  });
+  expect(history.location.pathname).toBe(routes.login);
 });

@@ -1,30 +1,22 @@
 import React from 'react';
 import {render} from 'utils/test-utils';
-
-import PrivateRoute from 'components/PrivateRoute';
+import {createMemoryHistory} from 'history';
+import {Router} from 'react-router-dom';
+import * as redux from 'react-redux';
+import AppRouter from 'routers/AppRouter';
 import userRoles from 'constants/userRoles';
+import routes from '../../constants/routes';
 
-describe('PrivateRoute', () => {
-  beforeEach(() => {
-    jest.resetModules(); // most important - it clears the cache
-  });
+test('Redirect authenticated users to home', () => {
+  const history = createMemoryHistory({initialEntries: [routes.login]});
+  const spy = jest.spyOn(redux, 'useSelector');
+  spy.mockReturnValue({auth: {token: userRoles.SUPER_ADMIN.id}});
 
-  it('Redirect authenticated request', () => {
-    const spy = jest.spyOn(redux, 'useSelector');
-    spy.mockReturnValue({auth: {token: userRoles.SUPER_ADMIN.id}});
+  render(
+    <Router history={history}>
+      <AppRouter />
+    </Router>
+  );
 
-    render(
-      <PrivateRoute>
-        <div data-testid="test-children" />
-      </PrivateRoute>
-    );
-
-    expect(screen.getByTestId('test-children')).not.toBeVisible();
-  });
-
-  it('Redirect unauthenticated request', () => {
-    render(<PrivateRoute />);
-
-    expect(screen.getByTestId('test-children')).toBeVisible();
-  });
+  expect(history.location.pathname).toBe(routes.home);
 });

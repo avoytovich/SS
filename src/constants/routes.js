@@ -12,7 +12,7 @@ const routes = {
     }
   },
   employees: {
-    list: 'employees',
+    list: '/employees',
     details: {
       path: '/employees/:id',
       link: id => `/employees/${id}`
