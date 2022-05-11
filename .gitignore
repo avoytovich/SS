@@ -27,5 +27,5 @@ yarn-error.log*
 
 /.idea
 /cypress/videos/
-package-lock.json
+/cypress/screenshots/
 /.vscode

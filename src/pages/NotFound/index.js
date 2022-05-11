@@ -3,9 +3,12 @@ import {Link as RouterLink} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+
 import PageTitle from '../../components/PageTitle';
 import {Logo} from '../../components/icons';
 import {PagePanel} from '../../components/PagePanel';
+
+import routes from '../../constants/routes';
 
 import {useStyles} from '../styles';
 
@@ -19,7 +22,7 @@ const NotFound = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           404 Page Not Found
         </Typography>
-        <Link component={RouterLink} underline="hover" to={'/'}>
+        <Link component={RouterLink} underline="hover" to={routes.home}>
           <Typography textAlign="center">Go Home</Typography>
         </Link>
       </Box>

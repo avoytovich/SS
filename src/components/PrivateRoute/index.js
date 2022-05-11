@@ -1,21 +1,21 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {Route, Redirect} from 'react-router-dom';
 
-function PrivateRoute({ children, ...rest }) {
+function PrivateRoute({children, ...rest}) {
   const isAuthenticated = useSelector(state => state.auth.token);
 
   return (
     <Route
       {...rest}
-      render={({ location }) =>
+      render={({location}) =>
         isAuthenticated ? (
           children
         ) : (
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: location },
+              state: {from: location}
             }}
           />
         )

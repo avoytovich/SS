@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -7,22 +7,24 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER,
+  REGISTER
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import auth from '../slices/auth';
-import { smartSkillsApi } from '../slices/smartSkillsSlice';
+import {setupListeners} from '@reduxjs/toolkit/query';
+import authSlice from 'slices/auth';
+import authApi from 'api/auth';
+import {smartSkillsApi} from 'slices/smartSkillsSlice';
 
 const persistConfig = {
   key: 'auth',
-  storage,
+  storage
 };
-const authPersisted = persistReducer(persistConfig, auth.reducer);
+const authPersisted = persistReducer(persistConfig, authSlice.reducer);
 
 const rootReducer = combineReducers({
   auth: authPersisted,
   [smartSkillsApi.reducerPath]: smartSkillsApi.reducer,
+  [authApi.reducerPath]: authApi.reducer
 });
 
 export const store = configureStore({
@@ -30,9 +32,9 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }).concat(smartSkillsApi.middleware),
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    }).concat(smartSkillsApi.middleware, authApi.middleware)
 });
 
 export const persistor = persistStore(store);
