@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { PropTypes } from 'prop-types';
+import React, {useState, useMemo, useEffect} from 'react';
+import {PropTypes} from 'prop-types';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,12 +9,12 @@ import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import { FormControl, IconButton, InputLabel } from '@mui/material';
+import {FormControl, IconButton, InputLabel} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { invert } from 'lodash';
-import { employeeSkillLevels } from '../../common/constants';
-import { getSkillsFromCurrentData, simpleLocaleComparator } from '../../common/helpers';
+import {invert} from 'lodash';
+import {employeeSkillLevels} from '../../constants/common';
+import {getSkillsFromCurrentData, simpleLocaleComparator} from '../../utils/helpers';
 
 export default function AddEditNewSkillModal({
   isOpen,
@@ -22,9 +22,9 @@ export default function AddEditNewSkillModal({
   onSubmit,
   employees,
   level: levelProp = '',
-  skill: skillProp = '',
+  skill: skillProp = ''
 }) {
-  const [data, setData] = useState([{ skill: '', level: '' }]);
+  const [data, setData] = useState([{skill: '', level: ''}]);
   const employeeSkills = useMemo(() => getSkillsFromCurrentData(employees), [employees]);
   // employeeSkills = useMemo(
   //   () => employeeSkills.filter(value => !data.find(f => f.skill === value)),
@@ -48,18 +48,18 @@ export default function AddEditNewSkillModal({
   };
 
   const onOk = () => {
-    onSubmit({ filterToChange: skillProp, data });
-    setData([{ level: '', skill: '' }]);
+    onSubmit({filterToChange: skillProp, data});
+    setData([{level: '', skill: ''}]);
     toggle();
   };
 
   const onCancel = () => {
-    setData([{ level: '', skill: '' }]);
+    setData([{level: '', skill: ''}]);
     toggle();
   };
 
   const onAddMore = () => {
-    setData([...data, { skill: '', level: '' }]);
+    setData([...data, {skill: '', level: ''}]);
   };
 
   const onDataDelete = deleteIndex => () => {
@@ -68,7 +68,7 @@ export default function AddEditNewSkillModal({
 
   useEffect(() => {
     if (levelProp && skillProp) {
-      setData([{ level: levelProp, skill: skillProp }]);
+      setData([{level: levelProp, skill: skillProp}]);
     }
   }, [levelProp, skillProp]);
 
@@ -85,7 +85,7 @@ export default function AddEditNewSkillModal({
           <Typography marginBottom variant="body2" color="gray">
             Pick the Skill and its Seniority level that you want to find among the employees.
           </Typography>
-          {data.map(({ skill, level }, i) => (
+          {data.map(({skill, level}, i) => (
             <Grid container spacing={2} key={`filter-${i}`}>
               <Grid item xs={6}>
                 <FormControl variant="standard" fullWidth>
@@ -106,7 +106,7 @@ export default function AddEditNewSkillModal({
                   <Select onChange={e => onDataChange(e, i, 'level')} value={level}>
                     {Object.entries({
                       5: 'All',
-                      ...invert(Object.fromEntries(employeeSkillLevels)),
+                      ...invert(Object.fromEntries(employeeSkillLevels))
                     })
                       .filter(s => s[0] !== '0')
                       .map(([key, value]) => (
@@ -152,5 +152,5 @@ AddEditNewSkillModal.propTypes = {
   levelProp: PropTypes.string,
   skillProp: PropTypes.string,
   skill: PropTypes.string,
-  level: PropTypes.string,
+  level: PropTypes.string
 };

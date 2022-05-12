@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { PropTypes } from 'prop-types';
+import React, {useState, useMemo, useEffect} from 'react';
+import {PropTypes} from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -14,33 +14,33 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import { useTheme } from '@mui/material/styles';
+import {useTheme} from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
-import { useHistory, useLocation, Link as RouterLink } from 'react-router-dom';
-import { ErrorBoundary } from 'react-error-boundary';
+import {useHistory, useLocation, Link as RouterLink} from 'react-router-dom';
+import {ErrorBoundary} from 'react-error-boundary';
 import {
   useFetchEmployeeQuery,
   useFetchEmployeesQuery,
-  useFetchSimilarEmployeesQuery,
+  useFetchSimilarEmployeesQuery
 } from '../slices/smartSkillsSlice';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
-import { PagePanel } from '../components/PagePanel';
+import {PagePanel} from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
-import { useStyles } from './styles';
+import {useStyles} from './styles';
 import ChipsArray from '../components/ChipsArray';
 import {
   getStringFieldComparator,
   simpleLocaleComparator,
-  yesNo,
+  yesNo
   // transformSkillGroupsToArray,
-} from '../common/helpers';
-import AddEditNewSkillModal from '../components/modals/AddEditNewSkillModal';
-import { useModal } from '../common/hooks';
-import { employeeSkillLevels } from '../common/constants';
+} from '../utils/helpers';
+import AddEditNewSkillModal from '../components/modals_old/AddEditNewSkillModal';
+import {useModal} from '../hooks/hooks';
+import {employeeSkillLevels} from '../constants/common';
 
 const EMPTY_VALUE = ' <Empty>';
-const filterModes = { simple: { id: 1, label: 'Simple' }, extended: { id: 2, label: 'Extended' } };
+const filterModes = {simple: {id: 1, label: 'Simple'}, extended: {id: 2, label: 'Extended'}};
 
 const headCells = [
   {
@@ -49,18 +49,18 @@ const headCells = [
     label: 'Full Name',
     searchable: true,
     width: '23%',
-    customRender: ({ ID, FirstName, LastName }) => (
+    customRender: ({ID, FirstName, LastName}) => (
       <Link component={RouterLink} underline="hover" to={`/employees/${ID}`}>
         {FirstName} {LastName}
       </Link>
-    ),
+    )
   },
   {
     id: 'Competency',
     numeric: false,
     label: 'Competency',
     filterable: true,
-    width: '23%',
+    width: '23%'
   },
   {
     id: 'PrimarySpecialization',
@@ -76,22 +76,22 @@ const headCells = [
         {row.PrimarySpecialization}
       </Link>
     ),
-    width: '23%',
+    width: '23%'
   },
   {
     id: 'Level',
     numeric: false,
     label: 'Level',
     filterable: true,
-    width: '21%',
+    width: '21%'
   },
   {
     id: 'isOnBench',
     numeric: false,
     label: 'Bench',
     filterable: true,
-    width: '21%',
-  },
+    width: '21%'
+  }
 ];
 
 export default function EmployeeList() {
@@ -111,24 +111,24 @@ export default function EmployeeList() {
   const [filterMode, setFilterMode] = useState(
     extendedFilter.length > 0 ? filterModes.extended.id : filterModes.simple.id
   );
-  const [filterToEdit, setFilterToEdit] = useState({ level: '', skill: '' });
+  const [filterToEdit, setFilterToEdit] = useState({level: '', skill: ''});
   const AddEditSkillModal = useModal();
 
-  const filterKeys = useMemo(() => headCells.map(({ id }) => id, [headCells]));
+  const filterKeys = useMemo(() => headCells.map(({id}) => id, [headCells]));
   const [filters, setFilters] = useState(
     JSON.parse(localStorage.getItem('employeeFilters'))?.filters ??
       filterKeys.reduce(
         (obj, item) => ({
           ...obj,
-          [item]: [],
+          [item]: []
         }),
         {}
       )
   );
 
-  localStorage.setItem('employeeFilters', JSON.stringify({ filters, extendedFilter }));
+  localStorage.setItem('employeeFilters', JSON.stringify({filters, extendedFilter}));
 
-  const onExtendedFilterChange = ({ filterToChange, data }) => {
+  const onExtendedFilterChange = ({filterToChange, data}) => {
     if (filterToChange) {
       setExtendedFilter(
         extendedFilter.map(f => {
@@ -140,18 +140,18 @@ export default function EmployeeList() {
         })
       );
     } else {
-      const newFilters = data.map(({ skill, level }, i) => ({
+      const newFilters = data.map(({skill, level}, i) => ({
         key: extendedFilter.length + i,
         name: skill,
-        level,
+        level
       }));
       setExtendedFilter([...newFilters, ...extendedFilter]);
     }
 
-    setFilterToEdit({ level: '', skill: '' });
+    setFilterToEdit({level: '', skill: ''});
   };
-  const onChipClick = ({ level, skill }) => {
-    setFilterToEdit({ level, skill });
+  const onChipClick = ({level, skill}) => {
+    setFilterToEdit({level, skill});
     AddEditSkillModal.toggle();
   };
 
@@ -165,24 +165,24 @@ export default function EmployeeList() {
     setOrderBy(property);
   };
 
-  const { data: employeeDetails = {}, isLoading: employeeLoading } = useFetchEmployeeQuery({
-    id: similarEmployeeId,
+  const {data: employeeDetails = {}, isLoading: employeeLoading} = useFetchEmployeeQuery({
+    id: similarEmployeeId
   });
 
-  const { data: employees = [], isLoading: isEmployeesLoading } = useFetchEmployeesQuery({
+  const {data: employees = [], isLoading: isEmployeesLoading} = useFetchEmployeesQuery({
     ids: 'all',
-    groups: true,
+    groups: true
   });
 
-  const { data: similarEmployeesIds = [], isLoading: isSimilarLoading } =
+  const {data: similarEmployeesIds = [], isLoading: isSimilarLoading} =
     useFetchSimilarEmployeesQuery({
-      similar: similarEmployeeId,
+      similar: similarEmployeeId
     });
 
   const similarEmployees = useMemo(() => {
     if (similarEmployeesIds.length > 0) {
       filters.fullName = [];
-      setFilters({ ...filters });
+      setFilters({...filters});
       const similar = [];
       similarEmployeesIds.forEach(id => {
         const foundSimilar = employees.find(row => row.ID === id);
@@ -201,7 +201,7 @@ export default function EmployeeList() {
         .map(item => ({
           ...item,
           fullName: `${item.FirstName} ${item.LastName}`,
-          isOnBench: yesNo(item.isOnBench),
+          isOnBench: yesNo(item.isOnBench)
         }))
         .sort(getStringFieldComparator(order, orderBy)),
     [data, order, orderBy]
@@ -253,7 +253,7 @@ export default function EmployeeList() {
 
   const setDynamicValues = (values, filterName) => {
     values[filterName].clear();
-    const filtersCopy = { ...filters };
+    const filtersCopy = {...filters};
     filtersCopy[filterName] = [];
 
     const valuesForDynamicFilter = getFilteredData(filtersCopy);
@@ -270,7 +270,7 @@ export default function EmployeeList() {
         });
         return acc;
       },
-      filterKeys.reduce((o, key) => ({ ...o, [key]: new Set() }), {})
+      filterKeys.reduce((o, key) => ({...o, [key]: new Set()}), {})
     );
 
     if (filters.Competency.length > 0) {
@@ -286,9 +286,9 @@ export default function EmployeeList() {
   }, [filters.Competency, filters.PrimarySpecialization, rows, filterKeys]);
 
   const handleChange = key => e => {
-    const { value } = e.target;
+    const {value} = e.target;
     filters[key] = value;
-    setFilters({ ...filters });
+    setFilters({...filters});
   };
 
   const cleanAllHandler = () => {
@@ -296,7 +296,7 @@ export default function EmployeeList() {
     filterKeys.forEach(key => {
       filters[key] = [];
     });
-    setFilters({ ...filters });
+    setFilters({...filters});
     setSearch('');
     history.push('/employees');
   };
@@ -311,7 +311,7 @@ export default function EmployeeList() {
     }
     history.push({
       pathname: location.pathname,
-      search: searchParams.toString(),
+      search: searchParams.toString()
     });
   };
 
@@ -333,7 +333,7 @@ export default function EmployeeList() {
       Competency,
       Level,
       PrimarySpecialization,
-      isOnBench,
+      isOnBench
     } = employeeDetails;
 
     const onCloseClick = () => {
@@ -346,7 +346,7 @@ export default function EmployeeList() {
     return (
       <>
         {similarEmployeeId && (
-          <Paper classes={{ root: classes.similarEngineerPaper }}>
+          <Paper classes={{root: classes.similarEngineerPaper}}>
             {employeeLoading ? (
               <CircularProgress disableShrink />
             ) : (
@@ -386,15 +386,15 @@ export default function EmployeeList() {
     );
   };
 
-  const FilterSelect = ({ id, name = id, ...props }) => (
-    <FormControl style={{ width: '100%' }}>
+  const FilterSelect = ({id, name = id, ...props}) => (
+    <FormControl style={{width: '100%'}}>
       <Select
         {...props}
         value={filters[id]}
         displayEmpty
         multiple={true}
         onChange={handleChange(id)}
-        style={{ width: '100%', height: '40px' }}
+        style={{width: '100%', height: '40px'}}
         renderValue={selected => {
           if (selected.length === 0) {
             return (
@@ -421,7 +421,7 @@ export default function EmployeeList() {
       </Select>
     </FormControl>
   );
-  FilterSelect.propTypes = { id: PropTypes.string, name: PropTypes.string };
+  FilterSelect.propTypes = {id: PropTypes.string, name: PropTypes.string};
 
   useEffect(() => {
     if (similarEmployeeId) {
@@ -444,7 +444,7 @@ export default function EmployeeList() {
           <Box
             sx={{
               borderBottom: `1px solid ${theme.palette.primary.separator}`,
-              padding: '10px 20px 20px',
+              padding: '10px 20px 20px'
             }}
             data-cy="employee-filter-block"
           >
@@ -452,7 +452,7 @@ export default function EmployeeList() {
 
             <FormControl>
               <RadioGroup
-                classes={{ root: classes.employeeListRadioContainer }}
+                classes={{root: classes.employeeListRadioContainer}}
                 row
                 value={filterMode}
                 onChange={onFilterModeChange}
@@ -474,7 +474,7 @@ export default function EmployeeList() {
               <ChipsArray
                 chipData={extendedFilter}
                 setChipData={setExtendedFilter}
-                {...{ onChipClick }}
+                {...{onChipClick}}
               />
             )}
 
@@ -495,14 +495,14 @@ export default function EmployeeList() {
                   placeholder="Search by"
                   onChange={e => handleSkillsSearch(e.target.value)}
                   value={search}
-                  style={{ width: '300px' }}
-                  InputLabelProps={{ shrink: true }}
+                  style={{width: '300px'}}
+                  InputLabelProps={{shrink: true}}
                 />
               </Box>
             )}
 
             <form id="filter-table-head-form">
-              <Grid container spacing={2} sx={{ paddingTop: '20px' }}>
+              <Grid container spacing={2} sx={{paddingTop: '20px'}}>
                 <Grid item xs={6} md={2}>
                   <TextField
                     id="employee-name-input"
@@ -511,9 +511,9 @@ export default function EmployeeList() {
                     placeholder="Search by Full Name"
                     onChange={e => {
                       filters.fullName = e.target.value;
-                      setFilters({ ...filters });
+                      setFilters({...filters});
                     }}
-                    style={{ width: '100%' }}
+                    style={{width: '100%'}}
                   />
                 </Grid>
                 <Grid item xs={6} md={3}>
@@ -540,7 +540,7 @@ export default function EmployeeList() {
                     style={{
                       margin: 0,
                       lineHeight: '38px',
-                      fontWeight: 500,
+                      fontWeight: 500
                     }}
                   >
                     Clean up
@@ -549,7 +549,7 @@ export default function EmployeeList() {
               </Grid>
             </form>
           </Box>
-          <Box sx={{ padding: '0 20px' }}>
+          <Box sx={{padding: '0 20px'}}>
             <CustomPaginationActionsTable
               data-cy="employee-list-table"
               rows={getFilteredData(filters)}

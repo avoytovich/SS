@@ -4,7 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import {useDispatch, useSelector} from 'react-redux';
-import {useModal} from '../../common/hooks';
+import {useModal} from '../../hooks/hooks';
 import {logOut} from '../../slices/auth';
 
 export default function UserMenu() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -6,7 +7,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import PropTypes from 'prop-types';
 
 function ConfirmModal({modalOpen, toggle, bodyContent, handleSubmit}) {
   return (
@@ -27,7 +27,6 @@ function ConfirmModal({modalOpen, toggle, bodyContent, handleSubmit}) {
   );
 }
 
-export default ConfirmModal;
 ConfirmModal.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   toggle: PropTypes.func.isRequired,
@@ -39,6 +38,7 @@ ConfirmModal.propTypes = {
     confirmText: PropTypes.string
   })
 };
+
 ConfirmModal.defaultProps = {
   modalOpen: false,
   toggle: () => {},
@@ -50,3 +50,5 @@ ConfirmModal.defaultProps = {
     confirmText: 'Confirm'
   }
 };
+
+export default ConfirmModal;

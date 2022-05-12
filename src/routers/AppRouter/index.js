@@ -9,7 +9,7 @@ import PublicRoute from '../../components/PublicRoute';
 import Login from '../../pages/Login';
 import Home from '../../pages/Home';
 import NotFound from '../../pages/NotFound';
-import SkillsRegistry from '../../pages/SkillsRegistry';
+import Skills from '../../pages/Skills';
 import NeighborsList from '../../pages/NeighborsList';
 import EmployeeList from '../../pages/EmployeeList';
 import EmployeeDetails from '../../pages/EmployeeDetails';
@@ -23,7 +23,7 @@ const AppRouter = () => (
       <Login />
     </PublicRoute>
     <PrivateRoute path={routes.skills.list} exact>
-      <SkillsRegistry />
+      <Skills />
     </PrivateRoute>
     <PrivateRoute path={routes.skills.details.path} exact>
       <NeighborsList />
