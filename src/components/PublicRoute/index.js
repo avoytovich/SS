@@ -1,19 +1,21 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {Route, Redirect} from 'react-router-dom';
 
-function PublicRoute({ children, restricted, ...rest }) {
+import routes from '../../constants/routes';
+
+function PublicRoute({children, restricted, ...rest}) {
   const isAuthenticated = useSelector(state => state.auth.token);
 
   return (
     <Route
       {...rest}
-      render={({ location }) =>
+      render={({location}) =>
         isAuthenticated && restricted ? (
           <Redirect
             to={{
-              pathname: '/home',
-              state: { from: location },
+              pathname: routes.home,
+              state: {from: location}
             }}
           />
         ) : (

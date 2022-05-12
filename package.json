@@ -9,12 +9,15 @@
     "@mui/icons-material": "^5.0.0",
     "@mui/material": "^5.6.2",
     "@reduxjs/toolkit": "^1.6.1",
-    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "clsx": "^1.1.1",
     "d3": "^7.2.1",
+    "formik": "^2.2.9",
     "http-proxy-middleware": "^2.0.1",
     "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.3",
@@ -22,9 +25,11 @@
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "react-select": "^5.3.2",
     "react-tagcloud": "^2.1.1",
     "redux-persist": "^6.0.0",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -32,7 +37,7 @@
     "serve": "serve build",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint ./src --fix --ext .js,.jsx,.ts,.tsx",
-    "test": "react-scripts test  --watchAll=false --transformIgnorePatterns \"./node_modules/(?!d3|d3-array)/\"",
+    "test": "react-scripts test --watchAll=false --transformIgnorePatterns \"./node_modules/(?!d3|d3-array)/\"",
     "test:watch": "react-scripts test  --watch",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "cypress:open": "cypress run",
@@ -83,5 +88,47 @@
     "prettier-eslint": "^13.0.0",
     "prettier-eslint-cli": "^5.0.1",
     "serve": "^12.0.1"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,mjs}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "coveragePathIgnorePatterns": [
+      "store/index.js$",
+      "index.js$",
+      "constants"
+    ],
+    "moduleNameMapper": {
+      "^constants/(.*)$": "<rootDir>/src/constants/$1",
+      "^assets/(.*)$": "<rootDir>/src/assets/$1",
+      "^components/(.*)$": "<rootDir>/src/components/$1",
+      "^pages/(.*)$": "<rootDir>/src/pages/$1",
+      "^theme/(.*)$": "<rootDir>/src/theme/$1",
+      "^utils/(.*)$": "<rootDir>/src/utils/$1",
+      "^hooks/(.*)$": "<rootDir>/src/hooks/$1",
+      "^routers/(.*)$": "<rootDir>/src/routers/$1",
+      "^containers/(.*)$": "<rootDir>/src/containers/$1",
+      "^store/(.*)$": "<rootDir>/src/store/$1",
+      "^slices/(.*)$": "<rootDir>/src/slices/$1",
+      "^api/(.*)$": "<rootDir>/src/api/$1"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
   }
 }

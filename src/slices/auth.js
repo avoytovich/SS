@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   profile: {},
-  token: null,
+  token: null
 };
 
 const authSlice = createSlice({
@@ -16,14 +16,14 @@ const authSlice = createSlice({
     LOGOUT: state => {
       state.profile = {};
       state.token = null;
-    },
-  },
+    }
+  }
 });
 
-const { actions } = authSlice;
+const {actions} = authSlice;
 
 export const loginByToken =
-  ({ data }) =>
+  ({data}) =>
   dispatch => {
     dispatch(actions.LOGIN(data));
   };

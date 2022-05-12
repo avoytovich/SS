@@ -8,7 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 
-function ConfirmModal({ modalOpen, toggle, bodyContent, handleSubmit }) {
+function ConfirmModal({modalOpen, toggle, bodyContent, handleSubmit}) {
   return (
     <Dialog open={modalOpen} onClose={toggle}>
       <DialogTitle data-testid="confirm-modal-title">{bodyContent?.title}</DialogTitle>
@@ -36,8 +36,8 @@ ConfirmModal.propTypes = {
     title: PropTypes.string,
     text: PropTypes.string,
     cancelText: PropTypes.string,
-    confirmText: PropTypes.string,
-  }),
+    confirmText: PropTypes.string
+  })
 };
 ConfirmModal.defaultProps = {
   modalOpen: false,
@@ -47,6 +47,6 @@ ConfirmModal.defaultProps = {
     title: 'Are you sure?',
     text: 'Do some action',
     cancelText: 'Cancel',
-    confirmText: 'Confirm',
-  },
+    confirmText: 'Confirm'
+  }
 };

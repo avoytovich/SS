@@ -3,14 +3,14 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../common/hooks';
-import { logOut } from '../../slices/auth';
+import {useDispatch, useSelector} from 'react-redux';
+import {useModal} from '../../common/hooks';
+import {logOut} from '../../slices/auth';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
-  const { profile } = useSelector(state => state.auth);
-  const { isOpen, toggle } = useModal();
+  const {profile} = useSelector(state => state.auth);
+  const {isOpen, toggle} = useModal();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -44,7 +44,7 @@ export default function UserMenu() {
         open={isOpen}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'user-menu-button',
+          'aria-labelledby': 'user-menu-button'
         }}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>

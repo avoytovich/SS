@@ -1,38 +1,40 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 
-import PrivateRoute from 'components/PrivateRoute';
-import PublicRoute from 'components/PublicRoute';
-import Login from 'pages/Login';
-import Home from 'pages/Home';
-import SkillsRegistry from 'pages/SkillsRegistry';
-import NeighborsList from 'pages/NeighborsList';
-import EmployeeList from 'pages/EmployeeList';
-import EmployeeDetails from 'pages/EmployeeDetails';
-import NotFound from 'pages/NotFound';
-import { appRoutes } from 'constants/appRoutes';
+import routes from '../../constants/routes';
+
+import PrivateRoute from '../../components/PrivateRoute';
+import PublicRoute from '../../components/PublicRoute';
+
+import Login from '../../pages/Login';
+import Home from '../../pages/Home';
+import NotFound from '../../pages/NotFound';
+import SkillsRegistry from '../../pages/SkillsRegistry';
+import NeighborsList from '../../pages/NeighborsList';
+import EmployeeList from '../../pages/EmployeeList';
+import EmployeeDetails from '../../pages/EmployeeDetails';
 
 const AppRouter = () => (
   <Switch>
-    <PublicRoute path={['/', appRoutes.login]} restricted exact={true}>
-      <Login />
-    </PublicRoute>
-    <PrivateRoute path={appRoutes.home} exact={true}>
+    <PrivateRoute path={routes.home} exact>
       <Home />
     </PrivateRoute>
-    <PrivateRoute path={appRoutes.skills} exact={true}>
+    <PublicRoute path={routes.login} restricted>
+      <Login />
+    </PublicRoute>
+    <PrivateRoute path={routes.skills.list} exact>
       <SkillsRegistry />
     </PrivateRoute>
-    <PrivateRoute path={appRoutes.neighbors} exact={true}>
+    <PrivateRoute path={routes.skills.details.path} exact>
       <NeighborsList />
     </PrivateRoute>
-    <PrivateRoute path={appRoutes.employees} exact={true}>
+    <PrivateRoute path={routes.employees.list} exact>
       <EmployeeList />
     </PrivateRoute>
-    <PrivateRoute path={appRoutes.employeeDetails} exact={true}>
+    <PrivateRoute path={routes.employees.details.path} exact>
       <EmployeeDetails />
     </PrivateRoute>
-    <Route component={NotFound} />
+    <Route component={NotFound} path="*" />
   </Switch>
 );
 

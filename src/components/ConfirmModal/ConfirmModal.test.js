@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, screen } from 'utils/test-utils';
+import {render, screen} from 'utils/test-utils';
 import ConfirmModal from 'components/ConfirmModal';
 
 test('Render confirm modal and check if text displayed', () => {
   render(
     <ConfirmModal
       modalOpen={true}
-      bodyContent={{ title: 'title', text: 'text', cancelText: 'No', confirmText: 'Yes' }}
+      bodyContent={{title: 'title', text: 'text', cancelText: 'No', confirmText: 'Yes'}}
     />
   );
   expect(screen.getByTestId('confirm-modal-title')).toHaveTextContent('title');
