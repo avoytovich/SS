@@ -35,7 +35,7 @@ import {
   yesNo
   // transformSkillGroupsToArray,
 } from '../utils/helpers';
-import AddEditNewSkillModal from '../components/modals_old/AddEditNewSkillModal';
+// import AddEditNewSkillModal from '../components/modals_old/AddEditNewSkillModal';
 import {useModal} from '../hooks/hooks';
 import {employeeSkillLevels} from '../constants/common';
 
@@ -111,6 +111,8 @@ export default function EmployeeList() {
   const [filterMode, setFilterMode] = useState(
     extendedFilter.length > 0 ? filterModes.extended.id : filterModes.simple.id
   );
+
+  // eslint-disable-next-line no-unused-vars
   const [filterToEdit, setFilterToEdit] = useState({level: '', skill: ''});
   const AddEditSkillModal = useModal();
 
@@ -128,28 +130,29 @@ export default function EmployeeList() {
 
   localStorage.setItem('employeeFilters', JSON.stringify({filters, extendedFilter}));
 
-  const onExtendedFilterChange = ({filterToChange, data}) => {
-    if (filterToChange) {
-      setExtendedFilter(
-        extendedFilter.map(f => {
-          if (f.name === filterToChange) {
-            f.name = data[0].skill;
-            f.level = data[0].level;
-          }
-          return f;
-        })
-      );
-    } else {
-      const newFilters = data.map(({skill, level}, i) => ({
-        key: extendedFilter.length + i,
-        name: skill,
-        level
-      }));
-      setExtendedFilter([...newFilters, ...extendedFilter]);
-    }
+  // const onExtendedFilterChange = ({filterToChange, data}) => {
+  //   if (filterToChange) {
+  //     setExtendedFilter(
+  //       extendedFilter.map(f => {
+  //         if (f.name === filterToChange) {
+  //           f.name = data[0].skill;
+  //           f.level = data[0].level;
+  //         }
+  //         return f;
+  //       })
+  //     );
+  //   } else {
+  //     const newFilters = data.map(({skill, level}, i) => ({
+  //       key: extendedFilter.length + i,
+  //       name: skill,
+  //       level
+  //     }));
+  //     setExtendedFilter([...newFilters, ...extendedFilter]);
+  //   }
+  //
+  //   setFilterToEdit({level: '', skill: ''});
+  // };
 
-    setFilterToEdit({level: '', skill: ''});
-  };
   const onChipClick = ({level, skill}) => {
     setFilterToEdit({level, skill});
     AddEditSkillModal.toggle();
@@ -478,14 +481,14 @@ export default function EmployeeList() {
               />
             )}
 
-            {filterMode === filterModes.extended.id && (
-              <AddEditNewSkillModal
-                employees={data}
-                onSubmit={onExtendedFilterChange}
-                {...AddEditSkillModal}
-                {...filterToEdit}
-              />
-            )}
+            {/* {filterMode === filterModes.extended.id && (  */}
+            {/*  <AddEditNewSkillModal */}
+            {/*    employees={data} */}
+            {/*    onSubmit={onExtendedFilterChange} */}
+            {/*    {...AddEditSkillModal} */}
+            {/*    {...filterToEdit} */}
+            {/*  />  */}
+            {/* )}  */}
 
             {filterMode === filterModes.simple.id && (
               <Box>
