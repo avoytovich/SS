@@ -19,6 +19,9 @@ export const tagStyles = {
     borderBottom: `1px solid ${grey[100]}`,
     outline: 0
   },
+  '.MuiDataGrid-footerContainer': {
+    borderTop: 'none'
+  },
   '.MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within': {
     outline: 'none !important'
   }

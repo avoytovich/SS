@@ -87,7 +87,7 @@ export default function TagList() {
           pageSize={pageSize}
           onPageChange={handlePageChange}
           rowCount={total}
-          autoHeight={tags.length > 0}
+          autoHeight={tags.length === pageSize}
           sx={tagStyles}
           loading={isLoading}
           rowHeight={32}
