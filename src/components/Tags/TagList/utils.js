@@ -25,6 +25,7 @@ export const getColumns = onSetConfirmValues => [
     sortable: false,
     minWidth: 120,
     flex: 1,
+
     renderCell: ({row}) => (
       <Box>
         <IconButton>

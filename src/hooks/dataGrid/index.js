@@ -1,5 +1,5 @@
-import {useDataGridSort} from './useDataGridSort';
-import {useURLParams} from './useURLParams';
-import {useDataGridPagination} from './useDataGridPagination';
+import {useDataGridSort} from 'hooks/dataGrid/useDataGridSort';
+import {useURLParams} from 'hooks/dataGrid/useURLParams';
+import {useDataGridPagination} from 'hooks/dataGrid/useDataGridPagination';
 
 export {useDataGridSort, useURLParams, useDataGridPagination};

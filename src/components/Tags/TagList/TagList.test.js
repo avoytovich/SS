@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from 'utils/test-utils';
-import TagList from './index';
+import TagList from 'components/Tags/TagList';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

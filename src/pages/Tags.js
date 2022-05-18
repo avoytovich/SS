@@ -3,10 +3,10 @@ import React from 'react';
 import {Typography} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
 
-import PageTitle from '../components/PageTitle';
-import ErrorFallback from '../components/ErrorFallback';
-import TagList from '../components/Tags/TagList';
-import {PagePanel} from '../components/PagePanel';
+import PageTitle from 'components/PageTitle';
+import ErrorFallback from 'components/ErrorFallback';
+import TagList from 'components/Tags/TagList';
+import {PagePanel} from 'components/PagePanel';
 
 export default function Tags() {
   return (

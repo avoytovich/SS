@@ -1,4 +1,4 @@
-import {ASC, DESC} from '../../constants/dataGrid';
+import {ASC, DESC} from 'constants/dataGrid';
 
 export const setURLSearchParams = (prevParams, value, paramName) => {
   if (value) {

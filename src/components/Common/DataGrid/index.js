@@ -1,5 +1,5 @@
-import {NoRows} from './NoRows';
-import {GridPagination} from './Pagination';
-import {dataGridRootStyles} from './styles';
+import {NoRows} from 'components/Common/DataGrid/NoRows';
+import {GridPagination} from 'components/Common/DataGrid/Pagination';
+import {dataGridRootStyles} from 'components/Common/DataGrid/styles';
 
 export {NoRows, GridPagination, dataGridRootStyles};

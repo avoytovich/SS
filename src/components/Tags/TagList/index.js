@@ -3,17 +3,17 @@ import React, {useState} from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
-import ConfirmModal from '../../ConfirmModal';
+import ConfirmModal from 'components/ConfirmModal';
 
-import {useFetchTagsQuery} from '../../../api/tags';
+import {useFetchTagsQuery} from 'api/tags';
 
-import {GridPagination, NoRows, dataGridRootStyles} from '../../Common/DataGrid';
-import {defaultPage, pageSize, searchParamName} from '../../../constants/dataGrid';
-import {useDataGridPagination, useDataGridSort, useURLParams} from '../../../hooks/dataGrid';
+import {GridPagination, NoRows, dataGridRootStyles} from 'components/Common/DataGrid';
+import {defaultPage, pageSize, searchParamName} from 'constants/dataGrid';
+import {useDataGridPagination, useDataGridSort, useURLParams} from 'hooks/dataGrid';
 
-import {TagListFilter} from './TagListFilter';
-import {getColumns, getConfirmTagValues} from './utils';
-import {useStyles} from './styles';
+import {TagListFilter} from 'components/Tags/TagList/TagListFilter';
+import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
+import {useStyles} from 'components/Tags/TagList/styles';
 
 export default function TagList() {
   const classes = useStyles();

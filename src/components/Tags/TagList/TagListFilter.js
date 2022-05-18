@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import {Button, Box} from '@mui/material';
-import {useStyles} from './styles';
+import {useStyles} from 'components/Tags/TagList/styles';
 
 export function TagListFilter({tagName, onChangeTagName, onClearFilter}) {
   const classes = useStyles();

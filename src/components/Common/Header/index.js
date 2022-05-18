@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
 import {NavLink as RouterLink} from 'react-router-dom';
 
-import UserMenu from '../../UserMenu';
+import UserMenu from 'components/UserMenu';
 
 const isActiveFn = path => (match, location) => location.pathname.startsWith(path);
 

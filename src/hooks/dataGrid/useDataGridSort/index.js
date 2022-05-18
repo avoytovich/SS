@@ -1,9 +1,6 @@
 import {useState} from 'react';
-import {
-  convertSortParamToGridSortModel,
-  getSortParamsFromModel
-} from '../../../utils/dataGridUtils';
-import {sortParamName} from '../../../constants/dataGrid';
+import {convertSortParamToGridSortModel, getSortParamsFromModel} from 'utils/dataGridUtils';
+import {sortParamName} from 'constants/dataGrid';
 
 export const useDataGridSort = (queryParams, updateURLParams) => {
   const [sort, setSort] = useState(queryParams.get(sortParamName) || '');

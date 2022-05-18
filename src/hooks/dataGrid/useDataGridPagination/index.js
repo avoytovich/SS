@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {defaultPage, pageParamName} from '../../../constants/dataGrid';
+import {defaultPage, pageParamName} from 'constants/dataGrid';
 
 export const useDataGridPagination = (queryParams, updateURLParams) => {
   const [page, setPage] = useState(queryParams.get(pageParamName) || defaultPage);

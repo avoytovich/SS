@@ -1,4 +1,4 @@
-import {getConfirmTagValues} from './utils';
+import {getConfirmTagValues} from 'components/Tags/TagList/utils';
 
 describe('TagList utils', () => {
   it('getConfirmTagValues', () => {
