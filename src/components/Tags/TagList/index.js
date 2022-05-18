@@ -7,13 +7,13 @@ import ConfirmModal from '../../ConfirmModal';
 
 import {useFetchTagsQuery} from '../../../api/tags';
 
-import {GridPagination, NoRows} from '../../Common/DataGrid';
+import {GridPagination, NoRows, dataGridRootStyles} from '../../Common/DataGrid';
 import {defaultPage, pageSize, searchParamName} from '../../../constants/dataGrid';
 import {useDataGridPagination, useDataGridSort, useURLParams} from '../../../hooks/dataGrid';
 
 import {TagListFilter} from './TagListFilter';
 import {getColumns, getConfirmTagValues} from './utils';
-import {tagStyles, useStyles, rootStyles} from './styles';
+import {useStyles} from './styles';
 
 export default function TagList() {
   const classes = useStyles();
@@ -60,7 +60,7 @@ export default function TagList() {
         tagName={search}
         onChangeTagName={handleSearch}
       />
-      <Box sx={rootStyles} data-testid="tag-list-box">
+      <Box className={classes.tagBox} data-testid="tag-list-box">
         <DataGrid
           data-cy="tag-list"
           components={{
@@ -88,7 +88,7 @@ export default function TagList() {
           onPageChange={handlePageChange}
           rowCount={total}
           autoHeight={tags.length === pageSize}
-          sx={tagStyles}
+          sx={dataGridRootStyles}
           loading={isLoading}
           rowHeight={32}
           headerHeight={32}
