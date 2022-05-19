@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
+import {setPermissions} from 'store/permissions/permissions';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -10,12 +11,16 @@ import CardActionArea from '@mui/material/CardActionArea';
 import {loginByToken} from 'slices/auth';
 import userRoles from 'constants/userRoles';
 import {useSigninUserMutation} from 'api/auth';
+import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
 
 export default function Login() {
   const dispatch = useDispatch();
   const [signinUser, {data, isSuccess}] = useSigninUserMutation();
 
   const onUserClick = role => () => {
+    console.log(USER_ROLES_PERMISSIONS[role.id]);
+    // TODO: Replece to  role from profile
+    dispatch(setPermissions(USER_ROLES_PERMISSIONS[role.id]));
     signinUser({role: role.id});
   };
 
