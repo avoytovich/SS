@@ -1,13 +1,15 @@
 import * as React from 'react';
+import {NavLink as RouterLink} from 'react-router-dom';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Link from '@mui/material/Link';
-import {NavLink as RouterLink} from 'react-router-dom';
 
 import usePermissions from 'hooks/permissions';
-import {PermissionEnum} from '../../../constants/permissions';
+import {PermissionEnum} from 'constants/permissions';
+import routes from 'constants/routes';
+
 import UserMenu from './UserMenu';
-import routes from '../../../constants/routes';
 
 const isActiveFn = path => (match, location) => location.pathname.startsWith(path);
 

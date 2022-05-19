@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import {setupListeners} from '@reduxjs/toolkit/query';
 import authSlice from 'slices/auth';
 import authApi from 'api/auth';
+import tagsApi from 'api/tags';
 import {smartSkillsApi} from 'slices/smartSkillsSlice';
 
 import {permissionsReducer} from './permissions/permissions';
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   auth: authPersisted,
   permissions: permissionsReducer,
   [smartSkillsApi.reducerPath]: smartSkillsApi.reducer,
-  [authApi.reducerPath]: authApi.reducer
+  [authApi.reducerPath]: authApi.reducer,
+  [tagsApi.reducerPath]: tagsApi.reducer
 });
 
 export const store = configureStore({
