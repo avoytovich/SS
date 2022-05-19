@@ -1,18 +1,19 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 
-import routes from '../../constants/routes';
+import routes from 'constants/routes';
 
-import PrivateRoute from '../../components/PrivateRoute';
-import PublicRoute from '../../components/PublicRoute';
+import PrivateRoute from 'components/PrivateRoute';
+import PublicRoute from 'components/PublicRoute';
 
-import Login from '../../pages/Login';
-import Home from '../../pages/Home';
-import NotFound from '../../pages/NotFound';
-import SkillsRegistry from '../../pages/SkillsRegistry';
-import NeighborsList from '../../pages/NeighborsList';
-import EmployeeList from '../../pages/EmployeeList';
-import EmployeeDetails from '../../pages/EmployeeDetails';
+import Login from 'pages/Login';
+import Home from 'pages/Home';
+import NotFound from 'pages/NotFound';
+import SkillsRegistry from 'pages/SkillsRegistry';
+import NeighborsList from 'pages/NeighborsList';
+import EmployeeList from 'pages/EmployeeList';
+import EmployeeDetails from 'pages/EmployeeDetails';
+import Tags from 'pages/Tags';
 
 const AppRouter = () => (
   <Switch>
@@ -33,6 +34,9 @@ const AppRouter = () => (
     </PrivateRoute>
     <PrivateRoute path={routes.employees.details.path} exact>
       <EmployeeDetails />
+    </PrivateRoute>
+    <PrivateRoute path={routes.tags.list} exact>
+      <Tags />
     </PrivateRoute>
     <Route component={NotFound} path="*" />
   </Switch>
