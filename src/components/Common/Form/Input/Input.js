@@ -1,101 +1,77 @@
-import React, {useState} from 'react';
-import classnames from 'clsx';
+import React from 'react';
+import {Field, useFormikContext} from 'formik';
+import {TextField} from 'formik-mui';
 import PropTypes from 'prop-types';
 
-import Label from 'components/Common/Form/Label/Label';
+import {InputLabel} from '@mui/material';
+
+import useStyles from './styles';
 
 const Input = ({
-  label,
   name,
-  icon,
-  className,
+  label,
+  min,
+  max,
   type,
-  renderIcon,
-  labelIsPlaceholder,
-  labelHelper,
-  showOptional,
-  infoIcon,
-  ...props
+  variant,
+  readOnly,
+  handleChange,
+  fullWidth,
+  ...params
 }) => {
-  const [showValue, changeShowStatus] = useState(false);
+  const classes = useStyles();
 
-  const wrapperClassNames = classnames('form-input', className, {
-    'form-input--labeled': labelIsPlaceholder
-  });
+  const formikProps = useFormikContext();
 
-  const inputClassNames = classnames('form-input__input', {
-    'form-input__input--icon': icon
-  });
-
-  const isPasswordInput = type === 'password';
-  const passwordInputType = showValue ? 'text' : 'password';
-
-  const toggleValueVisibility = () => {
-    changeShowStatus(!showValue);
+  const handleChangeField = e => {
+    formikProps.setFieldError(name, null);
+    if (handleChange) handleChange(e, formikProps);
+    formikProps.setFieldValue(name, e.target.value);
   };
 
   return (
-    <div className={wrapperClassNames}>
-      <Label
-        label={label}
-        labelHelper={labelHelper}
-        htmlFor={name}
-        showOptional={showOptional}
-        infoIcon={infoIcon}
-        required={props.required}
-        hasValue={!!props.value && props.value.length}
+    <>
+      <InputLabel className={classes.label}>{label}</InputLabel>
+      <Field
+        fullWidth={fullWidth}
+        name={name}
+        type={type}
+        variant={variant}
+        component={TextField}
+        className={classes.inputWrapper}
+        InputProps={{
+          inputProps: {
+            min,
+            max,
+            readOnly,
+            'data-testid': name,
+            onChange: handleChangeField,
+            className: classes.input
+          }
+        }}
+        {...params}
       />
-
-      <div className="form-input__wrapper">
-        <input
-          className={inputClassNames}
-          name={name}
-          id={name}
-          data-testid={name}
-          type={isPasswordInput ? passwordInputType : type}
-          {...props}
-        />
-
-        {isPasswordInput && (
-          <button
-            id="-input-toggle-value-button"
-            data-testid="-input-toggle-value-button"
-            tabIndex={-1}
-            type="button"
-            onClick={toggleValueVisibility}
-            className="form-input__password-toggle"
-          >
-            {showValue ? 'hide' : 'show'}
-          </button>
-        )}
-        {renderIcon && renderIcon()}
-      </div>
-    </div>
+    </>
   );
 };
 
 Input.defaultProps = {
-  onChange: () => {},
-  icon: null,
-  renderIcon: null,
-  maxLength: 15
+  type: 'text',
+  variant: 'outlined',
+  fullWidth: true
 };
 
 Input.propTypes = {
-  value: PropTypes.any,
+  type: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  readOnly: PropTypes.bool,
+  variant: PropTypes.string,
+  helperText: PropTypes.string,
+  handleChange: PropTypes.func,
+  fullWidth: PropTypes.bool,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  icon: PropTypes.string,
-  renderIcon: PropTypes.func,
-  infoIcon: PropTypes.element,
-  onChange: PropTypes.func,
-  className: PropTypes.string,
-  labelIsPlaceholder: PropTypes.bool,
-  labelHelper: PropTypes.string,
-  required: PropTypes.bool,
-  maxLength: PropTypes.number,
-  showOptional: PropTypes.bool
+  label: PropTypes.string.isRequired
 };
 
 export default Input;

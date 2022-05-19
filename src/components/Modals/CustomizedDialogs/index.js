@@ -20,7 +20,8 @@ const CustomizedDialogs = ({
   cancelText,
   confirmText,
   handleSubmit,
-  loading
+  loading,
+  withCustomBtns
 }) => {
   const classes = useStyles();
   return (
@@ -40,14 +41,20 @@ const CustomizedDialogs = ({
           {children}
         </DialogContent>
       )}
-      <DialogActions className={classes.actions}>
-        <Button variant="outlined" data-testid="confirm-modal-cancel-btn" onClick={onClose}>
-          {cancelText}
-        </Button>
-        <Button variant="contained" data-testid="confirm-modal-confirm-btn" onClick={handleSubmit}>
-          {confirmText}
-        </Button>
-      </DialogActions>
+      {!withCustomBtns && (
+        <DialogActions className={classes.actions}>
+          <Button variant="outlined" data-testid="confirm-modal-cancel-btn" onClick={onClose}>
+            {cancelText}
+          </Button>
+          <Button
+            variant="contained"
+            data-testid="confirm-modal-confirm-btn"
+            onClick={handleSubmit}
+          >
+            {confirmText}
+          </Button>
+        </DialogActions>
+      )}
     </Dialog>
   );
 };
@@ -59,7 +66,8 @@ CustomizedDialogs.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string,
   cancelText: PropTypes.string,
-  confirmText: PropTypes.string
+  confirmText: PropTypes.string,
+  withCustomBtns: PropTypes.bool
 };
 
 CustomizedDialogs.defaultProps = {
@@ -69,7 +77,8 @@ CustomizedDialogs.defaultProps = {
   title: 'Are you sure?',
   text: 'Do some action',
   cancelText: 'Cancel',
-  confirmText: 'Confirm'
+  confirmText: 'Confirm',
+  withCustomBtns: false
 };
 
 export default CustomizedDialogs;

@@ -4,8 +4,7 @@ import {createMemoryHistory} from 'history';
 import {Router} from 'react-router-dom';
 import * as redux from 'react-redux';
 import AppRouter from 'routers/AppRouter';
-import userRoles from 'constants/userRoles';
-import {UserRoleEnum} from 'constants/userRoles';
+import userRoles, {UserRoleEnum} from 'constants/userRoles';
 import routes from '../../constants/routes';
 
 test('Redirect authenticated users to home', () => {
