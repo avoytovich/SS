@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Formik, Form} from 'formik';
 
-import Button from '@mui/material/Button';
-import DialogActions from '@mui/material/DialogActions';
+import DialogControls from '../../Modals/DialogControls';
 
 import Input from '../../Common/Form/Input/Input';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
@@ -44,19 +43,11 @@ const CreateSkillModal = ({isOpen, onClose, loading}) => {
             {/* )} */}
 
             <Input name="name" label="Name" placeholder="Type skill name" />
-            <DialogActions>
-              <Button variant="outlined" data-testid="confirm-modal-cancel-btn" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                data-testid="confirm-modal-confirm-btn"
-                disabled={isSubmitting}
-              >
-                Save
-              </Button>
-            </DialogActions>
+            <DialogControls
+              disabledConfirm={isSubmitting}
+              onSubmit={handleSubmit}
+              onClose={onClose}
+            />
           </Form>
         )}
       </Formik>
