@@ -11,3 +11,4 @@ export const GREY_4 = '#AFAFAF';
 export const WHITE = '#FFFFFF';
 export const BLACK = '#000000';
 export const BLUE = '#3B7FA5';
+export const RED = '#ff1744';

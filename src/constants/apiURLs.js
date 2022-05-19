@@ -1,5 +1,18 @@
 export const apiUrls = {
-  usersList: '/users',
-  userProfile: 'users/me',
-  tagList: 'tags'
+  users: {
+    root: '/users',
+    rootWithQueries: query => `/users/?${query}`,
+    details: id => `/users/${id}`,
+    myProfile: '/users/me'
+  },
+  tags: {
+    root: '/tags',
+    rootWithQueries: query => `/tags/?${query}`,
+    details: id => `/tags/${id}`
+  },
+  skills: {
+    root: '/skills',
+    rootWithQueries: query => `/skills/?${query}`,
+    details: id => `/skills/${id}`
+  }
 };

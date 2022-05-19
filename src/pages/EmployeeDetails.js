@@ -1,33 +1,33 @@
-import React, { useState, useMemo } from 'react';
+import React, {useState, useMemo} from 'react';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Link as RouterLink, useHistory, useParams } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
+import {Link as RouterLink, useHistory, useParams} from 'react-router-dom';
+import {useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { Button, SvgIcon } from '@mui/material';
+import {Button, SvgIcon} from '@mui/material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CircularProgress from '@mui/material/CircularProgress';
 import Avatar from '@mui/material/Avatar';
-import { ErrorBoundary } from 'react-error-boundary';
+import {ErrorBoundary} from 'react-error-boundary';
 import PageTitle from '../components/PageTitle';
-import { PagePanel } from '../components/PagePanel';
+import {PagePanel} from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
-import { useFetchEmployeeQuery, useFetchSkillGroupsQuery } from '../slices/smartSkillsSlice';
+import {useFetchEmployeeQuery, useFetchSkillGroupsQuery} from '../slices/smartSkillsSlice';
 import {
   getComparator,
   yesNo,
   stringToColor,
   transformLevelForSort,
-  getValueByKeyFromMap,
-} from '../common/helpers';
+  getValueByKeyFromMap
+} from '../utils/helpers';
 
-import { useStyles } from './styles';
+import {useStyles} from './styles';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
-import { employeeSkillLevels } from '../common/constants';
+import {employeeSkillLevels} from '../constants/common';
 
 const headCells = [
   {
@@ -35,21 +35,21 @@ const headCells = [
     numeric: false,
     filterable: true,
     label: 'Skill Name',
-    width: '75%',
+    width: '75%'
   },
   {
     id: 'level',
     numeric: false,
     filterable: true,
     label: 'Seniority',
-    width: '25%',
-  },
+    width: '25%'
+  }
 ];
 
 export default function EmployeeDetails() {
   const theme = useTheme();
   const classes = useStyles();
-  const { employeeId } = useParams();
+  const {employeeId} = useParams();
   const history = useHistory();
   const [showUnfilledSkills, setShowUnfilledSkills] = useState(true);
   const [showUnfilledGroups, setShowUnfilledGroups] = useState(false);
@@ -68,10 +68,10 @@ export default function EmployeeDetails() {
     setOrderBy(property);
   };
 
-  const { data: employeeDetails = {}, isLoading: employeeLoading } = useFetchEmployeeQuery({
-    id: employeeId,
+  const {data: employeeDetails = {}, isLoading: employeeLoading} = useFetchEmployeeQuery({
+    id: employeeId
   });
-  const { data: skillGroups = [], isLoading: skillsLoading } = useFetchSkillGroupsQuery();
+  const {data: skillGroups = [], isLoading: skillsLoading} = useFetchSkillGroupsQuery();
   const isLoading = employeeLoading || skillsLoading;
 
   const {
@@ -82,26 +82,26 @@ export default function EmployeeDetails() {
     Level,
     PrimarySpecialization,
     isOnBench,
-    SkillGroups: employeeSkillGroups = [],
+    SkillGroups: employeeSkillGroups = []
   } = employeeDetails;
 
   const fullName = `${FirstName} ${LastName}`;
 
   const stringAvatar = (id, firstName, lastName) => ({
     sx: {
-      bgcolor: stringToColor(id),
+      bgcolor: stringToColor(id)
     },
-    children: `${firstName[0]}${lastName[0]}`,
+    children: `${firstName[0]}${lastName[0]}`
   });
 
   // set whole skillGroups List with total count
   // and number of skills which are selected for employee
   const unfilledSkillGroups = useMemo(
     () =>
-      skillGroups.map(({ Name, Skills }) => {
+      skillGroups.map(({Name, Skills}) => {
         // find whether employee has current skillGroup
         const employeeSkillGroup = employeeSkillGroups.find(
-          ({ Name: employeeSkillGroupName }) =>
+          ({Name: employeeSkillGroupName}) =>
             employeeSkillGroupName === Name || employeeSkillGroupName === `${Name} skills`
         );
         // set new array to render actual list of skillGroups
@@ -113,7 +113,7 @@ export default function EmployeeDetails() {
             ? Skills.filter(skill =>
                 employeeSkillGroup.Skills.map(sk => Object.keys(sk))[0].includes(skill)
               ).length
-            : 0,
+            : 0
         };
       }),
     [employeeDetails, skillGroups]
@@ -130,10 +130,8 @@ export default function EmployeeDetails() {
   const employeeSkillsList = useMemo(
     () =>
       [...employeeSkillGroups]
-        .filter(
-          ({ Name }) => Name === selectedSkillGroup || Name === `${selectedSkillGroup} skills`
-        )
-        .map(({ Skills }) => [...Skills])
+        .filter(({Name}) => Name === selectedSkillGroup || Name === `${selectedSkillGroup} skills`)
+        .map(({Skills}) => [...Skills])
         .flat()[0],
     [selectedSkillGroup, employeeDetails]
   );
@@ -141,21 +139,21 @@ export default function EmployeeDetails() {
   const fullSkillList = useMemo(
     () =>
       skillGroups
-        .filter(({ Name }) => Name === selectedSkillGroup)
-        .map(({ Skills }) => [...Skills])
+        .filter(({Name}) => Name === selectedSkillGroup)
+        .map(({Skills}) => [...Skills])
         .flat()
         .map(skill => {
           const employeeSkill =
             employeeSkillsList &&
-            Object.entries({ ...employeeSkillsList }).find(
+            Object.entries({...employeeSkillsList}).find(
               sk => sk[0] === skill || sk[0] === `${skill} skills`
             );
           return {
             skill,
-            level: employeeSkill ? employeeSkill[1] : 'None',
+            level: employeeSkill ? employeeSkill[1] : 'None'
           };
         })
-        .filter(({ level }) => showUnfilledSkills || (!showUnfilledSkills && level !== 'None')),
+        .filter(({level}) => showUnfilledSkills || (!showUnfilledSkills && level !== 'None')),
     [skillGroups, selectedSkillGroup, showUnfilledSkills]
   );
 
@@ -173,14 +171,14 @@ export default function EmployeeDetails() {
 
   const noEmployeeSkillsError =
     selectedSkillGroup === null ? (
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <SvgIcon sx={{ mr: 1 }} component={WarningAmberIcon} color={'warning'} />
+      <Box sx={{display: 'flex', alignItems: 'center'}}>
+        <SvgIcon sx={{mr: 1}} component={WarningAmberIcon} color={'warning'} />
         <Typography>Please choose skill group to see employee&apos;s skills</Typography>
       </Box>
     ) : (
       !fullSkillList.length && (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <SvgIcon sx={{ mr: 1 }} component={WarningAmberIcon} color={'warning'} />
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
+          <SvgIcon sx={{mr: 1}} component={WarningAmberIcon} color={'warning'} />
           <Typography>
             This employee doesn&apos;t have any filled skills in selected skill group
           </Typography>
@@ -230,7 +228,7 @@ export default function EmployeeDetails() {
                 sx={{
                   borderBottom: `1px solid ${theme.palette.primary.separator}`,
                   padding: '10px 20px 20px',
-                  flex: '0 1 0',
+                  flex: '0 1 0'
                 }}
               >
                 <Grid container spacing={2}>
@@ -308,17 +306,17 @@ export default function EmployeeDetails() {
                   </Grid>
                 </Grid>
               </Box>
-              <Grid container spacing={2} sx={{ padding: '36px 0 20px', flexGrow: 1 }}>
+              <Grid container spacing={2} sx={{padding: '36px 0 20px', flexGrow: 1}}>
                 <Grid
                   item
                   xs={6}
-                  sx={{ borderRight: `1px solid ${theme.palette.primary.separator}` }}
+                  sx={{borderRight: `1px solid ${theme.palette.primary.separator}`}}
                   className={classes.flexColumn}
                 >
                   <Typography variant="employeeSkillsTitle">Skill Group</Typography>
                   <Box className={classes.parentScrollContainer}>
                     <Box data-cy="employee-details-skill-group" className={classes.parentScroll}>
-                      {skillGroupsList.map(({ name, employeesSkillsCount, totalCount }) => (
+                      {skillGroupsList.map(({name, employeesSkillsCount, totalCount}) => (
                         <Typography
                           variant={`${
                             selectedSkillGroup === name

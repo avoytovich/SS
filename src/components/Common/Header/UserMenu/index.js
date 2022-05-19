@@ -1,11 +1,13 @@
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import {useDispatch, useSelector} from 'react-redux';
-import {useModal} from '../../common/hooks';
-import {logOut} from '../../slices/auth';
+import {clearPermissions} from 'store/permissions/permissions';
+import {useModal} from 'hooks/hooks';
+import {logOut} from 'slices/auth';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ export default function UserMenu() {
 
   const onLogoutClick = () => {
     dispatch(logOut());
+    dispatch(clearPermissions());
     handleClose();
   };
 

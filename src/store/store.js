@@ -9,6 +9,7 @@ import {
   PURGE,
   REGISTER
 } from 'redux-persist';
+
 import storage from 'redux-persist/lib/storage';
 import {setupListeners} from '@reduxjs/toolkit/query';
 import authSlice from 'slices/auth';
@@ -16,14 +17,18 @@ import authApi from 'api/auth';
 import tagsApi from 'api/tags';
 import {smartSkillsApi} from 'slices/smartSkillsSlice';
 
+import {permissionsReducer} from './permissions/permissions';
+
 const persistConfig = {
   key: 'auth',
   storage
 };
+
 const authPersisted = persistReducer(persistConfig, authSlice.reducer);
 
 const rootReducer = combineReducers({
   auth: authPersisted,
+  permissions: permissionsReducer,
   [smartSkillsApi.reducerPath]: smartSkillsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [tagsApi.reducerPath]: tagsApi.reducer

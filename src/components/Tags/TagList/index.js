@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
-import ConfirmModal from 'components/ConfirmModal';
+import ConfirmModal from 'components/Modals/ConfirmModal';
 
 import {useFetchTagsQuery} from 'api/tags';
 

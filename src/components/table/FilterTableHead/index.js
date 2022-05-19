@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, {useMemo, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -8,20 +8,20 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
-import { simpleLocaleComparator } from '../../../common/helpers';
-import { useStyles } from './styles';
+import {simpleLocaleComparator} from '../../../utils/helpers';
+import {useStyles} from './styles';
 
-export default function FilterTableHead({ headCells, primaryData, onFiltersChange }) {
+export default function FilterTableHead({headCells, primaryData, onFiltersChange}) {
   const classes = useStyles();
   const filterKeys = useMemo(() =>
-    headCells.filter(({ filterable, searchable }) => filterable || searchable).map(({ id }) => id)
+    headCells.filter(({filterable, searchable}) => filterable || searchable).map(({id}) => id)
   );
 
   const [filters] = useState(
     filterKeys.reduce(
       (obj, item) => ({
         ...obj,
-        [item]: [],
+        [item]: []
       }),
       {}
     )
@@ -35,12 +35,12 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
         });
         return acc;
       },
-      filterKeys.reduce((o, key) => ({ ...o, [key]: new Set() }), {})
+      filterKeys.reduce((o, key) => ({...o, [key]: new Set()}), {})
     )
   );
 
   const handleChange = key => e => {
-    const { value } = e.target;
+    const {value} = e.target;
     filters[key] = value;
     onFiltersChange(filters);
   };
@@ -60,7 +60,7 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
   return (
     <TableHead data-testid="filter-table-head">
       <TableRow>
-        {headCells.map(({ id, width, disablePadding, filterable, searchable, label }) => (
+        {headCells.map(({id, width, disablePadding, filterable, searchable, label}) => (
           <TableCell
             key={id}
             align={'left'}
@@ -77,17 +77,17 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
                     filters[id] = e.target.value;
                     onFiltersChange(filters);
                   }}
-                  classes={{ root: classes.input }}
+                  classes={{root: classes.input}}
                 />
               )}
               {filterable && (
-                <FormControl classes={{ root: classes.formControl }}>
+                <FormControl classes={{root: classes.formControl}}>
                   <Select
                     value={filters[id]}
                     displayEmpty
                     multiple={true}
                     onChange={handleChange(id)}
-                    classes={{ root: classes.input }}
+                    classes={{root: classes.input}}
                     renderValue={selected => {
                       if (selected.length === 0) {
                         return (
@@ -111,7 +111,7 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
           </TableCell>
         ))}
         <TableCell key="clean-all" align={'left'} width="20%">
-          <Link underline="hover" onClick={cleanAllHandler} classes={{ root: classes.cleanUpLink }}>
+          <Link underline="hover" onClick={cleanAllHandler} classes={{root: classes.cleanUpLink}}>
             Clean up
           </Link>
         </TableCell>
@@ -123,5 +123,5 @@ export default function FilterTableHead({ headCells, primaryData, onFiltersChang
 FilterTableHead.propTypes = {
   headCells: PropTypes.array.isRequired,
   primaryData: PropTypes.array.isRequired,
-  onFiltersChange: PropTypes.func.isRequired,
+  onFiltersChange: PropTypes.func.isRequired
 };

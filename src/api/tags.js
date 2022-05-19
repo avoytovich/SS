@@ -11,7 +11,7 @@ const tagsApi = createApi({
   endpoints: builder => ({
     fetchTags: builder.query({
       query: ({page}) => ({
-        url: apiUrls.tagList,
+        url: apiUrls.tags.root,
         params: {page}
       }),
       transformResponse: response => ({...response, tags: response.data})

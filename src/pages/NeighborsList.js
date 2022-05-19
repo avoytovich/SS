@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { useParams, useHistory, Link as RouterLink } from 'react-router-dom';
+import React, {useMemo} from 'react';
+import {useParams, useHistory, Link as RouterLink} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
@@ -7,14 +7,14 @@ import Link from '@mui/material/Link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import CircularProgress from '@mui/material/CircularProgress';
-import { ErrorBoundary } from 'react-error-boundary';
-import { useNeighborSkillsQuery } from '../slices/smartSkillsSlice';
-import { getComparator, decodeQueryParam } from '../common/helpers';
+import {ErrorBoundary} from 'react-error-boundary';
+import {useNeighborSkillsQuery} from '../slices/smartSkillsSlice';
+import {getComparator, decodeQueryParam} from '../utils/helpers';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
 import PageTitle from '../components/PageTitle';
-import { PagePanel } from '../components/PagePanel';
+import {PagePanel} from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
-import { useStyles } from './styles';
+import {useStyles} from './styles';
 import CircularBarplot from '../components/charts/circular-barplot';
 
 const headCells = [
@@ -22,19 +22,19 @@ const headCells = [
     id: 'Proximity',
     numeric: true,
     label: 'Proximity',
-    width: '10%',
+    width: '10%'
   },
   {
     id: 'ID',
     numeric: true,
     label: 'ID',
-    width: '10%',
+    width: '10%'
   },
   {
     id: 'Group',
     numeric: false,
     label: 'Skills Group',
-    width: '34%',
+    width: '34%'
   },
   {
     id: 'Name',
@@ -45,7 +45,7 @@ const headCells = [
         {row.Name}
       </Link>
     ),
-    width: '34%',
+    width: '34%'
   },
   {
     id: 'EngineersCount',
@@ -60,20 +60,20 @@ const headCells = [
       >
         {row.EngineersCount}
       </Link>
-    ),
-  },
+    )
+  }
 ];
 
 export default function NeighborsList() {
-  const { name } = useParams();
+  const {name} = useParams();
   const skillName = decodeQueryParam(name);
   const history = useHistory();
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('Proximity');
 
-  const hotLegendRectangle = <div className={classes.shape} style={{ background: '#67001f' }} />;
-  const coldLegendRectangle = <div className={classes.shape} style={{ background: '#053061' }} />;
+  const hotLegendRectangle = <div className={classes.shape} style={{background: '#67001f'}} />;
+  const coldLegendRectangle = <div className={classes.shape} style={{background: '#053061'}} />;
 
   const onSortHandler = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -81,9 +81,9 @@ export default function NeighborsList() {
     setOrderBy(property);
   };
 
-  const { data: { data = [] } = {}, isFetching } = useNeighborSkillsQuery({
+  const {data: {data = []} = {}, isFetching} = useNeighborSkillsQuery({
     neighbors: skillName,
-    groups: true,
+    groups: true
   });
 
   const tagCloudData = [...data.slice(0, 25)];
@@ -111,24 +111,24 @@ export default function NeighborsList() {
           ) : (
             <>
               <Box
-                sx={{ display: 'grid', m: 4, gridTemplateColumns: 'repeat(2, 1fr)' }}
+                sx={{display: 'grid', m: 4, gridTemplateColumns: 'repeat(2, 1fr)'}}
                 textAlign="center"
               >
                 <Box
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    flexDirection: 'column',
+                    flexDirection: 'column'
                   }}
                 >
                   <Box
                     sx={{
                       border: 1,
                       padding: 2,
-                      maxWidth: { xs: 300, md: 250 },
+                      maxWidth: {xs: 300, md: 250},
                       height: 125,
                       display: 'flex',
-                      flexDirection: 'column',
+                      flexDirection: 'column'
                     }}
                     textAlign="left"
                   >
@@ -140,7 +140,7 @@ export default function NeighborsList() {
                     sx={{
                       textAlign: 'right',
                       marginTop: '50px',
-                      marginRight: '50px',
+                      marginRight: '50px'
                     }}
                   >
                     <Box className={classes.legendItem}>
@@ -156,7 +156,7 @@ export default function NeighborsList() {
                       </Typography>
                     </Box>
                     <Box className={classes.legendItem}>
-                      <BarChartIcon className={classes.shape} style={{ width: '30px' }} />
+                      <BarChartIcon className={classes.shape} style={{width: '30px'}} />
                       <Typography variant="caption">
                         The height of column means how popular skill is
                       </Typography>
@@ -167,7 +167,7 @@ export default function NeighborsList() {
                   <CircularBarplot data={tagCloudData || []} />
                 </Box>
               </Box>
-              <Box sx={{ padding: '0 20px' }}>
+              <Box sx={{padding: '0 20px'}}>
                 <CustomPaginationActionsTable
                   data-cy="neighbors-table"
                   rows={rows}

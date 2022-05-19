@@ -6,7 +6,7 @@
  * @returns {number}
  */
 
-import { employeeSkillLevels } from './constants';
+import {employeeSkillLevels} from '../constants/common';
 
 export const ASC = 'asc';
 export const DESC = 'desc';
@@ -22,11 +22,11 @@ function descendingComparator(a, b, orderBy) {
 }
 
 export function simpleLocaleComparator(a, b) {
-  return (a || '').localeCompare(b, 'en', { numeric: true, sensitivity: 'accent' });
+  return (a || '').localeCompare(b, 'en', {numeric: true, sensitivity: 'accent'});
 }
 
 function descendingLocaleComparator(a, b, orderBy) {
-  return a[orderBy].localeCompare(b[orderBy], 'en', { numeric: true, sensitivity: 'accent' });
+  return a[orderBy].localeCompare(b[orderBy], 'en', {numeric: true, sensitivity: 'accent'});
 }
 
 function stringFieldComparator(a, b, orderBy) {
@@ -116,34 +116,6 @@ export const transformLevelForSort = item => {
 export function getValueByKeyFromMap(map, searchValue) {
   return [...map].find(([, val]) => val === searchValue)[0];
 }
-
-// export const transformSkillGroupsToArray = skillGroups => {
-//   let skills = [];
-
-//   const pushSkillToArray = s => {
-//     Object.entries(s).forEach(([key, value]) => {
-//       skills.push({ name: key, level: value });
-//     });
-//   };
-
-//   skillGroups
-//     .map(({ Skills }) => [...Skills])
-//     .flat()
-//     .forEach(i => {
-//       pushSkillToArray(i);
-//     });
-
-//   skills = skills
-//     .map(item => transformLevelForSort(item))
-//     .sort(getComparator('desc', 'level'))
-//     .map((item, index) => {
-//       item.key = index;
-//       item.level = getValueByKeyFromMap(employeeSkillLevels, item.level);
-//       return item;
-//     });
-
-//   return skills;
-// };
 
 export const getSkillsFromCurrentData = data => {
   const skills = new Set();

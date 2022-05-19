@@ -10,7 +10,7 @@ const authApi = createApi({
   endpoints: builder => ({
     signinUser: builder.mutation({
       query: ({role}) => ({
-        url: apiUrls.userProfile,
+        url: apiUrls.users.myProfile,
         method: 'get',
         params: {role}
       })

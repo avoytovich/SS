@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from 'utils/test-utils';
-import ConfirmModal from 'components/ConfirmModal';
+import ConfirmModal from 'components/Modals/ConfirmModal/index';
 
 test('Render confirm modal and check if text displayed', () => {
   render(

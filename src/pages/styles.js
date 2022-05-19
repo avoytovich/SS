@@ -1,16 +1,16 @@
-import { makeStyles } from '@material-ui/core';
-import { GREY_4 } from '../common/colors';
+import {makeStyles} from '@material-ui/core';
+import {GREY_4} from '../theme/colors';
 
 export const useStyles = makeStyles({
   flexColumn: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   parentScrollContainer: {
     overflowY: 'scroll',
     flexGrow: 1,
     minHeight: '250px',
-    position: 'relative',
+    position: 'relative'
   },
   parentScroll: {
     position: 'absolute',
@@ -21,55 +21,55 @@ export const useStyles = makeStyles({
     overflowY: 'scroll',
     '&::-webkit-scrollbar': {
       backgroundColor: 'white',
-      width: '16px',
+      width: '16px'
     },
     '&::-webkit-scrollbar-track:vertical': {
-      backgroundColor: 'white',
+      backgroundColor: 'white'
     },
     '&::-webkit-scrollbar-track:vertical:hover': {
-      backgroundColor: 'white',
+      backgroundColor: 'white'
     },
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: GREY_4,
       borderRadius: '16px',
-      border: '5px solid white',
+      border: '5px solid white'
     },
     '&::-webkit-scrollbar-button': {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   centerContent: {
     justifyContent: 'center',
-    margin: 'auto',
+    margin: 'auto'
   },
   similarEngineerPaper: {
     padding: '20px',
-    marginBottom: '10px',
+    marginBottom: '10px'
   },
   similarEngineerDetails: {
     marginTop: '15px',
     display: 'flex',
     '& .MuiTypography-root': {
-      marginRight: '15px',
-    },
+      marginRight: '15px'
+    }
   },
 
   employeeListRadioContainer: {
     '& label': {
-      alignItems: 'center',
-    },
+      alignItems: 'center'
+    }
   },
   shape: {
     width: 40,
     height: 20,
     marginRight: 8,
-    marginBottom: 4,
+    marginBottom: 4
   },
   legendItem: {
     display: 'flex',
     flexFlow: 'row',
     justifyContent: 'flex-start',
     textAlign: 'left',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
