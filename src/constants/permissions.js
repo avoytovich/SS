@@ -28,8 +28,6 @@ export const PermissionEnum = {
   USERS_READ_ME: 'app.users.read.me'
 };
 
-console.log(UserRoleEnum.SUPER_ADMIN);
-
 export const USER_ROLES_PERMISSIONS = {
   [UserRoleEnum.GUEST]: [],
   [UserRoleEnum.SUPER_ADMIN]: [
