@@ -7,7 +7,7 @@ export const useStyles = makeStyles(() => ({
   filterContainer: {
     display: 'flex',
     flexDirection: 'row',
-    margin: '10px 8px',
+    margin: '8px 8px 14px 16px',
     minWidth: 240
   },
   searchField: {

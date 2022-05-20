@@ -10,14 +10,39 @@ const tagsApi = createApi({
   tagTypes: ['Tags'],
   endpoints: builder => ({
     fetchTags: builder.query({
-      query: ({page}) => ({
-        url: apiUrls.tags.root,
-        params: {page}
+      query: ({...params}) => ({
+        url: apiUrls.tags.list,
+        params: {...params}
       }),
+      providesTags: ['Tags'],
       transformResponse: response => ({...response, tags: response.data})
+    }),
+    addTag: builder.mutation({
+      query: ({body}) => ({
+        url: apiUrls.tags.list,
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['Tags']
+    }),
+    updateTag: builder.mutation({
+      query: ({id, body}) => ({
+        url: apiUrls.tags.modify(id),
+        method: 'PATCH',
+        body
+      }),
+      invalidatesTags: ['Tags']
+    }),
+    deleteTag: builder.mutation({
+      query: ({id}) => ({
+        url: apiUrls.tags.modify(id),
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Tags']
     })
   })
 });
 
 export default tagsApi;
-export const {useFetchTagsQuery} = tagsApi;
+export const {useFetchTagsQuery, useUpdateTagMutation, useAddTagMutation, useDeleteTagMutation} =
+  tagsApi;

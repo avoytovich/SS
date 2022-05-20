@@ -129,55 +129,55 @@ const themeConfig = createTheme({
         }
       }
     },
-    MuiInputLabel: {
-      styleOverrides: {
-        root: {
-          color: GREY_4,
-          zIndex: 2,
-          '&[data-shrink="true"]': {
-            padding: 0
-          },
-          '&[data-shrink="false"]': {
-            transform: 'translate(0, 23px) scale(1)'
-          },
-          '&.fixed': {
-            transform: 'translate(0, -1.5px) scale(0.75);',
-            padding: 0
-          }
-        }
-      }
-    },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          backgroundColor: GREY_0,
-          borderRadius: 0,
-          '&:focus': {
-            borderColor: VIBRANT_BLUE
-          },
-          '&:not(.Mui-focused) .MuiOutlinedInput-input::placeholder': {
-            color: GREY_4
-          },
-          '& .MuiOutlinedInput-input': {
-            color: BLACK,
-            '&::placeholder': {
-              opacity: 1,
-              color: GREY_4
-            }
-          },
-          '& .MuiMenuItem-root ': {
-            borderBottom: 'none'
-          },
-          '& .MuiOutlinedInput-notchedOutline, &:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: WHITE
-          },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderWidth: '1px',
-            borderColor: VIBRANT_BLUE
-          }
-        }
-      }
-    },
+    // MuiInputLabel: {
+    //   styleOverrides: {
+    //     root: {
+    //       color: GREY_4,
+    //       zIndex: 2,
+    //       '&[data-shrink="true"]': {
+    //         padding: 0
+    //       },
+    //       '&[data-shrink="false"]': {
+    //         transform: 'translate(0, 23px) scale(1)'
+    //       },
+    //       '&.fixed': {
+    //         transform: 'translate(0, -1.5px) scale(0.75);',
+    //         padding: 0
+    //       }
+    //     }
+    //   }
+    // },
+    // MuiOutlinedInput: {
+    //   styleOverrides: {
+    //     root: {
+    //       backgroundColor: GREY_0,
+    //       borderRadius: 0,
+    //       '&:focus': {
+    //         borderColor: VIBRANT_BLUE
+    //       },
+    //       '&:not(.Mui-focused) .MuiOutlinedInput-input::placeholder': {
+    //         color: GREY_4
+    //       },
+    //       '& .MuiOutlinedInput-input': {
+    //         color: BLACK,
+    //         '&::placeholder': {
+    //           opacity: 1,
+    //           color: GREY_4
+    //         }
+    //       },
+    //       '& .MuiMenuItem-root ': {
+    //         borderBottom: 'none'
+    //       },
+    //       '& .MuiOutlinedInput-notchedOutline, &:hover .MuiOutlinedInput-notchedOutline': {
+    //         borderColor: WHITE
+    //       },
+    //       '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    //         borderWidth: '1px',
+    //         borderColor: VIBRANT_BLUE
+    //       }
+    //     }
+    //   }
+    // },
     MuiTextField: {
       styleOverrides: {
         root: {
@@ -244,13 +244,13 @@ const themeConfig = createTheme({
         }
       }
     },
-    MuiFormLabel: {
-      styleOverrides: {
-        root: {
-          padding: '8.5px 14px'
-        }
-      }
-    },
+    // MuiFormLabel: {
+    //   styleOverrides: {
+    //     root: {
+    //       padding: '8.5px 14px',
+    //     },
+    //   },
+    // },
     MuiSelect: {
       styleOverrides: {
         select: {
