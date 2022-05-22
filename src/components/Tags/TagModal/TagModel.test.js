@@ -1,25 +1,45 @@
 import React from 'react';
-import {fireEvent, render, screen} from 'utils/test-utils';
+import {fireEvent, render, screen, act, waitFor} from 'utils/test-utils';
 import TagModal from 'components/Tags/TagModal';
 
 describe('TagModal', () => {
   const mockOnClose = jest.fn();
 
-  it('should render create modal', () => {
-    render(<TagModal open data-testid="test-model" onClose={mockOnClose} />);
-    expect(screen.getByTestId('test-model')).toBeVisible();
-    fireEvent.click(screen.getByTestId('tag-dialog-cancel-btn'));
+  it('should open create modal', () => {
+    act(() => {
+      render(<TagModal isOpen onClose={mockOnClose} />);
+    });
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toBeVisible();
+    expect(screen.getByTestId('confirm-modal-title')).toHaveTextContent('Create new tag');
+    fireEvent.click(screen.getByTestId('tag-modal-cancel-btn'));
   });
 
-  it('should render edit modal and save', () => {
-    render(
-      <TagModal open id="test-id" name="test-name" data-testid="test-model" onClose={mockOnClose} />
-    );
-    expect(screen.getByTestId('test-model')).toBeVisible();
-    expect(screen.getByTestId('tag-dialog-input')).toBeVisible();
-    const Input = screen.getByTestId('tag-dialog-input').querySelector('input');
-    expect(Input).toBeInTheDocument();
-    fireEvent.change(Input, {target: {value: 'tag'}});
-    fireEvent.click(screen.getByTestId('tag-dialog-save-btn'));
+  it('should create new tag', async () => {
+    render(<TagModal isOpen onClose={mockOnClose} />);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'new tag'}});
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).not.toBe(null);
+    });
+    fireEvent.click(screen.getByTestId('tag-modal-confirm-btn'));
+  });
+
+  it('should edit tag', async () => {
+    render(<TagModal isOpen id="test-id" name="test-name" onClose={mockOnClose} />);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.getByTestId('confirm-modal-title')).toHaveTextContent('Edit "test-name" tag');
+
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'tag'}});
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).not.toBe(null);
+    });
+    fireEvent.click(screen.getByTestId('tag-modal-confirm-btn'));
   });
 });

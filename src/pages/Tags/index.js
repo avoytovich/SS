@@ -7,17 +7,18 @@ import PageTitle from 'components/PageTitle';
 import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
 import {PagePanel} from 'components/PagePanel';
-import TagModal from '../components/Tags/TagModal';
+import TagModal from '../../components/Tags/TagModal';
 
 export default function Tags() {
-  const [isAddNewTag, setIsAddNewTag] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleCloseModal = () => setIsAddNewTag(false);
+  const handleToggleModal = () => setIsModalOpen(isOpen => !isOpen);
 
   return (
     <>
       <PageTitle title="Tag List" />
       <Box
+        data-testid="tag-page-box"
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -25,13 +26,14 @@ export default function Tags() {
           alignItems: 'center'
         }}
       >
-        <Typography variant={'h4'} component="h1" margin="24px 0">
+        <Typography variant={'h4'} component="h1" margin="24px 0" data-testid="tag-page-title">
           Tag List
         </Typography>
         <Button
           sx={{borderRadius: '40px'}}
           variant="contained"
-          onClick={() => setIsAddNewTag(true)}
+          data-testid="tag-page-create-btn"
+          onClick={handleToggleModal}
         >
           Create new tag
         </Button>
@@ -39,10 +41,10 @@ export default function Tags() {
 
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
-          <TagList isAddTag={isAddNewTag} />
+          <TagList isAddTag={isModalOpen} />
         </PagePanel>
       </ErrorBoundary>
-      <TagModal open={isAddNewTag} onClose={handleCloseModal} />
+      <TagModal isOpen={isModalOpen} onClose={handleToggleModal} />
     </>
   );
 }

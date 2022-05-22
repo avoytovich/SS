@@ -77,6 +77,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^8.0.0",
     "cypress": "^9.1.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -115,7 +116,6 @@
     ],
     "coveragePathIgnorePatterns": [
       "store/index.js$",
-      "index.js$",
       "constants"
     ],
     "moduleNameMapper": {

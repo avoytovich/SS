@@ -11,31 +11,31 @@ const tagsApi = createApi({
   endpoints: builder => ({
     fetchTags: builder.query({
       query: ({...params}) => ({
-        url: apiUrls.tags.list,
+        url: apiUrls.tags.root,
         params: {...params}
       }),
       providesTags: ['Tags'],
       transformResponse: response => ({...response, tags: response.data})
     }),
     addTag: builder.mutation({
-      query: ({body}) => ({
-        url: apiUrls.tags.list,
+      query: ({name}) => ({
+        url: apiUrls.tags.root,
         method: 'POST',
-        body
+        body: name
       }),
       invalidatesTags: ['Tags']
     }),
     updateTag: builder.mutation({
-      query: ({id, body}) => ({
-        url: apiUrls.tags.modify(id),
+      query: ({id, name}) => ({
+        url: apiUrls.tags.details(id),
         method: 'PATCH',
-        body
+        body: name
       }),
       invalidatesTags: ['Tags']
     }),
     deleteTag: builder.mutation({
       query: ({id}) => ({
-        url: apiUrls.tags.modify(id),
+        url: apiUrls.tags.details(id),
         method: 'DELETE'
       }),
       invalidatesTags: ['Tags']

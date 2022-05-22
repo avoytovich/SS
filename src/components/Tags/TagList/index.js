@@ -125,7 +125,7 @@ export default function TagList() {
       )}
       {editModalValues && (
         <TagModal
-          open={editModalValues?.open || false}
+          isOpen={editModalValues?.open || false}
           onClose={handleCloseModal}
           {...editModalValues}
         />
