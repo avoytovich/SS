@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen} from 'utils/test-utils';
+import {fireEvent, render, screen} from 'utils/test-utils';
 import TagList from 'components/Tags/TagList';
 
 jest.mock('react-router-dom', () => ({
@@ -13,11 +13,13 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('TagList', () => {
-  it('renders without crashes', () => {
+  it('should search tag name', () => {
     render(<TagList />);
     expect(screen.getByTestId('tag-list-box')).toBeVisible();
     expect(screen.getByTestId('tag-list-filter')).toBeVisible();
-    expect(screen.getByTestId('tag-list-filter-search')).toBeVisible();
-    expect(screen.getByTestId('tag-list-filter-cleanup-btn')).toBeVisible();
+    expect(screen.getByTestId('tag-name-search-input')).toBeVisible();
+    const Input = screen.getByTestId('tag-name-search-input').querySelector('input');
+    expect(Input).toBeInTheDocument();
+    fireEvent.change(Input, {target: {value: 'test search'}});
   });
 });

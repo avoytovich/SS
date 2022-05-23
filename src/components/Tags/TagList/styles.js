@@ -7,17 +7,11 @@ export const useStyles = makeStyles(() => ({
   filterContainer: {
     display: 'flex',
     flexDirection: 'row',
-    padding: '0 0 20px'
+    margin: '8px 8px 14px 16px',
+    minWidth: 240
   },
-  form: {
-    margin: '0 8px',
-    minWidth: 220,
-    display: 'flex',
-    flexDirection: 'row'
-  },
-  cleanupButton: {
-    display: 'flex',
-    margin: '18px 0 0 10px'
+  searchField: {
+    minWidth: 233
   },
   tableEmptyMessage: {
     display: 'flex',
