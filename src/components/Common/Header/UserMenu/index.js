@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import {clearPermissions} from 'store/permissions/permissions';
-import {useModal} from 'hooks/hooks';
+import {useModal} from 'hooks/useModal';
 import {logOut} from 'slices/auth';
 
 export default function UserMenu() {

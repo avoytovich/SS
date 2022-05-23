@@ -10,9 +10,9 @@ const tagsApi = createApi({
   tagTypes: ['Tags'],
   endpoints: builder => ({
     fetchTags: builder.query({
-      query: ({page}) => ({
+      query: queryParams => ({
         url: apiUrls.tags.root,
-        params: {page}
+        params: queryParams
       }),
       transformResponse: response => ({...response, tags: response.data})
     })

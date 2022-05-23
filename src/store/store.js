@@ -16,6 +16,7 @@ import authSlice from 'slices/auth';
 import authApi from 'api/auth';
 import tagsApi from 'api/tags';
 import {smartSkillsApi} from 'slices/smartSkillsSlice';
+import skillsApi from 'api/skills';
 
 import {permissionsReducer} from './permissions/permissions';
 
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
   permissions: permissionsReducer,
   [smartSkillsApi.reducerPath]: smartSkillsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
-  [tagsApi.reducerPath]: tagsApi.reducer
+  [tagsApi.reducerPath]: tagsApi.reducer,
+  [skillsApi.reducerPath]: skillsApi.reducer
 });
 
 export const store = configureStore({
@@ -41,7 +43,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(smartSkillsApi.middleware, authApi.middleware)
+    }).concat(smartSkillsApi.middleware, authApi.middleware, skillsApi.middleware)
 });
 
 export const persistor = persistStore(store);
