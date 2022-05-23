@@ -9,11 +9,11 @@ import {Button, DialogActions} from '@mui/material';
 
 import {useUpdateTagMutation, useAddTagMutation} from 'api/tags';
 
-export default function TagModal({isOpen, id, name, onClose, ...rest}) {
+export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   const [updateTag, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
     useUpdateTagMutation();
   const [addTag, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddTagMutation();
-  const title = id ? `Edit "${name}" tag` : 'Create new tag';
+  const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess) onClose();
@@ -46,7 +46,7 @@ export default function TagModal({isOpen, id, name, onClose, ...rest}) {
         validateOnChange
         onSubmit={onSave}
         validationSchema={ModifyTagSchema}
-        initialValues={{name: name || ''}}
+        initialValues={{name: tagName || ''}}
         enableReinitialize
       >
         {({isSubmitting, isValid, dirty}) => (
@@ -81,5 +81,5 @@ TagModal.propTypes = {
 
 TagModal.defaultProps = {
   id: '',
-  name: ''
+  tagName: ''
 };

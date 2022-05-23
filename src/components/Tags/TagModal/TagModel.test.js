@@ -30,7 +30,7 @@ describe('TagModal', () => {
   });
 
   it('should edit tag', async () => {
-    render(<TagModal isOpen id="test-id" name="test-name" onClose={mockOnClose} />);
+    render(<TagModal isOpen id="test-id" tagName="test-name" onClose={mockOnClose} />);
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByTestId('confirm-modal-title')).toHaveTextContent('Edit "test-name" tag');

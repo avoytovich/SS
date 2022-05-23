@@ -37,6 +37,7 @@ export default function TagList() {
   const onEditTag = tag => {
     setEditModalValues({
       open: true,
+      tagName: tag.name,
       ...tag
     });
   };
