@@ -4,7 +4,7 @@ import {
   getSortModel,
   convertSortParamToGridSortModel
 } from 'utils/dataGridUtils';
-import {ASC, DESC} from 'utils/helpers';
+import {ASC, DESC} from 'constants/dataGrid';
 
 describe('TagList utils', () => {
   describe('setURLSearchParams', () => {

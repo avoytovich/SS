@@ -1,5 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {ASC} from 'utils/helpers';
+import {ASC} from 'constants/dataGrid';
 import {useDataGridSort} from 'hooks/dataGrid';
 
 describe('Test sort hook', () => {
