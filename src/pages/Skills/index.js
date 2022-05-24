@@ -8,6 +8,8 @@ import {PagePanel} from 'components/PagePanel';
 import CreateSkillModal from 'components/Skills/CreateSkillModal';
 import {useModal} from 'hooks/useModal';
 import SkillsList from 'components/Skills/SkillsList';
+import {ErrorBoundary} from 'react-error-boundary';
+import ErrorFallback from 'components/ErrorFallback';
 
 const Skills = () => {
   const createModal = useModal();
@@ -19,21 +21,38 @@ const Skills = () => {
   return (
     <>
       <PageTitle title="Skills" />
-      <Typography variant="h4" component="h1" margin="24px 0">
-        Skills
-      </Typography>
+      <Box
+        data-testid="tag-page-box"
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          alignItems: 'center'
+        }}
+      >
+        <Typography variant={'h4'} component="h1" margin="24px 0" data-testid="skill-page-title">
+          Skills
+        </Typography>
 
-      <PagePanel>
-        <Box display="flex" flexDirection="row-reverse" paddingRight="8px">
-          <Button variant="contained" onClick={handleClickCreate}>
-            Add skill
-          </Button>
-        </Box>
-        <SkillsList />
-        {createModal.isOpen && (
-          <CreateSkillModal isOpen={createModal.isOpen} onClose={createModal.toggle} />
-        )}
-      </PagePanel>
+        <Button
+          sx={{borderRadius: '40px'}}
+          variant="contained"
+          data-testid="skill-page-create-btn"
+          onClick={handleClickCreate}
+        >
+          Create new skill
+        </Button>
+      </Box>
+
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <PagePanel>
+          <SkillsList />
+        </PagePanel>
+      </ErrorBoundary>
+
+      {createModal.isOpen && (
+        <CreateSkillModal isOpen={createModal.isOpen} onClose={createModal.toggle} />
+      )}
     </>
   );
 };
