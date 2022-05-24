@@ -5,15 +5,15 @@ import {ErrorBoundary} from 'react-error-boundary';
 
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
 
-import ErrorFallback from '../../components/ErrorFallback';
-import AppRouter from '../../routers/AppRouter';
-import MainContainer from '../../components/Common/Layout/MainContainer';
+import ErrorFallback from 'components/ErrorFallback';
+import AppRouter from 'routers/AppRouter';
+import MainContainer from 'components/Common/Layout/MainContainer';
 
-import {setPermissions, clearPermissions} from '../../store/permissions/permissions';
+import {setPermissions, clearPermissions} from 'store/permissions/permissions';
 
-import '../../assets/fonts/Ubuntu-Light.ttf';
-import '../../assets/fonts/Ubuntu-Regular.ttf';
-import '../../assets/fonts/Ubuntu-Medium.ttf';
+import 'assets/fonts/Ubuntu-Light.ttf';
+import 'assets/fonts/Ubuntu-Regular.ttf';
+import 'assets/fonts/Ubuntu-Medium.ttf';
 
 import './App.css';
 

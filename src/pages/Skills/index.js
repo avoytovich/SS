@@ -1,12 +1,13 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import {Button} from '@mui/material';
+import {Box, Button} from '@mui/material';
 
 import HelmetWrapper from '../../components/HelmetWrapper';
-import {PagePanel} from '../../components/PagePanel';
+import {PagePanel} from 'components/PagePanel';
 
-import CreateSkillModal from '../../components/Skills/CreateSkillModal';
-import {useModal} from '../../hooks/hooks';
+import CreateSkillModal from 'components/Skills/CreateSkillModal';
+import {useModal} from 'hooks/useModal';
+import SkillsList from 'components/Skills/SkillsList';
 
 const Skills = () => {
   const createModal = useModal();
@@ -23,10 +24,12 @@ const Skills = () => {
       </Typography>
 
       <PagePanel>
-        Skills list
-        <Button variant="contained" onClick={handleClickCreate}>
-          Add skill
-        </Button>
+        <Box display="flex" flexDirection="row-reverse" paddingRight="8px">
+          <Button variant="contained" onClick={handleClickCreate}>
+            Add skill
+          </Button>
+        </Box>
+        <SkillsList />
         {createModal.isOpen && (
           <CreateSkillModal isOpen={createModal.isOpen} onClose={createModal.toggle} />
         )}

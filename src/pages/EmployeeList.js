@@ -36,7 +36,7 @@ import {
   // transformSkillGroupsToArray,
 } from '../utils/helpers';
 // import AddEditNewSkillModal from '../components/modals_old/AddEditNewSkillModal';
-import {useModal} from '../hooks/hooks';
+import {useModal} from '../hooks/useModal';
 import {employeeSkillLevels} from '../constants/common';
 
 const EMPTY_VALUE = ' <Empty>';
