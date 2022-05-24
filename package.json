@@ -83,7 +83,9 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
     "formik-mui": "^4.0.0-alpha.3",
@@ -132,6 +134,8 @@
       "^slices/(.*)$": "<rootDir>/src/slices/$1",
       "^api/(.*)$": "<rootDir>/src/api/$1"
     },
-    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!d3|d3-array|internmap|delaunator|robust-predicates)"]
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!d3|d3-array|internmap|delaunator|robust-predicates)"
+    ]
   }
 }

@@ -2,12 +2,11 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import {Box, Button} from '@mui/material';
 
-import HelmetWrapper from '../../components/HelmetWrapper';
 import {PagePanel} from 'components/PagePanel';
-
+import SkillsList from 'components/Skills/SkillsList';
 import CreateSkillModal from 'components/Skills/CreateSkillModal';
 import {useModal} from 'hooks/useModal';
-import SkillsList from 'components/Skills/SkillsList';
+import HelmetWrapper from 'components/HelmetWrapper';
 
 const Skills = () => {
   const createModal = useModal();
