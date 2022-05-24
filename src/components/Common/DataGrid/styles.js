@@ -29,5 +29,8 @@ export const dataGridRootStyles = {
   },
   '.MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within': {
     outline: 'none !important'
+  },
+  '.MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
+    padding: '0 16px'
   }
 };
