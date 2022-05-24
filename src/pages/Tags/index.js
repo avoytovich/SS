@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 
-import {Box, Button, Typography} from '@mui/material';
+import {Button} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
 
-import PageTitle from 'components/PageTitle';
+import HelmetWrapper from 'components/HelmetWrapper';
 import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
 import {PagePanel} from 'components/PagePanel';
-import TagModal from '../../components/Tags/TagModal';
+import TagModal from 'components/Tags/TagModal';
+import PageHeader from 'components/Common/Layout/PageHeader';
 
 export default function Tags() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,29 +17,21 @@ export default function Tags() {
 
   return (
     <>
-      <PageTitle title="Tag List" />
-      <Box
-        data-testid="tag-page-box"
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          alignItems: 'center'
-        }}
-      >
-        <Typography variant={'h4'} component="h1" margin="24px 0" data-testid="tag-page-title">
-          Tag List
-        </Typography>
-        <Button
-          sx={{borderRadius: '40px'}}
-          variant="contained"
-          data-testid="tag-page-create-btn"
-          onClick={handleToggleModal}
-        >
-          Create new tag
-        </Button>
-      </Box>
-
+      <HelmetWrapper title="Tag List" />
+      <PageHeader
+        title="Tag List"
+        extra={[
+          <Button
+            key="tag-page-create-btn"
+            sx={{borderRadius: '40px'}}
+            variant="contained"
+            data-testid="tag-page-create-btn"
+            onClick={handleToggleModal}
+          >
+            Create new tag
+          </Button>
+        ]}
+      />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
           <TagList isAddTag={isModalOpen} />

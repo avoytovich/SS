@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import {Button} from '@mui/material';
 
-import PageTitle from '../../components/PageTitle';
+import HelmetWrapper from '../../components/HelmetWrapper';
 import {PagePanel} from '../../components/PagePanel';
 
 import CreateSkillModal from '../../components/Skills/CreateSkillModal';
@@ -17,7 +17,7 @@ const Skills = () => {
 
   return (
     <>
-      <PageTitle title="Skills" />
+      <HelmetWrapper title="Skills" />
       <Typography variant="h4" component="h1" margin="24px 0">
         Skills
       </Typography>

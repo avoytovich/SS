@@ -11,7 +11,7 @@ import {ErrorBoundary} from 'react-error-boundary';
 import {useNeighborSkillsQuery} from '../slices/smartSkillsSlice';
 import {getComparator, decodeQueryParam} from '../utils/helpers';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
-import PageTitle from '../components/PageTitle';
+import HelmetWrapper from '../components/HelmetWrapper';
 import {PagePanel} from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import {useStyles} from './styles';
@@ -93,7 +93,7 @@ export default function NeighborsList() {
 
   return (
     <>
-      <PageTitle title={`${skillName}: Neighbors List`} />
+      <HelmetWrapper title={`${skillName}: Neighbors List`} />
       <Breadcrumbs aria-label="breadcrumb" separator="">
         <a data-cy="neighbor-backBtn" onClick={history.goBack}>
           <Typography>

@@ -13,7 +13,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import CircularProgress from '@mui/material/CircularProgress';
 import Avatar from '@mui/material/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
-import PageTitle from '../components/PageTitle';
+import HelmetWrapper from '../components/HelmetWrapper';
 import {PagePanel} from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import {useFetchEmployeeQuery, useFetchSkillGroupsQuery} from '../slices/smartSkillsSlice';
@@ -188,7 +188,7 @@ export default function EmployeeDetails() {
 
   return (
     <>
-      <PageTitle title={fullName} />
+      <HelmetWrapper title={fullName} />
       <Grid container spacing={2}>
         <Grid item xs={10}>
           <Breadcrumbs aria-label="breadcrumb" separator="">
