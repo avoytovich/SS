@@ -22,7 +22,7 @@ export default function TagList() {
   const {page, tablePage, onPageChange} = useDataGridPagination(queryParams, updateURLParams);
   const [search, setSearch] = useState(queryParams.get(searchParamName) || '');
   const [editModalValues, setEditModalValues] = useState(null);
-  const [confirmValues, setConfirmValues] = useState(null);
+  const [deleteConfirmModalValues, setDeleteConfirmModalValues] = useState(null);
   const queryOptions = useMemo(
     () => ({...(page && {page}), ...(search && {search}), ...(sort && {sort})}),
     [page, search, sort]
@@ -31,7 +31,7 @@ export default function TagList() {
   const [deleteTag] = useDeleteTagMutation();
 
   const onSetConfirmValues = tag => {
-    setConfirmValues(getConfirmTagValues(tag));
+    setDeleteConfirmModalValues(getConfirmTagValues(tag));
   };
 
   const onEditTag = tag => {
@@ -44,10 +44,10 @@ export default function TagList() {
 
   const columns = getColumns(onEditTag, onSetConfirmValues);
 
-  const onCloseConfirmModal = () => setConfirmValues(null);
+  const onCloseConfirmModal = () => setDeleteConfirmModalValues(null);
 
   const handConfirmRemove = () => {
-    deleteTag({id: confirmValues.tagId});
+    deleteTag({id: deleteConfirmModalValues.tagId});
     onCloseConfirmModal();
   };
 
@@ -116,11 +116,11 @@ export default function TagList() {
           disableSelectionOnClick
         />
       </Box>
-      {confirmValues && (
+      {deleteConfirmModalValues && (
         <ConfirmModal
-          modalOpen={confirmValues.isOpen || false}
+          modalOpen={deleteConfirmModalValues.isOpen || false}
           toggle={onCloseConfirmModal}
-          bodyContent={confirmValues}
+          bodyContent={deleteConfirmModalValues}
           handleSubmit={handConfirmRemove}
         />
       )}

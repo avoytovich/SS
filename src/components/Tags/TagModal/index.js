@@ -51,7 +51,12 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
       >
         {({isSubmitting, isValid, dirty}) => (
           <Form autoComplete="off">
-            <Input name="name" label="Tag name" placeholder="Type tag name" />
+            <Input
+              name="name"
+              label="Tag name"
+              placeholder="Type tag name"
+              sx={{marginBottom: '16px'}}
+            />
             <DialogActions>
               <Button variant="outlined" data-testid="tag-modal-cancel-btn" onClick={onClose}>
                 Cancel
