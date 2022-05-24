@@ -43,7 +43,12 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(smartSkillsApi.middleware, authApi.middleware, skillsApi.middleware)
+    }).concat(
+      smartSkillsApi.middleware,
+      authApi.middleware,
+      tagsApi.middleware,
+      skillsApi.middleware
+    )
 });
 
 export const persistor = persistStore(store);

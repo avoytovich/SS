@@ -1,46 +1,62 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
 import ConfirmModal from 'components/Modals/ConfirmModal';
 
-import {useFetchTagsQuery} from 'api/tags';
+import {useDeleteTagMutation, useFetchTagsQuery} from 'api/tags';
 
-import {GridPagination, NoRows, dataGridRootStyles} from 'components/Common/DataGrid';
+import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
 import {defaultPage, pageSize, searchParamName} from 'constants/dataGrid';
 import {useDataGridPagination, useDataGridSort, useURLParams} from 'hooks/dataGrid';
 
-import {TagListFilter} from 'components/Tags/TagList/TagListFilter';
 import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
+import TagModal from 'components/Tags/TagModal';
 import {useStyles} from 'components/Tags/TagList/styles';
 
 export default function TagList() {
   const classes = useStyles();
   const {queryParams, updateURLParams} = useURLParams();
-  const {sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
+  const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
   const {page, tablePage, onPageChange} = useDataGridPagination(queryParams, updateURLParams);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [confirmValues, setConfirmValues] = useState({});
   const [search, setSearch] = useState(queryParams.get(searchParamName) || '');
-  const {data: {tags = [], total = 0} = {}, isLoading, isError} = useFetchTagsQuery({page});
+  const [editModalValues, setEditModalValues] = useState(null);
+  const [confirmValues, setConfirmValues] = useState(null);
+  const queryOptions = useMemo(
+    () => ({...(page && {page}), ...(search && {search}), ...(sort && {sort})}),
+    [page, search, sort]
+  );
+  const {data: {tags = [], total = 0} = {}, isLoading, isError} = useFetchTagsQuery(queryOptions);
+  const [deleteTag] = useDeleteTagMutation();
 
   const onSetConfirmValues = tag => {
-    setIsConfirmOpen(true);
     setConfirmValues(getConfirmTagValues(tag));
   };
 
-  const columns = getColumns(onSetConfirmValues);
+  const onEditTag = tag => {
+    setEditModalValues({
+      open: true,
+      tagName: tag.name,
+      ...tag
+    });
+  };
 
-  const onCloseConfirmModal = () => {
-    setIsConfirmOpen(false);
-    setConfirmValues({});
+  const columns = getColumns(onEditTag, onSetConfirmValues);
+
+  const onCloseConfirmModal = () => setConfirmValues(null);
+
+  const handConfirmRemove = () => {
+    deleteTag({id: confirmValues.tagId});
+    onCloseConfirmModal();
   };
 
   const handlePageChange = nextPage => onPageChange(nextPage);
 
   const resetPage = () => {
-    if (page !== defaultPage) handlePageChange(0);
+    if (page !== defaultPage) {
+      handlePageChange(0);
+    }
   };
 
   const handleSearch = value => {
@@ -53,16 +69,21 @@ export default function TagList() {
 
   const handleSortChange = newModel => onSortChange(newModel);
 
+  const handleCloseModal = () => setEditModalValues(null);
+
   return (
     <>
-      <TagListFilter
-        onClearFilter={handleClearFilter}
-        tagName={search}
-        onChangeTagName={handleSearch}
-      />
+      <Box component="form" className={classes.filterContainer} data-testid="tag-list-filter">
+        <SearchField
+          id="tag-name-search"
+          value={search}
+          label="Tag Name"
+          onChange={handleSearch}
+          onClear={handleClearFilter}
+        />
+      </Box>
       <Box className={classes.tagBox} data-testid="tag-list-box">
         <DataGrid
-          data-cy="tag-list"
           components={{
             Pagination: GridPagination,
             NoRowsOverlay: NoRows
@@ -87,20 +108,29 @@ export default function TagList() {
           pageSize={pageSize}
           onPageChange={handlePageChange}
           rowCount={total}
-          autoHeight={tags.length === pageSize}
           sx={dataGridRootStyles}
           loading={isLoading}
-          rowHeight={32}
-          headerHeight={32}
+          rowHeight={33}
+          headerHeight={33}
           disableColumnMenu
           disableSelectionOnClick
         />
       </Box>
-      <ConfirmModal
-        modalOpen={isConfirmOpen}
-        toggle={onCloseConfirmModal}
-        bodyContent={confirmValues}
-      />
+      {confirmValues && (
+        <ConfirmModal
+          modalOpen={confirmValues.isOpen || false}
+          toggle={onCloseConfirmModal}
+          bodyContent={confirmValues}
+          handleSubmit={handConfirmRemove}
+        />
+      )}
+      {editModalValues && (
+        <TagModal
+          isOpen={editModalValues?.open || false}
+          onClose={handleCloseModal}
+          {...editModalValues}
+        />
+      )}
     </>
   );
 }

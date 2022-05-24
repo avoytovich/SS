@@ -4,6 +4,12 @@ export const dataGridRootStyles = {
   minHeight: 500,
   height: '100%',
   border: 0,
+  '& .firstColumn': {
+    paddingLeft: '16px'
+  },
+  '& .lastHeader': {
+    paddingRight: '16px'
+  },
   '.MuiDataGrid-columnSeparator': {
     display: 'none'
   },
