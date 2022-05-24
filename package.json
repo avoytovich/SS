@@ -132,8 +132,6 @@
       "^slices/(.*)$": "<rootDir>/src/slices/$1",
       "^api/(.*)$": "<rootDir>/src/api/$1"
     },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ]
+    "transformIgnorePatterns": ["<rootDir>/node_modules/(?!d3|d3-array|internmap|delaunator|robust-predicates)"]
   }
 }
