@@ -10,7 +10,7 @@ const skillsApi = createApi({
   endpoints: builder => ({
     fetchSkills: builder.query({
       query: queryOptions => ({
-        url: apiUrls.skills.root,
+        url: apiUrls.skills.mock,
         method: 'get',
         params: queryOptions
       }),
