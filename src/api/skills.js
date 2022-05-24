@@ -10,16 +10,32 @@ const skillsApi = createApi({
   endpoints: builder => ({
     fetchSkills: builder.query({
       query: queryOptions => ({
-        url: apiUrls.skills.mock,
+        url: apiUrls.skills.root,
         method: 'get',
         params: queryOptions
       }),
 
       transformResponse: response => ({...response, skills: response.data})
+    }),
+
+    addSkill: builder.query({
+      query: queryOptions => ({
+        url: apiUrls.skills.root,
+        method: 'post',
+        params: queryOptions
+      })
+    }),
+
+    deleteSkill: builder.query({
+      query: queryOptions => ({
+        url: apiUrls.skills.root,
+        method: 'delete',
+        params: queryOptions
+      })
     })
   })
 });
 
 export default skillsApi;
 
-export const {useFetchSkillsQuery} = skillsApi;
+export const {useFetchSkillsQuery, useAddSkillQuery, useDeleteSkillQuery} = skillsApi;

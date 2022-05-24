@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Box, IconButton} from '@mui/material';
+import {GridActionsCellItem} from '@mui/x-data-grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
@@ -33,17 +33,24 @@ export const getColumns = (onDelete, onEdit) => [
     sortable: false,
     minWidth: 120,
     flex: 1,
-
-    renderCell: ({row}) => (
-      <Box>
-        <IconButton onClick={onEdit(row)}>
-          <EditOutlinedIcon />
-        </IconButton>
-        <IconButton onClick={onDelete(row)}>
-          <DeleteOutlinedIcon />
-        </IconButton>
-      </Box>
-    )
+    headerAlign: 'right',
+    align: 'right',
+    getActions: ({id, row}) => [
+      <GridActionsCellItem
+        data-testid={`${id}-edit`}
+        key={`${id}-edit`}
+        onClick={() => onEdit(row)}
+        icon={<EditOutlinedIcon sx={{fontSize: 24}} />}
+        label="Edit"
+      />,
+      <GridActionsCellItem
+        key={`${id}-remove`}
+        data-testid="remove-skill-btn"
+        icon={<DeleteOutlinedIcon sx={{fontSize: 24}} />}
+        onClick={() => onDelete(row)}
+        label="Delete"
+      />
+    ]
   }
 ];
 
