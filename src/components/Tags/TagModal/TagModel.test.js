@@ -2,6 +2,16 @@ import React from 'react';
 import {fireEvent, render, screen, act, waitFor} from 'utils/test-utils';
 import TagModal from 'components/Tags/TagModal';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: jest.fn()
+  }),
+  useLocation: () => ({
+    pathname: '/tags'
+  })
+}));
+
 describe('TagModal', () => {
   const mockOnClose = jest.fn();
 

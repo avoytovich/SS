@@ -1,75 +1,77 @@
 import React, {useState, useMemo} from 'react';
+import PropTypes from 'prop-types';
 
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
-import ConfirmModal from 'components/Modals/ConfirmModal';
-
 import {useDeleteTagMutation, useFetchTagsQuery} from 'api/tags';
 
+import ConfirmModal from 'components/Modals/ConfirmModal';
 import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
-import {defaultPage, pageSize, searchParamName} from 'constants/dataGrid';
-import {useDataGridPagination, useDataGridSort, useURLParams} from 'hooks/dataGrid';
+import {
+  useDataGridPagination,
+  useDataGridSort,
+  useURLParams,
+  useDataGridSearch
+} from 'hooks/dataGrid';
 
 import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
-import TagModal from 'components/Tags/TagModal';
+import {pageSize} from 'constants/dataGrid';
 import {useStyles} from 'components/Tags/TagList/styles';
 
-export default function TagList() {
+export default function TagList({onSaveOrUpdate}) {
   const classes = useStyles();
-  const {queryParams, updateURLParams} = useURLParams();
+  const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
   const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
   const {page, tablePage, onPageChange} = useDataGridPagination(queryParams, updateURLParams);
-  const [search, setSearch] = useState(queryParams.get(searchParamName) || '');
-  const [editModalValues, setEditModalValues] = useState(null);
+  const {search, onSearchChange} = useDataGridSearch(queryParams, updateURLParams);
   const [deleteConfirmModalValues, setDeleteConfirmModalValues] = useState(null);
   const queryOptions = useMemo(
     () => ({...(page && {page}), ...(search && {search}), ...(sort && {sort})}),
     [page, search, sort]
   );
-  const {data: {tags = [], total = 0} = {}, isLoading, isError} = useFetchTagsQuery(queryOptions);
+  const {
+    data: {tags = [], total = 0, pages = 0} = {},
+    isLoading,
+    isFetching,
+    isError
+  } = useFetchTagsQuery(queryOptions);
   const [deleteTag] = useDeleteTagMutation();
 
-  const onSetConfirmValues = tag => {
-    setDeleteConfirmModalValues(getConfirmTagValues(tag));
-  };
+  const onSetConfirmValues = tag => setDeleteConfirmModalValues(getConfirmTagValues(tag));
 
-  const onEditTag = tag => {
-    setEditModalValues({
-      open: true,
+  const handleEditTag = tag => {
+    onSaveOrUpdate({
       tagName: tag.name,
       ...tag
     });
   };
 
-  const columns = getColumns(onEditTag, onSetConfirmValues);
+  const onCreateTag = () => onSaveOrUpdate();
+
+  const columns = getColumns(handleEditTag, onSetConfirmValues);
 
   const onCloseConfirmModal = () => setDeleteConfirmModalValues(null);
 
+  const onClearFilters = () => {
+    if (tags.length === 1) {
+      clearQueryParams();
+    }
+  };
+
   const handConfirmRemove = () => {
+    onClearFilters();
     deleteTag({id: deleteConfirmModalValues.tagId});
     onCloseConfirmModal();
   };
 
   const handlePageChange = nextPage => onPageChange(nextPage);
 
-  const resetPage = () => {
-    if (page !== defaultPage) {
-      handlePageChange(0);
-    }
-  };
-
-  const handleSearch = value => {
-    setSearch(value);
-    resetPage();
-    updateURLParams(value, searchParamName);
-  };
+  const handleSearch = value => onSearchChange(value, onPageChange);
 
   const handleClearFilter = () => handleSearch('');
 
   const handleSortChange = newModel => onSortChange(newModel);
-
-  const handleCloseModal = () => setEditModalValues(null);
 
   return (
     <>
@@ -85,7 +87,7 @@ export default function TagList() {
       <Box className={classes.tagBox} data-testid="tag-list-box">
         <DataGrid
           components={{
-            Pagination: GridPagination,
+            Pagination: pages > 1 && GridPagination,
             NoRowsOverlay: NoRows
           }}
           componentsProps={{
@@ -93,7 +95,8 @@ export default function TagList() {
               className: classes.tableEmptyMessage,
               emptyMessage: isError ? 'No tags' : 'No tags yet.',
               actionTitle: 'Please add new tag',
-              isAction: !isError
+              isAction: !isError,
+              onAddNewRow: onCreateTag
             }
           }}
           rows={tags}
@@ -109,11 +112,12 @@ export default function TagList() {
           onPageChange={handlePageChange}
           rowCount={total}
           sx={dataGridRootStyles}
-          loading={isLoading}
+          loading={isLoading || isFetching}
           rowHeight={33}
           headerHeight={33}
           disableColumnMenu
           disableSelectionOnClick
+          autoHeight
         />
       </Box>
       {deleteConfirmModalValues && (
@@ -124,13 +128,10 @@ export default function TagList() {
           handleSubmit={handConfirmRemove}
         />
       )}
-      {editModalValues && (
-        <TagModal
-          isOpen={editModalValues?.open || false}
-          onClose={handleCloseModal}
-          {...editModalValues}
-        />
-      )}
     </>
   );
 }
+
+TagList.propTypes = {
+  onSaveOrUpdate: PropTypes.func.isRequired
+};

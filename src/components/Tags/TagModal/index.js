@@ -8,15 +8,20 @@ import Input from 'components/Common/Form/Input/Input';
 import {Button, DialogActions} from '@mui/material';
 
 import {useUpdateTagMutation, useAddTagMutation} from 'api/tags';
+import {useURLParams} from '../../../hooks/dataGrid';
 
 export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
+  const {clearQueryParams} = useURLParams();
   const [updateTag, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
     useUpdateTagMutation();
   const [addTag, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddTagMutation();
   const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
 
   useEffect(() => {
-    if (isUpdateSuccess || isAddSuccess) onClose();
+    if (isUpdateSuccess || isAddSuccess) {
+      clearQueryParams();
+      onClose();
+    }
     return () => {};
   }, [isUpdateSuccess, isAddSuccess]);
 

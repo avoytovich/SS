@@ -16,10 +16,12 @@ jest.mock('react-router-dom', () => ({
 describe('URL test', () => {
   test('useURLParams', () => {
     renderHook(() => {
-      const {queryParams, updateURLParams} = useURLParams();
+      const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
 
       updateURLParams('page', 1);
       expect(queryParams.get('page')).toEqual(1);
+      clearQueryParams();
+      expect(queryParams.get('page')).toEqual(null);
     });
     expect(mockedPush).toHaveBeenCalled();
   });

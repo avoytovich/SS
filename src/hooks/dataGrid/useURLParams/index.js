@@ -7,22 +7,27 @@ export const useURLParams = () => {
 
   const queryParams = new URLSearchParams(search);
 
-  const updateHistory = () => {
+  const updateHistory = params => {
     history.push({
       pathname,
-      search: queryParams.toString()
+      search: params
     });
+  };
+
+  const clearQueryParams = () => {
+    updateHistory('');
   };
 
   const updateURLParams = (value, paramName) => {
     setURLSearchParams(queryParams, value, paramName);
-    updateHistory();
+    updateHistory(queryParams.toString());
   };
 
   return {
     pathname,
     search,
     queryParams,
-    updateURLParams
+    updateURLParams,
+    clearQueryParams
   };
 };
