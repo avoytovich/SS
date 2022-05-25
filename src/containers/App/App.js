@@ -7,7 +7,7 @@ import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
 
 import ErrorFallback from 'components/ErrorFallback';
 import AppRouter from 'routers/AppRouter';
-import MainContainer from 'components/Common/MainContainer';
+import MainContainer from 'components/Common/Layout/MainContainer';
 
 import {setPermissions, clearPermissions} from 'store/permissions/permissions';
 

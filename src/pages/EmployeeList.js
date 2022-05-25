@@ -24,7 +24,7 @@ import {
   useFetchSimilarEmployeesQuery
 } from '../slices/smartSkillsSlice';
 import CustomPaginationActionsTable from '../components/table/CustomPaginationActionsTable';
-import PageTitle from '../components/PageTitle';
+import HelmetWrapper from '../components/HelmetWrapper';
 import {PagePanel} from '../components/PagePanel';
 import ErrorFallback from '../components/ErrorFallback';
 import {useStyles} from './styles';
@@ -113,7 +113,6 @@ export default function EmployeeList() {
   );
 
   // eslint-disable-next-line no-unused-vars
-  const [filterToEdit, setFilterToEdit] = useState({level: '', skill: ''});
   const AddEditSkillModal = useModal();
 
   const filterKeys = useMemo(() => headCells.map(({id}) => id, [headCells]));
@@ -130,31 +129,7 @@ export default function EmployeeList() {
 
   localStorage.setItem('employeeFilters', JSON.stringify({filters, extendedFilter}));
 
-  // const onExtendedFilterChange = ({filterToChange, data}) => {
-  //   if (filterToChange) {
-  //     setExtendedFilter(
-  //       extendedFilter.map(f => {
-  //         if (f.name === filterToChange) {
-  //           f.name = data[0].skill;
-  //           f.level = data[0].level;
-  //         }
-  //         return f;
-  //       })
-  //     );
-  //   } else {
-  //     const newFilters = data.map(({skill, level}, i) => ({
-  //       key: extendedFilter.length + i,
-  //       name: skill,
-  //       level
-  //     }));
-  //     setExtendedFilter([...newFilters, ...extendedFilter]);
-  //   }
-  //
-  //   setFilterToEdit({level: '', skill: ''});
-  // };
-
-  const onChipClick = ({level, skill}) => {
-    setFilterToEdit({level, skill});
+  const onChipClick = () => {
     AddEditSkillModal.toggle();
   };
 
@@ -436,7 +411,7 @@ export default function EmployeeList() {
 
   return (
     <>
-      <PageTitle title="Employees List" />
+      <HelmetWrapper title="Employees List" />
       <Typography variant={'h4'} component="h1" margin="24px 0">
         Employee List
       </Typography>

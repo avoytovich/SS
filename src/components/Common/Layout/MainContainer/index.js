@@ -4,12 +4,17 @@ import {useSelector} from 'react-redux';
 
 import Container from '@mui/material/Container';
 import Header from '../Header';
-import Footer from '../Footer';
+import Footer from '../../Footer';
+
+import {useStyles} from './styles';
 
 const MainContainer = ({children}) => {
   const isAuthenticated = useSelector(state => state.auth.token);
+
+  const classes = useStyles();
+
   return (
-    <>
+    <div className={classes.contentWrapper} data-testid="main-content-wrapper">
       {isAuthenticated && <Header />}
       <Container
         maxWidth="lg"
@@ -22,7 +27,7 @@ const MainContainer = ({children}) => {
         {children}
         <Footer />
       </Container>
-    </>
+    </div>
   );
 };
 

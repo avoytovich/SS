@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
-import PageTitle from '../../components/PageTitle';
+import HelmetWrapper from '../../components/HelmetWrapper';
 import {Logo} from '../../components/icons';
 import {PagePanel} from '../../components/PagePanel';
 
@@ -16,7 +16,7 @@ const NotFound = () => {
   const classes = useStyles();
   return (
     <PagePanel>
-      <PageTitle title="Page Not Found" includeAppName={false} />
+      <HelmetWrapper title="Page Not Found" includeAppName={false} />
       <Box className={`${classes.centerContent} ${classes.flexColumn}`}>
         <Logo sx={{fontSize: 120}} className={classes.centerContent} />
         <Typography variant="h4" component="h1" gutterBottom>

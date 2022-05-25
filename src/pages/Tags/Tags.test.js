@@ -15,8 +15,6 @@ jest.mock('react-router-dom', () => ({
 describe('Tags', () => {
   it('should render tags page', () => {
     render(<Tags />);
-    expect(screen.getByTestId('tag-page-box')).toBeVisible();
-    expect(screen.getByTestId('tag-page-title')).toHaveTextContent('Tag List');
     expect(screen.getByTestId('tag-page-create-btn')).toBeVisible();
     fireEvent.click(screen.getByTestId('tag-page-create-btn'));
   });

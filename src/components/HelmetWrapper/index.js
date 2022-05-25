@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Helmet} from 'react-helmet-async';
 
-export default function PageTitle({title = '', includeAppName = true}) {
+export default function HelmetWrapper({title = '', includeAppName = true}) {
   const fullTitle = `${title} ${includeAppName ? '- Smart Skills' : ''}`;
   return (
     <Helmet>
@@ -11,7 +11,7 @@ export default function PageTitle({title = '', includeAppName = true}) {
   );
 }
 
-PageTitle.propTypes = {
+HelmetWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   includeAppName: PropTypes.bool
 };
