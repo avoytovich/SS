@@ -44,7 +44,7 @@ export default function Tags() {
             sx={{borderRadius: '40px'}}
             variant="contained"
             data-testid="tag-page-create-btn"
-            onClick={handleToggleModal}
+            onClick={onCreateTag}
           >
             Create new tag
           </Button>
