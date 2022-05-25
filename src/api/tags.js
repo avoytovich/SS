@@ -22,16 +22,14 @@ const tagsApi = createApi({
         url: apiUrls.tags.root,
         method: 'POST',
         body: name
-      }),
-      invalidatesTags: ['Tags']
+      })
     }),
     updateTag: builder.mutation({
       query: ({id, name}) => ({
         url: apiUrls.tags.details(id),
         method: 'PATCH',
         body: name
-      }),
-      invalidatesTags: ['Tags']
+      })
     }),
     deleteTag: builder.mutation({
       query: ({id}) => ({

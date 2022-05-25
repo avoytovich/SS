@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {Box, Button, Typography} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
@@ -8,11 +8,28 @@ import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
 import {PagePanel} from 'components/PagePanel';
 import TagModal from '../../components/Tags/TagModal';
+import {useModal} from '../../hooks/useModal';
 
 export default function Tags() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {isOpen, values, setIsOpen, setValues} = useModal();
 
-  const handleToggleModal = () => setIsModalOpen(isOpen => !isOpen);
+  const onCloseModal = () => {
+    setValues({});
+    setIsOpen(false);
+  };
+
+  const onCreateTag = () => {
+    setValues({});
+    setIsOpen(true);
+  };
+
+  const onSaveOrUpdateTag = tagValues => {
+    if (tagValues) {
+      setValues(tagValues);
+    }
+
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -33,7 +50,7 @@ export default function Tags() {
           sx={{borderRadius: '40px'}}
           variant="contained"
           data-testid="tag-page-create-btn"
-          onClick={handleToggleModal}
+          onClick={onCreateTag}
         >
           Create new tag
         </Button>
@@ -41,10 +58,10 @@ export default function Tags() {
 
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
-          <TagList isAddTag={isModalOpen} />
+          <TagList onSaveOrUpdate={onSaveOrUpdateTag} />
         </PagePanel>
       </ErrorBoundary>
-      <TagModal isOpen={isModalOpen} onClose={handleToggleModal} />
+      <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />
     </>
   );
 }

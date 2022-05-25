@@ -9,9 +9,7 @@ export const getColumns = (onEdit, onRemove) => [
     field: 'name',
     headerName: 'Tag Name',
     minWidth: 120,
-    flex: 5,
-    headerClassName: 'firstColumn',
-    cellClassName: 'firstColumn'
+    flex: 5
   },
   {
     field: 'skills_count',
@@ -28,7 +26,6 @@ export const getColumns = (onEdit, onRemove) => [
     flex: 1,
     headerAlign: 'right',
     align: 'right',
-    headerClassName: 'lastHeader',
     getActions: ({id, row}) => [
       <GridActionsCellItem
         data-testid={`${id}-edit`}
