@@ -6,6 +6,7 @@
   },
   "extends": [
     "airbnb-base",
+    "plugin:jsx-a11y/recommended",
     "plugin:react/recommended",
     "plugin:cypress/recommended",
     "eslint-config-prettier"

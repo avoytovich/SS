@@ -39,11 +39,11 @@ const Skills = () => {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
           <SkillsList />
-          {createModal.isOpen && (
-            <CreateSkillModal isOpen={createModal.isOpen} onClose={createModal.toggle} />
-          )}
         </PagePanel>
       </ErrorBoundary>
+      {createModal.isOpen && (
+        <CreateSkillModal isOpen={createModal.isOpen} onClose={createModal.toggle} />
+      )}
     </>
   );
 };
