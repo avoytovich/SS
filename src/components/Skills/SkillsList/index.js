@@ -10,11 +10,11 @@ import {useFetchSkillsQuery} from 'api/skills';
 import {GridPagination, NoRows, dataGridRootStyles} from 'components/Common/DataGrid';
 import {
   defaultPage,
-  filterSkillParamName,
   filterTagParamName,
   headerHeight,
   pageSize,
-  rowHeight
+  rowHeight,
+  searchParamName
 } from 'constants/dataGrid';
 import {useDataGridPagination, useDataGridSort, useURLParams} from 'hooks/dataGrid';
 
@@ -33,15 +33,15 @@ const SkillsList = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmValues, setConfirmValues] = useState({});
 
-  const [skillFilter, setSkillFilter] = useState(queryParams.get(filterSkillParamName) || '');
+  const [skillFilter, setSkillFilter] = useState(queryParams.get(searchParamName) || '');
   const [tagsFilter, setTagsFilter] = useState([]);
   const [tagsSearch, setTagsSearch] = useState('');
 
   const skillsQueryOptions = useMemo(
     () => ({
       ...(page && {page}),
-      ...(tagsFilter.length > 0 && {tags: tagsFilter.map(t => t.name).toString()}),
-      ...(skillFilter && {skill: skillFilter}),
+      ...(tagsFilter.length > 0 && {tags: tagsFilter.map(t => t.id).toString()}),
+      ...(skillFilter && {search: skillFilter}),
       ...(sort && {sort})
     }),
     [page, sort, tagsFilter, skillFilter]
@@ -85,13 +85,13 @@ const SkillsList = () => {
   const handleSkillSearch = value => {
     setSkillFilter(value);
     resetPage();
-    updateURLParams(value, filterSkillParamName);
+    updateURLParams(value, searchParamName);
   };
 
   const handleTagFilter = (e, value) => {
     setTagsFilter([...value]);
     resetPage();
-    updateURLParams(value.map(v => v.name).toString(), filterTagParamName);
+    updateURLParams(value.map(v => v.id).toString(), filterTagParamName);
   };
 
   const handleClearFilter = () => handleSkillSearch('');

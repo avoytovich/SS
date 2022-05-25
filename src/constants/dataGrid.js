@@ -8,4 +8,3 @@ export const sortParamName = 'sort';
 export const searchParamName = 'search';
 export const pageParamName = 'page';
 export const filterTagParamName = 'tags';
-export const filterSkillParamName = 'skill';
