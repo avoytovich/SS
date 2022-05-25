@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Formik, Form} from 'formik';
+import {useSnackbar} from 'notistack';
 
 import {useUpdateSkillMutation, useAddSkillMutation} from 'api/skills';
 import {useURLParams} from 'hooks/dataGrid';
@@ -13,6 +14,7 @@ import CreateSkillSchema from './createSkillShema';
 
 const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
   const {clearQueryParams} = useURLParams();
+  const {enqueueSnackbar} = useSnackbar();
 
   const [updateSkill, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
     useUpdateSkillMutation();
@@ -24,13 +26,12 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
     if (isUpdateSuccess || isAddSuccess || loading) {
       clearQueryParams();
       onClose();
+      enqueueSnackbar('Skill have successfully saved');
     }
     return () => {};
   }, [isUpdateSuccess, isAddSuccess]);
 
   const handleSubmit = params => {
-    console.log('submit');
-    console.log(params);
     if (id) {
       updateSkill({id});
     } else {

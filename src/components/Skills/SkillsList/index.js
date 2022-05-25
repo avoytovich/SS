@@ -1,4 +1,5 @@
 import React, {useMemo, useState} from 'react';
+import {useSnackbar} from 'notistack';
 
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
@@ -29,6 +30,7 @@ const SkillsList = ({onChanges}) => {
   const classes = useStyles();
   const {queryParams, updateURLParams} = useURLParams();
   const [deleteSkill] = useDeleteSkillMutation();
+  const {enqueueSnackbar} = useSnackbar();
 
   // Pagination values
   const {sortModel, sort, onSortChange} = useDataGridSort(queryParams, updateURLParams);
@@ -66,20 +68,27 @@ const SkillsList = ({onChanges}) => {
 
   // Handlers on change
 
-  const onDeleteSkill = skill => {
-    console.log('click');
+  const onClickDeleteBtn = skill => {
     confirmModal.toggle();
     setSelectedSkill(skill);
   };
 
   const handleConfirmDelete = () => {
-    confirmModal.toggle();
-    setSelectedSkill({});
-    deleteSkill({id: selectedSkill.id});
+    deleteSkill({id: selectedSkill.id})
+      .unwrap()
+      .then(() => {
+        enqueueSnackbar('Skill have successfully saved');
+      })
+      .catch(() => {
+        enqueueSnackbar('Skill have not saved', {variant: 'error'});
+      })
+      .finally(() => {
+        confirmModal.toggle();
+        setSelectedSkill({});
+      });
   };
 
   const onEditSkill = skill => {
-    console.log('click edit');
     if (onChanges) onChanges(skill);
     setSelectedSkill(skill);
   };
@@ -115,7 +124,7 @@ const SkillsList = ({onChanges}) => {
 
   const handleSortChange = newModel => onSortChange(newModel);
 
-  const columns = getColumns(onDeleteSkill, onEditSkill);
+  const columns = getColumns(onClickDeleteBtn, onEditSkill);
 
   return (
     <>
