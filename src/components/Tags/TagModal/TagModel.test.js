@@ -2,6 +2,8 @@ import React from 'react';
 import {fireEvent, render, screen, act, waitFor} from 'utils/test-utils';
 import TagModal from 'components/Tags/TagModal';
 
+const mockEnqueue = jest.fn();
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
@@ -9,6 +11,13 @@ jest.mock('react-router-dom', () => ({
   }),
   useLocation: () => ({
     pathname: '/tags'
+  })
+}));
+
+jest.mock('notistack', () => ({
+  ...jest.requireActual('notistack'),
+  useSnackbar: () => ({
+    enqueueSnackbar: mockEnqueue
   })
 }));
 
