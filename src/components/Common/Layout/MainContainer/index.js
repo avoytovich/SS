@@ -6,10 +6,15 @@ import Container from '@mui/material/Container';
 import Header from '../Header';
 import Footer from '../../Footer';
 
+import {useStyles} from './styles';
+
 const MainContainer = ({children}) => {
   const isAuthenticated = useSelector(state => state.auth.token);
+
+  const classes = useStyles();
+
   return (
-    <div className="main-content-wrapper" data-testid="main-content-wrapper">
+    <div className={classes.contentWrapper} data-testid="main-content-wrapper">
       {isAuthenticated && <Header />}
       <Container
         maxWidth="lg"

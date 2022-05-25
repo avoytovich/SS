@@ -1,14 +1,15 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import {Box, Button} from '@mui/material';
+import {ErrorBoundary} from 'react-error-boundary';
+import {Button} from '@mui/material';
+
+import {useModal} from 'hooks/useModal';
 
 import {PagePanel} from 'components/PagePanel';
 import CreateSkillModal from 'components/Skills/CreateSkillModal';
-import {useModal} from 'hooks/useModal';
 import HelmetWrapper from 'components/HelmetWrapper';
 import SkillsList from 'components/Skills/SkillsList';
-import {ErrorBoundary} from 'react-error-boundary';
 import ErrorFallback from 'components/ErrorFallback';
+import PageHeader from 'components/Common/Layout/PageHeader';
 
 const Skills = () => {
   const createModal = useModal();
@@ -20,28 +21,20 @@ const Skills = () => {
   return (
     <>
       <HelmetWrapper title="Skills" />
-      <Box
-        data-testid="tag-page-box"
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          alignItems: 'center'
-        }}
-      >
-        <Typography variant={'h4'} component="h1" margin="24px 0" data-testid="skill-page-title">
-          Skills
-        </Typography>
-
-        <Button
-          sx={{borderRadius: '40px'}}
-          variant="contained"
-          data-testid="skill-page-create-btn"
-          onClick={handleClickCreate}
-        >
-          Create new skill
-        </Button>
-      </Box>
+      <PageHeader
+        title="Skills"
+        extra={[
+          <Button
+            sx={{borderRadius: '40px'}}
+            variant="contained"
+            key="skill-page-create-btn"
+            data-testid="skill-page-create-btn"
+            onClick={handleClickCreate}
+          >
+            Create new skill
+          </Button>
+        ]}
+      />
 
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
