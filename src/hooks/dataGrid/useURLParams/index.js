@@ -14,6 +14,8 @@ export const useURLParams = () => {
     });
   };
 
+  const isAllParamsEmpty = () => Array.from(queryParams.values()).length === 0;
+
   const clearQueryParams = () => {
     updateHistory('');
   };
@@ -28,6 +30,7 @@ export const useURLParams = () => {
     search,
     queryParams,
     updateURLParams,
-    clearQueryParams
+    clearQueryParams,
+    isAllParamsEmpty
   };
 };

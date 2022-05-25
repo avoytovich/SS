@@ -15,7 +15,7 @@ export const useDataGridPagination = (queryParams, updateURLParams) => {
   const onPageChange = newPage => {
     const nextPage = newPage + 1;
 
-    if (newPage !== page) {
+    if (nextPage !== page) {
       setPage(nextPage);
       setTablePage(newPage);
       updateURLParams(nextPage, pageParamName);

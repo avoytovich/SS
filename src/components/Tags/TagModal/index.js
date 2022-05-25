@@ -1,24 +1,28 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Form, Formik} from 'formik';
+import {useDispatch} from 'react-redux';
 
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import ModifyTagSchema from 'components/Tags/TagModal/modifyTagShema';
 import Input from 'components/Common/Form/Input/Input';
 import {Button, DialogActions} from '@mui/material';
 
-import {useUpdateTagMutation, useAddTagMutation} from 'api/tags';
-import {useURLParams} from '../../../hooks/dataGrid';
+import {useUpdateTagMutation, useAddTagMutation, getTags} from 'api/tags';
+import {useURLParams} from 'hooks/dataGrid';
 
 export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
-  const {clearQueryParams} = useURLParams();
-  const [updateTag, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
-    useUpdateTagMutation();
-  const [addTag, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddTagMutation();
+  const dispatch = useDispatch();
+  const {clearQueryParams, isAllParamsEmpty, queryParams} = useURLParams();
+  const [updateTag, {isSuccess: isUpdateSuccess}] = useUpdateTagMutation();
+  const [addTag, {isSuccess: isAddSuccess}] = useAddTagMutation();
   const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess) {
+      if (isAllParamsEmpty() || queryParams.get('page') === '1') {
+        dispatch(getTags);
+      }
       clearQueryParams();
       onClose();
     }
@@ -40,7 +44,6 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
       onClose={onClose}
       onCancel={onClose}
       onSave={onSave}
-      loading={isUpdateLoading || isAddLoading}
       title={title}
       text="Input name of the tag"
       withCustomBtns

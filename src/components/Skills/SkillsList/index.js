@@ -77,10 +77,10 @@ const SkillsList = ({onChanges}) => {
     deleteSkill({id: selectedSkill.id})
       .unwrap()
       .then(() => {
-        enqueueSnackbar('Skill have successfully saved');
+        enqueueSnackbar('Skill have successfully removed');
       })
       .catch(() => {
-        enqueueSnackbar('Skill have not saved', {variant: 'error'});
+        enqueueSnackbar('Skill have not removed', {variant: 'error'});
       })
       .finally(() => {
         confirmModal.toggle();
