@@ -38,6 +38,8 @@ export default function TagList({onSaveOrUpdate}) {
   } = useFetchTagsQuery(queryOptions);
   const [deleteTag] = useDeleteTagMutation();
 
+  const isFilterSelected = search || sort;
+
   const onSetConfirmValues = tag => setDeleteConfirmModalValues(getConfirmTagValues(tag));
 
   const handleEditTag = tag => {
@@ -93,9 +95,12 @@ export default function TagList({onSaveOrUpdate}) {
           componentsProps={{
             noRowsOverlay: {
               className: classes.tableEmptyMessage,
-              emptyMessage: isError ? 'No tags' : 'No tags yet.',
+              emptyMessage:
+                isError || isFilterSelected
+                  ? 'No tags. Please select other filters'
+                  : 'No tags yet',
               actionTitle: 'Please add new tag',
-              isAction: !isError,
+              isAction: !isError && !isFilterSelected,
               onAddNewRow: onCreateTag
             }
           }}
