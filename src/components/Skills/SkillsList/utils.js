@@ -53,10 +53,3 @@ export const getColumns = (onDelete, onEdit) => [
     ]
   }
 ];
-
-export const getConfirmSkillValues = skill => ({
-  isOpen: true,
-  text: `Would you like to remove "${skill.name}" skill?`,
-  confirmText: 'Remove',
-  cancelText: 'Cancel'
-});

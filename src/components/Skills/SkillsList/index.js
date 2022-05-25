@@ -3,9 +3,8 @@ import React, {useMemo, useState} from 'react';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
-import ConfirmModal from 'components/Modals/ConfirmModal';
-
-import {useFetchSkillsQuery} from 'api/skills';
+import {useFetchSkillsQuery, useDeleteSkillMutation} from 'api/skills';
+import {useFetchTagsQuery} from 'api/tags';
 
 import {GridPagination, NoRows, dataGridRootStyles} from 'components/Common/DataGrid';
 import {
@@ -18,21 +17,28 @@ import {
 } from 'constants/dataGrid';
 import {useDataGridPagination, useDataGridSort, useURLParams} from 'hooks/dataGrid';
 
-import {getColumns, getConfirmSkillValues} from 'components/Skills/SkillsList/utils';
-import {useStyles} from 'components/Skills/SkillsList/styles';
-import {useFetchTagsQuery} from 'api/tags';
+import {getColumns} from 'components/Skills/SkillsList/utils';
 import {SearchField} from 'components/Common/DataGrid/Filters/SearchField';
 import MultipleAutocomplete from 'components/Common/DataGrid/Filters/MultipleAutocomplete';
+import {useModal} from '../../../hooks/useModal';
+import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
-const SkillsList = () => {
+import {useStyles} from './styles';
+
+const SkillsList = ({onChanges}) => {
   const classes = useStyles();
   const {queryParams, updateURLParams} = useURLParams();
+  const [deleteSkill] = useDeleteSkillMutation();
+
+  // Pagination values
   const {sortModel, sort, onSortChange} = useDataGridSort(queryParams, updateURLParams);
   const {page, tablePage, onPageChange} = useDataGridPagination(queryParams, updateURLParams);
 
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [confirmValues, setConfirmValues] = useState({});
+  // Confirm modal values
+  const confirmModal = useModal();
+  const [selectedSkill, setSelectedSkill] = useState({});
 
+  // Filters values
   const [skillFilter, setSkillFilter] = useState(queryParams.get(searchParamName) || '');
   const [tagsFilter, setTagsFilter] = useState([]);
   const [tagsSearch, setTagsSearch] = useState('');
@@ -58,18 +64,29 @@ const SkillsList = () => {
     isError
   } = useFetchSkillsQuery(skillsQueryOptions);
 
-  const onDeleteSkill = skill => () => {
-    setIsConfirmOpen(true);
-    setConfirmValues(getConfirmSkillValues(skill));
+  // Handlers on change
+
+  const onDeleteSkill = skill => {
+    console.log('click');
+    confirmModal.toggle();
+    setSelectedSkill(skill);
   };
 
-  const onEditSkill = () => () => {};
+  const handleConfirmDelete = () => {
+    confirmModal.toggle();
+    setSelectedSkill({});
+    deleteSkill({id: selectedSkill.id});
+  };
 
-  const columns = getColumns(onDeleteSkill, onEditSkill);
+  const onEditSkill = skill => {
+    console.log('click edit');
+    if (onChanges) onChanges(skill);
+    setSelectedSkill(skill);
+  };
 
   const onCloseConfirmModal = () => {
-    setIsConfirmOpen(false);
-    setConfirmValues({});
+    confirmModal.toggle();
+    setSelectedSkill({});
   };
 
   const handlePageChange = nextPage => onPageChange(nextPage);
@@ -97,6 +114,8 @@ const SkillsList = () => {
   const handleClearFilter = () => handleSkillSearch('');
 
   const handleSortChange = newModel => onSortChange(newModel);
+
+  const columns = getColumns(onDeleteSkill, onEditSkill);
 
   return (
     <>
@@ -155,11 +174,16 @@ const SkillsList = () => {
           disableSelectionOnClick
         />
       </Box>
-      <ConfirmModal
-        modalOpen={isConfirmOpen}
-        toggle={onCloseConfirmModal}
-        bodyContent={confirmValues}
-      />
+      {confirmModal.isOpen && (
+        <CustomizedDialogs
+          isOpen={confirmModal.isOpen}
+          isRemove
+          onClose={onCloseConfirmModal}
+          handleSubmit={handleConfirmDelete}
+          text={`Are you sure you want  to delete "${selectedSkill.name}" skill? You can not undo this action.`}
+          confirmText="Remove"
+        />
+      )}
     </>
   );
 };

@@ -3,9 +3,11 @@ import {WHITE} from 'theme/colors';
 
 const useStyles = makeStyles({
   title: {
+    '&.MuiTypography-root': {
+      padding: '16px 16px 8px'
+    },
     background: WHITE,
-    border: 0,
-    padding: '16px 16px 8px'
+    border: 0
   },
   actions: {
     background: WHITE,
@@ -13,15 +15,19 @@ const useStyles = makeStyles({
     padding: '16px'
   },
   content: {
-    padding: '0 16px 16px'
+    '&.MuiDialogContent-root': {
+      padding: '0 16px 16px'
+    }
   },
   loader: {
     margin: '80px 0 32px',
     textAlign: 'center'
   },
   contentDesc: {
-    fontSize: '14px',
-    marginBottom: '16px'
+    '&.MuiTypography-root': {
+      fontSize: '14px',
+      marginBottom: '16px'
+    }
   }
 });
 
