@@ -21,11 +21,13 @@ const CustomizedDialogs = ({
   confirmText,
   handleSubmit,
   loading,
-  withCustomBtns
+  withCustomBtns,
+  isRemove,
+  removeText
 }) => {
   const classes = useStyles();
   return (
-    <Dialog fullWidth maxWidth="sm" open={isOpen} onClose={onClose}>
+    <Dialog fullWidth maxWidth={isRemove ? 'xs' : 'sm'} open={isOpen} onClose={onClose}>
       <DialogTitle data-testid="confirm-modal-title" className={classes.title}>
         {title}
       </DialogTitle>
@@ -49,9 +51,10 @@ const CustomizedDialogs = ({
           <Button
             variant="contained"
             data-testid="confirm-modal-confirm-btn"
+            color={isRemove ? 'error' : 'primary'}
             onClick={handleSubmit}
           >
-            {confirmText}
+            {isRemove ? removeText : confirmText}
           </Button>
         </DialogActions>
       )}
@@ -67,7 +70,9 @@ CustomizedDialogs.propTypes = {
   text: PropTypes.string,
   cancelText: PropTypes.string,
   confirmText: PropTypes.string,
-  withCustomBtns: PropTypes.bool
+  withCustomBtns: PropTypes.bool,
+  removeText: PropTypes.string,
+  isRemove: PropTypes.bool
 };
 
 CustomizedDialogs.defaultProps = {
@@ -78,7 +83,9 @@ CustomizedDialogs.defaultProps = {
   text: 'Do some action',
   cancelText: 'Cancel',
   confirmText: 'Confirm',
-  withCustomBtns: false
+  removeText: 'Remove',
+  withCustomBtns: false,
+  isRemove: false
 };
 
 export default CustomizedDialogs;

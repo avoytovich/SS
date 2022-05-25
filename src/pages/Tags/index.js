@@ -54,9 +54,9 @@ export default function Tags() {
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
           <TagList onSaveOrUpdate={onSaveOrUpdateTag} />
-          <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />
         </PagePanel>
       </ErrorBoundary>
+      <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />
     </>
   );
 }

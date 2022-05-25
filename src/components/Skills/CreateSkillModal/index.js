@@ -1,29 +1,51 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Formik, Form} from 'formik';
 
-import DialogControls from '../../Modals/DialogControls';
+import {useUpdateSkillMutation, useAddSkillMutation} from 'api/skills';
+import {useURLParams} from 'hooks/dataGrid';
 
+import DialogControls from '../../Modals/DialogControls';
 import Input from '../../Common/Form/Input/Input';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import CreateSkillSchema from './createSkillShema';
 
-// import CreateSkillForm from '../CreateSkillForm';
+const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
+  const {clearQueryParams} = useURLParams();
 
-const CreateSkillModal = ({isOpen, onClose, loading}) => {
-  const handleSubmit = () => {
+  const [updateSkill, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
+    useUpdateSkillMutation();
+  const [addSkill, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddSkillMutation();
+
+  const title = id ? 'Edit tag' : 'Create new tag';
+
+  useEffect(() => {
+    if (isUpdateSuccess || isAddSuccess || loading) {
+      clearQueryParams();
+      onClose();
+    }
+    return () => {};
+  }, [isUpdateSuccess, isAddSuccess]);
+
+  const handleSubmit = params => {
     console.log('submit');
+    console.log(params);
+    if (id) {
+      updateSkill({id});
+    } else {
+      addSkill(params);
+    }
   };
+
   return (
     <CustomizedDialogs
       type="form"
       isOpen={isOpen}
       onClose={onClose}
       onCancel={onClose}
-      onSave={handleSubmit}
-      loading={loading}
-      title="Create new skill"
+      loading={isUpdateLoading || isAddLoading}
+      title={title}
       text="Input name of the skill and choose tag(s)"
       data-testid="create-skill-modal"
       withCustomBtns
@@ -38,16 +60,8 @@ const CreateSkillModal = ({isOpen, onClose, loading}) => {
       >
         {({isSubmitting}) => (
           <Form autoComplete="off">
-            {/* {isSubmitting && ( */}
-            {/*  <LoadingProgress coverPage title="Please wait while saving is completed" /> */}
-            {/* )} */}
-
             <Input name="name" label="Name" placeholder="Type skill name" />
-            <DialogControls
-              disabledConfirm={isSubmitting}
-              onSubmit={handleSubmit}
-              onClose={onClose}
-            />
+            <DialogControls disabledConfirm={isSubmitting} onClose={onClose} />
           </Form>
         )}
       </Formik>
@@ -56,12 +70,14 @@ const CreateSkillModal = ({isOpen, onClose, loading}) => {
 };
 
 CreateSkillModal.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 
 CreateSkillModal.defaultProps = {
+  id: '',
   isOpen: false,
   loading: false,
   onClose: () => {},

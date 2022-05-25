@@ -11,31 +11,44 @@ const skillsApi = createApi({
     fetchSkills: builder.query({
       query: queryOptions => ({
         url: apiUrls.skills.root,
-        method: 'get',
+        method: 'GET',
         params: queryOptions
       }),
-
+      providesTags: ['Skills'],
       transformResponse: response => ({...response, skills: response.data})
     }),
 
-    addSkill: builder.query({
-      query: queryOptions => ({
+    addSkill: builder.mutation({
+      query: ({...params}) => ({
         url: apiUrls.skills.root,
-        method: 'post',
-        params: queryOptions
+        method: 'POST',
+        body: params
       })
     }),
 
-    deleteSkill: builder.query({
-      query: queryOptions => ({
-        url: apiUrls.skills.root,
-        method: 'delete',
-        params: queryOptions
+    updateSkill: builder.mutation({
+      query: ({id, ...params}) => ({
+        url: apiUrls.skills.details(id),
+        method: 'PATCH',
+        body: params
       })
+    }),
+
+    deleteSkill: builder.mutation({
+      query: ({id}) => ({
+        url: apiUrls.skills.details(id),
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Skills']
     })
   })
 });
 
 export default skillsApi;
 
-export const {useFetchSkillsQuery, useAddSkillQuery, useDeleteSkillQuery} = skillsApi;
+export const {
+  useFetchSkillsQuery,
+  useAddSkillMutation,
+  useDeleteSkillMutation,
+  useUpdateSkillMutation
+} = skillsApi;
