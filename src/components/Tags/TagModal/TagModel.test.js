@@ -2,6 +2,16 @@ import React from 'react';
 import {fireEvent, render, screen, act, waitFor} from 'utils/test-utils';
 import TagModal from 'components/Tags/TagModal';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: jest.fn()
+  }),
+  useLocation: () => ({
+    pathname: '/tags'
+  })
+}));
+
 describe('TagModal', () => {
   const mockOnClose = jest.fn();
 
@@ -22,11 +32,14 @@ describe('TagModal', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument();
 
     expect(screen.getByRole('textbox')).toBeInTheDocument();
-    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'new tag'}});
+
+    await act(async () => {
+      fireEvent.change(screen.getByRole('textbox'), {target: {value: 'new tag'}});
+    });
+
     await waitFor(() => {
       expect(screen.getByRole('textbox')).not.toBe(null);
     });
-    fireEvent.click(screen.getByTestId('tag-modal-confirm-btn'));
   });
 
   it('should edit tag', async () => {
@@ -36,10 +49,17 @@ describe('TagModal', () => {
     expect(screen.getByTestId('confirm-modal-title')).toHaveTextContent('Edit "test-name" tag');
 
     expect(screen.getByRole('textbox')).toBeInTheDocument();
-    fireEvent.change(screen.getByRole('textbox'), {target: {value: 'tag'}});
+
+    await act(async () => {
+      fireEvent.change(screen.getByRole('textbox'), {target: {value: 'tag'}});
+    });
+
     await waitFor(() => {
       expect(screen.getByRole('textbox')).not.toBe(null);
     });
-    fireEvent.click(screen.getByTestId('tag-modal-confirm-btn'));
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId('tag-modal-confirm-btn'));
+    });
   });
 });

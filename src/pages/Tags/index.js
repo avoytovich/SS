@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {Button} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
@@ -7,13 +7,31 @@ import HelmetWrapper from 'components/HelmetWrapper';
 import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
 import {PagePanel} from 'components/PagePanel';
+
 import TagModal from 'components/Tags/TagModal';
 import PageHeader from 'components/Common/Layout/PageHeader';
+import {useModal} from '../../hooks/useModal';
 
 export default function Tags() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {isOpen, values, setIsOpen, setValues} = useModal();
 
-  const handleToggleModal = () => setIsModalOpen(isOpen => !isOpen);
+  const onCloseModal = () => {
+    setValues({});
+    setIsOpen(false);
+  };
+
+  const onCreateTag = () => {
+    setValues({});
+    setIsOpen(true);
+  };
+
+  const onSaveOrUpdateTag = tagValues => {
+    if (tagValues) {
+      setValues(tagValues);
+    }
+
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -32,12 +50,13 @@ export default function Tags() {
           </Button>
         ]}
       />
+
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
-          <TagList isAddTag={isModalOpen} />
+          <TagList onSaveOrUpdate={onSaveOrUpdateTag} />
+          <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />
         </PagePanel>
       </ErrorBoundary>
-      <TagModal isOpen={isModalOpen} onClose={handleToggleModal} />
     </>
   );
 }
