@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import {Box, Button} from '@mui/material';
 
 import {PagePanel} from 'components/PagePanel';
-import SkillsList from 'components/Skills/SkillsList';
 import CreateSkillModal from 'components/Skills/CreateSkillModal';
 import {useModal} from 'hooks/useModal';
 import HelmetWrapper from 'components/HelmetWrapper';
