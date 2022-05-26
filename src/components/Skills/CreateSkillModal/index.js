@@ -4,10 +4,12 @@ import {Formik, Form} from 'formik';
 import {useSnackbar} from 'notistack';
 
 import {useUpdateSkillMutation, useAddSkillMutation} from 'api/skills';
+import {useFetchTagsQuery} from 'api/tags';
 import {useURLParams} from 'hooks/dataGrid';
 
 import DialogControls from '../../Modals/DialogControls';
-import Input from '../../Common/Form/Input/Input';
+import Input from '../../Common/Form/Input';
+import SelectField from '../../Common/Form/Select';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import CreateSkillSchema from './createSkillShema';
@@ -20,7 +22,10 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
     useUpdateSkillMutation();
   const [addSkill, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddSkillMutation();
 
-  const title = id ? 'Edit tag' : 'Create new tag';
+  const {data: {tags = []} = {}} = useFetchTagsQuery({});
+  console.log(tags);
+
+  const title = id ? 'Edit skill' : 'Create new skill';
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess || loading) {
@@ -62,6 +67,21 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
         {({isSubmitting}) => (
           <Form autoComplete="off">
             <Input name="name" label="Name" placeholder="Type skill name" />
+            <SelectField
+              name="tags"
+              label="Tags"
+              options={tags}
+              multiple
+              placeholder="Choose tags"
+            />
+            <Input
+              name="description"
+              label="Description"
+              multiline
+              rows={3}
+              rowsMax={15}
+              placeholder="Type skill description"
+            />
             <DialogControls disabledConfirm={isSubmitting} onClose={onClose} />
           </Form>
         )}
