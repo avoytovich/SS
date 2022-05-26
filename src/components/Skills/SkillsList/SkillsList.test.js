@@ -21,6 +21,7 @@ describe('SkillsList', () => {
       </SnackbarProvider>
     );
     expect(screen.getByTestId('skills-list-box')).toBeVisible();
+    expect(screen.getByTestId('skills-list-filter')).toBeVisible();
     expect(screen.getByTestId('skill-name-search-input')).toBeVisible();
     expect(screen.getByTestId('tag-filter-input')).toBeVisible();
   });

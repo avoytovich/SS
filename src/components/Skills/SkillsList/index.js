@@ -55,14 +55,17 @@ const SkillsList = ({onChanges}) => {
     [page, sort, tagsFilter, skillFilter]
   );
 
+  const isFilterSelected = tagsFilter.length > 0 || sort || skillFilter;
+
   const tagsQueryOptions = useMemo(() => ({...(tagsSearch && {tagsSearch})}), [tagsSearch]);
 
   const {data: {tags = []} = {}, isLoading: isTagsSearchLoading} =
     useFetchTagsQuery(tagsQueryOptions);
 
   const {
-    data: {skills = [], total = 0} = {},
+    data: {skills = [], total = 0, pages = 0} = {},
     isLoading,
+    isFetching,
     isError
   } = useFetchSkillsQuery(skillsQueryOptions);
 
@@ -128,7 +131,7 @@ const SkillsList = ({onChanges}) => {
 
   return (
     <>
-      <Box component="form" className={classes.filterContainer} data-testid="tag-list-filter">
+      <Box component="form" className={classes.filterContainer} data-testid="skills-list-filter">
         <SearchField
           id="skill-name-search"
           value={skillFilter}
@@ -152,13 +155,16 @@ const SkillsList = ({onChanges}) => {
         <DataGrid
           data-cy="skill-list"
           components={{
-            Pagination: GridPagination,
+            Pagination: pages > 1 && GridPagination,
             NoRowsOverlay: NoRows
           }}
           componentsProps={{
             noRowsOverlay: {
               className: classes.tableEmptyMessage,
-              emptyMessage: isError ? 'No skills' : 'No skills yet.',
+              emptyMessage:
+                isError || isFilterSelected
+                  ? 'No skills. Please select other filters.'
+                  : 'No skills yet.',
               actionTitle: 'Please add new skill',
               isAction: !isError
             }
@@ -176,11 +182,12 @@ const SkillsList = ({onChanges}) => {
           onPageChange={handlePageChange}
           rowCount={total}
           sx={dataGridRootStyles}
-          loading={isLoading}
+          loading={isLoading || isFetching}
           rowHeight={rowHeight}
           headerHeight={headerHeight}
           disableColumnMenu
           disableSelectionOnClick
+          autoHeight
         />
       </Box>
       {confirmModal.isOpen && (
