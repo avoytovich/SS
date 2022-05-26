@@ -6,6 +6,15 @@ import {ThemeProvider} from '@mui/material/styles';
 import themeConfig from 'theme/themeConfig';
 import {store} from 'store/store';
 
+const mockEnqueue = jest.fn();
+
+jest.mock('notistack', () => ({
+  ...jest.requireActual('notistack'),
+  useSnackbar: () => ({
+    enqueueSnackbar: mockEnqueue
+  })
+}));
+
 const AllTheProviders = ({children}) => (
   <ThemeProvider theme={themeConfig}>
     <Provider store={store}>
