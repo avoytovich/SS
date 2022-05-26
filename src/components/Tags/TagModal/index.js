@@ -40,7 +40,7 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
       enqueueSnackbar('Tag have successfully saved');
     }
     return () => {};
-  }, [isUpdateSuccess, isAddSuccess, isOpen]);
+  }, [isUpdateSuccess, isAddSuccess, isOpen, fetchTags]);
 
   const onSave = name => {
     if (id) {
