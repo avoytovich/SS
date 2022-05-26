@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {Form, Formik} from 'formik';
 import {useDispatch} from 'react-redux';
@@ -21,13 +21,13 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   const [addTag, {isSuccess: isAddSuccess}] = useAddTagMutation();
   const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
 
-  const isFirstPage = useCallback(
+  const isFirstPage = useMemo(
     () => hasOnlyOneParam(pageParamName) && isParamEqualTo(pageParamName, defaultPage.toString()),
     [hasOnlyOneParam, isParamEqualTo]
   );
 
   const fetchTags = useCallback(() => {
-    if (isAllParamsEmpty() || isFirstPage()) {
+    if (isAllParamsEmpty() || isFirstPage) {
       dispatch(getTags);
     }
   }, [isAllParamsEmpty, isFirstPage]);
