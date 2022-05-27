@@ -16,6 +16,16 @@ export const useURLParams = () => {
 
   const isAllParamsEmpty = () => Array.from(queryParams.values()).length === 0;
 
+  const hasOnlyOneParam = paramName => {
+    const isOneParam = Array.from(queryParams.values()).length === 1;
+    return isOneParam ? queryParams.has(paramName) : false;
+  };
+
+  const isParamEqualTo = (name, value) => {
+    const param = queryParams.get(name);
+    return param === value;
+  };
+
   const clearQueryParams = () => {
     updateHistory('');
   };
@@ -31,6 +41,8 @@ export const useURLParams = () => {
     queryParams,
     updateURLParams,
     clearQueryParams,
-    isAllParamsEmpty
+    isAllParamsEmpty,
+    hasOnlyOneParam,
+    isParamEqualTo
   };
 };
