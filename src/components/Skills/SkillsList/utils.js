@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {GridActionsCellItem} from '@mui/x-data-grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import {useFetchTagsQuery} from 'api/tags';
+import {filterTagParamName} from 'constants/dataGrid';
 
 export const getColumns = (onDelete, onEdit) => [
   {
@@ -53,3 +55,38 @@ export const getColumns = (onDelete, onEdit) => [
     ]
   }
 ];
+
+export const useTagFilter = (queryParams, updateURLParams) => {
+  const filterParams = queryParams.get(filterTagParamName);
+  const {data: {tags = []} = {}} = useFetchTagsQuery({});
+  const [tagFilter, setTagFilter] = useState([]);
+
+  useEffect(() => {
+    if (!filterParams) {
+      setTagFilter([]);
+    } else if (tagFilter.length === 0) {
+      const newTagFilter = [];
+
+      filterParams.split(',').forEach(id => {
+        const tagFound = tags.find(t => t.id === +id);
+
+        if (tagFound) {
+          newTagFilter.push(tagFound);
+        }
+      });
+
+      setTagFilter(newTagFilter);
+    }
+  }, [filterParams, tags]);
+
+  const onTagFilterChange = (value, onPageChange) => {
+    onPageChange(0);
+    setTagFilter(value);
+    updateURLParams(value.map(v => v.id).toString(), filterTagParamName);
+  };
+
+  return {
+    tagFilter,
+    onTagFilterChange
+  };
+};
