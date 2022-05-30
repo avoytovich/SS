@@ -1,6 +1,7 @@
 const routes = {
   home: '/',
   login: '/login',
+  profile: '/profile',
   tags: {
     list: '/tags'
   },

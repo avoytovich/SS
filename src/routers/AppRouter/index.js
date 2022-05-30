@@ -14,6 +14,7 @@ import NeighborsList from 'pages/NeighborsList';
 import EmployeeList from 'pages/EmployeeList';
 import EmployeeDetails from 'pages/EmployeeDetails';
 import Tags from 'pages/Tags';
+import MyProfile from 'pages/Profile';
 
 const AppRouter = () => (
   <Switch>
@@ -37,6 +38,9 @@ const AppRouter = () => (
     </PrivateRoute>
     <PrivateRoute path={routes.tags.list} exact>
       <Tags />
+    </PrivateRoute>
+    <PrivateRoute path={routes.profile} exact>
+      <MyProfile />
     </PrivateRoute>
     <Route component={NotFound} path="*" />
   </Switch>
