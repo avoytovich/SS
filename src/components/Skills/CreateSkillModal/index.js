@@ -14,7 +14,7 @@ import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import CreateSkillSchema from './createSkillShema';
 
-const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
+const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
   const {clearQueryParams} = useURLParams();
   const {enqueueSnackbar} = useSnackbar();
 
@@ -23,9 +23,8 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
   const [addSkill, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddSkillMutation();
 
   const {data: {tags = []} = {}} = useFetchTagsQuery({});
-  console.log(tags);
 
-  const title = id ? 'Edit skill' : 'Create new skill';
+  const title = skill.id ? 'Edit skill' : 'Create new skill';
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess || loading) {
@@ -37,10 +36,18 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
   }, [isUpdateSuccess, isAddSuccess]);
 
   const handleSubmit = params => {
-    if (id) {
-      updateSkill({id});
+    const newValues = [];
+    params.tags.map(value => newValues.push(value.id));
+
+    if (skill.id) {
+      updateSkill({
+        id: skill.id,
+        name: params.name,
+        description: params.desctiption,
+        tags: newValues
+      });
     } else {
-      addSkill(params);
+      addSkill({name: params.name, description: params.desctiption, tags: newValues});
     }
   };
 
@@ -61,7 +68,7 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
         validateOnChange={false}
         onSubmit={handleSubmit}
         validationSchema={CreateSkillSchema}
-        initialValues={{name: ''}}
+        initialValues={skill.id ? {...skill} : {name: ''}}
         enableReinitialize
       >
         {({isSubmitting}) => (
@@ -91,14 +98,13 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
 };
 
 CreateSkillModal.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  skill: PropTypes.object,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 
 CreateSkillModal.defaultProps = {
-  id: '',
   isOpen: false,
   loading: false,
   onClose: () => {},

@@ -22,7 +22,7 @@ const SelectField = ({
   type,
   variant,
   readOnly,
-  returnFullObj,
+  returnIdToField,
   handleChange,
   multiple,
   fullWidth,
@@ -37,9 +37,14 @@ const SelectField = ({
 
   const handleChangeField = (event, values) => {
     formikProps.setFieldError(name, null);
-    const newValues = [];
-    values.map(value => newValues.push(value.id));
-    formikProps.setFieldValue(name, newValues);
+    console.log(values);
+    formikProps.setFieldValue(name, values);
+
+    if (returnIdToField) {
+      const newValues = [];
+      values.map(value => newValues.push(value.id));
+      formikProps.setFieldValue(returnIdToField, newValues);
+    }
   };
 
   return (
@@ -86,7 +91,7 @@ SelectField.defaultProps = {
   fullWidth: true,
   multiple: false,
   options: [],
-  returnFullObj: false // if false, will return only value
+  returnIdToField: ''
 };
 
 SelectField.propTypes = {
@@ -101,7 +106,7 @@ SelectField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   options: PropTypes.array,
-  returnFullObj: PropTypes.bool,
+  returnIdToField: PropTypes.string,
   multiple: PropTypes.bool
 };
 
