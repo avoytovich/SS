@@ -3,6 +3,7 @@ import React from 'react';
 import {GridActionsCellItem} from '@mui/x-data-grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import {filterTagParamName} from 'constants/dataGrid';
 
 export const getColumns = (onDelete, onEdit) => [
   {
@@ -53,3 +54,12 @@ export const getColumns = (onDelete, onEdit) => [
     ]
   }
 ];
+
+export const updateTagFilterParam = (value, updateURLParams) => {
+  updateURLParams(value.map(v => v.id).toString(), filterTagParamName);
+};
+
+export const getTagFilterByQueryParams = (params, tags) => {
+  const paramsArr = params.split(',').map(p => +p);
+  return tags.filter(t => paramsArr.includes(t.id));
+};

@@ -2,9 +2,10 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Formik, Form} from 'formik';
 import {useSnackbar} from 'notistack';
-
-import {useUpdateSkillMutation, useAddSkillMutation} from 'api/skills';
 import {useFetchTagsQuery} from 'api/tags';
+import {useDispatch} from 'react-redux';
+import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'api/skills';
+
 import {useURLParams} from 'hooks/dataGrid';
 
 import DialogControls from '../../Modals/DialogControls';
@@ -15,7 +16,9 @@ import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 import CreateSkillSchema from './createSkillShema';
 
 const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
-  const {clearQueryParams} = useURLParams();
+  const dispatch = useDispatch();
+  const {clearQueryParams, isAllParamsEmpty, queryParams} = useURLParams();
+
   const {enqueueSnackbar} = useSnackbar();
 
   const [updateSkill, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
@@ -28,6 +31,9 @@ const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess || loading) {
+      if (isAllParamsEmpty() || queryParams.get('page') === '1') {
+        dispatch(getSkills);
+      }
       clearQueryParams();
       onClose();
       enqueueSnackbar('Skill have successfully saved');
