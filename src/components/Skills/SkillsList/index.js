@@ -157,7 +157,6 @@ const SkillsList = ({onChanges}) => {
           values={tagFilter}
           onSelect={handleTagFilter}
           onChange={setTagsSearch}
-          sx={{marginLeft: '8px'}}
         />
       </Box>
       <Box className={classes.skillsBox} data-testid="skills-list-box">
