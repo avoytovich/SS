@@ -5,6 +5,7 @@ import {render} from '@testing-library/react';
 import {ThemeProvider} from '@mui/material/styles';
 import themeConfig from 'theme/themeConfig';
 import {store} from 'store/store';
+import SnackbarProviderWrapper from 'components/SnackbarProviderWrapper';
 
 const mockEnqueue = jest.fn();
 
@@ -18,7 +19,9 @@ jest.mock('notistack', () => ({
 const AllTheProviders = ({children}) => (
   <ThemeProvider theme={themeConfig}>
     <Provider store={store}>
-      <HelmetProvider>{children}</HelmetProvider>
+      <HelmetProvider>
+        <SnackbarProviderWrapper>{children}</SnackbarProviderWrapper>
+      </HelmetProvider>
     </Provider>
   </ThemeProvider>
 );

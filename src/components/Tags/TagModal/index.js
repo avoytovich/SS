@@ -6,7 +6,7 @@ import {useSnackbar} from 'notistack';
 
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import ModifyTagSchema from 'components/Tags/TagModal/modifyTagShema';
-import Input from 'components/Common/Form/Input/Input';
+import Input from 'components/Common/Form/Input';
 import {Button, DialogActions} from '@mui/material';
 
 import {useUpdateTagMutation, useAddTagMutation, getTags} from 'api/tags';
