@@ -14,7 +14,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('TagList', () => {
   it('should search tag name', () => {
-    render(<TagList />);
+    render(<TagList onSaveOrUpdate={() => {}} />);
     expect(screen.getByTestId('tag-list-box')).toBeVisible();
     expect(screen.getByTestId('tag-list-filter')).toBeVisible();
     expect(screen.getByTestId('tag-name-search-input')).toBeVisible();

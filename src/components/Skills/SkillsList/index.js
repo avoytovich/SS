@@ -8,7 +8,7 @@ import {useFetchSkillsQuery, useDeleteSkillMutation} from 'api/skills';
 import {useFetchTagsQuery} from 'api/tags';
 
 import {GridPagination, NoRows, dataGridRootStyles} from 'components/Common/DataGrid';
-import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
+import {filterTagParamName, headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
 import {
   useDataGridPagination,
   useDataGridSearch,
@@ -16,10 +16,15 @@ import {
   useURLParams
 } from 'hooks/dataGrid';
 
-import {getColumns, useTagFilter} from 'components/Skills/SkillsList/utils';
+import {
+  getColumns,
+  getTagFilterByQueryParams,
+  updateTagFilterParam
+} from 'components/Skills/SkillsList/utils';
 import {SearchField} from 'components/Common/DataGrid/Filters/SearchField';
 import MultipleAutocomplete from 'components/Common/DataGrid/Filters/MultipleAutocomplete';
-import {useModal} from '../../../hooks/useModal';
+import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
+import {useModal} from 'hooks/useModal';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import {useStyles} from './styles';
@@ -40,7 +45,18 @@ const SkillsList = ({onChanges}) => {
 
   // Filters values
   const {search, onSearchChange} = useDataGridSearch(queryParams, updateURLParams);
-  const {tagFilter, onTagFilterChange} = useTagFilter(queryParams, updateURLParams);
+
+  const {data: {tags: tagsData = []} = {}} = useFetchTagsQuery({});
+
+  const {filter: tagFilter, onFilterChange: onTagFilterChange} = useDataGridFilter(
+    queryParams,
+    updateURLParams,
+    updateTagFilterParam,
+    filterTagParamName,
+    tagsData,
+    getTagFilterByQueryParams
+  );
+
   const [tagsSearch, setTagsSearch] = useState('');
 
   const skillsQueryOptions = useMemo(
@@ -114,7 +130,7 @@ const SkillsList = ({onChanges}) => {
   };
 
   const handleTagFilter = (e, value) => {
-    onTagFilterChange([...value], onPageChange);
+    onTagFilterChange(value, onPageChange);
   };
 
   const handleClearFilter = () => handleSkillSearch('');
