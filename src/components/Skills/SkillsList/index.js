@@ -7,7 +7,13 @@ import {Box} from '@mui/material';
 import {useFetchSkillsQuery, useDeleteSkillMutation} from 'api/skills';
 import {useFetchTagsQuery} from 'api/tags';
 
-import {GridPagination, NoRows, dataGridRootStyles} from 'components/Common/DataGrid';
+import {
+  GridPagination,
+  NoRows,
+  SearchField,
+  MultipleAutocomplete,
+  dataGridRootStyles
+} from 'components/Common/DataGrid';
 import {filterTagParamName, headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
 import {
   useDataGridPagination,
@@ -21,8 +27,6 @@ import {
   getTagFilterByQueryParams,
   updateTagFilterParam
 } from 'components/Skills/SkillsList/utils';
-import {SearchField} from 'components/Common/DataGrid/Filters/SearchField';
-import MultipleAutocomplete from 'components/Common/DataGrid/Filters/MultipleAutocomplete';
 import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
 import {useModal} from 'hooks/useModal';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
@@ -73,8 +77,9 @@ const SkillsList = ({onChanges}) => {
 
   const tagsQueryOptions = useMemo(() => ({...(tagsSearch && {tagsSearch})}), [tagsSearch]);
 
-  const {data: {tags = []} = {}, isLoading: isTagsSearchLoading} =
-    useFetchTagsQuery(tagsQueryOptions);
+  const {data: {tags = []} = {}} = useFetchTagsQuery(tagsQueryOptions);
+
+  const filterOptions = useMemo(() => tags.map(tag => ({id: tag.id, label: tag.name})), [tags]);
 
   const {
     data: {skills = [], total = 0, pages = 0} = {},
@@ -121,15 +126,11 @@ const SkillsList = ({onChanges}) => {
 
   const handlePageChange = nextPage => onPageChange(nextPage);
 
-  const handleTagSearch = e => {
-    setTagsSearch(e.target.value);
-  };
-
   const handleSkillSearch = value => {
     onSearchChange(value, onPageChange);
   };
 
-  const handleTagFilter = (e, value) => {
+  const handleTagFilter = value => {
     onTagFilterChange(value, onPageChange);
   };
 
@@ -150,15 +151,13 @@ const SkillsList = ({onChanges}) => {
           onClear={handleClearFilter}
         />
         <MultipleAutocomplete
-          id="tag-filter"
+          id="tags"
           label="Tags"
-          minWidth="350px"
-          value={tagFilter}
-          inputValue={tagsSearch}
-          onInputChange={handleTagSearch}
-          onAddOption={handleTagFilter}
-          loading={isTagsSearchLoading}
-          options={tags}
+          options={filterOptions}
+          values={tagFilter}
+          onSelect={handleTagFilter}
+          onChange={setTagsSearch}
+          sx={{marginLeft: '8px'}}
         />
       </Box>
       <Box className={classes.skillsBox} data-testid="skills-list-box">
@@ -176,7 +175,7 @@ const SkillsList = ({onChanges}) => {
                   ? 'No skills. Please select other filters.'
                   : 'No skills yet.',
               actionTitle: 'Please add new skill',
-              isAction: !isError
+              isAction: !isError && !isFilterSelected
             }
           }}
           rows={skills}
