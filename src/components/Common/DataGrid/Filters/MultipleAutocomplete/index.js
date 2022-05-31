@@ -1,75 +1,89 @@
-import * as React from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
-import PropTypes from 'prop-types';
+import React, {useCallback, useState} from 'react';
 
-const MultipleAutocomplete = ({
-  id,
-  options,
-  value,
-  inputValue,
-  loading,
-  label,
-  placeholder,
-  minWidth,
-  onAddOption,
-  onInputChange,
-  ...rest
-}) => (
-  <Autocomplete
-    id={id}
-    data-testid={`${id}-input`}
-    multiple
-    size="small"
-    options={options}
-    value={value}
-    onChange={onAddOption}
-    limitTags={3}
-    getOptionLabel={option => option.name}
-    sx={{minWidth}}
-    renderInput={params => (
-      <TextField
-        {...params}
-        label={label}
-        value={inputValue}
-        placeholder={placeholder}
-        onChange={onInputChange}
-        InputProps={{
-          ...params.InputProps,
-          endAdornment: (
-            <>
-              {loading ? <CircularProgress color="inherit" size={20} /> : null}
-              {params.InputProps.endAdornment}
-            </>
-          )
-        }}
-      />
-    )}
-    {...rest}
-  />
-);
+import {Autocomplete} from '@mui/material';
 
-MultipleAutocomplete.propTypes = {
-  id: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.object),
-  value: PropTypes.arrayOf(PropTypes.object),
-  inputValue: PropTypes.string,
-  loading: PropTypes.bool,
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
-  minWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onAddOption: PropTypes.func,
-  onInputChange: PropTypes.func
+import AutocompleteInput from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteInput';
+import AutocompleteOption from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteOption';
+
+const MultipleAutocomplete = ({id, values, options, label, onSelect, onChange, ...rest}) => {
+  const [open, setOpen] = useState(false);
+
+  const onOpenAutocompleteBox = useCallback(() => {
+    setOpen(true);
+  }, [setOpen]);
+
+  const onCloseAutocompleteBox = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
+  const onRemoveAutocompleteValues = useCallback(() => {
+    onSelect([]);
+  }, [onSelect]);
+
+  const onSelectOption = useCallback(
+    option => {
+      onSelect([...new Set([...values, option])]);
+    },
+    [onSelect]
+  );
+
+  const onRemoveOption = useCallback(
+    option => {
+      onSelect(values.filter(value => value.id !== option.id));
+    },
+    [onSelect]
+  );
+
+  const onInputChange = useCallback(
+    e => {
+      if (e?.target) {
+        onChange(e.target.value);
+      }
+    },
+    [onChange]
+  );
+
+  return (
+    <Autocomplete
+      multiple
+      id={id}
+      data-testid={'multiple-autocomplete'}
+      open={open}
+      onOpen={onOpenAutocompleteBox}
+      onClose={onCloseAutocompleteBox}
+      value={values}
+      options={options}
+      disabled={!options.length}
+      disableCloseOnSelect
+      getOptionLabel={option => option.label}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
+      clearOnEscape
+      {...rest}
+      renderOption={(props, option) => (
+        <AutocompleteOption
+          key={option.id}
+          values={values}
+          option={option}
+          onSelect={onSelectOption}
+          onRemove={onRemoveOption}
+          {...props}
+        />
+      )}
+      renderInput={params => (
+        <AutocompleteInput
+          id={id}
+          options={options}
+          onChange={onInputChange}
+          values={values}
+          label={label}
+          disabled={!options.length}
+          onRemoveValues={onRemoveAutocompleteValues}
+          toggleAutocompleteMenu={setOpen}
+          {...params}
+        />
+      )}
+    />
+  );
 };
 
-MultipleAutocomplete.defaultProps = {
-  id: 'multiple-options-filter',
-  options: [],
-  placeholder: 'Search',
-  loading: false,
-  label: 'Label',
-  minWidth: '233px'
-};
-
-export default MultipleAutocomplete;
+export default React.memo(MultipleAutocomplete);
