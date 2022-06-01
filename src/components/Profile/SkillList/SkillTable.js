@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {DataGrid} from '@mui/x-data-grid';
 
 import {dataGridRootStyles, GridPagination, NoRows} from 'components/Common/DataGrid';
-import SkillToolbar from 'components/Profile/SkillList/SkillToolbar';
 
 import {columns} from 'components/Profile/SkillList/constants';
 import {pageSize} from 'constants/dataGrid';
@@ -20,25 +19,17 @@ const SkillTable = ({
   onPageChange
 }) => {
   const classes = useStyles();
-  const [toolbarEl, setToolbarEl] = useState(null);
 
   return (
     <DataGrid
       components={{
         Pagination: isPagination && GridPagination,
-        NoRowsOverlay: NoRows,
-        Toolbar: SkillToolbar
+        NoRowsOverlay: NoRows
       }}
       componentsProps={{
         noRowsOverlay: {
           className: classes.tableEmptyMessage,
           emptyMessage: 'No skills'
-        },
-        panel: {
-          anchorEl: toolbarEl
-        },
-        toolbar: {
-          setToolbarEl
         }
       }}
       rows={rows}

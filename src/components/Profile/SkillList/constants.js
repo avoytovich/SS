@@ -1,3 +1,6 @@
+import React from 'react';
+import ChipList from 'components/Common/DataGrid/ChipList';
+
 export const columns = [
   {
     field: 'name',
@@ -7,9 +10,10 @@ export const columns = [
     hideable: false
   },
   {
-    field: 'tag',
+    field: 'tags',
     headerName: 'Tag name',
     minWidth: 90,
+    renderCell: params => <ChipList value={params.value} />,
     flex: 3,
     sortable: false
   },
@@ -18,11 +22,10 @@ export const columns = [
     headerName: 'Description',
     minWidth: 90,
     flex: 3,
-    hide: true,
     sortable: false
   },
   {
-    field: 'seniority',
+    field: 'level',
     headerName: 'Seniority',
     minWidth: 90,
     flex: 1
