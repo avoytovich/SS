@@ -116,9 +116,3 @@ export const transformLevelForSort = item => {
 export function getValueByKeyFromMap(map, searchValue) {
   return [...map].find(([, val]) => val === searchValue)[0];
 }
-
-export const getSkillsFromCurrentData = data => {
-  const skills = new Set();
-  data.forEach(employee => employee.Skills.forEach(skill => skills.add(Object.keys(skill)[0])));
-  return [...skills.values()];
-};

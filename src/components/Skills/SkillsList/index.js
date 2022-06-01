@@ -7,28 +7,35 @@ import {Box} from '@mui/material';
 import {useFetchSkillsQuery, useDeleteSkillMutation} from 'api/skills';
 import {useFetchTagsQuery} from 'api/tags';
 
-import {GridPagination, NoRows, dataGridRootStyles} from 'components/Common/DataGrid';
 import {
-  defaultPage,
-  filterTagParamName,
-  headerHeight,
-  pageSize,
-  rowHeight,
-  searchParamName
-} from 'constants/dataGrid';
-import {useDataGridPagination, useDataGridSort, useURLParams} from 'hooks/dataGrid';
+  GridPagination,
+  NoRows,
+  SearchField,
+  MultipleAutocomplete,
+  dataGridRootStyles
+} from 'components/Common/DataGrid';
+import {filterTagParamName, headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
+import {
+  useDataGridPagination,
+  useDataGridSearch,
+  useDataGridSort,
+  useURLParams
+} from 'hooks/dataGrid';
 
-import {getColumns} from 'components/Skills/SkillsList/utils';
-import {SearchField} from 'components/Common/DataGrid/Filters/SearchField';
-import MultipleAutocomplete from 'components/Common/DataGrid/Filters/MultipleAutocomplete';
-import {useModal} from '../../../hooks/useModal';
+import {
+  getColumns,
+  getTagFilterByQueryParams,
+  updateTagFilterParam
+} from 'components/Skills/SkillsList/utils';
+import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
+import {useModal} from 'hooks/useModal';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import {useStyles} from './styles';
 
 const SkillsList = ({onChanges}) => {
   const classes = useStyles();
-  const {queryParams, updateURLParams} = useURLParams();
+  const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
   const [deleteSkill] = useDeleteSkillMutation();
   const {enqueueSnackbar} = useSnackbar();
 
@@ -41,26 +48,38 @@ const SkillsList = ({onChanges}) => {
   const [selectedSkill, setSelectedSkill] = useState({});
 
   // Filters values
-  const [skillFilter, setSkillFilter] = useState(queryParams.get(searchParamName) || '');
-  const [tagsFilter, setTagsFilter] = useState([]);
+  const {search, onSearchChange} = useDataGridSearch(queryParams, updateURLParams);
+
+  const {data: {tags: tagsData = []} = {}} = useFetchTagsQuery({});
+
+  const {filter: tagFilter, onFilterChange: onTagFilterChange} = useDataGridFilter(
+    queryParams,
+    updateURLParams,
+    updateTagFilterParam,
+    filterTagParamName,
+    tagsData,
+    getTagFilterByQueryParams
+  );
+
   const [tagsSearch, setTagsSearch] = useState('');
 
   const skillsQueryOptions = useMemo(
     () => ({
       ...(page && {page}),
-      ...(tagsFilter.length > 0 && {tags: tagsFilter.map(t => t.id).toString()}),
-      ...(skillFilter && {search: skillFilter}),
+      ...(tagFilter.length > 0 && {tags: tagFilter.map(t => t.id).toString()}),
+      ...(search && {search}),
       ...(sort && {sort})
     }),
-    [page, sort, tagsFilter, skillFilter]
+    [page, sort, tagFilter, search]
   );
 
-  const isFilterSelected = tagsFilter.length > 0 || sort || skillFilter;
+  const isFilterSelected = tagFilter.length > 0 || sort || search;
 
   const tagsQueryOptions = useMemo(() => ({...(tagsSearch && {tagsSearch})}), [tagsSearch]);
 
-  const {data: {tags = []} = {}, isLoading: isTagsSearchLoading} =
-    useFetchTagsQuery(tagsQueryOptions);
+  const {data: {tags = []} = {}} = useFetchTagsQuery(tagsQueryOptions);
+
+  const filterOptions = useMemo(() => tags.map(tag => ({id: tag.id, label: tag.name})), [tags]);
 
   const {
     data: {skills = [], total = 0, pages = 0} = {},
@@ -77,6 +96,10 @@ const SkillsList = ({onChanges}) => {
   };
 
   const handleConfirmDelete = () => {
+    if (skills.length === 1) {
+      clearQueryParams();
+    }
+
     deleteSkill({id: selectedSkill.id})
       .unwrap()
       .then(() => {
@@ -103,24 +126,12 @@ const SkillsList = ({onChanges}) => {
 
   const handlePageChange = nextPage => onPageChange(nextPage);
 
-  const resetPage = () => {
-    if (page !== defaultPage) handlePageChange(0);
-  };
-
-  const handleTagSearch = e => {
-    setTagsSearch(e.target.value);
-  };
-
   const handleSkillSearch = value => {
-    setSkillFilter(value);
-    resetPage();
-    updateURLParams(value, searchParamName);
+    onSearchChange(value, onPageChange);
   };
 
-  const handleTagFilter = (e, value) => {
-    setTagsFilter([...value]);
-    resetPage();
-    updateURLParams(value.map(v => v.id).toString(), filterTagParamName);
+  const handleTagFilter = value => {
+    onTagFilterChange(value, onPageChange);
   };
 
   const handleClearFilter = () => handleSkillSearch('');
@@ -134,21 +145,18 @@ const SkillsList = ({onChanges}) => {
       <Box component="form" className={classes.filterContainer} data-testid="skills-list-filter">
         <SearchField
           id="skill-name-search"
-          value={skillFilter}
+          value={search}
           label="Skill"
           onChange={handleSkillSearch}
           onClear={handleClearFilter}
         />
         <MultipleAutocomplete
-          id="tag-filter"
+          id="tags"
           label="Tags"
-          minWidth="350px"
-          value={tagsFilter}
-          inputValue={tagsSearch}
-          onInputChange={handleTagSearch}
-          onAddOption={handleTagFilter}
-          loading={isTagsSearchLoading}
-          options={tags}
+          options={filterOptions}
+          values={tagFilter}
+          onSelect={handleTagFilter}
+          onChange={setTagsSearch}
         />
       </Box>
       <Box className={classes.skillsBox} data-testid="skills-list-box">
@@ -166,7 +174,7 @@ const SkillsList = ({onChanges}) => {
                   ? 'No skills. Please select other filters.'
                   : 'No skills yet.',
               actionTitle: 'Please add new skill',
-              isAction: !isError
+              isAction: !isError && !isFilterSelected
             }
           }}
           rows={skills}

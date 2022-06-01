@@ -3,6 +3,8 @@ import React from 'react';
 import {GridActionsCellItem} from '@mui/x-data-grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import {filterTagParamName} from 'constants/dataGrid';
+import ChipList from 'components/Common/DataGrid/ChipList';
 
 export const getColumns = (onDelete, onEdit) => [
   {
@@ -15,14 +17,14 @@ export const getColumns = (onDelete, onEdit) => [
   {
     field: 'tags',
     headerName: 'Tags',
-    renderCell: params => params.value.map(tag => tag.name).join(','),
+    renderCell: params => <ChipList value={params.value} />,
     sortable: false,
     minWidth: 90,
     flex: 5
   },
   {
     field: 'engineers_count',
-    headerName: 'Engineers Count',
+    headerName: '#Engineers',
     minWidth: 90,
     flex: 2
   },
@@ -53,3 +55,12 @@ export const getColumns = (onDelete, onEdit) => [
     ]
   }
 ];
+
+export const updateTagFilterParam = (value, updateURLParams) => {
+  updateURLParams(value.map(v => v.id).toString(), filterTagParamName);
+};
+
+export const getTagFilterByQueryParams = (params, tags) => {
+  const paramsArr = params.split(',').map(p => +p);
+  return tags.filter(t => paramsArr.includes(t.id));
+};

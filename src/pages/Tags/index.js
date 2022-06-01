@@ -56,7 +56,7 @@ export default function Tags() {
           <TagList onSaveOrUpdate={onSaveOrUpdateTag} />
         </PagePanel>
       </ErrorBoundary>
-      <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />
+      {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
     </>
   );
 }
