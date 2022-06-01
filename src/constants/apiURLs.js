@@ -4,7 +4,7 @@ export const apiUrls = {
     rootWithQueries: query => `/users/?${query}`,
     details: id => `/users/${id}`,
     myProfile: '/users/me',
-    skills: id => `/users/${id}/skills`
+    profileSkills: '/users/me/skills'
   },
   tags: {
     root: '/tags',

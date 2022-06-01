@@ -1,44 +1,37 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 
-import {Box, Button} from '@mui/material';
+import {Button} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
 
 import {PagePanel} from 'components/PagePanel';
-import UserAvatar from 'components/Common/UserAvatar';
 import ErrorFallback from 'components/ErrorFallback';
 import ProfileDetails from 'components/Profile/ProfileDetails';
 import SkillList from 'components/Profile/SkillList';
+import PageHeader from 'components/Common/Layout/PageHeader';
 
 export default function MyProfile() {
-  const {
-    first_name: firstName,
-    last_name: lastName,
-    full_name: fullName,
-    photo_url: photo,
-    id,
-    competency,
-    specialization,
-    level
-  } = useSelector(state => state.auth.profile);
+  const onUpdateSkillset = () => {};
+
   return (
     <>
-      <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-        <UserAvatar firstName={firstName} lastName={lastName} fullName={fullName} photo={photo} />
-        <Button
-          key="tag-page-create-btn"
-          sx={{borderRadius: '40px'}}
-          variant="contained"
-          data-testid="tag-page-create-btn"
-          onClick={() => {}}
-        >
-          Update skills
-        </Button>
-      </Box>
+      <PageHeader
+        title="My profile"
+        extra={[
+          <Button
+            key="profile-page-skillset-btn"
+            sx={{borderRadius: '40px'}}
+            variant="contained"
+            data-testid="profile-page-skillset-btn"
+            onClick={onUpdateSkillset}
+          >
+            Update skillset
+          </Button>
+        ]}
+      />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
-          <ProfileDetails competency={competency} specialization={specialization} level={level} />
-          <SkillList id={id} />
+          <ProfileDetails />
+          <SkillList />
         </PagePanel>
       </ErrorBoundary>
     </>

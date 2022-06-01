@@ -10,8 +10,8 @@ const profileApi = createApi({
   tagTypes: ['Profile'],
   endpoints: builder => ({
     fetchSkills: builder.query({
-      query: ({id, ...params}) => ({
-        url: apiUrls.users.skills(id),
+      query: ({...params}) => ({
+        url: apiUrls.users.profileSkills,
         params: {...params}
       }),
       providesTags: ['Profile'],
