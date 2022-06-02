@@ -116,3 +116,9 @@ Utils described in `utils/*.js`
 - helpers.js - common helpers. Mostly pure functions. Can be updated during the development.
 
 
+
+
+## Project documents
+
+- [Permissions](/docs/permissions.md)
+- [Hooks](/docs/hooks.md)
