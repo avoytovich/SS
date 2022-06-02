@@ -8,12 +8,12 @@ export const PermissionEnum = {
   TAGS_DELETE: 'app.tags.delete',
   TAGS_EDIT: 'app.tags.edit',
   TAGS_LIST: 'app.tags.list',
-  TAGS_READ: 'app.tags.read',
+  TAGS_DETAILS: 'app.tags.read',
   SKILLS_CREATE: 'app.skills.create',
   SKILLS_DELETE: 'app.skills.delete',
   SKILLS_EDIT: 'app.skills.edit',
   SKILLS_LIST: 'app.skills.list',
-  SKILLS_READ: 'app.skills.read',
+  SKILLS_DETAILS: 'app.skills.read',
 
   // SKILLSSET_CREATE: 'app.skillsset.create',
   // SKILLSSET_DELETE: 'app.skillsset.delete',
@@ -35,15 +35,29 @@ export const USER_ROLES_PERMISSIONS = {
     PermissionEnum.TAGS_DELETE,
     PermissionEnum.TAGS_EDIT,
     PermissionEnum.TAGS_LIST,
-    PermissionEnum.TAGS_READ
+    PermissionEnum.TAGS_DETAILS,
+    PermissionEnum.SKILLS_CREATE,
+    PermissionEnum.SKILLS_DELETE,
+    PermissionEnum.SKILLS_EDIT,
+    PermissionEnum.SKILLS_LIST,
+    PermissionEnum.SKILLS_DETAILS
   ],
   [UserRoleEnum.MODERATOR]: [
     PermissionEnum.TAGS_CREATE,
     PermissionEnum.TAGS_DELETE,
     PermissionEnum.TAGS_EDIT,
     PermissionEnum.TAGS_LIST,
-    PermissionEnum.TAGS_READ
+    PermissionEnum.TAGS_DETAILS,
+    PermissionEnum.SKILLS_CREATE,
+    PermissionEnum.SKILLS_DELETE,
+    PermissionEnum.SKILLS_EDIT,
+    PermissionEnum.SKILLS_LIST,
+    PermissionEnum.SKILLS_DETAILS
   ],
-  [UserRoleEnum.MANAGER]: [],
+  [UserRoleEnum.MANAGER]: [
+    PermissionEnum.SKILLS_LIST,
+    PermissionEnum.SKILLS_DETAILS,
+    PermissionEnum.TAGS_LIST
+  ],
   [UserRoleEnum.EMPLOYEE]: []
 };
