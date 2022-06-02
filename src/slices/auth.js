@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {clearPermissions} from 'store/permissions/permissions';
 
 const initialState = {
   profile: {},
@@ -30,6 +31,7 @@ export const loginByToken =
 
 export const logOut = () => dispatch => {
   dispatch(actions.LOGOUT());
+  dispatch(clearPermissions());
 };
 
 export default authSlice;

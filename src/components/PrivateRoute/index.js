@@ -9,7 +9,7 @@ function PrivateRoute({children, roles = [], ...rest}) {
   const redirectPathName = !isAuthenticated ? routes.login : routes.home;
 
   const isAuthorized =
-    !roles.length || roles.some(currentRole => currentRole.toLowerCase() === role.toLowerCase());
+    !roles.length || roles.some(currentRole => currentRole?.toLowerCase() === role?.toLowerCase());
 
   const redirectTo = (pathname, location) => (
     <Redirect

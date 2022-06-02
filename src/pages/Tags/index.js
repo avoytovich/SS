@@ -38,9 +38,9 @@ export default function Tags() {
 
   return (
     <>
-      <HelmetWrapper title="Tag List" />
+      <HelmetWrapper title="Tags" />
       <PageHeader
-        title="Tag List"
+        title="Tags"
         extra={[
           <Button
             key="tag-page-create-btn"
