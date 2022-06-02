@@ -61,7 +61,5 @@ export const getColumns = (onEdit, onRemove, editPermissions, deletePermissions)
 export const getConfirmTagValues = tag => ({
   isOpen: true,
   text: `Would you like to remove "${tag.name}" tag?`,
-  confirmText: 'Remove',
-  tagId: tag.id,
-  cancelText: 'Cancel'
+  tagId: tag.id
 });

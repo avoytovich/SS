@@ -6,7 +6,7 @@ import {Box} from '@mui/material';
 
 import {useDeleteTagMutation, useFetchTagsQuery} from 'api/tags';
 
-import ConfirmModal from 'components/Modals/ConfirmModal';
+import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
 import {
   useDataGridPagination,
@@ -133,11 +133,13 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
         />
       </Box>
       {deleteConfirmModalValues && (
-        <ConfirmModal
-          modalOpen={deleteConfirmModalValues.isOpen || false}
-          toggle={onCloseConfirmModal}
-          bodyContent={deleteConfirmModalValues}
+        <CustomizedDialogs
+          isOpen={deleteConfirmModalValues.isOpen || false}
+          isRemove
+          onClose={onCloseConfirmModal}
           handleSubmit={handConfirmRemove}
+          text={deleteConfirmModalValues.text || ''}
+          confirmText="Remove"
         />
       )}
     </>
