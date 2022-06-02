@@ -23,7 +23,7 @@ const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <Link component={RouterLink} to="/" exact={true} activeClassName={classes.active}>
-          <HeaderLogo className={classes.logo} />
+          <HeaderLogo sx={{fontSize: 90}} />
         </Link>
 
         <Box className={classes.navContent}>

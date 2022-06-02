@@ -30,6 +30,6 @@ export const columns = [
     headerName: 'Seniority',
     minWidth: 90,
     valueGetter: ({row}) => `${capitalizeFirstLetter(row.level)}`,
-    flex: 1
+    flex: 2
   }
 ];

@@ -15,35 +15,45 @@ import EmployeeList from 'pages/EmployeeList';
 import EmployeeDetails from 'pages/EmployeeDetails';
 import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
+import usePermissions from 'hooks/permissions';
+import {PermissionEnum} from 'constants/permissions';
 
-const AppRouter = () => (
-  <Switch>
-    <PrivateRoute path={routes.home} exact>
-      <Home />
-    </PrivateRoute>
-    <PublicRoute path={routes.login} restricted>
-      <Login />
-    </PublicRoute>
-    <PrivateRoute path={routes.skills.list} exact>
-      <Skills />
-    </PrivateRoute>
-    <PrivateRoute path={routes.skills.details.path} exact>
-      <NeighborsList />
-    </PrivateRoute>
-    <PrivateRoute path={routes.employees.list} exact>
-      <EmployeeList />
-    </PrivateRoute>
-    <PrivateRoute path={routes.employees.details.path} exact>
-      <EmployeeDetails />
-    </PrivateRoute>
-    <PrivateRoute path={routes.tags.list} exact>
-      <Tags />
-    </PrivateRoute>
-    <PrivateRoute path={routes.profile} exact>
-      <MyProfile />
-    </PrivateRoute>
-    <Route component={NotFound} path="*" />
-  </Switch>
-);
+const AppRouter = () => {
+  const {hasPermissions} = usePermissions();
+
+  return (
+    <Switch>
+      <PrivateRoute path={routes.home} exact>
+        <Home />
+      </PrivateRoute>
+      <PublicRoute path={routes.login} restricted>
+        <Login />
+      </PublicRoute>
+      <PrivateRoute path={routes.skills.list} exact>
+        <Skills />
+      </PrivateRoute>
+      <PrivateRoute path={routes.skills.details.path} exact>
+        <NeighborsList />
+      </PrivateRoute>
+      <PrivateRoute path={routes.employees.list} exact>
+        <EmployeeList />
+      </PrivateRoute>
+      <PrivateRoute path={routes.employees.details.path} exact>
+        <EmployeeDetails />
+      </PrivateRoute>
+      <PrivateRoute
+        path={routes.tags.list}
+        hasPermissions={hasPermissions([PermissionEnum.TAGS_LIST])}
+        exact
+      >
+        <Tags />
+      </PrivateRoute>
+      <PrivateRoute path={routes.profile} exact>
+        <MyProfile />
+      </PrivateRoute>
+      <Route component={NotFound} path="*" />
+    </Switch>
+  );
+};
 
 export default AppRouter;

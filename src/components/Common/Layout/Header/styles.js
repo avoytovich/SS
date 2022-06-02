@@ -8,8 +8,5 @@ export const useStyles = makeStyles(() => ({
     display: 'flex',
     flexGrow: 1,
     justifyContent: 'center'
-  },
-  logo: {
-    fontSize: 90
   }
 }));

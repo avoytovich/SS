@@ -11,8 +11,11 @@ import {PagePanel} from 'components/PagePanel';
 import TagModal from 'components/Tags/TagModal';
 import PageHeader from 'components/Common/Layout/PageHeader';
 import {useModal} from 'hooks/useModal';
+import usePermissions from 'hooks/permissions';
+import {PermissionEnum} from 'constants/permissions';
 
 export default function Tags() {
+  const {hasPermissions} = usePermissions();
   const {isOpen, values, setIsOpen, setValues} = useModal();
 
   const onCloseModal = () => {
@@ -44,6 +47,7 @@ export default function Tags() {
             sx={{borderRadius: '40px'}}
             variant="contained"
             data-testid="tag-page-create-btn"
+            disabled={!hasPermissions([PermissionEnum.TAGS_CREATE])}
             onClick={onCreateTag}
           >
             Create new tag
@@ -53,7 +57,7 @@ export default function Tags() {
 
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
-          <TagList onSaveOrUpdate={onSaveOrUpdateTag} />
+          <TagList onSaveOrUpdate={onSaveOrUpdateTag} hasPermissions={hasPermissions} />
         </PagePanel>
       </ErrorBoundary>
       {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}

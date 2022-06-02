@@ -18,8 +18,10 @@ import {
 import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
 
 import {filterTagParamName} from 'constants/dataGrid';
+import {useSelector} from 'react-redux';
 
 export default function SkillList() {
+  const {role} = useSelector(state => state.auth.profile);
   const [tagsSearch, setTagsSearch] = useState('');
   const {data: {tags = []} = {}} = useFetchTagsQuery({...(tagsSearch && {tagsSearch})});
 
@@ -38,6 +40,7 @@ export default function SkillList() {
 
   const skillsQueryOptions = useMemo(
     () => ({
+      role,
       ...(page && {page}),
       ...(search && {search}),
       ...(sort && {sort}),

@@ -14,12 +14,13 @@ import {
   useURLParams,
   useDataGridSearch
 } from 'hooks/dataGrid';
+import {PermissionEnum} from 'constants/permissions';
 
 import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
 import {pageSize} from 'constants/dataGrid';
 import {useStyles} from 'components/Tags/TagList/styles';
 
-export default function TagList({onSaveOrUpdate}) {
+export default function TagList({onSaveOrUpdate, hasPermissions}) {
   const classes = useStyles();
   const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
   const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
@@ -51,7 +52,12 @@ export default function TagList({onSaveOrUpdate}) {
 
   const onCreateTag = () => onSaveOrUpdate();
 
-  const columns = getColumns(handleEditTag, onSetConfirmValues);
+  const columns = getColumns(
+    handleEditTag,
+    onSetConfirmValues,
+    hasPermissions([PermissionEnum.TAGS_EDIT]),
+    hasPermissions([PermissionEnum.TAGS_DELETE])
+  );
 
   const onCloseConfirmModal = () => setDeleteConfirmModalValues(null);
 
@@ -100,7 +106,8 @@ export default function TagList({onSaveOrUpdate}) {
                   ? 'No tags. Please select other filters'
                   : 'No tags yet',
               actionTitle: 'Please add new tag',
-              isAction: !isError && !isFilterSelected,
+              isAction:
+                !isError && !isFilterSelected && !hasPermissions([PermissionEnum.TAGS_CREATE]),
               onAddNewRow: onCreateTag
             }
           }}
@@ -138,5 +145,6 @@ export default function TagList({onSaveOrUpdate}) {
 }
 
 TagList.propTypes = {
-  onSaveOrUpdate: PropTypes.func.isRequired
+  onSaveOrUpdate: PropTypes.func.isRequired,
+  hasPermissions: PropTypes.func.isRequired
 };
