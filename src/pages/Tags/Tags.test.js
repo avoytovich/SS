@@ -1,6 +1,7 @@
 import React from 'react';
-import {act, fireEvent, render, screen} from 'utils/test-utils';
+import {act, fireEvent, render, screen, store} from 'utils/test-utils';
 import Tags from 'pages/Tags';
+import {setPermissions} from '../../store/permissions/permissions';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -13,6 +14,8 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('Tags', () => {
+  store.dispatch(setPermissions(['app.tags.create', 'app.tags.delete']));
+
   it('should render tags page', async () => {
     render(<Tags />);
     expect(screen.getByTestId('tag-page-create-btn')).toBeVisible();
