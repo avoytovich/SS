@@ -1,4 +1,3 @@
-import {red} from '@mui/material/colors';
 import {createTheme} from '@mui/material/styles';
 
 import {
@@ -12,7 +11,8 @@ import {
   GREY_2,
   GREY_3,
   GREY_4,
-  BLACK
+  BLACK,
+  ERROR
 } from './colors';
 
 const {breakpoints} = createTheme();
@@ -30,7 +30,7 @@ const themeConfig = createTheme({
       main: VIBRANT_BLUE
     },
     error: {
-      main: red.A400
+      main: ERROR
     },
     background: {
       default: GREY_1

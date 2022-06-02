@@ -17,6 +17,7 @@ import authApi from 'api/auth';
 import tagsApi from 'api/tags';
 import {smartSkillsApi} from 'slices/smartSkillsSlice';
 import skillsApi from 'api/skills';
+import profileApi from 'api/profile';
 
 import {permissionsReducer} from './permissions/permissions';
 
@@ -33,7 +34,8 @@ const rootReducer = combineReducers({
   [smartSkillsApi.reducerPath]: smartSkillsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [tagsApi.reducerPath]: tagsApi.reducer,
-  [skillsApi.reducerPath]: skillsApi.reducer
+  [skillsApi.reducerPath]: skillsApi.reducer,
+  [profileApi.reducerPath]: profileApi.reducer
 });
 
 export const store = configureStore({
@@ -47,7 +49,8 @@ export const store = configureStore({
       smartSkillsApi.middleware,
       authApi.middleware,
       tagsApi.middleware,
-      skillsApi.middleware
+      skillsApi.middleware,
+      profileApi.middleware
     )
 });
 

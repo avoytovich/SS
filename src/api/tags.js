@@ -44,3 +44,8 @@ const tagsApi = createApi({
 export default tagsApi;
 export const {useFetchTagsQuery, useUpdateTagMutation, useAddTagMutation, useDeleteTagMutation} =
   tagsApi;
+
+export const getTags = {
+  type: `${tagsApi.reducerPath}/invalidateTags`,
+  payload: ['Tags']
+};

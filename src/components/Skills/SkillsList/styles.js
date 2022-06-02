@@ -10,7 +10,7 @@ export const useStyles = makeStyles(() => ({
     margin: '8px 8px 14px 16px',
     minWidth: 240,
     flexWrap: 'wrap',
-    gap: '10px'
+    gap: '18px'
   },
   searchField: {
     minWidth: 233

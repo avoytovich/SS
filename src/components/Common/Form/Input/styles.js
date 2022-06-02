@@ -17,7 +17,9 @@ const useStyles = makeStyles({
       background: 'transparent',
       margin: '0 0 16px',
       padding: '0',
+      fontSize: '14px',
       '& > .MuiInputBase-root': {
+        padding: '0',
         background: 'transparent'
       },
       '& .MuiFormHelperText-root': {

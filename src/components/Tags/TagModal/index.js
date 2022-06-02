@@ -1,29 +1,46 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {Form, Formik} from 'formik';
+import {useDispatch} from 'react-redux';
+import {useSnackbar} from 'notistack';
 
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import ModifyTagSchema from 'components/Tags/TagModal/modifyTagShema';
-import Input from 'components/Common/Form/Input/Input';
+import Input from 'components/Common/Form/Input';
 import {Button, DialogActions} from '@mui/material';
 
-import {useUpdateTagMutation, useAddTagMutation} from 'api/tags';
-import {useURLParams} from '../../../hooks/dataGrid';
+import {useUpdateTagMutation, useAddTagMutation, getTags} from 'api/tags';
+import {useURLParams} from 'hooks/dataGrid';
+import {defaultPage, pageParamName} from '../../../constants/dataGrid';
 
 export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
-  const {clearQueryParams} = useURLParams();
-  const [updateTag, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
-    useUpdateTagMutation();
-  const [addTag, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddTagMutation();
+  const dispatch = useDispatch();
+  const {enqueueSnackbar} = useSnackbar();
+  const {clearQueryParams, isAllParamsEmpty, hasOnlyOneParam, isParamEqualTo} = useURLParams();
+  const [updateTag, {isSuccess: isUpdateSuccess}] = useUpdateTagMutation();
+  const [addTag, {isSuccess: isAddSuccess}] = useAddTagMutation();
   const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
 
+  const isFirstPage = useMemo(
+    () => hasOnlyOneParam(pageParamName) && isParamEqualTo(pageParamName, defaultPage.toString()),
+    [hasOnlyOneParam, isParamEqualTo]
+  );
+
+  const fetchTags = useCallback(() => {
+    if (isAllParamsEmpty() || isFirstPage) {
+      dispatch(getTags);
+    }
+  }, [isAllParamsEmpty, isFirstPage]);
+
   useEffect(() => {
-    if (isUpdateSuccess || isAddSuccess) {
+    if ((isUpdateSuccess || isAddSuccess) && isOpen) {
+      fetchTags();
       clearQueryParams();
       onClose();
+      enqueueSnackbar('Tag have successfully saved');
     }
     return () => {};
-  }, [isUpdateSuccess, isAddSuccess]);
+  }, [isUpdateSuccess, isAddSuccess, isOpen, fetchTags]);
 
   const onSave = name => {
     if (id) {
@@ -40,7 +57,6 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
       onClose={onClose}
       onCancel={onClose}
       onSave={onSave}
-      loading={isUpdateLoading || isAddLoading}
       title={title}
       text="Input name of the tag"
       withCustomBtns

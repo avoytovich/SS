@@ -10,9 +10,11 @@ const useStyles = makeStyles({
     border: 0
   },
   actions: {
-    background: WHITE,
-    border: 0,
-    padding: '16px'
+    '&.MuiDialogActions-root': {
+      background: WHITE,
+      border: 0,
+      padding: '16px'
+    }
   },
   content: {
     '&.MuiDialogContent-root': {

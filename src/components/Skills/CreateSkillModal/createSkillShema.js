@@ -6,7 +6,8 @@ Yup.setLocale(yupLocale);
 
 const CreateSkillSchema = Yup.object().shape({
   name: Yup.string().min(2).max(500).required(),
-  description: Yup.string().min(10).max(500)
+  tags: Yup.array().min(1).max(10).nullable(),
+  description: Yup.string().min(10).max(500).nullable()
 });
 
 export default CreateSkillSchema;

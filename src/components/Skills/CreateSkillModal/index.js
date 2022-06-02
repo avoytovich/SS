@@ -1,40 +1,59 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Formik, Form} from 'formik';
+import {useSnackbar} from 'notistack';
+import {useFetchTagsQuery} from 'api/tags';
+import {useDispatch} from 'react-redux';
+import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'api/skills';
 
-import {useUpdateSkillMutation, useAddSkillMutation} from 'api/skills';
 import {useURLParams} from 'hooks/dataGrid';
 
 import DialogControls from '../../Modals/DialogControls';
-import Input from '../../Common/Form/Input/Input';
+import Input from '../../Common/Form/Input';
+import SelectField from '../../Common/Form/Select';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import CreateSkillSchema from './createSkillShema';
 
-const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
-  const {clearQueryParams} = useURLParams();
+const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
+  const dispatch = useDispatch();
+  const {clearQueryParams, isAllParamsEmpty, queryParams} = useURLParams();
+
+  const {enqueueSnackbar} = useSnackbar();
 
   const [updateSkill, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
     useUpdateSkillMutation();
   const [addSkill, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddSkillMutation();
 
-  const title = id ? 'Edit tag' : 'Create new tag';
+  const {data: {tags = []} = {}} = useFetchTagsQuery({});
+
+  const title = skill.id ? 'Edit skill' : 'Create new skill';
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess || loading) {
+      if (isAllParamsEmpty() || queryParams.get('page') === '1') {
+        dispatch(getSkills);
+      }
       clearQueryParams();
       onClose();
+      enqueueSnackbar('Skill have successfully saved');
     }
     return () => {};
   }, [isUpdateSuccess, isAddSuccess]);
 
   const handleSubmit = params => {
-    console.log('submit');
-    console.log(params);
-    if (id) {
-      updateSkill({id});
+    const newValues = [];
+    params.tags.map(value => newValues.push(value.id));
+
+    if (skill.id) {
+      updateSkill({
+        id: skill.id,
+        name: params.name,
+        description: params.desctiption,
+        tags: newValues
+      });
     } else {
-      addSkill(params);
+      addSkill({name: params.name, description: params.desctiption, tags: newValues});
     }
   };
 
@@ -55,12 +74,27 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
         validateOnChange={false}
         onSubmit={handleSubmit}
         validationSchema={CreateSkillSchema}
-        initialValues={{name: ''}}
+        initialValues={skill.id ? {...skill} : {name: ''}}
         enableReinitialize
       >
         {({isSubmitting}) => (
           <Form autoComplete="off">
             <Input name="name" label="Name" placeholder="Type skill name" />
+            <SelectField
+              name="tags"
+              label="Tags"
+              options={tags}
+              multiple
+              placeholder="Choose tags"
+            />
+            <Input
+              name="description"
+              label="Description"
+              multiline
+              rows={3}
+              rowsMax={15}
+              placeholder="Type skill description"
+            />
             <DialogControls disabledConfirm={isSubmitting} onClose={onClose} />
           </Form>
         )}
@@ -70,14 +104,13 @@ const CreateSkillModal = ({isOpen, id, onClose, loading}) => {
 };
 
 CreateSkillModal.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  skill: PropTypes.object,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 
 CreateSkillModal.defaultProps = {
-  id: '',
   isOpen: false,
   loading: false,
   onClose: () => {},

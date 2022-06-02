@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {HelmetProvider} from 'react-helmet-async';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import {ThemeProvider} from '@mui/material/styles';
 import App from 'containers/App/App';
 import themeConfig from 'theme/themeConfig';
 import {persistor, store} from 'store/store';
+
+import SnackbarProviderWrapper from 'components/SnackbarProviderWrapper';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -15,8 +18,10 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <HelmetProvider>
-          <CssBaseline />
-          <App />
+          <SnackbarProviderWrapper>
+            <CssBaseline />
+            <App />
+          </SnackbarProviderWrapper>
         </HelmetProvider>
       </PersistGate>
     </Provider>
