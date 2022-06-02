@@ -32,8 +32,11 @@ import {useModal} from 'hooks/useModal';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import {useStyles} from './styles';
+import usePermissions from '../../../hooks/permissions';
+import {PermissionEnum} from '../../../constants/permissions';
 
 const SkillsList = ({onChanges}) => {
+  const {hasPermissions} = usePermissions();
   const classes = useStyles();
   const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
   const [deleteSkill] = useDeleteSkillMutation();
@@ -138,7 +141,12 @@ const SkillsList = ({onChanges}) => {
 
   const handleSortChange = newModel => onSortChange(newModel);
 
-  const columns = getColumns(onClickDeleteBtn, onEditSkill);
+  const columns = getColumns(
+    onClickDeleteBtn,
+    onEditSkill,
+    hasPermissions([PermissionEnum.SKILLS_EDIT]),
+    hasPermissions([PermissionEnum.SKILLS_DELETE])
+  );
 
   return (
     <>
