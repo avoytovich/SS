@@ -44,6 +44,11 @@ const skillsApi = createApi({
   })
 });
 
+export const getSkills = {
+  type: `${skillsApi.reducerPath}/invalidateTags`,
+  payload: ['Skills']
+};
+
 export default skillsApi;
 
 export const {

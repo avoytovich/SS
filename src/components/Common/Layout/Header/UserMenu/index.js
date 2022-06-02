@@ -1,5 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -9,7 +10,10 @@ import {clearPermissions} from 'store/permissions/permissions';
 import {useModal} from 'hooks/useModal';
 import {logOut} from 'slices/auth';
 
+import routes from 'constants/routes';
+
 export default function UserMenu() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const {profile} = useSelector(state => state.auth);
   const {isOpen, toggle} = useModal();
@@ -19,6 +23,7 @@ export default function UserMenu() {
     toggle();
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     toggle();
     setAnchorEl(null);
@@ -28,6 +33,11 @@ export default function UserMenu() {
     dispatch(logOut());
     dispatch(clearPermissions());
     handleClose();
+  };
+
+  const navigateToProfile = () => {
+    handleClose();
+    history.push(routes.profile);
   };
 
   return (
@@ -50,7 +60,7 @@ export default function UserMenu() {
           'aria-labelledby': 'user-menu-button'
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={navigateToProfile}>Profile</MenuItem>
         <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
       </Menu>
     </Box>

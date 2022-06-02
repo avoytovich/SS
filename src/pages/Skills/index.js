@@ -18,6 +18,11 @@ const Skills = () => {
     createModal.toggle();
   };
 
+  const onHandleChanges = skill => {
+    createModal.setValues(skill);
+    createModal.toggle();
+  };
+
   return (
     <>
       <HelmetWrapper title="Skills" />
@@ -38,11 +43,15 @@ const Skills = () => {
 
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
-          <SkillsList />
+          <SkillsList onChanges={onHandleChanges} />
         </PagePanel>
       </ErrorBoundary>
       {createModal.isOpen && (
-        <CreateSkillModal isOpen={createModal.isOpen} onClose={createModal.toggle} />
+        <CreateSkillModal
+          isOpen={createModal.isOpen}
+          onClose={createModal.toggle}
+          skill={createModal.values}
+        />
       )}
     </>
   );

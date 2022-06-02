@@ -2,14 +2,16 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import TextField from '@mui/material/TextField';
-import {IconButton, InputAdornment} from '@mui/material';
+import {InputAdornment} from '@mui/material';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
-export function SearchField({value, id, label, placeholder, minWidth, size, onChange, onClear}) {
+import {StyledIcon} from 'components/Common/DataGrid/Filters/MultipleAutocomplete/styles';
+
+export function SearchField({value, id, label, minWidth, size, onChange, onClear}) {
   const ClearFieldButton = (
-    <IconButton data-testid={`${id}-remove-btn`} aria-label="delete" size="small" onClick={onClear}>
+    <StyledIcon data-testid={`${id}-remove-btn`} aria-label="delete" size="small" onClick={onClear}>
       <CloseOutlinedIcon fontSize="small" />
-    </IconButton>
+    </StyledIcon>
   );
 
   const handleTagSearch = e => onChange(e.target.value);
@@ -18,8 +20,7 @@ export function SearchField({value, id, label, placeholder, minWidth, size, onCh
     <TextField
       id={id}
       data-testid={`${id}-input`}
-      label={label}
-      placeholder={placeholder}
+      placeholder={label}
       sx={{minWidth}}
       size={size}
       onChange={handleTagSearch}
@@ -34,7 +35,6 @@ export function SearchField({value, id, label, placeholder, minWidth, size, onCh
 SearchField.propTypes = {
   value: PropTypes.string,
   id: PropTypes.string,
-  placeholder: PropTypes.string,
   label: PropTypes.string,
   minWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
@@ -44,7 +44,6 @@ SearchField.propTypes = {
 SearchField.defaultProps = {
   id: 'search-field',
   label: 'Label',
-  placeholder: 'Search',
   size: 'small',
   minWidth: '233px',
   onClear: () => {}

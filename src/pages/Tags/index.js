@@ -10,7 +10,7 @@ import {PagePanel} from 'components/PagePanel';
 
 import TagModal from 'components/Tags/TagModal';
 import PageHeader from 'components/Common/Layout/PageHeader';
-import {useModal} from '../../hooks/useModal';
+import {useModal} from 'hooks/useModal';
 
 export default function Tags() {
   const {isOpen, values, setIsOpen, setValues} = useModal();
@@ -56,7 +56,7 @@ export default function Tags() {
           <TagList onSaveOrUpdate={onSaveOrUpdateTag} />
         </PagePanel>
       </ErrorBoundary>
-      <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />
+      {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
     </>
   );
 }
