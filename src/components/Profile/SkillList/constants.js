@@ -1,5 +1,6 @@
 import React from 'react';
 import ChipList from 'components/Common/DataGrid/ChipList';
+import {capitalizeFirstLetter} from 'utils/helpers';
 
 export const columns = [
   {
@@ -28,6 +29,7 @@ export const columns = [
     field: 'level',
     headerName: 'Seniority',
     minWidth: 90,
-    flex: 1
+    valueGetter: ({row}) => `${capitalizeFirstLetter(row.level)}`,
+    flex: 2
   }
 ];

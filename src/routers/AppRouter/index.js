@@ -15,6 +15,7 @@ import EmployeeList from 'pages/EmployeeList';
 import EmployeeDetails from 'pages/EmployeeDetails';
 import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
+import {UserRoleEnum} from '../../constants/userRoles';
 
 const AppRouter = () => (
   <Switch>
@@ -24,7 +25,11 @@ const AppRouter = () => (
     <PublicRoute path={routes.login} restricted>
       <Login />
     </PublicRoute>
-    <PrivateRoute path={routes.skills.list} exact>
+    <PrivateRoute
+      path={routes.skills.list}
+      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
+      exact
+    >
       <Skills />
     </PrivateRoute>
     <PrivateRoute path={routes.skills.details.path} exact>
@@ -36,7 +41,11 @@ const AppRouter = () => (
     <PrivateRoute path={routes.employees.details.path} exact>
       <EmployeeDetails />
     </PrivateRoute>
-    <PrivateRoute path={routes.tags.list} exact>
+    <PrivateRoute
+      path={routes.tags.list}
+      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
+      exact
+    >
       <Tags />
     </PrivateRoute>
     <PrivateRoute path={routes.profile} exact>

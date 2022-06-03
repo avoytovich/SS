@@ -7,9 +7,7 @@ describe('TagList utils', () => {
     };
     const result = {
       isOpen: true,
-      text: `Would you like to remove "${tag.name}" tag?`,
-      confirmText: 'Remove',
-      cancelText: 'Cancel'
+      text: `Would you like to remove "${tag.name}" tag?`
     };
 
     expect(getConfirmTagValues(tag)).toEqual(result);

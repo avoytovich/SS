@@ -106,3 +106,5 @@ export const transformLevelForSort = item => {
 export function getValueByKeyFromMap(map, searchValue) {
   return [...map].find(([, val]) => val === searchValue)[0];
 }
+
+export const capitalizeFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1);
