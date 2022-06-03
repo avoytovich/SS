@@ -27,9 +27,11 @@ const Header = () => {
         </Link>
 
         <Box className={classes.navContent}>
-          <Link component={RouterLink} to="/skills" exact={true} isActive={isActiveFn('/skills')}>
-            Skills
-          </Link>
+          {hasPermissions([PermissionEnum.SKILLS_LIST]) && (
+            <Link component={RouterLink} to="/skills" exact={true} isActive={isActiveFn('/skills')}>
+              Skills
+            </Link>
+          )}
           {hasPermissions([PermissionEnum.TAGS_LIST]) && (
             <Link
               component={RouterLink}
