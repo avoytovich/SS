@@ -25,7 +25,11 @@ const AppRouter = () => (
     <PublicRoute path={routes.login} restricted>
       <Login />
     </PublicRoute>
-    <PrivateRoute path={routes.skills.list} exact>
+    <PrivateRoute
+      path={routes.skills.list}
+      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
+      exact
+    >
       <Skills />
     </PrivateRoute>
     <PrivateRoute path={routes.skills.details.path} exact>
@@ -39,7 +43,7 @@ const AppRouter = () => (
     </PrivateRoute>
     <PrivateRoute
       path={routes.tags.list}
-      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR]}
+      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
       exact
     >
       <Tags />
