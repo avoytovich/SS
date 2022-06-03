@@ -25,6 +25,7 @@ export const PermissionEnum = {
   USERS_EDIT_ME: 'app.users.edit.me',
   USERS_LIST: 'app.users.list',
   USERS_READ: 'app.users.read',
+  USERS_DETAILS: 'app.users_details.read',
   USERS_READ_ME: 'app.users.read.me'
 };
 
@@ -40,7 +41,12 @@ export const USER_ROLES_PERMISSIONS = {
     PermissionEnum.SKILLS_DELETE,
     PermissionEnum.SKILLS_EDIT,
     PermissionEnum.SKILLS_LIST,
-    PermissionEnum.SKILLS_DETAILS
+    PermissionEnum.SKILLS_DETAILS,
+    PermissionEnum.USERS_READ_ME,
+    PermissionEnum.USERS_EDIT_ME,
+    PermissionEnum.USERS_READ,
+    PermissionEnum.USERS_LIST,
+    PermissionEnum.USERS_DETAILS
   ],
   [UserRoleEnum.MODERATOR]: [
     PermissionEnum.TAGS_CREATE,
@@ -52,12 +58,22 @@ export const USER_ROLES_PERMISSIONS = {
     PermissionEnum.SKILLS_DELETE,
     PermissionEnum.SKILLS_EDIT,
     PermissionEnum.SKILLS_LIST,
-    PermissionEnum.SKILLS_DETAILS
+    PermissionEnum.SKILLS_DETAILS,
+    PermissionEnum.USERS_READ_ME,
+    PermissionEnum.USERS_EDIT_ME,
+    PermissionEnum.USERS_READ,
+    PermissionEnum.USERS_LIST,
+    PermissionEnum.USERS_DETAILS
   ],
   [UserRoleEnum.MANAGER]: [
     PermissionEnum.SKILLS_LIST,
     PermissionEnum.SKILLS_DETAILS,
-    PermissionEnum.TAGS_LIST
+    PermissionEnum.TAGS_LIST,
+    PermissionEnum.USERS_READ_ME,
+    PermissionEnum.USERS_EDIT_ME,
+    PermissionEnum.USERS_READ,
+    PermissionEnum.USERS_LIST,
+    PermissionEnum.USERS_DETAILS
   ],
-  [UserRoleEnum.EMPLOYEE]: []
+  [UserRoleEnum.EMPLOYEE]: [PermissionEnum.USERS_READ_ME, PermissionEnum.USERS_EDIT_ME]
 };
