@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'api/skills';
 
 import {useURLParams} from 'hooks/dataGrid';
+import {diffFormValues} from 'utils/forms';
 
 import DialogControls from '../../Modals/DialogControls';
 import Input from '../../Common/Form/Input';
@@ -29,14 +30,15 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
 
   const title = skill.id ? 'Edit skill' : 'Create new skill';
 
+  const initialState = skill.id ? {...skill} : {name: '', description: '', tags: []};
+
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess) {
       if (isAllParamsEmpty() || queryParams.get('page') === '1') {
         dispatch(getSkills);
       }
       clearQueryParams();
-      // onClose();
-      enqueueSnackbar('Skill have successfully saved 2');
+      onClose();
     }
     return () => {};
   }, [isUpdateSuccess, isAddSuccess]);
@@ -47,15 +49,33 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
       params.tags.map(value => newValues.push(value.id));
     }
 
+    const values = diffFormValues(initialState, {...params, tags: newValues});
+
     if (skill.id) {
       updateSkill({
         id: skill.id,
-        name: params.name,
-        description: params.desctiption,
-        tags: newValues
-      });
+        ...values
+      })
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar('Skill have successfully saved');
+          actions.resetForm();
+        })
+        .catch(error => {
+          //  actions.setErrors({name: error.data.errors[0].message});
+          console.log(error.data.errors[0].message);
+
+          // error.inner.forEach((item) => {
+          //   meta.duplicateKeys.includes(item.path) &&
+          //   actions.setFieldError(item.path, item.message);
+          // });
+          enqueueSnackbar('Skill have not saved, please check form fields', {variant: 'error'});
+        })
+        .finally(() => {
+          actions.setSubmitting(false);
+        });
     } else {
-      addSkill({name: params.name, description: params.description, tags: newValues})
+      addSkill({...values})
         .unwrap()
         .then(() => {
           enqueueSnackbar('Skill have successfully saved');
@@ -94,7 +114,7 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
         validateOnChange={false}
         onSubmit={handleSubmit}
         validationSchema={CreateSkillSchema}
-        initialValues={skill.id ? {...skill} : {name: ''}}
+        initialValues={initialState}
         enableReinitialize
       >
         {({isSubmitting}) => (
