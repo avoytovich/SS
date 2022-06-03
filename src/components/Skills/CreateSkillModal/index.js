@@ -43,7 +43,9 @@ const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
 
   const handleSubmit = params => {
     const newValues = [];
-    params.tags.map(value => newValues.push(value.id));
+    if (params.tags && params.tags.length > 1) {
+      params.tags.map(value => newValues.push(value.id));
+    }
 
     if (skill.id) {
       updateSkill({
