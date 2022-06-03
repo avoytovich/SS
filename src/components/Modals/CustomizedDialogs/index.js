@@ -23,6 +23,7 @@ const CustomizedDialogs = ({
   loading,
   withCustomBtns,
   isRemove,
+  updating,
   removeText
 }) => {
   const classes = useStyles();
@@ -31,18 +32,17 @@ const CustomizedDialogs = ({
       <DialogTitle data-testid="confirm-modal-title" className={classes.title}>
         {title}
       </DialogTitle>
-      {loading ? (
-        <DialogContent className={classes.loader}>
-          <CircularProgress />
-        </DialogContent>
-      ) : (
-        <DialogContent className={classes.content}>
-          <DialogContentText className={classes.contentDesc} data-testid="confirm-modal-text">
-            {text}
-          </DialogContentText>
-          {children}
-        </DialogContent>
-      )}
+      <DialogContent className={classes.content}>
+        {loading && <CircularProgress />}
+        {!updating && !loading && (
+          <>
+            <DialogContentText className={classes.contentDesc} data-testid="confirm-modal-text">
+              {text}
+            </DialogContentText>
+            {children}
+          </>
+        )}
+      </DialogContent>
       {!withCustomBtns && (
         <DialogActions className={classes.actions}>
           <Button variant="outlined" data-testid="confirm-modal-cancel-btn" onClick={onClose}>
@@ -72,7 +72,9 @@ CustomizedDialogs.propTypes = {
   confirmText: PropTypes.string,
   withCustomBtns: PropTypes.bool,
   removeText: PropTypes.string,
-  isRemove: PropTypes.bool
+  isRemove: PropTypes.bool,
+  updating: PropTypes.bool, // saving or edit data
+  loading: PropTypes.bool // Loading initial data
 };
 
 CustomizedDialogs.defaultProps = {
@@ -85,7 +87,9 @@ CustomizedDialogs.defaultProps = {
   confirmText: 'Confirm',
   removeText: 'Remove',
   withCustomBtns: false,
-  isRemove: false
+  isRemove: false,
+  loading: false,
+  updating: false
 };
 
 export default CustomizedDialogs;
