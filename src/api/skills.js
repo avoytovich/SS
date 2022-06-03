@@ -4,7 +4,9 @@ import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
 
 const skillsApi = createApi({
   reducerPath: 'skillsApi',
-  baseQuery: fetchBaseQuery({baseUrl: `${API_URL_PREFIXES.PREFIX_BASE_URL}`}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${API_URL_PREFIXES.PREFIX_BASE_URL}`
+  }),
   tagTypes: ['Skills'],
 
   endpoints: builder => ({

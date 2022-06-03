@@ -1,4 +1,5 @@
 import {UserRoleEnum} from './userRoles';
+
 /**
  * All permission scopes.
  * The scopes shall be aligned with backend
@@ -9,17 +10,20 @@ export const PermissionEnum = {
   TAGS_EDIT: 'app.tags.edit',
   TAGS_LIST: 'app.tags.list',
   TAGS_DETAILS: 'app.tags.read',
+
   SKILLS_CREATE: 'app.skills.create',
   SKILLS_DELETE: 'app.skills.delete',
   SKILLS_EDIT: 'app.skills.edit',
   SKILLS_LIST: 'app.skills.list',
   SKILLS_DETAILS: 'app.skills.read',
 
-  // SKILLSSET_CREATE: 'app.skillsset.create',
-  // SKILLSSET_DELETE: 'app.skillsset.delete',
-  // SKILLSSET_EDIT: 'app.skillsset.edit',
-  // SKILLSSET_LIST: 'app.skillsset.list',
-  // SKILLSSET_READ: 'app.skillsset.read',
+  SKILLSSET_CREATE: 'app.skillsset.create',
+  SKILLSSET_DELETE: 'app.skillsset.delete',
+  SKILLSSET_EDIT: 'app.skillsset.edit',
+  SKILLSSET_LIST: 'app.skillsset.list',
+  SKILLSSET_DETAILS: 'app.skillsset.details',
+
+  MY_PROFILE: 'app.myprofile.details',
 
   USERS_EDIT: 'app.users.edit',
   USERS_EDIT_ME: 'app.users.edit.me',
@@ -40,7 +44,13 @@ export const USER_ROLES_PERMISSIONS = {
     PermissionEnum.SKILLS_DELETE,
     PermissionEnum.SKILLS_EDIT,
     PermissionEnum.SKILLS_LIST,
-    PermissionEnum.SKILLS_DETAILS
+    PermissionEnum.SKILLS_DETAILS,
+    PermissionEnum.SKILLSSET_LIST,
+    PermissionEnum.SKILLSSET_CREATE,
+    PermissionEnum.SKILLSSET_DELETE,
+    PermissionEnum.SKILLSSET_EDIT,
+    PermissionEnum.SKILLSSET_DETAILS,
+    PermissionEnum.MY_PROFILE
   ],
   [UserRoleEnum.MODERATOR]: [
     PermissionEnum.TAGS_CREATE,
@@ -52,12 +62,31 @@ export const USER_ROLES_PERMISSIONS = {
     PermissionEnum.SKILLS_DELETE,
     PermissionEnum.SKILLS_EDIT,
     PermissionEnum.SKILLS_LIST,
-    PermissionEnum.SKILLS_DETAILS
+    PermissionEnum.SKILLS_DETAILS,
+    PermissionEnum.SKILLSSET_LIST,
+    PermissionEnum.SKILLSSET_CREATE,
+    PermissionEnum.SKILLSSET_DELETE,
+    PermissionEnum.SKILLSSET_EDIT,
+    PermissionEnum.SKILLSSET_DETAILS,
+    PermissionEnum.MY_PROFILE
   ],
   [UserRoleEnum.MANAGER]: [
     PermissionEnum.SKILLS_LIST,
     PermissionEnum.SKILLS_DETAILS,
-    PermissionEnum.TAGS_LIST
+    PermissionEnum.TAGS_LIST,
+    PermissionEnum.SKILLSSET_LIST,
+    PermissionEnum.SKILLSSET_CREATE,
+    PermissionEnum.SKILLSSET_DELETE,
+    PermissionEnum.SKILLSSET_EDIT,
+    PermissionEnum.SKILLSSET_DETAILS,
+    PermissionEnum.MY_PROFILE
   ],
-  [UserRoleEnum.EMPLOYEE]: []
+  [UserRoleEnum.EMPLOYEE]: [
+    PermissionEnum.SKILLSSET_LIST,
+    PermissionEnum.SKILLSSET_CREATE,
+    PermissionEnum.SKILLSSET_DELETE,
+    PermissionEnum.SKILLSSET_EDIT,
+    PermissionEnum.SKILLSSET_DETAILS,
+    PermissionEnum.MY_PROFILE
+  ]
 };
