@@ -1,19 +1,14 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import {NavLink as RouterLink} from 'react-router-dom';
 
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
-import {clearPermissions} from 'store/permissions/permissions';
+import {Box, Button, MenuItem} from '@mui/material';
+import {StyledMenu} from 'components/Common/Layout/Header/styles';
 import {useModal} from 'hooks/useModal';
 import {logOut} from 'slices/auth';
-
 import routes from 'constants/routes';
 
 export default function UserMenu() {
-  const history = useHistory();
   const dispatch = useDispatch();
   const {profile} = useSelector(state => state.auth);
   const {isOpen, toggle} = useModal();
@@ -29,16 +24,7 @@ export default function UserMenu() {
     setAnchorEl(null);
   };
 
-  const onLogoutClick = () => {
-    dispatch(logOut());
-    dispatch(clearPermissions());
-    handleClose();
-  };
-
-  const navigateToProfile = () => {
-    handleClose();
-    history.push(routes.profile);
-  };
+  const onLogout = () => dispatch(logOut());
 
   return (
     <Box id="user-menu-container" marginLeft="auto">
@@ -51,18 +37,23 @@ export default function UserMenu() {
       >
         {`${profile?.first_name} ${profile?.last_name}`}
       </Button>
-      <Menu
+      <StyledMenu
         id="user-menu"
         anchorEl={anchorEl}
         open={isOpen}
         onClose={handleClose}
+        onClick={handleClose}
         MenuListProps={{
           'aria-labelledby': 'user-menu-button'
         }}
       >
-        <MenuItem onClick={navigateToProfile}>Profile</MenuItem>
-        <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
-      </Menu>
+        <MenuItem component={RouterLink} to={routes.profile} exact={true}>
+          Profile
+        </MenuItem>
+        <MenuItem onClick={onLogout} component={RouterLink} to={routes.login} exact={true}>
+          Logout
+        </MenuItem>
+      </StyledMenu>
     </Box>
   );
 }

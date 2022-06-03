@@ -32,4 +32,4 @@ const customRender = (ui, options) => render(ui, {wrapper: AllTheProviders, ...o
 export * from '@testing-library/react';
 
 // override render method
-export {customRender as render};
+export {customRender as render, store};
