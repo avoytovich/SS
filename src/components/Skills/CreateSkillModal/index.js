@@ -15,7 +15,7 @@ import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
 import CreateSkillSchema from './createSkillShema';
 
-const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
+const CreateSkillModal = ({isOpen, skill, onClose}) => {
   const dispatch = useDispatch();
   const {clearQueryParams, isAllParamsEmpty, queryParams} = useURLParams();
 
@@ -30,20 +30,20 @@ const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
   const title = skill.id ? 'Edit skill' : 'Create new skill';
 
   useEffect(() => {
-    if (isUpdateSuccess || isAddSuccess || loading) {
+    if (isUpdateSuccess || isAddSuccess) {
       if (isAllParamsEmpty() || queryParams.get('page') === '1') {
         dispatch(getSkills);
       }
       clearQueryParams();
-      onClose();
-      enqueueSnackbar('Skill have successfully saved');
+      // onClose();
+      enqueueSnackbar('Skill have successfully saved 2');
     }
     return () => {};
   }, [isUpdateSuccess, isAddSuccess]);
 
-  const handleSubmit = params => {
+  const handleSubmit = (params, actions) => {
     const newValues = [];
-    if (params.tags && params.tags.length > 1) {
+    if (params.tags && params.tags.length > 0) {
       params.tags.map(value => newValues.push(value.id));
     }
 
@@ -55,7 +55,25 @@ const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
         tags: newValues
       });
     } else {
-      addSkill({name: params.name, description: params.desctiption, tags: newValues});
+      addSkill({name: params.name, description: params.description, tags: newValues})
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar('Skill have successfully saved');
+          actions.resetForm();
+        })
+        .catch(error => {
+          //  actions.setErrors({name: error.data.errors[0].message});
+          console.log(error.data.errors[0].message);
+
+          // error.inner.forEach((item) => {
+          //   meta.duplicateKeys.includes(item.path) &&
+          //   actions.setFieldError(item.path, item.message);
+          // });
+          enqueueSnackbar('Skill have not saved, please check form fields', {variant: 'error'});
+        })
+        .finally(() => {
+          actions.setSubmitting(false);
+        });
     }
   };
 
@@ -65,11 +83,11 @@ const CreateSkillModal = ({isOpen, skill, onClose, loading}) => {
       isOpen={isOpen}
       onClose={onClose}
       onCancel={onClose}
-      loading={isUpdateLoading || isAddLoading}
       title={title}
       text="Input name of the skill and choose tag(s)"
       data-testid="create-skill-modal"
       withCustomBtns
+      updating={isUpdateLoading || isAddLoading}
     >
       <Formik
         validateOnBlur={false}
