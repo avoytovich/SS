@@ -36,24 +36,24 @@ export default function Tags() {
     setIsOpen(true);
   };
 
+  const extraButtons = hasPermissions([PermissionEnum.TAGS_CREATE])
+    ? [
+        <Button
+          key="tag-page-create-btn"
+          sx={{borderRadius: '40px'}}
+          variant="contained"
+          data-testid="tag-page-create-btn"
+          onClick={onCreateTag}
+        >
+          Create new tag
+        </Button>
+      ]
+    : [];
+
   return (
     <>
       <HelmetWrapper title="Tags" />
-      <PageHeader
-        title="Tags"
-        extra={[
-          <Button
-            key="tag-page-create-btn"
-            sx={{borderRadius: '40px'}}
-            variant="contained"
-            data-testid="tag-page-create-btn"
-            disabled={!hasPermissions([PermissionEnum.TAGS_CREATE])}
-            onClick={onCreateTag}
-          >
-            Create new tag
-          </Button>
-        ]}
-      />
+      <PageHeader title="Tags" extra={extraButtons} />
 
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <PagePanel>
