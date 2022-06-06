@@ -11,8 +11,8 @@ import Home from 'pages/Home';
 import NotFound from 'pages/NotFound';
 import Skills from 'pages/Skills';
 import NeighborsList from 'pages/NeighborsList';
-import EmployeeList from 'pages/EmployeeList';
-import EmployeeDetails from 'pages/EmployeeDetails';
+import Employees from 'pages/Employees';
+import EmployeeDetails from 'components/Employees/EmployeeDetails';
 import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
 import {UserRoleEnum} from '../../constants/userRoles';
@@ -35,8 +35,12 @@ const AppRouter = () => (
     <PrivateRoute path={routes.skills.details.path} exact>
       <NeighborsList />
     </PrivateRoute>
-    <PrivateRoute path={routes.employees.list} exact>
-      <EmployeeList />
+    <PrivateRoute
+      path={routes.employees.list}
+      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
+      exact
+    >
+      <Employees />
     </PrivateRoute>
     <PrivateRoute path={routes.employees.details.path} exact>
       <EmployeeDetails />

@@ -42,9 +42,16 @@ const Header = () => {
               Tags
             </Link>
           )}
-          {/* <Link component={RouterLink} to="/employees" isActive={isActiveFn('/employees')}>
-          Employees
-        </Link> */}
+          {hasPermissions([PermissionEnum.USERS_LIST]) && (
+            <Link
+              component={RouterLink}
+              to={routes.employees.list}
+              exact={true}
+              isActive={isActiveFn(routes.employees.list)}
+            >
+              Employees
+            </Link>
+          )}
         </Box>
 
         <UserMenu />
