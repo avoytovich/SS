@@ -1,5 +1,6 @@
 import {styled, alpha} from '@mui/material/styles';
 import {makeStyles} from '@material-ui/core';
+import {grey} from '@mui/material/colors';
 import Menu from '@mui/material/Menu';
 
 export const useStyles = makeStyles(() => ({
@@ -9,7 +10,14 @@ export const useStyles = makeStyles(() => ({
   navContent: {
     display: 'flex',
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    '& .MuiLink-root': {
+      color: `${grey[500]}!important`
+    },
+    '& .MuiLink-root.active': {
+      fontWeight: '400!important',
+      color: `${grey[900]}!important`
+    }
   }
 }));
 

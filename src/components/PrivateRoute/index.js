@@ -2,14 +2,13 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Route, Redirect} from 'react-router-dom';
 import routes from 'constants/routes';
+import usePermissions from '../../hooks/permissions';
 
-function PrivateRoute({children, roles = [], ...rest}) {
+function PrivateRoute({children, permissions = [], ...rest}) {
+  const {hasPermissions} = usePermissions();
   const isAuthenticated = useSelector(state => state.auth.token);
-  const {role} = useSelector(state => state.auth.profile);
   const redirectPathName = !isAuthenticated ? routes.login : routes.home;
-
-  const isAuthorized =
-    !roles.length || roles.some(currentRole => currentRole?.toLowerCase() === role?.toLowerCase());
+  const isAuthorized = !permissions.length || hasPermissions(permissions);
 
   const redirectTo = (pathname, location) => (
     <Redirect

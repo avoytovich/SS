@@ -1,7 +1,10 @@
 import React from 'react';
 import {act, fireEvent, render, screen, store} from 'utils/test-utils';
 import Tags from 'pages/Tags';
-import {setPermissions} from '../../store/permissions/permissions';
+import {setPermissions} from 'store/permissions/permissions';
+import routes from 'constants/routes';
+
+const mockUseLocationPath = routes.tags.list;
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -9,7 +12,7 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   }),
   useLocation: () => ({
-    pathname: '/tags'
+    pathname: mockUseLocationPath
   })
 }));
 

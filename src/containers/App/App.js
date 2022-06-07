@@ -19,6 +19,7 @@ import './App.css';
 
 const App = () => {
   const {profile} = useSelector(state => state.auth);
+  const {permissions} = useSelector(state => state.permissions);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,14 +28,12 @@ const App = () => {
     } else {
       dispatch(clearPermissions());
     }
-  });
+  }, [profile]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Router>
-        <MainContainer>
-          <AppRouter />
-        </MainContainer>
+        <MainContainer>{(permissions.length > 0 || !profile?.role) && <AppRouter />}</MainContainer>
       </Router>
     </ErrorBoundary>
   );

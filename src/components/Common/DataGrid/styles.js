@@ -8,10 +8,10 @@ export const dataGridRootStyles = {
     display: 'none'
   },
   '.MuiDataGrid-columnHeader': {
-    fontSize: '13px',
+    fontSize: '12px',
     lineHeight: '24px',
     fontWeight: 500,
-    color: grey[500]
+    color: grey[600]
   },
   '.MuiDataGrid-row, .MuiDataGrid-cell, .MuiDataGrid-columnHeaders': {
     borderTop: 'none',
@@ -25,6 +25,9 @@ export const dataGridRootStyles = {
     outline: 'none !important'
   },
   '.MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
-    padding: '0 16px'
+    padding: '0 16px',
+    fontSize: '12px',
+    color: 'rgba(0, 0, 0, 0.87)',
+    lineHeight: '24px'
   }
 };
