@@ -15,7 +15,7 @@ import Employees from 'pages/Employees';
 import EmployeeDetails from 'components/Employees/EmployeeDetails';
 import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
-import {UserRoleEnum} from '../../constants/userRoles';
+import {PermissionEnum} from 'constants/permissions';
 
 const AppRouter = () => (
   <Switch>
@@ -25,34 +25,22 @@ const AppRouter = () => (
     <PublicRoute path={routes.login} restricted>
       <Login />
     </PublicRoute>
-    <PrivateRoute
-      path={routes.skills.list}
-      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
-      exact
-    >
+    <PrivateRoute path={routes.skills.list} permissions={[PermissionEnum.SKILLS_LIST]} exact>
       <Skills />
     </PrivateRoute>
     <PrivateRoute path={routes.skills.details.path} exact>
       <NeighborsList />
     </PrivateRoute>
-    <PrivateRoute
-      path={routes.employees.list}
-      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
-      exact
-    >
+    <PrivateRoute path={routes.employees.list} permissions={[PermissionEnum.USERS_LIST]} exact>
       <Employees />
     </PrivateRoute>
     <PrivateRoute path={routes.employees.details.path} exact>
       <EmployeeDetails />
     </PrivateRoute>
-    <PrivateRoute
-      path={routes.tags.list}
-      roles={[UserRoleEnum.SUPER_ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER]}
-      exact
-    >
+    <PrivateRoute path={routes.tags.list} permissions={[PermissionEnum.TAGS_LIST]} exact>
       <Tags />
     </PrivateRoute>
-    <PrivateRoute path={routes.profile} exact>
+    <PrivateRoute path={routes.profile} permissions={[PermissionEnum.USERS_ME]} exact>
       <MyProfile />
     </PrivateRoute>
     <Route component={NotFound} path="*" />

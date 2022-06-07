@@ -14,7 +14,7 @@ export const columns = [
         component={RouterLink}
         underline="hover"
         to={`/employees/${row.id}`}
-        sx={{fontSize: '14px'}}
+        sx={{fontSize: '12px'}}
       >
         {row.first_name} {row.last_name}
       </Link>
