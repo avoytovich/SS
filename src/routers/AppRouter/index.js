@@ -34,7 +34,11 @@ const AppRouter = () => (
     <PrivateRoute path={routes.employees.list} permissions={[PermissionEnum.USERS_LIST]} exact>
       <Employees />
     </PrivateRoute>
-    <PrivateRoute path={routes.employees.details.path} exact>
+    <PrivateRoute
+      path={routes.employees.details.path}
+      permissions={[PermissionEnum.USERS_LIST]}
+      exact
+    >
       <EmployeeDetails />
     </PrivateRoute>
     <PrivateRoute path={routes.tags.list} permissions={[PermissionEnum.TAGS_LIST]} exact>

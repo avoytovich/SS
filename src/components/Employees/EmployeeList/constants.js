@@ -2,6 +2,7 @@ import React from 'react';
 import Link from '@mui/material/Link';
 import {Link as RouterLink} from 'react-router-dom';
 import {yesNo} from 'utils/helpers';
+import routes from 'constants/routes';
 
 export const columns = [
   {
@@ -13,7 +14,7 @@ export const columns = [
       <Link
         component={RouterLink}
         underline="hover"
-        to={`/employees/${row.id}`}
+        to={routes.employees.details.link(row.id)}
         sx={{fontSize: '12px'}}
       >
         {row.first_name} {row.last_name}

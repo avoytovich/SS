@@ -1,6 +1,7 @@
 import React from 'react';
 import {render, screen} from 'utils/test-utils';
 import Employees from 'pages/Employees';
+import routes from 'constants/routes';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -8,7 +9,7 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   }),
   useLocation: () => ({
-    pathname: '/employees'
+    pathname: routes.employees.list
   })
 }));
 

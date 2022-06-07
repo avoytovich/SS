@@ -22,13 +22,18 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Link component={RouterLink} to="/" exact={true} activeClassName={classes.active}>
+        <Link component={RouterLink} to={routes.home} exact={true} activeClassName={classes.active}>
           <HeaderLogo sx={{transform: 'scale(3.7)', marginLeft: '20px'}} />
         </Link>
 
         <Box className={classes.navContent}>
           {hasPermissions([PermissionEnum.SKILLS_LIST]) && (
-            <Link component={RouterLink} to="/skills" exact={true} isActive={isActiveFn('/skills')}>
+            <Link
+              component={RouterLink}
+              to={routes.skills.list}
+              exact={true}
+              isActive={isActiveFn(routes.skills.list)}
+            >
               Skills
             </Link>
           )}
