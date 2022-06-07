@@ -4,13 +4,15 @@ import Tags from 'pages/Tags';
 import {setPermissions} from 'store/permissions/permissions';
 import routes from 'constants/routes';
 
+const mockUseLocationPath = routes.tags.list;
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
     push: jest.fn()
   }),
   useLocation: () => ({
-    pathname: routes.tags.list
+    pathname: mockUseLocationPath
   })
 }));
 

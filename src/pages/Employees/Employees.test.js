@@ -3,13 +3,15 @@ import {render, screen} from 'utils/test-utils';
 import Employees from 'pages/Employees';
 import routes from 'constants/routes';
 
+const mockUseLocationPath = routes.employees.list;
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
     push: jest.fn()
   }),
   useLocation: () => ({
-    pathname: routes.employees.list
+    pathname: mockUseLocationPath
   })
 }));
 
