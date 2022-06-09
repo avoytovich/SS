@@ -11,7 +11,8 @@ import {Button, DialogActions} from '@mui/material';
 
 import {useUpdateTagMutation, useAddTagMutation, getTags} from 'api/tags';
 import {useURLParams} from 'hooks/dataGrid';
-import {defaultPage, pageParamName} from '../../../constants/dataGrid';
+import {defaultPage, pageParamName} from 'constants/dataGrid';
+import errorCodes from 'constants/errorCodes';
 
 export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   const dispatch = useDispatch();
@@ -42,12 +43,19 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
     return () => {};
   }, [isUpdateSuccess, isAddSuccess, isOpen, fetchTags]);
 
-  const onSave = name => {
-    if (id) {
-      updateTag({id, name});
-    } else {
-      addTag({name});
-    }
+  const onSave = (name, {setErrors, resetForm, setSubmitting}) => {
+    const modifyTag = id ? updateTag({id, name}) : addTag({name});
+    modifyTag
+      .unwrap()
+      .then(() => {
+        resetForm();
+      })
+      .catch(({data: {errors}}) => {
+        setErrors({name: errors.map(error => errorCodes[error.code])});
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
