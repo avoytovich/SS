@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {Form, Formik} from 'formik';
 import {useDispatch} from 'react-redux';
@@ -18,8 +18,8 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   const dispatch = useDispatch();
   const {enqueueSnackbar} = useSnackbar();
   const {clearQueryParams, isAllParamsEmpty, hasOnlyOneParam, isParamEqualTo} = useURLParams();
-  const [updateTag, {isSuccess: isUpdateSuccess}] = useUpdateTagMutation();
-  const [addTag, {isSuccess: isAddSuccess}] = useAddTagMutation();
+  const [updateTag] = useUpdateTagMutation();
+  const [addTag] = useAddTagMutation();
   const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
 
   const isFirstPage = useMemo(
@@ -33,21 +33,15 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
     }
   }, [isAllParamsEmpty, isFirstPage]);
 
-  useEffect(() => {
-    if ((isUpdateSuccess || isAddSuccess) && isOpen) {
-      fetchTags();
-      clearQueryParams();
-      onClose();
-      enqueueSnackbar('Tag have successfully saved');
-    }
-    return () => {};
-  }, [isUpdateSuccess, isAddSuccess, isOpen, fetchTags]);
-
   const onSave = (name, {setErrors, resetForm, setSubmitting}) => {
     const modifyTag = id ? updateTag({id, name}) : addTag({name});
     modifyTag
       .unwrap()
       .then(() => {
+        enqueueSnackbar('Tag have successfully saved');
+        fetchTags();
+        clearQueryParams();
+        onClose();
         resetForm();
       })
       .catch(({data: {errors}}) => {
