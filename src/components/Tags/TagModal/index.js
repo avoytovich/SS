@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {Form, Formik} from 'formik';
 import {useDispatch} from 'react-redux';
@@ -11,14 +11,15 @@ import {Button, DialogActions} from '@mui/material';
 
 import {useUpdateTagMutation, useAddTagMutation, getTags} from 'api/tags';
 import {useURLParams} from 'hooks/dataGrid';
-import {defaultPage, pageParamName} from '../../../constants/dataGrid';
+import {defaultPage, pageParamName} from 'constants/dataGrid';
+import errorCodes from 'constants/errorCodes';
 
 export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   const dispatch = useDispatch();
   const {enqueueSnackbar} = useSnackbar();
   const {clearQueryParams, isAllParamsEmpty, hasOnlyOneParam, isParamEqualTo} = useURLParams();
-  const [updateTag, {isSuccess: isUpdateSuccess}] = useUpdateTagMutation();
-  const [addTag, {isSuccess: isAddSuccess}] = useAddTagMutation();
+  const [updateTag] = useUpdateTagMutation();
+  const [addTag] = useAddTagMutation();
   const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
 
   const isFirstPage = useMemo(
@@ -32,22 +33,23 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
     }
   }, [isAllParamsEmpty, isFirstPage]);
 
-  useEffect(() => {
-    if ((isUpdateSuccess || isAddSuccess) && isOpen) {
-      fetchTags();
-      clearQueryParams();
-      onClose();
-      enqueueSnackbar('Tag have successfully saved');
-    }
-    return () => {};
-  }, [isUpdateSuccess, isAddSuccess, isOpen, fetchTags]);
-
-  const onSave = name => {
-    if (id) {
-      updateTag({id, name});
-    } else {
-      addTag({name});
-    }
+  const onSave = (name, {setErrors, resetForm, setSubmitting}) => {
+    const modifyTag = id ? updateTag({id, name}) : addTag({name});
+    modifyTag
+      .unwrap()
+      .then(() => {
+        enqueueSnackbar('Tag have successfully saved');
+        fetchTags();
+        clearQueryParams();
+        onClose();
+        resetForm();
+      })
+      .catch(({data: {errors}}) => {
+        setErrors({name: errors.map(error => errorCodes[error.code])});
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
