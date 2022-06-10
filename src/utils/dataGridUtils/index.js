@@ -1,4 +1,4 @@
-import {ASC, DESC, filterTagParamName} from 'constants/dataGrid';
+import {ASC, DESC} from 'constants/dataGrid';
 
 export const setURLSearchParams = (prevParams, value, paramName) => {
   if (value) {
@@ -25,7 +25,3 @@ export const convertSortParamToGridSortModel = param => (param ? [getSortModel(p
 
 export const getOptions = (values, idParam, labelParam) =>
   values.map(value => ({id: value[idParam], label: value[labelParam]}));
-
-export const updateFilterParam = (value, paramValue, updateURLParams) => {
-  updateURLParams(value.map(v => v[paramValue]).toString(), filterTagParamName);
-};
