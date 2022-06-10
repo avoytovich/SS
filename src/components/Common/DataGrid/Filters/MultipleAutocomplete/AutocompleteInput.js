@@ -54,9 +54,7 @@ const AutocompleteInput = ({
 
   const toggleAutocomplete = () => toggleAutocompleteMenu(prevValue => !prevValue);
 
-  const handleOnChange = event => {
-    setValue(event.target.value);
-  };
+  const handleOnChange = event => setValue(event.target.value);
 
   return (
     <StyledTextField

@@ -4,8 +4,6 @@ import {Box} from '@mui/material';
 
 import {useFetchSkillsQuery} from 'api/profile';
 import {useFetchTagsQuery} from 'api/tags';
-
-import {getTagFilterByQueryParams, updateTagFilterParam} from 'components/Skills/SkillsList/utils';
 import SkillListFilter from 'components/Profile/SkillList/SkillListFilter';
 import SkillTable from 'components/Profile/SkillList/SkillTable';
 
@@ -19,6 +17,7 @@ import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
 
 import {filterTagParamName} from 'constants/dataGrid';
 import {useSelector} from 'react-redux';
+import {getFilterByQueryParams, updateFilterParam} from 'components/Profile/SkillList/utils';
 
 export default function SkillList() {
   const {role} = useSelector(state => state.auth.profile);
@@ -32,10 +31,10 @@ export default function SkillList() {
   const {filter, onFilterChange} = useDataGridFilter(
     queryParams,
     updateURLParams,
-    updateTagFilterParam,
+    updateFilterParam,
     filterTagParamName,
     tags,
-    getTagFilterByQueryParams
+    getFilterByQueryParams
   );
 
   const skillsQueryOptions = useMemo(

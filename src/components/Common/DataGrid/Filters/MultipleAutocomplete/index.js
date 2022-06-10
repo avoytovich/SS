@@ -1,4 +1,5 @@
 import React, {useCallback, useState} from 'react';
+import PropTypes from 'prop-types';
 
 import {Autocomplete} from '@mui/material';
 
@@ -6,13 +7,13 @@ import AutocompleteInput from 'components/Common/DataGrid/Filters/MultipleAutoco
 import AutocompleteOption from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteOption';
 
 const MultipleAutocomplete = ({
-  id,
+  name,
   values,
   options,
   label,
   minWidth,
   onSelect,
-  onChange,
+  onSearch,
   ...rest
 }) => {
   const [open, setOpen] = useState(false);
@@ -45,18 +46,18 @@ const MultipleAutocomplete = ({
 
   const onInputChange = useCallback(
     value => {
-      if (value) {
-        onChange(value);
+      if (value && onSearch) {
+        onSearch(value);
       }
     },
-    [onChange]
+    [onSearch]
   );
 
   return (
     <Autocomplete
       multiple
-      id={id}
-      data-testid={'multiple-autocomplete'}
+      id={name}
+      data-testid={`multiple-autocomplete-${name}`}
       open={open}
       onOpen={onOpenAutocompleteBox}
       onClose={onCloseAutocompleteBox}
@@ -80,7 +81,7 @@ const MultipleAutocomplete = ({
       )}
       renderInput={params => (
         <AutocompleteInput
-          id={id}
+          id={name}
           options={options}
           onChange={onInputChange}
           values={values}
@@ -94,6 +95,24 @@ const MultipleAutocomplete = ({
       )}
     />
   );
+};
+
+MultipleAutocomplete.propTypes = {
+  name: PropTypes.string,
+  values: PropTypes.arrayOf(PropTypes.object),
+  options: PropTypes.arrayOf(PropTypes.object),
+  label: PropTypes.string,
+  minWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onSelect: PropTypes.func.isRequired,
+  onSearch: PropTypes.func
+};
+
+MultipleAutocomplete.defaultProps = {
+  name: 'autocomplete',
+  values: [],
+  options: [],
+  label: '',
+  minWidth: 240
 };
 
 export default React.memo(MultipleAutocomplete);
