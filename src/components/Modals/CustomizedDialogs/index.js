@@ -28,13 +28,23 @@ const CustomizedDialogs = ({
 }) => {
   const classes = useStyles();
   return (
-    <Dialog fullWidth maxWidth={isRemove ? 'xs' : 'sm'} open={isOpen} onClose={onClose}>
+    <Dialog
+      fullWidth
+      maxWidth={isRemove ? 'xs' : 'sm'}
+      open={isOpen}
+      onClose={onClose}
+      data-testid="dialog-modal-wrap"
+    >
       <DialogTitle data-testid="confirm-modal-title" className={classes.title}>
         {title}
       </DialogTitle>
       <DialogContent className={classes.content}>
-        {loading && <CircularProgress />}
-        {!updating && !loading && (
+        {(updating || loading) && (
+          <div className={classes.loader}>
+            <CircularProgress />
+          </div>
+        )}
+        {!loading && (
           <>
             <DialogContentText className={classes.contentDesc} data-testid="confirm-modal-text">
               {text}

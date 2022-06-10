@@ -26,6 +26,11 @@ const Skills = () => {
     createModal.toggle();
   };
 
+  const onClose = () => {
+    createModal.setValues(null);
+    createModal.toggle();
+  };
+
   return (
     <>
       <HelmetWrapper title="Skills" />
@@ -56,7 +61,7 @@ const Skills = () => {
       {createModal.isOpen && (
         <CreateSkillModal
           isOpen={createModal.isOpen}
-          onClose={createModal.toggle}
+          onClose={onClose}
           skill={createModal.values}
         />
       )}

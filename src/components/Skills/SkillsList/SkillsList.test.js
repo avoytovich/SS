@@ -1,7 +1,6 @@
 import React from 'react';
 import {render, screen} from 'utils/test-utils';
 import SkillsList from 'components/Skills/SkillsList';
-import {SnackbarProvider} from 'notistack';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -15,11 +14,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('SkillsList', () => {
   it('renders without crashes', () => {
-    render(
-      <SnackbarProvider>
-        <SkillsList />
-      </SnackbarProvider>
-    );
+    render(<SkillsList />);
     expect(screen.getByTestId('skills-list-box')).toBeVisible();
     expect(screen.getByTestId('skills-list-filter')).toBeVisible();
     expect(screen.getByTestId('skill-name-search-input')).toBeVisible();
