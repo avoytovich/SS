@@ -5,6 +5,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import {filterTagParamName} from 'constants/dataGrid';
 import ChipList from 'components/Common/DataGrid/ChipList';
+import {getOptions} from 'utils/dataGridUtils';
 
 export const getColumns = (onDelete, onEdit, editPermissions, deletePermissions) => {
   const columns = [
@@ -73,5 +74,6 @@ export const updateTagFilterParam = (value, updateURLParams) => {
 
 export const getTagFilterByQueryParams = (params, tags) => {
   const paramsArr = params.split(',').map(p => +p);
-  return tags.filter(t => paramsArr.includes(t.id));
+  const filteredTags = tags.filter(t => paramsArr.includes(t.id));
+  return getOptions(filteredTags, 'id', 'name');
 };

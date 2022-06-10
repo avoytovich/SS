@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {MultipleAutocomplete, SearchField} from 'components/Common/DataGrid';
 import {Box} from '@mui/material';
 import {useStyles} from 'components/Profile/styles';
+import {getOptions} from 'utils/dataGridUtils';
 
 const SkillListFilter = ({
   search,
@@ -14,7 +15,7 @@ const SkillListFilter = ({
   onClearSearch
 }) => {
   const classes = useStyles();
-  const options = useMemo(() => tags.map(tag => ({id: tag.id, label: tag.name})), [tags]);
+  const options = useMemo(() => getOptions(tags, 'id', 'name'), [tags, getOptions]);
 
   return (
     <Box component="form" className={classes.filterContainer}>
@@ -26,12 +27,12 @@ const SkillListFilter = ({
         onClear={onClearSearch}
       />
       <MultipleAutocomplete
-        id="tags"
+        name="tags"
         label="Tags"
         options={options}
         values={filterValues}
         onSelect={onSelect}
-        onChange={onSearchFilter}
+        onSearch={onSearchFilter}
       />
     </Box>
   );

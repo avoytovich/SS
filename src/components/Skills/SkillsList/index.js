@@ -160,12 +160,12 @@ const SkillsList = ({onChanges}) => {
           onClear={handleClearFilter}
         />
         <MultipleAutocomplete
-          id="tags"
+          name="tags"
           label="Tags"
           options={filterOptions}
           values={tagFilter}
           onSelect={handleTagFilter}
-          onChange={setTagsSearch}
+          onSearch={setTagsSearch}
         />
       </Box>
       <Box className={classes.skillsBox} data-testid="skills-list-box">

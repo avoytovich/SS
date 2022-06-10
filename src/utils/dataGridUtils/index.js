@@ -22,3 +22,6 @@ export const getSortModel = sortParam => {
 };
 
 export const convertSortParamToGridSortModel = param => (param ? [getSortModel(param)] : []);
+
+export const getOptions = (values, idParam, labelParam) =>
+  values.map(value => ({id: value[idParam], label: value[labelParam]}));

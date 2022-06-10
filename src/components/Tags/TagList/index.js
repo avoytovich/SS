@@ -17,7 +17,7 @@ import {
 import {PermissionEnum} from 'constants/permissions';
 
 import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
-import {pageSize} from 'constants/dataGrid';
+import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
 import {useStyles} from 'components/Tags/TagList/styles';
 
 export default function TagList({onSaveOrUpdate, hasPermissions}) {
@@ -125,8 +125,8 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
           rowCount={total}
           sx={dataGridRootStyles}
           loading={isLoading || isFetching}
-          rowHeight={33}
-          headerHeight={33}
+          rowHeight={rowHeight}
+          headerHeight={headerHeight}
           disableColumnMenu
           disableSelectionOnClick
           autoHeight

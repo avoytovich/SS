@@ -2,7 +2,8 @@ import {
   setURLSearchParams,
   getSortParamsFromModel,
   getSortModel,
-  convertSortParamToGridSortModel
+  convertSortParamToGridSortModel,
+  getOptions
 } from 'utils/dataGridUtils';
 import {ASC, DESC} from 'constants/dataGrid';
 
@@ -85,6 +86,14 @@ describe('TagList utils', () => {
       };
 
       expect(convertSortParamToGridSortModel('-name')).toEqual([result]);
+    });
+  });
+  describe('getOptions', () => {
+    it('should return options', () => {
+      const data = [{id: 1, name: 'test'}];
+      const result = [{id: 1, label: 'test'}];
+
+      expect(getOptions(data, 'id', 'name')).toEqual(result);
     });
   });
 });
