@@ -1,9 +1,9 @@
 import React from 'react';
-import {Field, useFormikContext} from 'formik';
+import {Field, useFormikContext, ErrorMessage} from 'formik';
 import {Autocomplete} from 'formik-mui';
 import PropTypes from 'prop-types';
 
-import {InputLabel} from '@mui/material';
+import {InputLabel, FormHelperText} from '@mui/material';
 import MuiTextField from '@mui/material/TextField';
 // import Checkbox from '@mui/material/Checkbox';
 // import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -33,11 +33,16 @@ const SelectField = ({
 
   const formikProps = useFormikContext();
 
-  // const {touched, errors} = formikProps;
+  const {touched, errors} = formikProps;
+
+  const hasError = touched[name] && errors[name];
+
+  console.log(errors);
+  console.log(touched);
+  console.log(hasError);
 
   const handleChangeField = (event, values) => {
     formikProps.setFieldError(name, null);
-    console.log(values);
     formikProps.setFieldValue(name, values);
 
     if (returnIdToField) {
@@ -62,7 +67,7 @@ const SelectField = ({
           <MuiTextField
             {...paramsInput}
             name="autocomplete"
-            // error={touched['autocomplete'] && !!errors['autocomplete']}
+            error={hasError}
             // helperText={touched['autocomplete'] && errors['autocomplete']}
             variant="outlined"
           />
@@ -81,6 +86,11 @@ const SelectField = ({
         // )}
         {...params}
       />
+      {hasError && (
+        <FormHelperText error={hasError}>
+          <ErrorMessage name={name} />
+        </FormHelperText>
+      )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 const errorCodes = {
+  1002: 'Value with this name already exists',
   2001: 'Unavailable values for sorting tags',
   2002: 'Unavailable values for sorting skills',
   2003: 'Page does not exist',

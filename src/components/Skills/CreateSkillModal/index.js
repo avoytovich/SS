@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Formik, Form} from 'formik';
-import {useSnackbar} from 'notistack';
 import {useFetchTagsQuery} from 'api/tags';
 import {useDispatch} from 'react-redux';
 import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'api/skills';
-
+import {useSnackbar} from 'notistack';
 import {useURLParams} from 'hooks/dataGrid';
-import {diffFormValues} from 'utils/forms';
+import {diffFormValues, formSubmitHandling} from 'utils/forms';
 
 import DialogControls from '../../Modals/DialogControls';
 import Input from '../../Common/Form/Input';
@@ -18,9 +17,11 @@ import CreateSkillSchema from './createSkillShema';
 
 const CreateSkillModal = ({isOpen, skill, onClose}) => {
   const dispatch = useDispatch();
-  const {clearQueryParams, isAllParamsEmpty, queryParams} = useURLParams();
-
   const {enqueueSnackbar} = useSnackbar();
+
+  const isEdit = skill && skill.id;
+
+  const {clearQueryParams, isAllParamsEmpty, queryParams} = useURLParams();
 
   const [updateSkill, {isLoading: isUpdateLoading, isSuccess: isUpdateSuccess}] =
     useUpdateSkillMutation();
@@ -28,9 +29,9 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
 
   const {data: {tags = []} = {}} = useFetchTagsQuery({});
 
-  const title = skill.id ? 'Edit skill' : 'Create new skill';
+  const title = isEdit ? 'Edit skill' : 'Create new skill';
 
-  const initialState = skill.id ? {...skill} : {name: '', description: '', tags: []};
+  const initialState = isEdit ? {...skill} : {name: '', description: '', tags: []};
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess) {
@@ -43,58 +44,36 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
     return () => {};
   }, [isUpdateSuccess, isAddSuccess]);
 
+  const handleClose = (resetForm, setSubmitting) => {
+    resetForm();
+    setSubmitting(false);
+    if (onClose) onClose();
+  };
+
   const handleSubmit = (params, actions) => {
     const newValues = [];
-    if (params.tags && params.tags.length > 0) {
-      params.tags.map(value => newValues.push(value.id));
+    const values = diffFormValues(initialState, {...params});
+
+    if (values.tags && values.tags.length > 0) {
+      values.tags.map(value => newValues.push(value.id));
+      values.tags = newValues;
     }
 
-    const values = diffFormValues(initialState, {...params, tags: newValues});
-
-    if (skill.id) {
-      updateSkill({
-        id: skill.id,
-        ...values
-      })
-        .unwrap()
-        .then(() => {
-          enqueueSnackbar('Skill have successfully saved');
-          actions.resetForm();
-        })
-        .catch(error => {
-          //  actions.setErrors({name: error.data.errors[0].message});
-          console.log(error.data.errors[0].message);
-
-          // error.inner.forEach((item) => {
-          //   meta.duplicateKeys.includes(item.path) &&
-          //   actions.setFieldError(item.path, item.message);
-          // });
-          enqueueSnackbar('Skill have not saved, please check form fields', {variant: 'error'});
-        })
-        .finally(() => {
-          actions.setSubmitting(false);
-        });
-    } else {
-      addSkill({...values})
-        .unwrap()
-        .then(() => {
-          enqueueSnackbar('Skill have successfully saved');
-          actions.resetForm();
-        })
-        .catch(error => {
-          //  actions.setErrors({name: error.data.errors[0].message});
-          console.log(error.data.errors[0].message);
-
-          // error.inner.forEach((item) => {
-          //   meta.duplicateKeys.includes(item.path) &&
-          //   actions.setFieldError(item.path, item.message);
-          // });
-          enqueueSnackbar('Skill have not saved, please check form fields', {variant: 'error'});
-        })
-        .finally(() => {
-          actions.setSubmitting(false);
-        });
+    if (isEdit) {
+      values.id = skill.id;
     }
+
+    formSubmitHandling(
+      isEdit ? updateSkill : addSkill,
+      {...values},
+      actions,
+      () => {
+        enqueueSnackbar('Skill have successfully saved');
+      },
+      () => {
+        enqueueSnackbar('Skill have not saved, please check form fields', {variant: 'error'});
+      }
+    );
   };
 
   return (
@@ -117,7 +96,7 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
         initialValues={initialState}
         enableReinitialize
       >
-        {({isSubmitting}) => (
+        {({isSubmitting, dirty, resetForm, setSubmitting, errors}) => (
           <Form autoComplete="off">
             <Input name="name" label="Name" placeholder="Type skill name" />
             <SelectField
@@ -125,6 +104,7 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
               label="Tags"
               options={tags}
               multiple
+              errors={errors}
               placeholder="Choose tags"
             />
             <Input
@@ -135,7 +115,12 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
               rowsMax={15}
               placeholder="Type skill description"
             />
-            <DialogControls disabledConfirm={isSubmitting} onClose={onClose} />
+            <DialogControls
+              disabledConfirm={isSubmitting || !dirty}
+              onClose={() => {
+                handleClose(resetForm, setSubmitting);
+              }}
+            />
           </Form>
         )}
       </Formik>

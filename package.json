@@ -119,7 +119,11 @@
     ],
     "coveragePathIgnorePatterns": [
       "store/index.js$",
-      "constants"
+      "constants",
+      "reportWebVitals.js",
+      "setupProxy.js",
+      "src/index.js",
+      "mocks"
     ],
     "moduleNameMapper": {
       "^constants/(.*)$": "<rootDir>/src/constants/$1",
