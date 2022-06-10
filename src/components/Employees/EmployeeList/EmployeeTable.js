@@ -5,7 +5,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import {dataGridRootStyles, GridPagination, NoRows} from 'components/Common/DataGrid';
 
 import {columns} from 'components/Employees/EmployeeList/constants';
-import {pageSize} from 'constants/dataGrid';
+import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
 import {useStyles} from 'components/Profile/styles';
 
 const EmployeeTable = ({
@@ -46,8 +46,8 @@ const EmployeeTable = ({
       rowCount={total}
       sx={dataGridRootStyles}
       loading={loading}
-      rowHeight={33}
-      headerHeight={33}
+      rowHeight={rowHeight}
+      headerHeight={headerHeight}
       disableColumnMenu
       disableSelectionOnClick
       autoHeight

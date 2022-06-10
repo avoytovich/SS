@@ -5,7 +5,16 @@ import {Autocomplete} from '@mui/material';
 import AutocompleteInput from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteInput';
 import AutocompleteOption from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteOption';
 
-const MultipleAutocomplete = ({id, values, options, label, onSelect, onChange, ...rest}) => {
+const MultipleAutocomplete = ({
+  id,
+  values,
+  options,
+  label,
+  minWidth,
+  onSelect,
+  onChange,
+  ...rest
+}) => {
   const [open, setOpen] = useState(false);
 
   const onOpenAutocompleteBox = useCallback(() => {
@@ -35,9 +44,9 @@ const MultipleAutocomplete = ({id, values, options, label, onSelect, onChange, .
   );
 
   const onInputChange = useCallback(
-    e => {
-      if (e?.target) {
-        onChange(e.target.value);
+    value => {
+      if (value) {
+        onChange(value);
       }
     },
     [onChange]
@@ -76,6 +85,7 @@ const MultipleAutocomplete = ({id, values, options, label, onSelect, onChange, .
           onChange={onInputChange}
           values={values}
           label={label}
+          minWidth={minWidth}
           disabled={!options.length}
           onRemoveValues={onRemoveAutocompleteValues}
           toggleAutocompleteMenu={setOpen}

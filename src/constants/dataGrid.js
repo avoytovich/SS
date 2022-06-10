@@ -1,7 +1,7 @@
 export const pageSize = 20;
 export const defaultPage = 1;
-export const rowHeight = 32;
-export const headerHeight = 32;
+export const rowHeight = 52;
+export const headerHeight = 52;
 export const ASC = 'asc';
 export const DESC = 'desc';
 export const sortParamName = 'sort';

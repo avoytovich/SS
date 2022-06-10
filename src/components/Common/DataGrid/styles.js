@@ -8,10 +8,10 @@ export const dataGridRootStyles = {
     display: 'none'
   },
   '.MuiDataGrid-columnHeader': {
-    fontSize: '12px',
+    fontSize: '13px',
     lineHeight: '24px',
     fontWeight: 500,
-    color: grey[600]
+    color: 'rgba(0, 0, 0, 0.54)'
   },
   '.MuiDataGrid-row, .MuiDataGrid-cell, .MuiDataGrid-columnHeaders': {
     borderTop: 'none',
@@ -24,10 +24,10 @@ export const dataGridRootStyles = {
   '.MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within': {
     outline: 'none !important'
   },
-  '.MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
+  '.MuiDataGrid-cell': {
     padding: '0 16px',
-    fontSize: '12px',
-    color: 'rgba(0, 0, 0, 0.87)',
-    lineHeight: '24px'
+    fontSize: '13px',
+    lineHeight: '24px',
+    color: 'rgba(0, 0, 0, 0.87)'
   }
 };

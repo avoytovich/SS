@@ -21,10 +21,10 @@ export const StyledTypography = styled(Typography)(() => ({
 
 export const StyledTextField = styled(TextField, {
   shouldForwardProp: prop => prop !== 'disabled'
-})(({theme, disabled}) => ({
+})(({theme, disabled, width}) => ({
   color: disabled ? theme.palette.common.black : theme.palette.primary.main,
   backgroundColor: disabled ? theme.palette.grey[50] : theme.palette.common.white,
-  minWidth: 240,
+  minWidth: width || 240,
   '.MuiOutlinedInput-root .MuiAutocomplete-input': {
     padding: '8.5px 2px',
     fontSize: 16

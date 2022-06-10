@@ -15,7 +15,7 @@ export const columns = [
         component={RouterLink}
         underline="hover"
         to={routes.employees.details.link(row.id)}
-        sx={{fontSize: '12px'}}
+        sx={{fontSize: '13px'}}
       >
         {row.first_name} {row.last_name}
       </Link>
