@@ -4,17 +4,15 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 
-// import CreateSkillForm from '../CreateSkillForm';
-
 const DialogControls = ({disabledConfirm, onClose, onSubmit}) => (
-  <DialogActions>
-    <Button variant="outlined" data-testid="confirm-modal-cancel-btn" onClick={onClose}>
+  <DialogActions data-testid="dialog-actions-btn">
+    <Button variant="outlined" data-testid="dialog-actions-cancel-btn" onClick={onClose}>
       Cancel
     </Button>
     <Button
       type="submit"
       variant="contained"
-      data-testid="confirm-modal-confirm-btn"
+      data-testid="dialog-actions-confirm-btn"
       disabled={disabledConfirm}
       onClick={onSubmit}
     >

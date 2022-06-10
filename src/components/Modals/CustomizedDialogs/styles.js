@@ -22,8 +22,19 @@ const useStyles = makeStyles({
     }
   },
   loader: {
-    margin: '80px 0 32px',
-    textAlign: 'center'
+    margin: '0',
+    position: 'absolute',
+    textAlign: 'center',
+    width: '100%',
+    padding: '0',
+    height: '100%',
+    top: '0',
+    left: '0',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: '1',
+    background: 'rgba(255,255,255,0.4)'
   },
   contentDesc: {
     '&.MuiTypography-root': {
