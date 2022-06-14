@@ -1,11 +1,12 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import {CapgeminiLogo} from '../../icons';
-import {CompanyUrl} from '../../../constants/common';
+import {CompanyUrl} from 'constants/common';
+import {CapgeminiLogo} from 'assets/icons';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
   return (
     <Box
       sx={{flex: 0, display: 'flex', flexDirection: 'row', marginBottom: 2, textAlign: 'left'}}

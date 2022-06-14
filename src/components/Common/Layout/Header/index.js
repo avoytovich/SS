@@ -5,7 +5,7 @@ import {AppBar, Box, Toolbar, Link} from '@mui/material';
 
 import usePermissions from 'hooks/permissions';
 import routes from 'constants/routes';
-import {HeaderLogo} from 'components/icons';
+import {HeaderLogo} from 'assets/icons';
 
 import UserMenu from 'components/Common/Layout/Header/UserMenu';
 import {useStyles} from 'components/Common/Layout/Header/styles';

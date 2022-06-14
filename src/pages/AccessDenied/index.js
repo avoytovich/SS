@@ -1,15 +1,14 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import {Box, Button} from '@mui/material';
+import {Box, Button, Typography} from '@mui/material';
 
 import HelmetWrapper from 'components/HelmetWrapper';
 import {PagePanel} from 'components/PagePanel';
-import {NotFoundIcon} from 'assets/icons';
+import {AccessDeniedIcon} from 'assets/icons';
 
 import {useStyles} from 'pages/styles';
 
-const NotFound = () => {
+const AccessDenied = () => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -17,22 +16,18 @@ const NotFound = () => {
 
   return (
     <PagePanel>
-      <HelmetWrapper title="Page Not Found" includeAppName={false} />
+      <HelmetWrapper title="Access denied" includeAppName={false} />
       <Box
         className={`${classes.centerContent} ${classes.flexColumn}`}
-        data-testid="not-found-content"
+        data-testid="access-denied-content"
       >
-        <NotFoundIcon sx={{fontSize: 370}} className={classes.centerContent} />
-        <Box
-          className={`${classes.centerContent} ${classes.flexColumn}`}
-          sx={{width: '270px'}}
-          mt={4}
-        >
+        <AccessDeniedIcon sx={{fontSize: 348}} className={classes.centerContent} />
+        <Box className={`${classes.centerContent} ${classes.flexColumn}`} mt={4}>
           <Typography variant="h4" component="h2" align="center" gutterBottom>
-            Not Found
+            Access denied
           </Typography>
-          <Typography variant="body1" color="gray" align="center" mb={2} gutterBottom>
-            The page you are looking for doesn&#39;t exist or has been moved.
+          <Typography variant="body1" color="gray" mb={2} gutterBottom>
+            You do not have permitions to visit this page
           </Typography>
           <Button
             key="back-btn"
@@ -49,4 +44,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default AccessDenied;

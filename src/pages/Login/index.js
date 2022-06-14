@@ -12,7 +12,7 @@ import {loginByToken} from 'slices/auth';
 import userRoles from 'constants/userRoles';
 import {useSigninUserMutation} from 'api/auth';
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
-import {Logo} from '../../components/icons';
+import {Logo} from 'assets/icons';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ export default function Login() {
 
   const UserCard = ({role}) => (
     <Card sx={{maxWidth: 345}}>
-      <CardActionArea onClick={onUserClick(role)}>
+      <CardActionArea data-testid={`user-card-${role.id}`} onClick={onUserClick(role)}>
         <CardContent>
           <Box justifyContent="center" display="flex">
             <Avatar
@@ -53,7 +53,7 @@ export default function Login() {
 
   return (
     <>
-      <Box sx={{my: 6, textAlign: 'center'}}>
+      <Box sx={{my: 6, textAlign: 'center'}} data-testid="login-content">
         <Logo sx={{fontSize: 120}} />
         <Typography variant="h4" component="h1" gutterBottom>
           Smart Skills

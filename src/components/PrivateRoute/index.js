@@ -2,18 +2,18 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Route, Redirect} from 'react-router-dom';
 import routes from 'constants/routes';
-import usePermissions from '../../hooks/permissions';
+import usePermissions from 'hooks/permissions';
+import AccessDenied from 'pages/AccessDenied';
 
 function PrivateRoute({children, permissions = [], ...rest}) {
   const {hasPermissions} = usePermissions();
   const isAuthenticated = useSelector(state => state.auth.token);
-  const redirectPathName = !isAuthenticated ? routes.login : routes.home;
   const isAuthorized = !permissions.length || hasPermissions(permissions);
 
-  const redirectTo = (pathname, location) => (
+  const redirectTo = location => (
     <Redirect
       to={{
-        pathname,
+        pathname: routes.login,
         state: {from: location}
       }}
     />
@@ -22,9 +22,12 @@ function PrivateRoute({children, permissions = [], ...rest}) {
   return (
     <Route
       {...rest}
-      render={({location}) =>
-        isAuthenticated && isAuthorized ? children : redirectTo(redirectPathName, location)
-      }
+      render={({location}) => {
+        if (!isAuthenticated) {
+          return redirectTo(location);
+        }
+        return isAuthorized ? children : <AccessDenied />;
+      }}
     />
   );
 }

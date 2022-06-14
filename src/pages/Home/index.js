@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import HelmetWrapper from 'components/HelmetWrapper';
-import {Logo} from 'components/icons';
+import {Logo} from 'assets/icons';
 
 const Home = () => (
   <>
