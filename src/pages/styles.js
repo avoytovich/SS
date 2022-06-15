@@ -40,6 +40,7 @@ export const useStyles = makeStyles({
   },
   centerContent: {
     justifyContent: 'center',
+    alignItems: 'center',
     margin: 'auto'
   },
   similarEngineerPaper: {
@@ -71,5 +72,8 @@ export const useStyles = makeStyles({
     justifyContent: 'flex-start',
     textAlign: 'left',
     alignItems: 'center'
+  },
+  backButton: {
+    borderRadius: '40px'
   }
 });

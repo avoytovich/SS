@@ -1,14 +1,13 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import {Box, Typography} from '@mui/material';
 import HelmetWrapper from 'components/HelmetWrapper';
-import {Logo} from 'components/icons';
+import logo from 'assets/images/Logo.svg';
 
 const Home = () => (
   <>
     <HelmetWrapper title="Smart Skills" includeAppName={false} />
     <Box sx={{my: 4, flex: 1, textAlign: 'center'}}>
-      <Logo sx={{fontSize: 120}} />
+      <img src={logo} alt="Logo" width={120} height={120} />
       <Typography variant="h4" component="h1" gutterBottom>
         Smart Skills
       </Typography>

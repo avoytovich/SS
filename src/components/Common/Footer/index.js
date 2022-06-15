@@ -1,11 +1,11 @@
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import {CapgeminiLogo} from '../../icons';
-import {CompanyUrl} from '../../../constants/common';
+import {Box, Typography} from '@mui/material';
+import {CompanyUrl} from 'constants/common';
+import image from 'assets/images/Capgemini.svg';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
   return (
     <Box
       sx={{flex: 0, display: 'flex', flexDirection: 'row', marginBottom: 2, textAlign: 'left'}}
@@ -40,7 +40,7 @@ const Footer = () => {
       >
         &copy;&nbsp;
         <a href={CompanyUrl} target="_blank" rel="noreferrer">
-          <CapgeminiLogo sx={{fontSize: 180, height: '30px'}} />
+          <img src={image} alt="Capgemini Logo" />
         </a>
         &nbsp;{currentYear}
       </Box>
