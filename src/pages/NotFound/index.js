@@ -5,7 +5,7 @@ import {Box, Button} from '@mui/material';
 
 import HelmetWrapper from 'components/HelmetWrapper';
 import {PagePanel} from 'components/PagePanel';
-import {NotFoundIcon} from 'assets/icons';
+import image from 'assets/images/NotFound.svg';
 
 import {useStyles} from 'pages/styles';
 
@@ -22,7 +22,7 @@ const NotFound = () => {
         className={`${classes.centerContent} ${classes.flexColumn}`}
         data-testid="not-found-content"
       >
-        <NotFoundIcon sx={{fontSize: 370}} className={classes.centerContent} />
+        <img src={image} alt="Page Not Found" />
         <Box
           className={`${classes.centerContent} ${classes.flexColumn}`}
           sx={{width: '270px'}}

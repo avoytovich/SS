@@ -5,7 +5,7 @@ import {AppBar, Box, Toolbar, Link} from '@mui/material';
 
 import usePermissions from 'hooks/permissions';
 import routes from 'constants/routes';
-import {HeaderLogo} from 'assets/icons';
+import logo from 'assets/images/SmartSkills.svg';
 
 import UserMenu from 'components/Common/Layout/Header/UserMenu';
 import {useStyles} from 'components/Common/Layout/Header/styles';
@@ -21,7 +21,7 @@ const Header = () => {
     <AppBar position="static">
       <Toolbar>
         <Link component={RouterLink} to={routes.home} exact={true} activeClassName={classes.active}>
-          <HeaderLogo sx={{transform: 'scale(3.7)', marginLeft: '20px'}} />
+          <img src={logo} alt="SmartSkills" />
         </Link>
         <Box className={classes.navContent}>
           {navigationLinks.map(link =>

@@ -4,7 +4,7 @@ import {Box, Button, Typography} from '@mui/material';
 
 import HelmetWrapper from 'components/HelmetWrapper';
 import {PagePanel} from 'components/PagePanel';
-import {AccessDeniedIcon} from 'assets/icons';
+import image from 'assets/images/AccessDenied.svg';
 
 import {useStyles} from 'pages/styles';
 
@@ -21,7 +21,7 @@ const AccessDenied = () => {
         className={`${classes.centerContent} ${classes.flexColumn}`}
         data-testid="access-denied-content"
       >
-        <AccessDeniedIcon sx={{fontSize: 348}} className={classes.centerContent} />
+        <img src={image} alt="Access denied" />
         <Box className={`${classes.centerContent} ${classes.flexColumn}`} mt={4}>
           <Typography variant="h4" component="h2" align="center" gutterBottom>
             Access denied

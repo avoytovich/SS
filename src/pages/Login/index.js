@@ -2,17 +2,13 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setPermissions} from 'store/permissions/permissions';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import {Avatar, Box, Card, CardActionArea, CardContent} from '@mui/material';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
-import CardActionArea from '@mui/material/CardActionArea';
 import {loginByToken} from 'slices/auth';
 import userRoles from 'constants/userRoles';
 import {useSigninUserMutation} from 'api/auth';
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
-import {Logo} from 'assets/icons';
+import logo from 'assets/images/Logo.svg';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -54,7 +50,7 @@ export default function Login() {
   return (
     <>
       <Box sx={{my: 6, textAlign: 'center'}} data-testid="login-content">
-        <Logo sx={{fontSize: 120}} />
+        <img src={logo} alt="Logo" width={120} height={120} />
         <Typography variant="h4" component="h1" gutterBottom>
           Smart Skills
         </Typography>
