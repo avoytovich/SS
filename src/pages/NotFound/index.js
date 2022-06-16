@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import {Box, Button} from '@mui/material';
 
-import HelmetWrapper from 'components/HelmetWrapper';
+import HelmetWrapper from 'containers/HelmetWrapper';
 import {PagePanel} from 'components/PagePanel';
 import image from 'assets/images/NotFound.svg';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import ChipList from 'components/Common/DataGrid/ChipList';
+import ChipList from 'components/Common/ChipList';
 import {capitalizeFirstLetter} from 'utils/helpers';
 
 export const columns = [

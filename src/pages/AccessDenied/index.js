@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useHistory} from 'react-router-dom';
 import {Box, Button, Typography} from '@mui/material';
 
-import HelmetWrapper from 'components/HelmetWrapper';
+import HelmetWrapper from 'containers/HelmetWrapper';
 import {PagePanel} from 'components/PagePanel';
 import image from 'assets/images/AccessDenied.svg';
 

@@ -4,7 +4,7 @@ import {setPermissions} from 'store/permissions/permissions';
 import Typography from '@mui/material/Typography';
 import {Avatar, Box, Card, CardActionArea, CardContent} from '@mui/material';
 import Grid from '@mui/material/Grid';
-import {loginByToken} from 'slices/auth';
+import {login} from 'store/auth';
 import userRoles from 'constants/userRoles';
 import {useSigninUserMutation} from 'api/auth';
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
@@ -43,7 +43,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(loginByToken(data));
+      dispatch(login(data));
     }
   }, [isSuccess]);
 

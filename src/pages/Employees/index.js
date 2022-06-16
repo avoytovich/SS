@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ErrorBoundary} from 'react-error-boundary';
 
-import HelmetWrapper from 'components/HelmetWrapper';
+import HelmetWrapper from 'containers/HelmetWrapper';
 import ErrorFallback from 'components/ErrorFallback';
 import {PagePanel} from 'components/PagePanel';
 

@@ -7,7 +7,7 @@ import {useModal} from 'hooks/useModal';
 
 import {PagePanel} from 'components/PagePanel';
 import CreateSkillModal from 'components/Skills/CreateSkillModal';
-import HelmetWrapper from 'components/HelmetWrapper';
+import HelmetWrapper from 'containers/HelmetWrapper';
 import SkillsList from 'components/Skills/SkillsList';
 import ErrorFallback from 'components/ErrorFallback';
 import PageHeader from 'components/Common/Layout/PageHeader';

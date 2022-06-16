@@ -10,7 +10,7 @@ import App from 'containers/App/App';
 import themeConfig from 'theme/themeConfig';
 import {persistor, store} from 'store/store';
 
-import SnackbarProviderWrapper from 'components/SnackbarProviderWrapper';
+import SnackbarProviderWrapper from 'containers/SnackbarProviderWrapper';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

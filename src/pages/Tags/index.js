@@ -3,7 +3,7 @@ import React from 'react';
 import {Button} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
 
-import HelmetWrapper from 'components/HelmetWrapper';
+import HelmetWrapper from 'containers/HelmetWrapper';
 import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
 import {PagePanel} from 'components/PagePanel';

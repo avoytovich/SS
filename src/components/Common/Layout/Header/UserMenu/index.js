@@ -2,11 +2,13 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {NavLink as RouterLink} from 'react-router-dom';
 
+import {useModal} from 'hooks/useModal';
+import routes from 'constants/routes';
+import {logout} from 'store/auth';
+import {clearPermissions} from 'store/permissions/permissions';
+
 import {Box, Button, MenuItem} from '@mui/material';
 import {StyledMenu} from 'components/Common/Layout/Header/styles';
-import {useModal} from 'hooks/useModal';
-import {logOut} from 'slices/auth';
-import routes from 'constants/routes';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
@@ -24,7 +26,10 @@ export default function UserMenu() {
     setAnchorEl(null);
   };
 
-  const onLogout = () => dispatch(logOut());
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(clearPermissions());
+  };
 
   return (
     <Box id="user-menu-container" marginLeft="auto">

@@ -4,7 +4,7 @@ import {GridActionsCellItem} from '@mui/x-data-grid';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import {filterTagParamName} from 'constants/dataGrid';
-import ChipList from 'components/Common/DataGrid/ChipList';
+import ChipList from 'components/Common/ChipList';
 import {getOptions} from 'utils/dataGridUtils';
 
 export const getColumns = (onDelete, onEdit, editPermissions, deletePermissions) => {
