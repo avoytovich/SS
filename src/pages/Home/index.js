@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Box, Typography} from '@mui/material';
-import HelmetWrapper from 'components/HelmetWrapper';
+import HelmetWrapper from 'containers/HelmetWrapper';
 import logo from 'assets/images/Logo.svg';
 
 const Home = () => (

@@ -5,7 +5,7 @@ import {render} from '@testing-library/react';
 import {ThemeProvider} from '@mui/material/styles';
 import themeConfig from 'theme/themeConfig';
 import {store} from 'store/store';
-import SnackbarProviderWrapper from 'components/SnackbarProviderWrapper';
+import SnackbarProviderWrapper from 'containers/SnackbarProviderWrapper';
 
 const mockEnqueue = jest.fn();
 

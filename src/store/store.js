@@ -12,10 +12,9 @@ import {
 
 import storage from 'redux-persist/lib/storage';
 import {setupListeners} from '@reduxjs/toolkit/query';
-import authSlice from 'slices/auth';
+import authSlice from 'store/auth';
 import authApi from 'api/auth';
 import tagsApi from 'api/tags';
-import {smartSkillsApi} from 'slices/smartSkillsSlice';
 import skillsApi from 'api/skills';
 import profileApi from 'api/profile';
 import employeesApi from 'api/employees';
@@ -32,7 +31,6 @@ const authPersisted = persistReducer(persistConfig, authSlice.reducer);
 const rootReducer = combineReducers({
   auth: authPersisted,
   permissions: permissionsReducer,
-  [smartSkillsApi.reducerPath]: smartSkillsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [tagsApi.reducerPath]: tagsApi.reducer,
   [skillsApi.reducerPath]: skillsApi.reducer,
@@ -48,7 +46,6 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
     }).concat(
-      smartSkillsApi.middleware,
       authApi.middleware,
       tagsApi.middleware,
       skillsApi.middleware,

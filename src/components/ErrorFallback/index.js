@@ -4,8 +4,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import alert from 'assets/images/Alert.svg';
 
-export default function ErrorFallback({error}) {
-  console.error(error);
+const ErrorFallback = ({error}) => {
+  console.log(error);
   return (
     <Grid container flexDirection="column" alignItems="center">
       <img src={alert} alt="Alert Icon" />
@@ -14,5 +14,8 @@ export default function ErrorFallback({error}) {
       </Typography>
     </Grid>
   );
-}
+};
+
 ErrorFallback.propTypes = {error: PropTypes.object};
+
+export default ErrorFallback;
