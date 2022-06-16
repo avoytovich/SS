@@ -8,11 +8,11 @@ import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import ModifyTagSchema from 'components/Tags/TagModal/modifyTagShema';
 import Input from 'components/Common/Form/Input';
 import {Button, DialogActions} from '@mui/material';
+import {formSubmitHandling} from 'utils/forms';
 
 import {useUpdateTagMutation, useAddTagMutation, getTags} from 'api/tags';
 import {useURLParams} from 'hooks/dataGrid';
 import {defaultPage, pageParamName} from 'constants/dataGrid';
-import errorCodes from 'constants/errorCodes';
 
 export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   const dispatch = useDispatch();
@@ -33,23 +33,25 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
     }
   }, [isAllParamsEmpty, isFirstPage]);
 
-  const onSave = (name, {setErrors, resetForm, setSubmitting}) => {
-    const modifyTag = id ? updateTag({id, name}) : addTag({name});
-    modifyTag
-      .unwrap()
-      .then(() => {
-        enqueueSnackbar('Tag have successfully saved');
+  const onSave = (values, actions) => {
+    if (id) {
+      values.id = id;
+    }
+
+    formSubmitHandling(
+      id ? updateTag : addTag,
+      {...values},
+      actions,
+      () => {
         fetchTags();
         clearQueryParams();
         onClose();
-        resetForm();
-      })
-      .catch(({data: {errors}}) => {
-        setErrors({name: errors.map(error => errorCodes[error.code])});
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
+        enqueueSnackbar('Tag have successfully saved');
+      },
+      () => {
+        enqueueSnackbar('Tag have not saved, please check form fields', {variant: 'error'});
+      }
+    );
   };
 
   return (

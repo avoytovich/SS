@@ -18,17 +18,17 @@ const tagsApi = createApi({
       transformResponse: response => ({...response, tags: response.data})
     }),
     addTag: builder.mutation({
-      query: ({name}) => ({
+      query: params => ({
         url: apiUrls.tags.root,
         method: 'POST',
-        body: name
+        body: params
       })
     }),
     updateTag: builder.mutation({
-      query: ({id, name}) => ({
+      query: ({id, ...params}) => ({
         url: apiUrls.tags.details(id),
         method: 'PATCH',
-        body: name
+        body: params
       })
     }),
     deleteTag: builder.mutation({
