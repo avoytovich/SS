@@ -14,9 +14,9 @@ const FilterActions = ({isFiltersOpen, isFilterSelected, setIsFiltersOpen, onCle
 
   if (isFiltersOpen) {
     return (
-      <Box className={classes.filterClearContainer}>
+      <Box className={classes.filterClearContainer} data-testid="opened-filter-container">
         <Button
-          data-testid="clean-btn"
+          data-testid="opened-filter-clean-btn"
           sx={{color: grey[900], mr: 1}}
           disabled={!isFilterSelected}
           onClick={onClearFilters}
@@ -31,12 +31,11 @@ const FilterActions = ({isFiltersOpen, isFilterSelected, setIsFiltersOpen, onCle
   }
 
   return (
-    <Box className={classes.filterClearContainer}>
-      {!!isFilterSelected && (
+    <Box className={classes.filterClearContainer} data-testid="closed-filter-container">
+      {isFilterSelected && (
         <Button
-          data-testid="clean-btn"
+          data-testid="closed-filter-clean-btn"
           sx={{color: grey[900], mr: 1}}
-          disabled={!isFilterSelected}
           onClick={onClearFilters}
         >
           Clean up
@@ -44,7 +43,7 @@ const FilterActions = ({isFiltersOpen, isFilterSelected, setIsFiltersOpen, onCle
       )}
       <Button
         variant="outlined"
-        data-testid="filters-btn"
+        data-testid="filters-open-btn"
         startIcon={<FilterAltOutlinedIcon />}
         onClick={toggleFilters}
       >

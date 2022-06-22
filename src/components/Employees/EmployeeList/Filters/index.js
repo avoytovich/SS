@@ -46,7 +46,7 @@ const EmployeeFilters = ({
         )}
         <FilterActions
           isFiltersOpen={isFiltersOpen}
-          isFilterSelected={isFilterSelected}
+          isFilterSelected={!!isFilterSelected}
           onClearFilters={onClearFilters}
           setIsFiltersOpen={setIsFiltersOpen}
         />

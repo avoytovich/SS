@@ -23,15 +23,21 @@ const GridSelect = ({id, name, value, multiple, label, minWidth, options, onChan
   const getSelectValue = () => getRenderValue(value, options, multiple, label);
 
   const renderCloseIcon = () => (
-    <StyledIcon id="remove-icon" sx={{marginRight: '10px'}} onClick={handleCLear}>
+    <StyledIcon
+      id="remove-icon"
+      data-testid={`${id}-select-remove-icon`}
+      sx={{marginRight: '10px'}}
+      onClick={handleCLear}
+    >
       <CloseOutlinedIcon />
     </StyledIcon>
   );
 
   return (
-    <FormControl sx={{minWidth}}>
+    <FormControl sx={{minWidth}} data-testid={`${id}-control`}>
       <Select
         id={id}
+        data-testid={`${id}-select`}
         multiple={multiple}
         value={value}
         displayEmpty
@@ -59,18 +65,20 @@ GridSelect.propTypes = {
   name: PropTypes.string,
   multiple: PropTypes.bool,
   label: PropTypes.string,
+  options: PropTypes.array,
   minWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   onClear: PropTypes.func
 };
 
 GridSelect.defaultProps = {
-  id: 'items',
-  name: 'test',
+  id: 'grid-select',
+  name: 'select',
   multiple: false,
   label: 'Label',
   size: 'small',
   minWidth: '233px',
+  options: [],
   onChange: () => {},
   onClear: () => {}
 };
