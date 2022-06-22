@@ -6,7 +6,7 @@ import routes from 'constants/routes';
 
 export const columns = [
   {
-    field: 'fullName',
+    field: 'full_name',
     headerName: 'Full name',
     minWidth: 120,
     flex: 3,
@@ -38,7 +38,7 @@ export const columns = [
   },
   {
     field: 'seniority',
-    headerName: 'Level',
+    headerName: 'Seniority',
     minWidth: 90,
     flex: 2
   },
@@ -48,5 +48,16 @@ export const columns = [
     valueGetter: ({row}) => `${yesNo(row.is_on_bench)}`,
     minWidth: 90,
     flex: 2
+  }
+];
+
+export const benchOptions = [
+  {
+    id: '0',
+    label: 'No'
+  },
+  {
+    id: '1',
+    label: 'Yes'
   }
 ];

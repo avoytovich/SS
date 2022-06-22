@@ -16,5 +16,14 @@ export const apiUrls = {
     mock: '/skills/mock',
     rootWithQueries: query => `/skills/?${query}`,
     details: id => `/skills/${id}`
+  },
+  competencies: {
+    root: '/competencies'
+  },
+  specializations: {
+    root: '/specializations'
+  },
+  seniorities: {
+    root: '/seniorities'
   }
 };

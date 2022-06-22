@@ -18,6 +18,9 @@ import tagsApi from 'api/tags';
 import skillsApi from 'api/skills';
 import profileApi from 'api/profile';
 import employeesApi from 'api/employees';
+import competenciesApi from 'api/competencies';
+import specializationsApi from 'api/specializations';
+import senioritiesApi from 'api/seniorities';
 
 import {permissionsReducer} from './permissions/permissions';
 
@@ -35,7 +38,10 @@ const rootReducer = combineReducers({
   [tagsApi.reducerPath]: tagsApi.reducer,
   [skillsApi.reducerPath]: skillsApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
-  [employeesApi.reducerPath]: employeesApi.reducer
+  [employeesApi.reducerPath]: employeesApi.reducer,
+  [competenciesApi.reducerPath]: competenciesApi.reducer,
+  [specializationsApi.reducerPath]: specializationsApi.reducer,
+  [senioritiesApi.reducerPath]: senioritiesApi.reducer
 });
 
 export const store = configureStore({
@@ -50,7 +56,10 @@ export const store = configureStore({
       tagsApi.middleware,
       skillsApi.middleware,
       profileApi.middleware,
-      employeesApi.middleware
+      employeesApi.middleware,
+      competenciesApi.middleware,
+      specializationsApi.middleware,
+      senioritiesApi.middleware
     )
 });
 

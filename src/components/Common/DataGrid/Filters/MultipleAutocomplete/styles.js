@@ -44,6 +44,10 @@ export const StyledInputContent = styled('span')(({theme}) => ({
 export const StyledIcon = styled('span')(({theme}) => ({
   display: 'flex',
   cursor: 'pointer',
+  alignItems: 'center',
+  '& svg': {
+    fontSize: '18px'
+  },
   '&:hover': {
     'svg > path': {
       fill: theme.palette.primary.main

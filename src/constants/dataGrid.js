@@ -8,3 +8,7 @@ export const sortParamName = 'sort';
 export const searchParamName = 'search';
 export const pageParamName = 'page';
 export const filterTagParamName = 'tags';
+export const filterBenchParamName = 'bench';
+export const filterCompetencyParamName = 'competency';
+export const filterSpecializationParamName = 'specialization';
+export const filterSeniorityParamName = 'seniority';

@@ -76,4 +76,4 @@ EmployeeTable.defaultProps = {
   onPageChange: () => {}
 };
 
-export default EmployeeTable;
+export default React.memo(EmployeeTable);

@@ -9,7 +9,7 @@ import {StyledIcon} from 'components/Common/DataGrid/Filters/MultipleAutocomplet
 
 export function SearchField({value, id, label, minWidth, size, onChange, onClear}) {
   const ClearFieldButton = (
-    <StyledIcon data-testid={`${id}-remove-btn`} aria-label="delete" size="small" onClick={onClear}>
+    <StyledIcon data-testid={`${id}-remove-btn`} aria-label="delete" onClick={onClear}>
       <CloseOutlinedIcon fontSize="small" />
     </StyledIcon>
   );
