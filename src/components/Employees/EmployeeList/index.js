@@ -1,11 +1,14 @@
-import React, {useMemo, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 
 import {Box} from '@mui/material';
 
-import {useFetchEmployeesQuery} from 'api/employees';
-
-import {getTagFilterByQueryParams, updateTagFilterParam} from 'components/Skills/SkillsList/utils';
+import {
+  useFetchCompetenciesQuery,
+  useFetchEmployeesQuery,
+  useFetchSenioritiesQuery,
+  useFetchSpecializationsQuery
+} from 'api';
 
 import {
   useDataGridPagination,
@@ -13,44 +16,59 @@ import {
   useURLParams,
   useDataGridSearch
 } from 'hooks/dataGrid';
-import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
 
-import {filterTagParamName} from 'constants/dataGrid';
 import EmployeeTable from 'components/Employees/EmployeeList/EmployeeTable';
-import EmployeeFilters from 'components/Employees/EmployeeList/EmployeeFilters';
+import EmployeeFilters from 'components/Employees/EmployeeList/Filters';
+import {getEmployeeFilters, onChangeEmployeeFilter} from 'components/Employees/utils';
+
+import {
+  filterBenchParamName,
+  filterCompetencyParamName,
+  filterSeniorityParamName,
+  filterSpecializationParamName
+} from 'constants/dataGrid';
 
 export default function EmployeeList() {
   const {role} = useSelector(state => state.auth.profile);
+  const {data: {competencies = []} = {}} = useFetchCompetenciesQuery({role});
+  const {data: {specializations = []} = {}} = useFetchSpecializationsQuery({role});
+  const {data: {seniorities = []} = {}} = useFetchSenioritiesQuery({role});
 
-  const {queryParams, updateURLParams} = useURLParams();
+  const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
   const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
   const {page, tablePage, onPageChange} = useDataGridPagination(queryParams, updateURLParams);
   const {search, onSearchChange} = useDataGridSearch(queryParams, updateURLParams);
-  const {filter} = useDataGridFilter(
-    queryParams,
-    updateURLParams,
-    updateTagFilterParam,
-    filterTagParamName,
-    [],
-    getTagFilterByQueryParams
-  );
 
-  const employeesQueryOptions = useMemo(
-    () => ({
-      role,
-      ...(page && {page}),
-      ...(search && {search}),
-      ...(sort && {sort}),
-      ...(filter.length > 0 && {tags: filter.map(t => t.id).toString()})
-    }),
-    [page, search, sort, filter]
-  );
+  const {
+    competenciesFilter,
+    benchFilter,
+    specializationFilter,
+    seniorityFilter,
+    specializationOptions,
+    competencyOptions,
+    seniorityOptions,
+    onBenchFilterChange,
+    onSpecializationFilterChange,
+    onCompetenciesFilterChange,
+    onSeniorityFilterChange
+  } = getEmployeeFilters(queryParams, competencies, specializations, seniorities, updateURLParams);
 
   const {
     data: {employees = [], total = 0, pages = 0} = {},
     isLoading,
     isFetching
-  } = useFetchEmployeesQuery(employeesQueryOptions);
+  } = useFetchEmployeesQuery({
+    role,
+    ...(page && {page}),
+    ...(search && {search}),
+    ...(sort && {sort}),
+    ...(benchFilter && {[filterBenchParamName]: benchFilter}),
+    ...(competenciesFilter.length > 0 && {[filterCompetencyParamName]: competenciesFilter}),
+    ...(specializationFilter.length > 0 && {
+      [filterSpecializationParamName]: specializationFilter
+    }),
+    ...(seniorityFilter.length > 0 && {[filterSeniorityParamName]: seniorityFilter})
+  });
 
   const handleSearch = useCallback(
     value => {
@@ -59,13 +77,42 @@ export default function EmployeeList() {
     [onSearchChange, onPageChange]
   );
 
-  const handleClearFilter = useCallback(() => {
+  const onClearSearch = useCallback(() => {
     handleSearch('');
   }, [handleSearch]);
 
+  const handleClearFilters = useCallback(() => {
+    clearQueryParams();
+  }, [handleSearch]);
+
+  const handleChangeFilter = useCallback((value, paramName) => {
+    onChangeEmployeeFilter(
+      paramName,
+      value,
+      onPageChange,
+      onCompetenciesFilterChange,
+      onSpecializationFilterChange,
+      onSeniorityFilterChange,
+      onBenchFilterChange
+    );
+  }, []);
+
   return (
     <Box data-testid="employee-list-box">
-      <EmployeeFilters search={search} onSearch={handleSearch} onClearSearch={handleClearFilter} />
+      <EmployeeFilters
+        search={search}
+        bench={benchFilter}
+        competencies={competenciesFilter}
+        specializations={specializationFilter}
+        seniorities={seniorityFilter}
+        competencyOptions={competencyOptions}
+        specializationOptions={specializationOptions}
+        seniorityOptions={seniorityOptions}
+        onSearch={handleSearch}
+        onClearSearch={onClearSearch}
+        onClearFilters={handleClearFilters}
+        onChangeFilter={handleChangeFilter}
+      />
       <EmployeeTable
         rows={employees}
         page={tablePage}

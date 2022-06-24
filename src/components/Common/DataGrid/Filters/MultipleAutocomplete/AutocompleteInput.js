@@ -18,12 +18,15 @@ const InputIcon = ({isRemove, onRemove}) => {
   if (isRemove) {
     return (
       <StyledIcon id="remove-icon" data-testid="remove-icon" onClick={onRemove}>
-        <CloseOutlinedIcon fontSize="small" />
+        <CloseOutlinedIcon />
       </StyledIcon>
     );
   }
-
-  return <SearchIcon fontSize="small" />;
+  return (
+    <StyledIcon id="search-icon" data-testid="search-icon" onClick={onRemove}>
+      <SearchIcon />
+    </StyledIcon>
+  );
 };
 
 const InputContent = ({content, toggle}) => (
