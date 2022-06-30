@@ -25,5 +25,8 @@ export const apiUrls = {
   },
   seniorities: {
     root: '/seniorities'
+  },
+  skillRequests: {
+    root: '/skill-requests'
   }
 };
