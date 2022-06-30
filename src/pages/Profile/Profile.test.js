@@ -1,4 +1,5 @@
 import React from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {fireEvent, render, screen} from 'utils/test-utils';
 import MyProfile from 'pages/Profile';
 
@@ -14,7 +15,11 @@ jest.mock('react-router-dom', () => ({
 
 describe('Profile', () => {
   it('should render profile page', async () => {
-    render(<MyProfile />);
+    render(
+      <Router>
+        <MyProfile />
+      </Router>
+    );
     expect(screen.getByTestId('profile-page-skillset-btn')).toBeVisible();
     expect(screen.getByTestId('page-header-title-text')).toBeVisible();
     expect(screen.getByTestId('page-header-title-text')).toHaveTextContent('My profile');

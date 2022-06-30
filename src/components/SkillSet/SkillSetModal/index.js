@@ -59,6 +59,7 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
               name="name"
               label="Skill Name"
               placeholder="Type skill name"
+              data-testid="skill-set-modal-input-name"
               sx={{marginBottom: '16px'}}
             />
             <Input

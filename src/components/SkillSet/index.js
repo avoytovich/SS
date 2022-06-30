@@ -10,7 +10,7 @@ export default function MySkills() {
   const onToggleModal = () => setIsOpen(value => !value);
 
   return (
-    <Box sx={{flex: '1', padding: '22px 24px 24px'}}>
+    <Box sx={{flex: '1', padding: '22px 24px 24px'}} data-testid="skill-set-container">
       <Button
         key="skill-set-propose-btn"
         sx={{borderRadius: '40px'}}
