@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 
 import {Box} from '@mui/material';
 
-import {useFetchSkillsQuery} from 'api/profile';
+import {useFetchSkillsQuery} from 'api/skills';
 import {useFetchTagsQuery} from 'api/tags';
 import SkillListFilter from 'components/Profile/SkillList/SkillListFilter';
 import SkillTable from 'components/Profile/SkillList/SkillTable';

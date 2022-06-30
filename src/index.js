@@ -10,19 +10,29 @@ import App from 'containers/App/App';
 import themeConfig from 'theme/themeConfig';
 import {persistor, store} from 'store/store';
 
+// import {MsalProvider} from '@azure/msal-react';
+// import {PublicClientApplication} from '@azure/msal-browser';
+
+import {MsalProvider} from 'containers/MsalProvider';
+
 import SnackbarProviderWrapper from 'containers/SnackbarProviderWrapper';
+import {MSAL_CONFIG} from './constants/msalConfig-config';
 import reportWebVitals from './reportWebVitals';
+
+// const pca = new PublicClientApplication(MSAL_CONFIG);
 
 ReactDOM.render(
   <ThemeProvider theme={themeConfig}>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <HelmetProvider>
-          <SnackbarProviderWrapper>
-            <CssBaseline />
-            <App />
-          </SnackbarProviderWrapper>
-        </HelmetProvider>
+        <MsalProvider config={MSAL_CONFIG}>
+          <HelmetProvider>
+            <SnackbarProviderWrapper>
+              <CssBaseline />
+              <App />
+            </SnackbarProviderWrapper>
+          </HelmetProvider>
+        </MsalProvider>
       </PersistGate>
     </Provider>
   </ThemeProvider>,

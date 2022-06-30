@@ -6,19 +6,19 @@ import {Avatar, Box, Card, CardActionArea, CardContent} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {login} from 'store/auth';
 import userRoles from 'constants/userRoles';
-import {useSigninUserMutation} from 'api/auth';
+import {useGetUserProfileMutation} from 'api/profile';
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
 import logo from 'assets/images/Logo.svg';
 
 export default function Login() {
   const dispatch = useDispatch();
-  const [signinUser, {data, isSuccess}] = useSigninUserMutation();
+  const [getUserProfile, {data, isSuccess}] = useGetUserProfileMutation();
 
   const onUserClick = role => () => {
     console.log(USER_ROLES_PERMISSIONS[role.id]);
     // TODO: Replece to  role from profile
     dispatch(setPermissions(USER_ROLES_PERMISSIONS[role.id]));
-    signinUser({role: role.id});
+    getUserProfile({role: role.id});
   };
 
   const UserCard = ({role}) => (

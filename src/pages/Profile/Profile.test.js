@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, screen} from 'utils/test-utils';
+import {fireEvent, render, screen} from 'containers/TestProviderWrapper';
 import MyProfile from 'pages/Profile';
 
 jest.mock('react-router-dom', () => ({

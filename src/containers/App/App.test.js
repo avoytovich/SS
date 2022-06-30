@@ -1,4 +1,4 @@
-import {render, screen} from 'utils/test-utils';
+import {render, screen} from 'containers/TestProviderWrapper';
 import React from 'react';
 import App from './App';
 

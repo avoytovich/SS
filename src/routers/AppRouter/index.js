@@ -4,10 +4,10 @@ import {Route, Switch} from 'react-router-dom';
 import routes from 'constants/routes';
 
 import PrivateRoute from 'components/PrivateRoute';
-import PublicRoute from 'components/PublicRoute';
-
-import Login from 'pages/Login';
-import Home from 'pages/Home';
+// import PublicRoute from 'components/PublicRoute';
+//
+// import Login from 'pages/Login';
+// import Home from 'pages/Home';
 import NotFound from 'pages/NotFound';
 import Skills from 'pages/Skills';
 import Employees from 'pages/Employees';
@@ -17,12 +17,6 @@ import {PermissionEnum} from 'constants/permissions';
 
 const AppRouter = () => (
   <Switch>
-    <PrivateRoute path={routes.home} exact>
-      <Home />
-    </PrivateRoute>
-    <PublicRoute path={routes.login} restricted>
-      <Login />
-    </PublicRoute>
     <PrivateRoute path={routes.skills.list} permissions={[PermissionEnum.SKILLS_LIST]} exact>
       <Skills />
     </PrivateRoute>

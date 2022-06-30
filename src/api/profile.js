@@ -1,24 +1,18 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {apiUrls} from 'constants/apiURLs';
-import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
+import api from './api';
 
-const {PREFIX_BASE_URL} = API_URL_PREFIXES;
-
-const profileApi = createApi({
-  reducerPath: 'profileApi',
-  baseQuery: fetchBaseQuery({baseUrl: `${PREFIX_BASE_URL}`}),
-  tagTypes: ['Profile'],
+const authApi = api.injectEndpoints({
   endpoints: builder => ({
-    fetchSkills: builder.query({
-      query: ({...params}) => ({
-        url: apiUrls.users.profileSkills,
-        params: {...params}
-      }),
-      providesTags: ['Profile'],
-      transformResponse: response => ({...response, skills: response.data})
+    getUserProfile: builder.mutation({
+      query: () => ({
+        url: apiUrls.users.myProfile,
+        method: 'get',
+        params: {role: 'SuperAdmin'}
+      })
     })
   })
 });
 
-export default profileApi;
-export const {useFetchSkillsQuery} = profileApi;
+export default authApi;
+
+export const {useGetUserProfileMutation} = authApi;

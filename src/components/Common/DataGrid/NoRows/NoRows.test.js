@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen} from 'utils/test-utils';
+import {render, screen} from 'containers/TestProviderWrapper';
 import {NoRows} from 'components/Common/DataGrid/NoRows';
 
 describe('NoRows', () => {

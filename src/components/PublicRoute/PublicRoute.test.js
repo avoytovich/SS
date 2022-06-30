@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from 'utils/test-utils';
+import {render} from 'containers/TestProviderWrapper';
 import {createMemoryHistory} from 'history';
 import {Router} from 'react-router-dom';
 import * as redux from 'react-redux';
