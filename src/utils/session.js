@@ -11,7 +11,7 @@ class AuthSession {
   }
 
   static get() {
-    Storage.get(AuthSession.sessionKey);
+    return Storage.get(AuthSession.sessionKey);
   }
 
   static set(tokenValue) {

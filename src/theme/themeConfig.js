@@ -15,8 +15,6 @@ import {
   ERROR
 } from './colors';
 
-const {breakpoints} = createTheme();
-
 const themeConfig = createTheme({
   palette: {
     primary: {
@@ -58,12 +56,7 @@ const themeConfig = createTheme({
             margin: '0 auto',
             backgroundColor: GREY_1,
             boxShadow: 'none',
-            [breakpoints.up('sm')]: {
-              width: '100%'
-            },
-            [breakpoints.up('md')]: {
-              width: '1200px'
-            },
+            width: '100%',
             '& .MuiLink-root': {
               borderRadius: '4px',
               color: DARK_GREY,

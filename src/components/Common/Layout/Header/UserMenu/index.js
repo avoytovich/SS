@@ -12,7 +12,7 @@ import {StyledMenu} from 'components/Common/Layout/Header/styles';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
-  const {profile} = useSelector(state => state.auth);
+  const {profile, auth} = useSelector(state => state.auth);
   const {isOpen, toggle} = useModal();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -40,7 +40,8 @@ export default function UserMenu() {
         aria-expanded={isOpen ? 'true' : undefined}
         onClick={handleClick}
       >
-        {`${profile?.first_name} ${profile?.last_name}`}
+        {/* TODO:Remove auth.name after integration SSO on backend side */}
+        {auth.name ? auth.name : `${profile?.first_name} ${profile?.last_name}`}
       </Button>
       <StyledMenu
         id="user-menu"

@@ -13,11 +13,10 @@ import {
 import storage from 'redux-persist/lib/storage';
 import {setupListeners} from '@reduxjs/toolkit/query';
 import authSlice from 'store/auth';
-import authApi from 'api/profile';
+import profileApi from 'api/profile';
 import tagsApi from 'api/tags';
 import skillsApi from 'api/skills';
 import employeesApi from 'api/employees';
-import api from 'api/api';
 
 import {permissionsReducer} from './permissions/permissions';
 
@@ -31,8 +30,7 @@ const authPersisted = persistReducer(persistConfig, authSlice.reducer);
 const rootReducer = combineReducers({
   auth: authPersisted,
   permissions: permissionsReducer,
-  [api.reducerPath]: api.reducer,
-  [authApi.reducerPath]: authApi.reducer,
+  [profileApi.reducerPath]: profileApi.reducer,
   [tagsApi.reducerPath]: tagsApi.reducer,
   [skillsApi.reducerPath]: skillsApi.reducer,
   [employeesApi.reducerPath]: employeesApi.reducer
@@ -45,7 +43,12 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(api.middleware)
+    }).concat(
+      profileApi.middleware,
+      tagsApi.middleware,
+      employeesApi.middleware,
+      skillsApi.middleware
+    )
 });
 
 export const persistor = persistStore(store);
