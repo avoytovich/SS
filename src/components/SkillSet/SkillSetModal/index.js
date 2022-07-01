@@ -36,13 +36,11 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
 
   return (
     <CustomizedDialogs
-      type="form"
       isOpen={isOpen}
       onClose={onClose}
       onCancel={onClose}
       onSave={onSave}
       title="Propose new skill"
-      text=""
       withCustomBtns
       {...rest}
     >

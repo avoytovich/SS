@@ -2,10 +2,8 @@ import React from 'react';
 import {NavLink as RouterLink} from 'react-router-dom';
 
 import {Button} from '@mui/material';
-import {ErrorBoundary} from 'react-error-boundary';
 
 import {PagePanel} from 'components/PagePanel';
-import ErrorFallback from 'components/ErrorFallback';
 import ProfileDetails from 'components/Profile/ProfileDetails';
 import SkillList from 'components/Profile/SkillList';
 import PageHeader from 'components/Common/Layout/PageHeader';
@@ -30,12 +28,10 @@ export default function MyProfile() {
           </Button>
         ]}
       />
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <PagePanel>
-          <ProfileDetails />
-          <SkillList />
-        </PagePanel>
-      </ErrorBoundary>
+      <PagePanel>
+        <ProfileDetails />
+        <SkillList />
+      </PagePanel>
     </>
   );
 }

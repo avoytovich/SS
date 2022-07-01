@@ -92,7 +92,7 @@ CustomizedDialogs.defaultProps = {
   onClose: () => {},
   handleSubmit: () => {},
   title: 'Are you sure?',
-  text: 'Do some action',
+  text: '',
   cancelText: 'Cancel',
   confirmText: 'Confirm',
   removeText: 'Remove',
