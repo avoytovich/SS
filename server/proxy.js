@@ -1,5 +1,5 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const { API_URL_PREFIXES } = require('../src/constants/apiUrlPrefixes');
+const {createProxyMiddleware} = require('http-proxy-middleware');
+const {API_URL_PREFIXES} = require('../src/constants/apiUrlPrefixes');
 
 module.exports = app => {
   app.use(
@@ -8,6 +8,7 @@ module.exports = app => {
       target: process.env.API_BASE_URL,
       changeOrigin: true,
       logLevel: 'debug',
+      secure: false
     })
   );
 };
