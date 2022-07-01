@@ -3,7 +3,7 @@ import * as msal from '@azure/msal-browser';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
-// import {setAuthUser} from 'store/auth';
+import {setAuthData} from 'store/auth';
 import AuthSession from 'utils/session';
 import {INIT_PAGE} from 'constants/common';
 import Storage from 'utils/storage';
@@ -20,7 +20,7 @@ export const useMsal = () => useContext(MsalContext);
 
 export const MsalProvider = ({children, config}) => {
   const dispatch = useDispatch();
-  const [isAuthenticated, setIsAuthenticated] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [initialPath, setInitialPath] = useState();
   const [user, setUser] = useState();
@@ -44,7 +44,7 @@ export const MsalProvider = ({children, config}) => {
         if (response) {
           const usr = pc.getAccountByUsername(response?.account?.username);
           setUser(usr);
-          // dispatch(setAuthUser(usr));
+          dispatch(setAuthData(usr));
 
           if (response.accessToken) {
             AuthSession.set(response.accessToken);
@@ -67,7 +67,6 @@ export const MsalProvider = ({children, config}) => {
     if (pc.getAccountByUsername()) {
       const usr = pc.getAccountByUsername();
       setUser(usr);
-      //  dispatch(setAuthUser(usr));
       setIsAuthenticated(true);
     }
   }, [config, dispatch]);
