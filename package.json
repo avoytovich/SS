@@ -124,6 +124,7 @@
     "coveragePathIgnorePatterns": [
       "store/index.js$",
       "constants",
+      "styles.js",
       "reportWebVitals.js",
       "setupProxy.js",
       "src/index.js",

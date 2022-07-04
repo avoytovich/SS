@@ -27,7 +27,7 @@ export const columns = [
   },
   {
     field: 'level',
-    headerName: 'Seniority',
+    headerName: 'Level',
     minWidth: 90,
     valueGetter: ({row}) => `${capitalizeFirstLetter(row.level)}`,
     flex: 2

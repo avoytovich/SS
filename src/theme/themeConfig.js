@@ -140,21 +140,6 @@ const themeConfig = createTheme({
         }
       }
     },
-    MuiMenuItem: {
-      styleOverrides: {
-        root: {
-          borderBottom: `1px solid ${GREY_0}`,
-          '&.Mui-selected': {
-            backgroundColor: VIBRANT_BLUE,
-            color: WHITE
-          },
-          '&.Mui-disabled': {
-            color: GREY_4,
-            opacity: 1
-          }
-        }
-      }
-    },
     MuiTableSortLabel: {
       styleOverrides: {
         root: {
