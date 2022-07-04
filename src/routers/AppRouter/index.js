@@ -11,6 +11,8 @@ import Employees from 'pages/Employees';
 import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
 import Home from 'pages/Home';
+import SkillSet from 'pages/SkillSet';
+
 import {PermissionEnum} from 'constants/permissions';
 
 const AppRouter = () => (
@@ -29,6 +31,9 @@ const AppRouter = () => (
     </PrivateRoute>
     <PrivateRoute path={routes.home} exact>
       <Home />
+    </PrivateRoute>
+    <PrivateRoute path={routes.skillSet} permissions={[PermissionEnum.USERS_ME]} exact>
+      <SkillSet />
     </PrivateRoute>
     <Route component={AccessDenied} path={routes.errors.accessDenied} exact />
     <Route component={NotFound} path="*" />

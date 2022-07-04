@@ -2,6 +2,7 @@ const routes = {
   home: '/',
   login: '/login',
   profile: '/profile',
+  skillSet: '/skill-set',
   tags: {
     list: '/tags'
   },
