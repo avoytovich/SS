@@ -20,7 +20,9 @@ build-test-image:
       - docker:20.10.10-dind
     extends: .before_script_template
     script:
-      - docker build -t $CONTAINER_TEST_IMAGE .
+      - docker build -t $CONTAINER_TEST_IMAGE . 
+        --build-arg REACT_APP_MSAL_CLIENT_ID=$REACT_APP_MSAL_CLIENT_ID
+        --build-arg REACT_APP_MSAL_TENANT_ID=$REACT_APP_MSAL_TENANT_ID
       - docker push $CONTAINER_TEST_IMAGE
 
 linter:
