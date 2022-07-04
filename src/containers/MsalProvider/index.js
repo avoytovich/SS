@@ -4,9 +4,8 @@ import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {setAuthData} from 'store/auth';
-import AuthSession from 'utils/session';
+import Session from 'utils/session';
 import {INIT_PAGE} from 'constants/common';
-import Storage from 'utils/storage';
 
 const ua = window.navigator.userAgent;
 const msie = ua.indexOf('MSIE ');
@@ -21,18 +20,15 @@ export const useMsal = () => useContext(MsalContext);
 export const MsalProvider = ({children, config}) => {
   const dispatch = useDispatch();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [initialPath, setInitialPath] = useState();
-  const [user, setUser] = useState();
-  const [token, setToken] = useState();
   const [publicClient, setPublicClient] = useState();
   const [loading, setLoading] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [loginError, setLoginError] = useState(false);
 
   useEffect(() => {
-    if (!Storage.get(INIT_PAGE)) {
-      Storage.set(INIT_PAGE, window.location.pathname);
+    if (!Session.get(INIT_PAGE)) {
+      Session.set(INIT_PAGE, window.location.pathname);
     }
 
     const pc = new msal.PublicClientApplication(config);
@@ -43,15 +39,13 @@ export const MsalProvider = ({children, config}) => {
         setLoading(false);
         if (response) {
           const usr = pc.getAccountByUsername(response?.account?.username);
-          setUser(usr);
           dispatch(setAuthData(usr));
 
           if (response.accessToken) {
-            AuthSession.set(response.accessToken);
-            setToken(response.accessToken);
-            const path = Storage.get(INIT_PAGE);
+            Session.set(response.accessToken);
+            const path = Session.get(INIT_PAGE);
             setInitialPath(path);
-            Storage.set(INIT_PAGE, null);
+            Session.set(INIT_PAGE, null);
             setIsAuthenticated(true);
           }
         } else {
@@ -66,7 +60,7 @@ export const MsalProvider = ({children, config}) => {
 
     if (pc.getAccountByUsername()) {
       const usr = pc.getAccountByUsername();
-      setUser(usr);
+      dispatch(setAuthData(usr));
       setIsAuthenticated(true);
     }
   }, [config, dispatch]);
@@ -85,15 +79,12 @@ export const MsalProvider = ({children, config}) => {
   const getTokenPopup = async loginRequest => {
     try {
       const response = await publicClient.acquireTokenSilent(loginRequest);
-      AuthSession.set(response.accessToken);
-      setToken(response.accessToken);
+      Session.set(response.accessToken);
     } catch (error) {
       try {
         setPopupOpen(true);
-
         const response = await publicClient.acquireTokenPopup(loginRequest);
-        AuthSession.set(response.accessToken);
-        setToken(response.accessToken);
+        Session.set(response.accessToken);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e);
@@ -107,12 +98,10 @@ export const MsalProvider = ({children, config}) => {
   const getTokenRedirect = async loginRequest => {
     try {
       const t = await publicClient.acquireTokenSilent(loginRequest);
-      AuthSession.set(t);
-      setToken(t);
+      Session.set(t);
     } catch (error) {
       try {
         setLoading(true);
-
         publicClient.acquireTokenRedirect(loginRequest);
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -135,8 +124,6 @@ export const MsalProvider = ({children, config}) => {
       value={{
         pc: publicClient,
         isAuthenticated,
-        user,
-        token,
         loading,
         popupOpen,
         loginError,

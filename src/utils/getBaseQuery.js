@@ -1,12 +1,12 @@
 import {fetchBaseQuery} from '@reduxjs/toolkit/dist/query/react';
 
 import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
-import AuthSession from './session';
+import Session from './session';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL_PREFIXES.PREFIX_BASE_URL,
   prepareHeaders: headers => {
-    const token = AuthSession.get();
+    const token = Session.get();
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }

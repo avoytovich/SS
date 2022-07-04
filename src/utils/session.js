@@ -1,26 +1,19 @@
 import {SESSION_KEY} from 'constants/common';
 
-import Storage from './storage';
+import ClientStorage from './clientStorage';
 
-class AuthSession {
-  static sessionKey = SESSION_KEY;
+class ClientSession extends ClientStorage {
+  constructor() {
+    super();
+    this.sessionKey = SESSION_KEY;
+  }
 
-  static isTokenSet() {
-    const authToken = Storage.get(AuthSession.sessionKey);
+  isTokenSet() {
+    const authToken = this.get();
     return authToken && !!authToken.trim();
-  }
-
-  static get() {
-    return Storage.get(AuthSession.sessionKey);
-  }
-
-  static set(tokenValue) {
-    Storage.set(AuthSession.sessionKey, tokenValue);
-  }
-
-  static remove() {
-    Storage.remove(AuthSession.sessionKey);
   }
 }
 
-export default AuthSession;
+const Session = new ClientSession();
+
+export default Session;

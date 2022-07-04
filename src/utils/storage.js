@@ -1,52 +1,15 @@
-import Cookies from 'js-cookies';
-
 class Storage {
-  static isLocalStorageSupported() {
-    const storage = window.localStorage;
-    const testKey = 'testLocalStorageFunctionality';
-    let supported = true;
-
-    try {
-      storage.setItem(testKey, testKey);
-      storage.removeItem(testKey);
-    } catch (error) {
-      supported = false;
-    }
-
-    return !!supported;
+  get(key) {
+    return window.localStorage.getItem(key);
   }
 
-  static get(key) {
-    let value;
-    if (Storage.isLocalStorageSupported()) {
-      value = window.localStorage.getItem(key);
-    } else {
-      value = Cookies.get(key);
-    }
-
-    if (value) {
-      value = JSON.parse(value);
-    }
-
-    return value;
-  }
-
-  static set(key, data) {
+  set(key, data) {
     const value = JSON.stringify(data);
-
-    if (Storage.isLocalStorageSupported()) {
-      window.localStorage.setItem(key, value);
-    } else {
-      Cookies.set(key, value);
-    }
+    window.localStorage.setItem(key, value);
   }
 
-  static remove(key) {
-    if (Storage.isLocalStorageSupported()) {
-      window.localStorage.removeItem(key);
-    } else {
-      Cookies.remove(key);
-    }
+  remove(key) {
+    window.localStorage.removeItem(key);
   }
 }
 

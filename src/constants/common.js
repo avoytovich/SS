@@ -1,7 +1,8 @@
 export const CompanyUrl = 'https://capgemini-engineering.com.ua/';
 
-export const INIT_PAGE = 'ss-init-page';
-export const SESSION_KEY = 'ss-auth';
+export const INIT_PAGE = 'init-page';
+export const SESSION_KEY = 'auth';
+export const PREFIX_KEY = 'ss';
 
 export const INPUT_TYPES = {
   CHECKBOX: 'checkbox',
