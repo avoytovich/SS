@@ -7,13 +7,13 @@ import AccessDenied from 'pages/AccessDenied';
 
 function PrivateRoute({children, permissions = [], ...rest}) {
   const {hasPermissions} = usePermissions();
-  const isAuthenticated = useSelector(state => state.auth.token);
+  const {isAuthenticated} = useSelector(state => state.auth);
   const isAuthorized = !permissions.length || hasPermissions(permissions);
 
   const redirectTo = location => (
     <Redirect
       to={{
-        pathname: routes.login,
+        pathname: routes.errors.pageNotFound,
         state: {from: location}
       }}
     />

@@ -22,6 +22,11 @@ const routes = {
   },
   roles: {
     list: '/roles'
+  },
+  errors: {
+    pageNotFound: '/page-not-found',
+    accessDenied: '/access-denied',
+    serverError: '/server-error'
   }
 };
 

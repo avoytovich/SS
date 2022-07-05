@@ -1,12 +1,10 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {createApi} from '@reduxjs/toolkit/query/react';
 import {apiUrls} from 'constants/apiURLs';
-import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
-
-const {PREFIX_BASE_URL} = API_URL_PREFIXES;
+import {baseQuery} from 'utils/getBaseQuery';
 
 const tagsApi = createApi({
+  baseQuery,
   reducerPath: 'tagsApi',
-  baseQuery: fetchBaseQuery({baseUrl: `${PREFIX_BASE_URL}`}),
   tagTypes: ['Tags'],
   endpoints: builder => ({
     fetchTags: builder.query({

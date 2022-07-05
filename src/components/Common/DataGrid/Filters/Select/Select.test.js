@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, within} from 'utils/test-utils';
+import {fireEvent, render, within} from 'containers/TestProviderWrapper';
 import {GridSelect} from 'components/Common/DataGrid';
 
 const onChangeMock = jest.fn();

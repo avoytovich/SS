@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, screen, waitFor} from 'utils/test-utils';
+import {fireEvent, render, screen, waitFor} from 'containers/TestProviderWrapper';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import SkillSetModal from 'components/SkillSet/SkillSetModal';
