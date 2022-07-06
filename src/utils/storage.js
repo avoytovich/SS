@@ -3,8 +3,7 @@ class Storage {
     return window.localStorage.getItem(key);
   }
 
-  set(key, data) {
-    const value = JSON.stringify(data);
+  set(key, value) {
     window.localStorage.setItem(key, value);
   }
 

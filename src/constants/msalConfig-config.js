@@ -14,7 +14,9 @@ export const loginRequest = {
   scopes: [
     'openid',
     'profile',
-    'offline_access',
-    `api://${process.env.REACT_APP_MSAL_CLIENT_ID}/access_as_user`
+    'User.Read',
+    'User.ReadBasic.All',
+    'email'
+    // `api://${process.env.REACT_APP_MSAL_CLIENT_ID}/access_as_user`
   ]
 };
