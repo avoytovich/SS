@@ -10,7 +10,11 @@ import App from 'containers/App/App';
 import themeConfig from 'theme/themeConfig';
 import {persistor, store} from 'store/store';
 
+import {MsalProvider} from 'containers/MsalProvider';
+
 import SnackbarProviderWrapper from 'containers/SnackbarProviderWrapper';
+
+import {MSAL_CONFIG} from './constants/msalConfig-config';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -19,8 +23,10 @@ ReactDOM.render(
       <PersistGate loading={null} persistor={persistor}>
         <HelmetProvider>
           <SnackbarProviderWrapper>
-            <CssBaseline />
-            <App />
+            <MsalProvider config={MSAL_CONFIG}>
+              <CssBaseline />
+              <App />
+            </MsalProvider>
           </SnackbarProviderWrapper>
         </HelmetProvider>
       </PersistGate>

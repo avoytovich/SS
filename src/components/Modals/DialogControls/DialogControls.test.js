@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen, fireEvent} from 'utils/test-utils';
+import {render, screen, fireEvent} from 'containers/TestProviderWrapper';
 
 import DialogControls from './index';
 

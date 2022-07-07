@@ -5,9 +5,13 @@ import {ErrorBoundary} from 'react-error-boundary';
 
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
 
+import {useGetUserProfileQuery} from 'api/profile';
+
 import ErrorFallback from 'components/ErrorFallback';
 import AppRouter from 'routers/AppRouter';
 import MainContainer from 'components/Common/Layout/MainContainer';
+
+import {setProfileUser} from 'store/auth';
 
 import {setPermissions, clearPermissions} from 'store/permissions/permissions';
 
@@ -18,9 +22,16 @@ import 'assets/fonts/Ubuntu-Medium.ttf';
 import './App.css';
 
 const App = () => {
-  const {profile} = useSelector(state => state.auth);
-  const {permissions} = useSelector(state => state.permissions);
+  const {profile, isAuthenticated} = useSelector(state => state.auth);
   const dispatch = useDispatch();
+
+  const {data, isSuccess} = useGetUserProfileQuery();
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setProfileUser(data));
+    }
+  }, [isSuccess]);
 
   useEffect(() => {
     if (profile && profile.role) {
@@ -33,7 +44,7 @@ const App = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Router>
-        <MainContainer>{(permissions.length > 0 || !profile?.role) && <AppRouter />}</MainContainer>
+        <MainContainer>{isSuccess && isAuthenticated && <AppRouter />}</MainContainer>
       </Router>
     </ErrorBoundary>
   );

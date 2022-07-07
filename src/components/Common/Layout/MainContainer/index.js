@@ -9,7 +9,7 @@ import Footer from '../../Footer';
 import {useStyles} from './styles';
 
 const MainContainer = ({children}) => {
-  const isAuthenticated = useSelector(state => state.auth.token);
+  const {isAuthenticated} = useSelector(state => state.auth);
 
   const classes = useStyles();
 

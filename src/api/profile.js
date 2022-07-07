@@ -1,14 +1,20 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {apiUrls} from 'constants/apiURLs';
-import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
-
-const {PREFIX_BASE_URL} = API_URL_PREFIXES;
+import {baseQuery} from 'utils/getBaseQuery';
+import {createApi} from '@reduxjs/toolkit/dist/query/react';
 
 const profileApi = createApi({
-  reducerPath: 'profileApi',
-  baseQuery: fetchBaseQuery({baseUrl: `${PREFIX_BASE_URL}`}),
-  tagTypes: ['Profile'],
+  baseQuery,
+  reducerPath: 'Profile',
   endpoints: builder => ({
+    getUserProfile: builder.query({
+      query: () => ({
+        url: apiUrls.users.myProfile,
+        method: 'get',
+        params: {
+          role: 'SuperAdmin'
+        }
+      })
+    }),
     fetchSkills: builder.query({
       query: ({...params}) => ({
         url: apiUrls.users.profileSkills,
@@ -21,4 +27,4 @@ const profileApi = createApi({
 });
 
 export default profileApi;
-export const {useFetchSkillsQuery} = profileApi;
+export const {useFetchSkillsQuery, useGetUserProfileQuery} = profileApi;

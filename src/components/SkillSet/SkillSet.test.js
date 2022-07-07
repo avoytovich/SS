@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, screen} from 'utils/test-utils';
+import {fireEvent, render, screen} from 'containers/TestProviderWrapper';
 import MySkills from 'components/SkillSet';
 
 describe('MySkills', () => {

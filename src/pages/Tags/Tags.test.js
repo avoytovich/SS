@@ -1,5 +1,5 @@
 import React from 'react';
-import {act, fireEvent, render, screen, store} from 'utils/test-utils';
+import {act, fireEvent, render, screen, store} from 'containers/TestProviderWrapper';
 import Tags from 'pages/Tags';
 import {setPermissions} from 'store/permissions/permissions';
 import routes from 'constants/routes';
