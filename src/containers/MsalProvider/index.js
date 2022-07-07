@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {setAuthData} from 'store/auth';
 import Session from 'utils/session';
 import {INIT_PAGE} from 'constants/common';
+import {loginScope} from '../../constants/msalConfig-config';
 
 const ua = window.navigator.userAgent;
 const msie = ua.indexOf('MSIE ');
@@ -49,7 +50,7 @@ export const MsalProvider = ({children, config}) => {
             setIsAuthenticated(true);
           }
         } else {
-          pc.loginRedirect();
+          pc.loginRedirect(loginScope);
         }
       })
       .catch(error => {
