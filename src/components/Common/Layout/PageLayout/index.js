@@ -3,43 +3,41 @@ import PropTypes from 'prop-types';
 
 import {useSelector} from 'react-redux';
 
-import Container from '@mui/material/Container';
 import Header from '../Header';
 import Footer from '../../Footer';
 
-import {useStyles} from './styles';
+import {PageContainer, PageContent, MainContent} from './PageLayout.styles';
 import PageHeader from '../PageHeader';
 
-const PageLayout = ({title, children}) => {
+const PageLayout = ({title, extra, type, hiddenHeader, subTitle, children}) => {
   const {isAuthenticated} = useSelector(state => state.auth);
 
-  const classes = useStyles();
-
   return (
-    <div className={classes.contentWrapper} data-testid="main-content-wrapper">
-      {isAuthenticated && <Header />}
-      <Container
-        maxWidth="lg"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1
-        }}
-      >
-        {title && <PageHeader title={title} />}
-        {children}
-      </Container>
+    <PageContainer data-testid="main-content-wrapper">
+      {isAuthenticated && !hiddenHeader && <Header />}
+      <PageContent>
+        <PageHeader title={title} extra={extra} subTitle={subTitle} />
+        <MainContent className={type}>{children}</MainContent>
+      </PageContent>
       <Footer />
-    </div>
+    </PageContainer>
   );
 };
 
 PageLayout.propTypes = {
-  title: PropTypes.string
+  type: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
+  extra: PropTypes.node,
+  children: PropTypes.node,
+  hiddenHeader: PropTypes.bool
 };
 
 PageLayout.defaultProps = {
-  title: ''
+  title: '',
+  subTitle: '',
+  type: 'default', // fullPage,
+  hiddenHeader: false
 };
 
 export default PageLayout;
