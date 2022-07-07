@@ -10,13 +10,6 @@ export const MSAL_CONFIG = {
   }
 };
 
-export const loginRequest = {
-  scopes: [
-    'openid',
-    'profile',
-    'User.Read',
-    'User.ReadBasic.All',
-    'email'
-    // `api://${process.env.REACT_APP_MSAL_CLIENT_ID}/access_as_user`
-  ]
+export const loginScope = {
+  scopes: ['openid', 'profile', 'user.read', 'user.readbasic.all', 'email']
 };
