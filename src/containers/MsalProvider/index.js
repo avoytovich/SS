@@ -68,7 +68,6 @@ export const MsalProvider = ({children, config}) => {
 
   const login = useCallback(
     conf => {
-      console.log(conf);
       publicClient.loginRedirect(conf);
     },
     [publicClient]
