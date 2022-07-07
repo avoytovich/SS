@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 import {useSelector} from 'react-redux';
 
@@ -7,8 +8,9 @@ import Header from '../Header';
 import Footer from '../../Footer';
 
 import {useStyles} from './styles';
+import PageHeader from '../PageHeader';
 
-const MainContainer = ({children}) => {
+const PageLayout = ({title, children}) => {
   const {isAuthenticated} = useSelector(state => state.auth);
 
   const classes = useStyles();
@@ -24,11 +26,20 @@ const MainContainer = ({children}) => {
           flex: 1
         }}
       >
+        {title && <PageHeader title={title} />}
         {children}
-        <Footer />
       </Container>
+      <Footer />
     </div>
   );
 };
 
-export default MainContainer;
+PageLayout.propTypes = {
+  title: PropTypes.string
+};
+
+PageLayout.defaultProps = {
+  title: ''
+};
+
+export default PageLayout;

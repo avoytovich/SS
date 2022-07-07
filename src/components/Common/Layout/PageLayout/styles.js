@@ -5,7 +5,9 @@ export const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
-    margin: '0',
-    padding: '0'
+    padding: '0',
+    width: '100%',
+    maxWidth: '1048px',
+    margin: '0 auto'
   }
 });

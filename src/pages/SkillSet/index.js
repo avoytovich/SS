@@ -1,16 +1,12 @@
 import React from 'react';
 
-import {PagePanel} from 'components/PagePanel';
-import PageHeader from 'components/Common/Layout/PageHeader';
 import MySkills from 'components/SkillSet';
+import PageLayout from 'components/Common/Layout/PageLayout';
 
 export default function SkillSet() {
   return (
-    <>
-      <PageHeader title="My skill set" />
-      <PagePanel>
-        <MySkills />
-      </PagePanel>
-    </>
+    <PageLayout title="My Skill Set">
+      <MySkills />
+    </PageLayout>
   );
 }
