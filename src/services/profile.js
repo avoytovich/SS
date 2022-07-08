@@ -1,12 +1,9 @@
 import {apiUrls} from 'constants/apiURLs';
-import {baseQuery} from 'utils/getBaseQuery';
-import {createApi} from '@reduxjs/toolkit/dist/query/react';
+import api from './api';
 
-const profileApi = createApi({
-  baseQuery,
-  reducerPath: 'Profile',
+const profileApi = api.injectEndpoints({
   endpoints: builder => ({
-    getUserProfile: builder.query({
+    fetchUserProfile: builder.query({
       query: () => ({
         url: apiUrls.users.myProfile,
         method: 'get',
@@ -27,4 +24,5 @@ const profileApi = createApi({
 });
 
 export default profileApi;
-export const {useFetchSkillsQuery, useGetUserProfileQuery} = profileApi;
+
+export const {useFetchUserProfileQuery, useFetchSkillsQuery} = profileApi;

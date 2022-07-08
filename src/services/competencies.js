@@ -1,13 +1,7 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {apiUrls} from 'constants/apiURLs';
-import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
+import api from './api';
 
-const {PREFIX_BASE_URL} = API_URL_PREFIXES;
-
-const competenciesApi = createApi({
-  reducerPath: 'competenciesApi',
-  baseQuery: fetchBaseQuery({baseUrl: `${PREFIX_BASE_URL}`}),
-  tagTypes: ['Competencies'],
+const competenciesApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchCompetencies: builder.query({
       query: ({...params}) => ({
