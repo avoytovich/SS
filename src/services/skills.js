@@ -1,11 +1,7 @@
-import {createApi} from '@reduxjs/toolkit/query/react';
 import {apiUrls} from 'constants/apiURLs';
-import {baseQuery} from 'utils/getBaseQuery';
+import api from './api';
 
-const skillsApi = createApi({
-  baseQuery,
-  reducerPath: 'skillsApi',
-  tagTypes: ['Skills'],
+const skillsApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchSkills: builder.query({
       query: queryOptions => ({

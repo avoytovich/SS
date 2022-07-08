@@ -1,11 +1,7 @@
-import {createApi} from '@reduxjs/toolkit/query/react';
 import {apiUrls} from 'constants/apiURLs';
-import {baseQuery} from 'utils/getBaseQuery';
+import api from './api';
 
-const tagsApi = createApi({
-  baseQuery,
-  reducerPath: 'tagsApi',
-  tagTypes: ['Tags'],
+const tagsApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchTags: builder.query({
       query: ({...params}) => ({

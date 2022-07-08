@@ -4,8 +4,8 @@ import {useSnackbar} from 'notistack';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
-import {useFetchSkillsQuery, useDeleteSkillMutation} from 'api/skills';
-import {useFetchTagsQuery} from 'api/tags';
+import {useFetchSkillsQuery, useDeleteSkillMutation} from 'services/skills';
+import {useFetchTagsQuery} from 'services/tags';
 
 import {
   GridPagination,

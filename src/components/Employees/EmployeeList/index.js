@@ -8,7 +8,7 @@ import {
   useFetchEmployeesQuery,
   useFetchSenioritiesQuery,
   useFetchSpecializationsQuery
-} from 'api';
+} from 'services';
 
 import {
   useDataGridPagination,

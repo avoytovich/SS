@@ -1,11 +1,7 @@
-import {createApi} from '@reduxjs/toolkit/query/react';
 import {apiUrls} from 'constants/apiURLs';
-import {baseQuery} from 'utils/getBaseQuery';
+import api from './api';
 
-const employeesApi = createApi({
-  baseQuery,
-  reducerPath: 'employeesApi',
-  tagTypes: ['Employees'],
+const employeesApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchEmployees: builder.query({
       query: ({...params}) => ({

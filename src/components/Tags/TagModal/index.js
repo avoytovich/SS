@@ -10,7 +10,7 @@ import Input from 'components/Common/Form/Input';
 import {Button, DialogActions} from '@mui/material';
 import {formSubmitHandling} from 'utils/forms';
 
-import {useUpdateTagMutation, useAddTagMutation, getTags} from 'api/tags';
+import {useUpdateTagMutation, useAddTagMutation, getTags} from 'services/tags';
 import {useURLParams} from 'hooks/dataGrid';
 import {defaultPage, pageParamName} from 'constants/dataGrid';
 

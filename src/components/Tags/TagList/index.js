@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
-import {useDeleteTagMutation, useFetchTagsQuery} from 'api/tags';
+import {useDeleteTagMutation, useFetchTagsQuery} from 'services/tags';
 
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
