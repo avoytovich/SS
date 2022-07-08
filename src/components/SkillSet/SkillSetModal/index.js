@@ -7,7 +7,7 @@ import {Form, Formik} from 'formik';
 
 import {Button, DialogActions} from '@mui/material';
 
-import {useAddSkillRequestsMutation} from 'api/skill-requests';
+import {useAddSkillRequestsMutation} from 'services/skillRequests';
 import {formSubmitHandling} from 'utils/forms';
 
 import Input from 'components/Common/Form/Input';

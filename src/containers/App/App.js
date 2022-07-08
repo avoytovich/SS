@@ -5,7 +5,7 @@ import {ErrorBoundary} from 'react-error-boundary';
 
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
 
-import {useGetUserProfileQuery} from 'api/profile';
+import {useFetchUserProfileQuery} from 'services/profile';
 
 import ErrorFallback from 'components/ErrorFallback';
 import AppRouter from 'routers/AppRouter';
@@ -25,7 +25,7 @@ const App = () => {
   const {profile, isAuthenticated} = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
-  const {data, isSuccess} = useGetUserProfileQuery();
+  const {data, isSuccess} = useFetchUserProfileQuery();
 
   useEffect(() => {
     if (isSuccess) {

@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Formik, Form} from 'formik';
-import {useFetchTagsQuery} from 'api/tags';
+import {useFetchTagsQuery} from 'services/tags';
 import {useDispatch} from 'react-redux';
-import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'api/skills';
+import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'services/skills';
 import {useSnackbar} from 'notistack';
 import {useURLParams} from 'hooks/dataGrid';
 import {diffFormValues, formSubmitHandling} from 'utils/forms';

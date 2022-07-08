@@ -13,14 +13,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import {setupListeners} from '@reduxjs/toolkit/query';
 import authSlice from 'store/auth';
-import profileApi from 'api/profile';
-import tagsApi from 'api/tags';
-import skillsApi from 'api/skills';
-import employeesApi from 'api/employees';
-import competenciesApi from 'api/competencies';
-import specializationsApi from 'api/specializations';
-import senioritiesApi from 'api/seniorities';
-import skillRequestsApi from 'api/skill-requests';
+import api from 'services/api';
 
 import {permissionsReducer} from './permissions/permissions';
 
@@ -34,14 +27,7 @@ const authPersisted = persistReducer(persistConfig, authSlice.reducer);
 const rootReducer = combineReducers({
   auth: authPersisted,
   permissions: permissionsReducer,
-  [profileApi.reducerPath]: profileApi.reducer,
-  [tagsApi.reducerPath]: tagsApi.reducer,
-  [skillsApi.reducerPath]: skillsApi.reducer,
-  [employeesApi.reducerPath]: employeesApi.reducer,
-  [competenciesApi.reducerPath]: competenciesApi.reducer,
-  [specializationsApi.reducerPath]: specializationsApi.reducer,
-  [senioritiesApi.reducerPath]: senioritiesApi.reducer,
-  [skillRequestsApi.reducerPath]: skillRequestsApi.reducer
+  [api.reducerPath]: api.reducer
 });
 
 export const store = configureStore({
@@ -51,16 +37,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(
-      profileApi.middleware,
-      tagsApi.middleware,
-      skillsApi.middleware,
-      employeesApi.middleware,
-      competenciesApi.middleware,
-      specializationsApi.middleware,
-      senioritiesApi.middleware,
-      skillRequestsApi.middleware
-    )
+    }).concat(api.middleware)
 });
 
 export const persistor = persistStore(store);
