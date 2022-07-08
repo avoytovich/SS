@@ -18,7 +18,7 @@ const Header = () => {
   const {hasPermissions} = usePermissions();
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={classes.appBar}>
       <Toolbar>
         <Link component={RouterLink} to={routes.home} exact={true} activeClassName={classes.active}>
           <img src={logo} alt="SmartSkills" />

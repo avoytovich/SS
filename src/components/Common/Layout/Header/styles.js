@@ -7,8 +7,12 @@ export const useStyles = makeStyles(() => ({
   active: {
     backgroundColor: 'none'
   },
+  appBar: {
+    padding: '5px 0'
+  },
   navContent: {
     display: 'flex',
+
     flexGrow: 1,
     justifyContent: 'center',
     '& .MuiLink-root': {

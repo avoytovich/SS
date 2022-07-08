@@ -9,7 +9,6 @@ import {useFetchUserProfileQuery} from 'services/profile';
 
 import ErrorFallback from 'components/ErrorFallback';
 import AppRouter from 'routers/AppRouter';
-import MainContainer from 'components/Common/Layout/MainContainer';
 
 import {setProfileUser} from 'store/auth';
 
@@ -43,9 +42,7 @@ const App = () => {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Router>
-        <MainContainer>{isSuccess && isAuthenticated && <AppRouter />}</MainContainer>
-      </Router>
+      <Router>{isSuccess && isAuthenticated && <AppRouter />}</Router>
     </ErrorBoundary>
   );
 };
