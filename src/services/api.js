@@ -1,11 +1,19 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
-
-const {PREFIX_BASE_URL} = API_URL_PREFIXES;
+import Session from '../utils/session';
 
 const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({baseUrl: `${PREFIX_BASE_URL}`}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: API_URL_PREFIXES.PREFIX_BASE_URL,
+    prepareHeaders: headers => {
+      const token = Session.get();
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    }
+  }),
   tagTypes: [
     'Competencies',
     'Profile',
