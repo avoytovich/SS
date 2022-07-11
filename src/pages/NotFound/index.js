@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import {Box, Button} from '@mui/material';
+import {Box} from '@mui/material';
 
+import {ButtonContained} from 'components/Button';
 import HelmetWrapper from 'containers/HelmetWrapper';
 import {PagePanel} from 'components/PagePanel';
 import image from 'assets/images/NotFound.svg';
@@ -34,15 +35,9 @@ const NotFound = () => {
           <Typography variant="body1" color="gray" align="center" mb={2} gutterBottom>
             The page you are looking for doesn&#39;t exist or has been moved.
           </Typography>
-          <Button
-            key="back-btn"
-            className={classes.backButton}
-            variant="contained"
-            data-testid="back-btn"
-            onClick={goBack}
-          >
+          <ButtonContained key="back-btn" data-testid="back-btn" onClick={goBack}>
             Go Back
-          </Button>
+          </ButtonContained>
         </Box>
       </Box>
     </PagePanel>

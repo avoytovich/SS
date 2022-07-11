@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {Button} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
 
 import HelmetWrapper from 'containers/HelmetWrapper';
@@ -13,6 +12,7 @@ import PageHeader from 'components/Common/Layout/PageHeader';
 import {useModal} from 'hooks/useModal';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
+import {ButtonContained} from 'components/Button';
 
 export default function Tags() {
   const {hasPermissions} = usePermissions();
@@ -36,17 +36,16 @@ export default function Tags() {
     setIsOpen(true);
   };
 
+  // TODO Refactor to avoid passing an array, as it forces setting up "key" properties that look redundant in this use case
   const extraButtons = hasPermissions([PermissionEnum.TAGS_CREATE])
     ? [
-        <Button
+        <ButtonContained
           key="tag-page-create-btn"
-          sx={{borderRadius: '40px'}}
-          variant="contained"
           data-testid="tag-page-create-btn"
           onClick={onCreateTag}
         >
           Create new tag
-        </Button>
+        </ButtonContained>
       ]
     : [];
 

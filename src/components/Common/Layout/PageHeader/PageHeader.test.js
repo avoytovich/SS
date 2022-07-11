@@ -2,8 +2,9 @@ import React from 'react';
 import {render, screen} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import {Button} from '@mui/material';
 import PageHeader from './index';
+
+import {ButtonText} from '../../../Button';
 
 describe('PageHeader', () => {
   it('should be rendered without crashes', () => {
@@ -18,9 +19,9 @@ describe('PageHeader', () => {
       <PageHeader
         title="Test title"
         extra={[
-          <Button key="test-btn" data-testid="page-header-button" onClick={onClickMock}>
+          <ButtonText key="test-btn" data-testid="page-header-button" onClick={onClickMock}>
             Button title
-          </Button>
+          </ButtonText>
         ]}
       />
     );
