@@ -19,10 +19,19 @@ const profileApi = api.injectEndpoints({
       }),
       providesTags: ['Profile'],
       transformResponse: response => ({...response, skills: response.data})
+    }),
+    fetchRecommendedSkills: builder.query({
+      query: ({...params}) => ({
+        url: apiUrls.users.recommendedSkills,
+        params: {...params}
+      }),
+      providesTags: ['RecommendedSkills'],
+      transformResponse: response => ({...response, skills: response.data})
     })
   })
 });
 
 export default profileApi;
 
-export const {useFetchUserProfileQuery, useFetchSkillsQuery} = profileApi;
+export const {useFetchUserProfileQuery, useFetchSkillsQuery, useFetchRecommendedSkillsQuery} =
+  profileApi;
