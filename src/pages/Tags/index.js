@@ -3,18 +3,16 @@ import React from 'react';
 import {Button} from '@mui/material';
 import {ErrorBoundary} from 'react-error-boundary';
 
-import HelmetWrapper from 'containers/HelmetWrapper';
+import PageLayout from 'components/Common/Layout/PageLayout';
 import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
-import {PagePanel} from 'components/PagePanel';
 
 import TagModal from 'components/Tags/TagModal';
-import PageHeader from 'components/Common/Layout/PageHeader';
 import {useModal} from 'hooks/useModal';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 
-export default function Tags() {
+const Tags = () => {
   const {hasPermissions} = usePermissions();
   const {isOpen, values, setIsOpen, setValues} = useModal();
 
@@ -51,16 +49,13 @@ export default function Tags() {
     : [];
 
   return (
-    <>
-      <HelmetWrapper title="Tags" />
-      <PageHeader title="Tags" extra={extraButtons} />
-
+    <PageLayout title="Tags" extra={extraButtons}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <PagePanel>
-          <TagList onSaveOrUpdate={onSaveOrUpdateTag} hasPermissions={hasPermissions} />
-        </PagePanel>
+        <TagList onSaveOrUpdate={onSaveOrUpdateTag} hasPermissions={hasPermissions} />
+        {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
       </ErrorBoundary>
-      {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
-    </>
+    </PageLayout>
   );
-}
+};
+
+export default Tags;

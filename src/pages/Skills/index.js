@@ -5,12 +5,10 @@ import {PermissionEnum} from 'constants/permissions';
 
 import {useModal} from 'hooks/useModal';
 
-import {PagePanel} from 'components/PagePanel';
+import PageLayout from 'components/Common/Layout/PageLayout';
 import CreateSkillModal from 'components/Skills/CreateSkillModal';
-import HelmetWrapper from 'containers/HelmetWrapper';
 import SkillsList from 'components/Skills/SkillsList';
 import ErrorFallback from 'components/ErrorFallback';
-import PageHeader from 'components/Common/Layout/PageHeader';
 import usePermissions from '../../hooks/permissions';
 
 const Skills = () => {
@@ -32,40 +30,35 @@ const Skills = () => {
   };
 
   return (
-    <>
-      <HelmetWrapper title="Skills" />
-      <PageHeader
-        title="Skills"
-        extra={
-          hasPermissions([PermissionEnum.SKILLS_CREATE])
-            ? [
-                <Button
-                  sx={{borderRadius: '40px'}}
-                  variant="contained"
-                  key="skill-page-create-btn"
-                  data-testid="skill-page-create-btn"
-                  onClick={handleClickCreate}
-                >
-                  Create new skill
-                </Button>
-              ]
-            : []
-        }
-      />
-
+    <PageLayout
+      title="Skills"
+      extra={
+        hasPermissions([PermissionEnum.SKILLS_CREATE])
+          ? [
+              <Button
+                sx={{borderRadius: '40px'}}
+                variant="contained"
+                key="skill-page-create-btn"
+                data-testid="skill-page-create-btn"
+                onClick={handleClickCreate}
+              >
+                Create new skill
+              </Button>
+            ]
+          : []
+      }
+    >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <PagePanel>
-          <SkillsList onChanges={onHandleChanges} />
-        </PagePanel>
+        <SkillsList onChanges={onHandleChanges} />
+        {createModal.isOpen && (
+          <CreateSkillModal
+            isOpen={createModal.isOpen}
+            onClose={onClose}
+            skill={createModal.values}
+          />
+        )}
       </ErrorBoundary>
-      {createModal.isOpen && (
-        <CreateSkillModal
-          isOpen={createModal.isOpen}
-          onClose={onClose}
-          skill={createModal.values}
-        />
-      )}
-    </>
+    </PageLayout>
   );
 };
 

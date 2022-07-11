@@ -2,9 +2,7 @@ import * as React from 'react';
 import {useHistory} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import {Box, Button} from '@mui/material';
-
-import HelmetWrapper from 'containers/HelmetWrapper';
-import {PagePanel} from 'components/PagePanel';
+import PageLayout from 'components/Common/Layout/PageLayout';
 import image from 'assets/images/NotFound.svg';
 
 import {useStyles} from 'pages/styles';
@@ -16,8 +14,7 @@ const NotFound = () => {
   const goBack = () => history.goBack();
 
   return (
-    <PagePanel>
-      <HelmetWrapper title="Page Not Found" includeAppName={false} />
+    <PageLayout pageTitle="Page Not Found" includeAppName={false}>
       <Box
         className={`${classes.centerContent} ${classes.flexColumn}`}
         data-testid="not-found-content"
@@ -45,7 +42,7 @@ const NotFound = () => {
           </Button>
         </Box>
       </Box>
-    </PagePanel>
+    </PageLayout>
   );
 };
 

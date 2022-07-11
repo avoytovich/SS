@@ -1,7 +1,7 @@
 import {grey} from '@mui/material/colors';
 
 export const dataGridRootStyles = {
-  minHeight: 500,
+  minHeight: 400,
   height: '100%',
   border: 0,
   '.MuiDataGrid-columnSeparator': {
