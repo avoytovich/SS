@@ -7,7 +7,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import {StyledIcon} from 'components/Common/DataGrid/Filters/MultipleAutocomplete/styles';
 
-export function SearchField({value, id, label, minWidth, size, onChange, onClear}) {
+function SearchField({value, id, label, minWidth, size, onChange, onClear}) {
   const ClearFieldButton = (
     <StyledIcon data-testid={`${id}-remove-btn`} aria-label="delete" onClick={onClear}>
       <CloseOutlinedIcon fontSize="small" />
@@ -48,3 +48,5 @@ SearchField.defaultProps = {
   minWidth: '233px',
   onClear: () => {}
 };
+
+export default SearchField;

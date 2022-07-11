@@ -9,7 +9,7 @@ import logo from 'assets/images/SmartSkills.svg';
 
 import UserMenu from 'components/Common/Layout/Header/UserMenu';
 import {useStyles} from 'components/Common/Layout/Header/styles';
-import {navigationLinks} from 'constants/header';
+import navigationLinks from 'constants/header';
 
 const isActiveFn = path => (match, location) => location.pathname.startsWith(path);
 

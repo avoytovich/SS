@@ -2,7 +2,7 @@ import React from 'react';
 import ChipList from 'components/Common/ChipList';
 import {capitalizeFirstLetter} from 'utils/helpers';
 
-export const columns = [
+const columns = [
   {
     field: 'name',
     headerName: 'Skill name',
@@ -33,3 +33,5 @@ export const columns = [
     flex: 2
   }
 ];
+
+export default columns;

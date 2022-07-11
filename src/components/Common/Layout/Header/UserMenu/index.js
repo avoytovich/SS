@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {NavLink as RouterLink} from 'react-router-dom';
 
-import {useModal} from 'hooks/useModal';
+import useModal from 'hooks/useModal';
 import routes from 'constants/routes';
 
 import {Box, MenuItem} from '@mui/material';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import SortedTableHead from '../SortedTableHead';
 import FilterTableHead from '../FilterTableHead';
-import { useStyles } from './styles';
+import useStyles from './styles';
 import TablePaginationActions from '../TablePaginationActions';
 
 export default function CustomPaginationActionsTable({
@@ -34,7 +34,7 @@ export default function CustomPaginationActionsTable({
   const [rowsPerPage, setRowsPerPage] = useState(showFooter ? rowsPerPageProp ?? 25 : -1);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
-  const classes = useStyles({ rowsPerPage, emptyRows });
+  const classes = useStyles({rowsPerPage, emptyRows});
 
   const onFiltersChange = values => {
     setFilters(values);
@@ -66,8 +66,8 @@ export default function CustomPaginationActionsTable({
     setPage(0);
   };
 
-  const ContentCenterRow = ({ children }) => (
-    <TableRow classes={{ root: classes.loadingRow }}>
+  const ContentCenterRow = ({children}) => (
+    <TableRow classes={{root: classes.loadingRow}}>
       <TableCell align="center" colSpan={headCells.length}>
         {children}
       </TableCell>
@@ -75,14 +75,14 @@ export default function CustomPaginationActionsTable({
   );
 
   ContentCenterRow.propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.any
   };
   return (
     <>
-      <TableContainer classes={{ root: classes.customTableContainer }} component={Paper}>
+      <TableContainer classes={{root: classes.customTableContainer}} component={Paper}>
         <Table data-testid="custom-table" aria-label="custom pagination table" {...props}>
           <colgroup>
-            {headCells.map(({ width, id }) => (
+            {headCells.map(({width, id}) => (
               <col key={id} width={width} />
             ))}
           </colgroup>
@@ -121,14 +121,14 @@ export default function CustomPaginationActionsTable({
                   : filteredRows
                 ).map((row, i) => (
                   <TableRow key={`${row.Id}-${i}`}>
-                    {headCells.map(({ id, customRender }) => (
+                    {headCells.map(({id, customRender}) => (
                       <TableCell key={id}>{customRender ? customRender(row) : row[id]}</TableCell>
                     ))}
                   </TableRow>
                 ))}
 
                 {emptyRows > 0 && (
-                  <TableRow classes={{ root: classes.emptyRow }}>
+                  <TableRow classes={{root: classes.emptyRow}}>
                     <TableCell colSpan={headCells.length} />
                   </TableRow>
                 )}
@@ -140,16 +140,16 @@ export default function CustomPaginationActionsTable({
               <TableRow>
                 <TablePagination
                   data-cy="custom-table-pagination"
-                  rowsPerPageOptions={[10, 25, 50, 100, { label: 'All', value: -1 }]}
+                  rowsPerPageOptions={[10, 25, 50, 100, {label: 'All', value: -1}]}
                   colSpan={headCells.length}
                   count={filteredRows.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
                     inputProps: {
-                      'aria-label': 'rows per page',
+                      'aria-label': 'rows per page'
                     },
-                    native: true,
+                    native: true
                   }}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
@@ -169,16 +169,16 @@ CustomPaginationActionsTable.propTypes = {
   headCells: PropTypes.array.isRequired,
   order: PropTypes.oneOfType([
     PropTypes.string.isRequired,
-    PropTypes.arrayOf(PropTypes.string.isRequired),
+    PropTypes.arrayOf(PropTypes.string.isRequired)
   ]),
   orderBy: PropTypes.oneOfType([
     PropTypes.string.isRequired,
-    PropTypes.arrayOf(PropTypes.string.isRequired),
+    PropTypes.arrayOf(PropTypes.string.isRequired)
   ]),
   onSortHandler: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   showFooter: PropTypes.bool,
   showFilteredColumn: PropTypes.bool,
   rowsPerPageProp: PropTypes.number,
-  rowsPerPage: PropTypes.number,
+  rowsPerPage: PropTypes.number
 };

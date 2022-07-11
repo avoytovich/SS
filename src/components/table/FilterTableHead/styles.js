@@ -1,17 +1,19 @@
-import { makeStyles } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core';
 
-export const useStyles = makeStyles({
+const useStyles = makeStyles({
   input: {
     width: '100%',
-    height: 31,
+    height: 31
   },
   cleanUpLink: {
     color: '#000',
     fontSize: 12,
     margin: 0,
-    cursor: 'pointer',
+    cursor: 'pointer'
   },
   formControl: {
-    width: '100%',
-  },
+    width: '100%'
+  }
 });
+
+export default useStyles;

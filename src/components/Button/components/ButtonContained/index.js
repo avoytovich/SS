@@ -1,6 +1,6 @@
 import {styled} from '@mui/material/styles';
 
-import {Button} from '../Button';
+import Button from '../Button';
 
 // ButtonContained specific styles should go here
 const StyledButton = styled(Button)(() => ({
@@ -22,4 +22,4 @@ function ButtonContained(props) {
   );
 }
 
-export {ButtonContained};
+export default ButtonContained;

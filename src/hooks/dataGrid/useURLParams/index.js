@@ -1,7 +1,7 @@
 import {useHistory, useLocation} from 'react-router-dom';
 import {setURLSearchParams} from 'utils/dataGridUtils';
 
-export const useURLParams = () => {
+const useURLParams = () => {
   const history = useHistory();
   const {pathname, search} = useLocation();
 
@@ -46,3 +46,5 @@ export const useURLParams = () => {
     isParamEqualTo
   };
 };
+
+export default useURLParams;

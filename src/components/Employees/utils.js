@@ -1,5 +1,5 @@
 import {getOptions} from 'utils/dataGridUtils';
-import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
+import useDataGridFilter from 'hooks/dataGrid/useDataGridFilter';
 import {
   filterBenchParamName,
   filterCompetencyParamName,

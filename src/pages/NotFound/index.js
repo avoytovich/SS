@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {Box, Typography} from '@mui/material';
 
 // TODO Refactor it. Add styles to separate components and remove pages/styles.js
-import {useStyles} from 'pages/styles';
+import useStyles from 'pages/styles';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
 import {ButtonContained} from 'components/Button';

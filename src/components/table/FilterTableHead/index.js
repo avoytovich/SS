@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import {simpleLocaleComparator} from '../../../utils/helpers';
-import {useStyles} from './styles';
+import useStyles from './styles';
 
 export default function FilterTableHead({headCells, primaryData, onFiltersChange}) {
   const classes = useStyles();

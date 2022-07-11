@@ -18,7 +18,7 @@ import {PermissionEnum} from 'constants/permissions';
 
 import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
 import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
-import {useStyles} from 'components/Tags/TagList/styles';
+import useStyles from 'components/Tags/TagList/styles';
 
 export default function TagList({onSaveOrUpdate, hasPermissions}) {
   const classes = useStyles();

@@ -1,7 +1,7 @@
 import routes from './routes';
 import {PermissionEnum} from './permissions';
 
-export const navigationLinks = [
+const navigationLinks = [
   {
     pathName: routes.skills.list,
     linkName: 'Skills',
@@ -24,3 +24,5 @@ export const navigationLinks = [
     exact: true
   }
 ];
+
+export default navigationLinks;

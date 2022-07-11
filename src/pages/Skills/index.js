@@ -2,7 +2,7 @@ import React from 'react';
 import {ErrorBoundary} from 'react-error-boundary';
 import {PermissionEnum} from 'constants/permissions';
 
-import {useModal} from 'hooks/useModal';
+import useModal from 'hooks/useModal';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
 import {ButtonContained} from 'components/Button';

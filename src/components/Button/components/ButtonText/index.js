@@ -1,6 +1,6 @@
 import {styled} from '@mui/material/styles';
 
-import {Button} from '../Button';
+import Button from '../Button';
 
 // ButtonText specific styles should go here
 const StyledButton = styled(Button)(() => ({}));
@@ -20,4 +20,4 @@ function ButtonText(props) {
   );
 }
 
-export {ButtonText};
+export default ButtonText;

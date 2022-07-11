@@ -1,4 +1,4 @@
-export const apiUrls = {
+const apiUrls = {
   users: {
     root: '/users',
     rootWithQueries: query => `/users/?${query}`,
@@ -31,3 +31,5 @@ export const apiUrls = {
     root: '/skill-requests'
   }
 };
+
+export default apiUrls;
