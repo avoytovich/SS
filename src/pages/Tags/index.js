@@ -7,7 +7,7 @@ import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
 
 import TagModal from 'components/Tags/TagModal';
-import {useModal} from 'hooks/useModal';
+import useModal from 'hooks/useModal';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 import {ButtonContained} from 'components/Button';

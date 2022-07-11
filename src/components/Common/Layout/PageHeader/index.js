@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Box, Typography} from '@mui/material';
 
-import {useStyles} from './styles';
+import useStyles from './styles';
 
 const PageHeader = ({title, subTitle, children, extra, rest}) => {
   const classes = useStyles();

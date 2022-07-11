@@ -1,6 +1,6 @@
 import {grey} from '@mui/material/colors';
 
-export const dataGridRootStyles = {
+const dataGridRootStyles = {
   minHeight: 400,
   height: '100%',
   border: 0,
@@ -31,3 +31,5 @@ export const dataGridRootStyles = {
     color: 'rgba(0, 0, 0, 0.87)'
   }
 };
+
+export default dataGridRootStyles;

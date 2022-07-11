@@ -3,7 +3,7 @@ import {useState} from 'react';
 /**
  *Modal state hook and toggle status
  */
-export const useModal = () => {
+const useModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [values, setValues] = useState({});
 
@@ -19,3 +19,5 @@ export const useModal = () => {
     setIsOpen
   };
 };
+
+export default useModal;

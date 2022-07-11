@@ -1,7 +1,7 @@
 import {makeStyles} from '@material-ui/core';
 import {GREY_4} from '../theme/colors';
 
-export const useStyles = makeStyles({
+const useStyles = makeStyles({
   flexColumn: {
     display: 'flex',
     flexDirection: 'column'
@@ -74,3 +74,5 @@ export const useStyles = makeStyles({
     alignItems: 'center'
   }
 });
+
+export default useStyles;

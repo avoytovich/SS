@@ -18,4 +18,4 @@ function Button(props) {
   return <StyledMuiButton {...restProps}>{children}</StyledMuiButton>;
 }
 
-export {Button};
+export default Button;

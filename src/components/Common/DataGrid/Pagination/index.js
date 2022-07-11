@@ -8,7 +8,7 @@ import {
 import Pagination from '@mui/material/Pagination';
 import PropTypes from 'prop-types';
 
-export function GridPagination({shape, ...rest}) {
+function GridPagination({shape, ...rest}) {
   const apiRef = useGridApiContext();
   const page = useGridSelector(apiRef, gridPageSelector);
   const pageCount = useGridSelector(apiRef, gridPageCountSelector);
@@ -27,3 +27,5 @@ GridPagination.propTypes = {
 GridPagination.defaultProps = {
   shape: 'rounded'
 };
+
+export default GridPagination;

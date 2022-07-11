@@ -1,4 +1,4 @@
-import {apiUrls} from 'constants/apiURLs';
+import apiUrls from 'constants/apiURLs';
 import api from './api';
 
 const senioritiesApi = api.injectEndpoints({

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from 'containers/TestProviderWrapper';
-import {NoRows} from 'components/Common/DataGrid/NoRows';
+import NoRows from 'components/Common/DataGrid/NoRows';
 
 describe('NoRows', () => {
   it('renders without crashes', () => {

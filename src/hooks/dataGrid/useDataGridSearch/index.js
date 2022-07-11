@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {searchParamName} from 'constants/dataGrid';
 
-export const useDataGridSearch = (queryParams, updateURLParams) => {
+const useDataGridSearch = (queryParams, updateURLParams) => {
   const [search, setSearch] = useState(queryParams.get(searchParamName) || '');
 
   useEffect(() => {
@@ -21,3 +21,5 @@ export const useDataGridSearch = (queryParams, updateURLParams) => {
     onSearchChange
   };
 };
+
+export default useDataGridSearch;

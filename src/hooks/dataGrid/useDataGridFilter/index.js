@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 
-export const useDataGridFilter = (
+const useDataGridFilter = (
   queryParams,
   updateURLParams,
   updateFilterParams,
@@ -35,3 +35,5 @@ export const useDataGridFilter = (
     onFilterChange
   };
 };
+
+export default useDataGridFilter;

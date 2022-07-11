@@ -28,11 +28,11 @@ import {
   getTagFilterByQueryParams,
   updateTagFilterParam
 } from 'components/Skills/SkillsList/utils';
-import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
-import {useModal} from 'hooks/useModal';
+import useDataGridFilter from 'hooks/dataGrid/useDataGridFilter';
+import useModal from 'hooks/useModal';
 import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
-import {useStyles} from './styles';
+import useStyles from './styles';
 import usePermissions from '../../../hooks/permissions';
 import {PermissionEnum} from '../../../constants/permissions';
 

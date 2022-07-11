@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core';
 
-export const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(() => ({
   filterContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -26,3 +26,5 @@ export const useStyles = makeStyles(() => ({
     width: '315px'
   }
 }));
+
+export default useStyles;

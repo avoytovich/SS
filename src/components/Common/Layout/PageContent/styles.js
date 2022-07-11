@@ -1,7 +1,7 @@
 import {makeStyles} from '@material-ui/core';
 import themeConfig from 'theme/themeConfig';
 
-export const useStyles = makeStyles({
+const useStyles = makeStyles({
   contentWrapper: {
     marginBottom: '32px',
     padding: '10px 0',
@@ -13,3 +13,5 @@ export const useStyles = makeStyles({
     minHeight: '200px'
   }
 });
+
+export default useStyles;

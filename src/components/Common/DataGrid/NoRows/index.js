@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import {ButtonText} from 'components/Button';
 
-export function NoRows({emptyMessage, actionTitle, isAction, onAddNewRow, ...rest}) {
+function NoRows({emptyMessage, actionTitle, isAction, onAddNewRow, ...rest}) {
   return (
     <Box {...rest}>
       <Typography color="gray" data-testid="no-rows-title">
@@ -33,3 +33,5 @@ NoRows.defaultProps = {
   actionTitle: '',
   onAddNewRow: () => {}
 };
+
+export default NoRows;

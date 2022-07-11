@@ -6,7 +6,7 @@ import {dataGridRootStyles, GridPagination, NoRows} from 'components/Common/Data
 
 import {columns} from 'components/Employees/EmployeeList/constants';
 import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
-import {useStyles} from 'components/Profile/styles';
+import useStyles from 'components/Profile/styles';
 
 const EmployeeTable = ({
   rows,

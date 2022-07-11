@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {useStyles} from './styles';
+import useStyles from './styles';
 
 const PageContent = ({children}) => {
   const classes = useStyles();

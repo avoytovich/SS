@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {convertSortParamToGridSortModel, getSortParamsFromModel} from 'utils/dataGridUtils';
 import {sortParamName} from 'constants/dataGrid';
 
-export const useDataGridSort = (queryParams, updateURLParams) => {
+const useDataGridSort = (queryParams, updateURLParams) => {
   const [sort, setSort] = useState(queryParams.get(sortParamName) || '');
   const [sortModel, setSortModel] = useState(convertSortParamToGridSortModel(sort));
 
@@ -28,3 +28,5 @@ export const useDataGridSort = (queryParams, updateURLParams) => {
     onSortChange
   };
 };
+
+export default useDataGridSort;

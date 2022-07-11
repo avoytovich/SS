@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core';
 
-export const useStyles = makeStyles({
+const useStyles = makeStyles({
   titleWrap: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -11,3 +11,5 @@ export const useStyles = makeStyles({
     boxSizing: 'border-box'
   }
 });
+
+export default useStyles;

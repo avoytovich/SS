@@ -13,7 +13,7 @@ import {
   useURLParams,
   useDataGridSearch
 } from 'hooks/dataGrid';
-import {useDataGridFilter} from 'hooks/dataGrid/useDataGridFilter';
+import useDataGridFilter from 'hooks/dataGrid/useDataGridFilter';
 
 import {filterTagParamName} from 'constants/dataGrid';
 import {useSelector} from 'react-redux';

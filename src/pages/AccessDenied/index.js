@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
 
-import {useStyles} from 'pages/styles';
+import useStyles from 'pages/styles';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
 

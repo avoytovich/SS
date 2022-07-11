@@ -5,14 +5,8 @@ import PropTypes from 'prop-types';
 
 import {InputLabel, FormHelperText} from '@mui/material';
 import MuiTextField from '@mui/material/TextField';
-// import Checkbox from '@mui/material/Checkbox';
-// import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-// import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 import useStyles from './styles';
-
-// const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-// const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const SelectField = ({
   name,
