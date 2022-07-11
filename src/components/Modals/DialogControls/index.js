@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
+
+import {ButtonContained, ButtonOutlined} from '../../Button';
 
 const DialogControls = ({disabledConfirm, onClose, onSubmit}) => (
   <DialogActions data-testid="dialog-actions-btn">
-    <Button variant="outlined" data-testid="dialog-actions-cancel-btn" onClick={onClose}>
+    <ButtonOutlined data-testid="dialog-actions-cancel-btn" onClick={onClose}>
       Cancel
-    </Button>
-    <Button
+    </ButtonOutlined>
+    <ButtonContained
       type="submit"
-      variant="contained"
       data-testid="dialog-actions-confirm-btn"
       disabled={disabledConfirm}
       onClick={onSubmit}
     >
       Save
-    </Button>
+    </ButtonContained>
   </DialogActions>
 );
 

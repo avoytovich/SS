@@ -1,9 +1,14 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
+
 import {useStyles} from 'pages/styles';
-import {Box, Button, Typography} from '@mui/material';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
+
+import {Box, Typography} from '@mui/material';
+
+import {ButtonContained} from 'components/Button';
+
 import image from 'assets/images/AccessDenied.svg';
 
 const AccessDenied = () => {
@@ -26,15 +31,9 @@ const AccessDenied = () => {
           <Typography variant="body1" color="gray" mb={2} gutterBottom>
             You do not have permitions to visit this page
           </Typography>
-          <Button
-            key="back-btn"
-            className={classes.backButton}
-            variant="contained"
-            data-testid="back-btn"
-            onClick={goBack}
-          >
+          <ButtonContained key="back-btn" data-testid="back-btn" onClick={goBack}>
             Go Back
-          </Button>
+          </ButtonContained>
         </Box>
       </Box>
     </PageLayout>

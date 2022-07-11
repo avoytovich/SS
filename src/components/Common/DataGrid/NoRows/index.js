@@ -1,6 +1,8 @@
 import * as React from 'react';
-import {Box, Button, Typography} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import PropTypes from 'prop-types';
+
+import {ButtonText} from 'components/Button';
 
 export function NoRows({emptyMessage, actionTitle, isAction, onAddNewRow, ...rest}) {
   return (
@@ -9,14 +11,10 @@ export function NoRows({emptyMessage, actionTitle, isAction, onAddNewRow, ...res
         {emptyMessage}
       </Typography>
       {isAction && (
-        <Button
-          variant="text"
-          style={{zIndex: 100}}
-          data-testid="no-rows-btn"
-          onClick={onAddNewRow}
-        >
+        //  TODO refactor to use styled-components
+        <ButtonText style={{zIndex: 100}} data-testid="no-rows-btn" onClick={onAddNewRow}>
           {actionTitle}
-        </Button>
+        </ButtonText>
       )}
     </Box>
   );

@@ -4,10 +4,11 @@ import {Form, Formik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {useSnackbar} from 'notistack';
 
+import {ButtonContained, ButtonOutlined} from 'components/Button';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import ModifyTagSchema from 'components/Tags/TagModal/modifyTagShema';
 import Input from 'components/Common/Form/Input';
-import {Button, DialogActions} from '@mui/material';
+import {DialogActions} from '@mui/material';
 import {formSubmitHandling} from 'utils/forms';
 
 import {useUpdateTagMutation, useAddTagMutation, getTags} from 'services/tags';
@@ -83,17 +84,16 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
               sx={{marginBottom: '16px'}}
             />
             <DialogActions>
-              <Button variant="outlined" data-testid="tag-modal-cancel-btn" onClick={onClose}>
+              <ButtonOutlined data-testid="tag-modal-cancel-btn" onClick={onClose}>
                 Cancel
-              </Button>
-              <Button
+              </ButtonOutlined>
+              <ButtonContained
                 type="submit"
-                variant="contained"
                 data-testid="tag-modal-confirm-btn"
                 disabled={isSubmitting || !isValid || !dirty}
               >
                 {id ? 'Edit' : 'Create'}
-              </Button>
+              </ButtonContained>
             </DialogActions>
           </Form>
         )}
