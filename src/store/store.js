@@ -13,6 +13,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import {setupListeners} from '@reduxjs/toolkit/query';
 import authSlice from 'store/auth';
+import skillsReducer from 'store/skills';
 import api from 'services/api';
 
 import {permissionsReducer} from './permissions/permissions';
@@ -26,6 +27,7 @@ const authPersisted = persistReducer(persistConfig, authSlice.reducer);
 
 const rootReducer = combineReducers({
   auth: authPersisted,
+  skills: skillsReducer,
   permissions: permissionsReducer,
   [api.reducerPath]: api.reducer
 });
