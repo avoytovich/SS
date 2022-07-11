@@ -72,8 +72,5 @@ export const useStyles = makeStyles({
     justifyContent: 'flex-start',
     textAlign: 'left',
     alignItems: 'center'
-  },
-  backButton: {
-    borderRadius: '40px'
   }
 });

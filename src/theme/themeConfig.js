@@ -201,32 +201,6 @@ const themeConfig = createTheme({
           backgroundColor: WHITE
         }
       }
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-          borderRadius: '40px',
-          boxShadow: 'none',
-          minWidth: '77px',
-          fontSize: '14px',
-          '&:hover': {
-            boxShadow: 'none'
-          }
-        },
-        outlined: {
-          borderColor: DARK_GREY,
-          color: DARK_GREY,
-          '&:hover': {
-            color: CAPGEMINI_BLUE
-          }
-        },
-        contained: {
-          '&:hover': {
-            background: DARK_GREY
-          }
-        }
-      }
     }
   }
 });

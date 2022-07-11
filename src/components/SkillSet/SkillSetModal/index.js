@@ -5,7 +5,7 @@ import {useSnackbar} from 'notistack';
 
 import {Form, Formik} from 'formik';
 
-import {Button, DialogActions} from '@mui/material';
+import {DialogActions} from '@mui/material';
 
 import {useAddSkillRequestsMutation} from 'services/skillRequests';
 import {formSubmitHandling} from 'utils/forms';
@@ -13,6 +13,7 @@ import {formSubmitHandling} from 'utils/forms';
 import Input from 'components/Common/Form/Input';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import {CreateSkillSetSchema, initialValues} from 'components/SkillSet/SkillSetModal/skillSetShema';
+import {ButtonContained, ButtonOutlined} from 'components/Button';
 
 export default function SkillSetModal({isOpen, onClose, ...rest}) {
   const {role, id} = useSelector(state => state.auth.profile);
@@ -73,17 +74,16 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
               sx={{marginBottom: '16px'}}
             />
             <DialogActions>
-              <Button variant="outlined" data-testid="skill-set-modal-cancel-btn" onClick={onClose}>
+              <ButtonOutlined data-testid="skill-set-modal-cancel-btn" onClick={onClose}>
                 Cancel
-              </Button>
-              <Button
+              </ButtonOutlined>
+              <ButtonContained
                 type="submit"
-                variant="contained"
                 data-testid="skill-set-modal-confirm-btn"
                 disabled={isSubmitting || !isValid || !dirty}
               >
                 Propose
-              </Button>
+              </ButtonContained>
             </DialogActions>
           </Form>
         )}

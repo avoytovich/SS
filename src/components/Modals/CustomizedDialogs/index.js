@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContentText from '@mui/material/DialogContentText';
 import CircularProgress from '@mui/material/CircularProgress';
+
+import {ButtonContained, ButtonOutlined} from '../../Button';
 
 import useStyles from './styles';
 
@@ -55,17 +56,16 @@ const CustomizedDialogs = ({
       </DialogContent>
       {!withCustomBtns && (
         <DialogActions className={classes.actions}>
-          <Button variant="outlined" data-testid="confirm-modal-cancel-btn" onClick={onClose}>
+          <ButtonOutlined data-testid="confirm-modal-cancel-btn" onClick={onClose}>
             {cancelText}
-          </Button>
-          <Button
-            variant="contained"
+          </ButtonOutlined>
+          <ButtonContained
             data-testid="confirm-modal-confirm-btn"
             color={isRemove ? 'error' : 'primary'}
             onClick={handleSubmit}
           >
             {isRemove ? removeText : confirmText}
-          </Button>
+          </ButtonContained>
         </DialogActions>
       )}
     </Dialog>
