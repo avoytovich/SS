@@ -10,7 +10,7 @@ export default function ProfileDetails() {
   const {competency, specialization, level} = useSelector(state => state.auth.profile);
 
   return (
-    <Box sx={{display: 'flex', mb: 1, borderBottom: `1px solid ${grey[200]}`, mt: '-10px'}}>
+    <Box sx={{display: 'flex', mb: 1, borderBottom: `1px solid ${grey[200]}`}}>
       <ProfileInfo competency={competency} specialization={specialization} level={level} />
       <Recommendations />
     </Box>

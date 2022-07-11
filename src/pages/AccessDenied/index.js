@@ -1,13 +1,15 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
+
+import {useStyles} from 'pages/styles';
+
+import PageLayout from 'components/Common/Layout/PageLayout';
+
 import {Box, Typography} from '@mui/material';
 
 import {ButtonContained} from 'components/Button';
-import HelmetWrapper from 'containers/HelmetWrapper';
-import {PagePanel} from 'components/PagePanel';
-import image from 'assets/images/AccessDenied.svg';
 
-import {useStyles} from 'pages/styles';
+import image from 'assets/images/AccessDenied.svg';
 
 const AccessDenied = () => {
   const classes = useStyles();
@@ -16,8 +18,7 @@ const AccessDenied = () => {
   const goBack = () => history.goBack();
 
   return (
-    <PagePanel>
-      <HelmetWrapper title="Access denied" includeAppName={false} />
+    <PageLayout pageTitle="Access denied" includeAppName={false}>
       <Box
         className={`${classes.centerContent} ${classes.flexColumn}`}
         data-testid="access-denied-content"
@@ -35,7 +36,7 @@ const AccessDenied = () => {
           </ButtonContained>
         </Box>
       </Box>
-    </PagePanel>
+    </PageLayout>
   );
 };
 

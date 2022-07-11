@@ -1,14 +1,15 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import {Box} from '@mui/material';
 
-import {ButtonContained} from 'components/Button';
-import HelmetWrapper from 'containers/HelmetWrapper';
-import {PagePanel} from 'components/PagePanel';
-import image from 'assets/images/NotFound.svg';
+import {Box, Typography} from '@mui/material';
 
+// TODO Refactor it. Add styles to separate components and remove pages/styles.js
 import {useStyles} from 'pages/styles';
+
+import PageLayout from 'components/Common/Layout/PageLayout';
+import {ButtonContained} from 'components/Button';
+
+import image from 'assets/images/NotFound.svg';
 
 const NotFound = () => {
   const classes = useStyles();
@@ -17,8 +18,7 @@ const NotFound = () => {
   const goBack = () => history.goBack();
 
   return (
-    <PagePanel>
-      <HelmetWrapper title="Page Not Found" includeAppName={false} />
+    <PageLayout pageTitle="Page Not Found" includeAppName={false}>
       <Box
         className={`${classes.centerContent} ${classes.flexColumn}`}
         data-testid="not-found-content"
@@ -40,7 +40,7 @@ const NotFound = () => {
           </ButtonContained>
         </Box>
       </Box>
-    </PagePanel>
+    </PageLayout>
   );
 };
 

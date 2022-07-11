@@ -3,20 +3,31 @@ import PropTypes from 'prop-types';
 
 import {useSelector} from 'react-redux';
 
+import HelmetWrapper from 'containers/HelmetWrapper';
 import Header from '../Header';
 import Footer from '../../Footer';
-
-import {PageContainer, PageContent, MainContent} from './PageLayout.styles';
 import PageHeader from '../PageHeader';
 
-const PageLayout = ({title, extra, type, hiddenHeader, subTitle, children}) => {
+import {PageContainer, PageContent, MainContent} from './PageLayout.styles';
+
+const PageLayout = ({
+  title,
+  pageTitle,
+  extra,
+  type,
+  hiddenHeader,
+  includeAppName,
+  subTitle,
+  children
+}) => {
   const {isAuthenticated} = useSelector(state => state.auth);
 
   return (
     <PageContainer data-testid="main-content-wrapper">
+      <HelmetWrapper title={pageTitle || title} includeAppName={includeAppName} />
       {isAuthenticated && !hiddenHeader && <Header />}
       <PageContent>
-        <PageHeader title={title} extra={extra} subTitle={subTitle} />
+        {title && <PageHeader title={title} extra={extra} subTitle={subTitle} />}
         <MainContent className={type}>{children}</MainContent>
       </PageContent>
       <Footer />
@@ -35,8 +46,9 @@ PageLayout.propTypes = {
 
 PageLayout.defaultProps = {
   title: '',
+  pageTitle: '',
   subTitle: '',
-  type: 'default', // fullPage,
+  type: 'fullPage', // cardsLayout,
   hiddenHeader: false
 };
 

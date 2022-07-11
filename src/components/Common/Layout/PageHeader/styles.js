@@ -6,6 +6,8 @@ export const useStyles = makeStyles({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    margin: '30px 0'
+    padding: '30px 0',
+    margin: 0,
+    boxSizing: 'border-box'
   }
 });
