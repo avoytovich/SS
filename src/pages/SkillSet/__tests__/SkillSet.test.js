@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, screen} from 'containers/TestProviderWrapper';
-import SkillSet from 'pages/SkillSet';
+import SkillSet from '..';
 
 describe('SkillSet page', () => {
   it('should render skill set page', async () => {

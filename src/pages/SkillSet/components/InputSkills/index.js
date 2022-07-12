@@ -5,7 +5,7 @@ import {Box} from '@mui/material';
 
 import {setBasicSkills} from 'store/skills';
 
-import RecommendationSkills from 'components/SkillSet/InputSkills/Recommendations';
+import RecommendationSkills from './Recommendations';
 
 export default function InputSkills() {
   const dispatch = useDispatch();

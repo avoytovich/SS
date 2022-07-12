@@ -1,10 +1,11 @@
 import React from 'react';
 
 import {Box} from '@mui/material';
-import SkillSetModal from 'components/SkillSet/SkillSetModal';
 import useModal from 'hooks/useModal';
-import InputSkills from 'components/SkillSet/InputSkills';
 import {ButtonContained} from 'components/Button';
+
+import InputSkills from './InputSkills';
+import SkillSetModal from './SkillSetModal';
 
 export default function MySkills() {
   const {isOpen, setIsOpen} = useModal();

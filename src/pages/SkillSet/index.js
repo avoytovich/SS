@@ -1,8 +1,9 @@
 import React from 'react';
 
-import MySkills from 'components/SkillSet';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Card from 'components/Common/Card';
+
+import MySkills from './components';
 
 export default function SkillSet() {
   return (

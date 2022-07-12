@@ -1,6 +1,6 @@
 import React from 'react';
 import {fireEvent, render, screen} from 'containers/TestProviderWrapper';
-import MySkills from 'components/SkillSet';
+import MySkills from '..';
 
 describe('MySkills', () => {
   it('should render my skills', async () => {

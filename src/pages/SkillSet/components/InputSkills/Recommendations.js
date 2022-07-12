@@ -4,7 +4,8 @@ import {useSelector} from 'react-redux';
 import {Box, Chip, Skeleton} from '@mui/material';
 
 import {useFetchRecommendedSkillsQuery} from 'services/profile';
-import {StyledBox, StyledTypography, StyledSkillsBox} from 'components/SkillSet/styles';
+
+import {StyledBox, StyledTypography, StyledSkillsBox} from '../styles';
 
 export default function RecommendationSkills({onSelectSkill}) {
   const {role} = useSelector(state => state.auth.profile);
