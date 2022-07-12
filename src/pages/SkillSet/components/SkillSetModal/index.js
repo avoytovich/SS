@@ -12,8 +12,9 @@ import {formSubmitHandling} from 'utils/forms';
 
 import Input from 'components/Common/Form/Input';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
-import {CreateSkillSetSchema, initialValues} from 'components/SkillSet/SkillSetModal/skillSetShema';
 import {ButtonContained, ButtonOutlined} from 'components/Button';
+
+import {CreateSkillSetSchema, initialValues} from './skillSetShema';
 
 export default function SkillSetModal({isOpen, onClose, ...rest}) {
   const {role, id} = useSelector(state => state.auth.profile);
