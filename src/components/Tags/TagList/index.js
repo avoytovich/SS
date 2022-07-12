@@ -1,11 +1,9 @@
 import React, {useState, useMemo} from 'react';
 import PropTypes from 'prop-types';
-
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
 import {useDeleteTagMutation, useFetchTagsQuery} from 'services/tags';
-
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
 import {
@@ -15,7 +13,6 @@ import {
   useDataGridSearch
 } from 'hooks/dataGrid';
 import {PermissionEnum} from 'constants/permissions';
-
 import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
 import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
 import useStyles from 'components/Tags/TagList/styles';

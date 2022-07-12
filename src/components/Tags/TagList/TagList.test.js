@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {fireEvent, render, screen} from 'containers/TestProviderWrapper';
 import TagList from 'components/Tags/TagList';
 

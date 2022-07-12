@@ -1,5 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+
 import {API_URL_PREFIXES} from 'constants/apiUrlPrefixes';
+
 import Session from '../utils/session';
 
 const api = createApi({

@@ -1,4 +1,5 @@
 import {makeStyles} from '@mui/styles';
+
 import {ERROR, INFO, SUCCESS, WARNING} from 'theme/colors';
 
 const useStyles = makeStyles({

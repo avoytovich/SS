@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
-
 import {Box} from '@mui/material';
 
 import {
@@ -9,18 +8,15 @@ import {
   useFetchSenioritiesQuery,
   useFetchSpecializationsQuery
 } from 'services';
-
 import {
   useDataGridPagination,
   useDataGridSort,
   useURLParams,
   useDataGridSearch
 } from 'hooks/dataGrid';
-
 import EmployeeTable from 'components/Employees/EmployeeList/EmployeeTable';
 import EmployeeFilters from 'components/Employees/EmployeeList/Filters';
 import {getEmployeeFilters, onChangeEmployeeFilter} from 'components/Employees/utils';
-
 import {
   filterBenchParamName,
   filterCompetencyParamName,

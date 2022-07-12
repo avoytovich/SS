@@ -2,7 +2,6 @@ import React from 'react';
 import {Field, useFormikContext, ErrorMessage} from 'formik';
 import {Autocomplete} from 'formik-mui';
 import PropTypes from 'prop-types';
-
 import {InputLabel, FormHelperText} from '@mui/material';
 import MuiTextField from '@mui/material/TextField';
 

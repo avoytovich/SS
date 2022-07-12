@@ -1,12 +1,10 @@
 import React, {useMemo, useState} from 'react';
 import {useSnackbar} from 'notistack';
-
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
 import {useFetchSkillsQuery, useDeleteSkillMutation} from 'services/skills';
 import {useFetchTagsQuery} from 'services/tags';
-
 import {
   GridPagination,
   NoRows,
@@ -15,14 +13,12 @@ import {
   dataGridRootStyles
 } from 'components/Common/DataGrid';
 import {filterTagParamName, headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
-
 import {
   useDataGridPagination,
   useDataGridSearch,
   useDataGridSort,
   useURLParams
 } from 'hooks/dataGrid';
-
 import {
   getColumns,
   getTagFilterByQueryParams,
@@ -30,11 +26,12 @@ import {
 } from 'components/Skills/SkillsList/utils';
 import useDataGridFilter from 'hooks/dataGrid/useDataGridFilter';
 import useModal from 'hooks/useModal';
-import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 
-import useStyles from './styles';
+import CustomizedDialogs from '../../Modals/CustomizedDialogs';
 import usePermissions from '../../../hooks/permissions';
 import {PermissionEnum} from '../../../constants/permissions';
+
+import useStyles from './styles';
 
 const SkillsList = ({onChanges}) => {
   const {hasPermissions} = usePermissions();

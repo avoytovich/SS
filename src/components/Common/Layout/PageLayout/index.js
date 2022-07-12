@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
 import {useSelector} from 'react-redux';
 
 import HelmetWrapper from 'containers/HelmetWrapper';
+
 import Header from '../Header';
 import Footer from '../../Footer';
 import PageHeader from '../PageHeader';

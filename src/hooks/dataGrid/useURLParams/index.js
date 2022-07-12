@@ -1,4 +1,5 @@
 import {useHistory, useLocation} from 'react-router-dom';
+
 import {setURLSearchParams} from 'utils/dataGridUtils';
 
 const useURLParams = () => {

@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {render, screen} from '../../../containers/TestProviderWrapper';
+
 import CustomizedDialogs from './index';
 
 describe('CustomizedDialogs', () => {

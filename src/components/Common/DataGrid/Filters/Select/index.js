@@ -1,11 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
 import {FormControl, Select, MenuItem} from '@mui/material';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import {getRenderValue, Option} from 'components/Common/DataGrid/Filters/Select/utils';
-
 import {
   selectStyles,
   useStyles,

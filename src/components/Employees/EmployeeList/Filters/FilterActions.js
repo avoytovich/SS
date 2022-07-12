@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import {Box} from '@mui/material';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import {grey} from '@mui/material/colors';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 import {ButtonOutlined, ButtonText} from 'components/Button';
 import {useStyles, StyledIcon} from 'components/Employees/styles';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 const FilterActions = ({isFiltersOpen, isFilterSelected, setIsFiltersOpen, onClearFilters}) => {
   const classes = useStyles();

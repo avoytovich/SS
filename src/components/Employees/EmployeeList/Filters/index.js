@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {SearchField, GridSelect} from 'components/Common/DataGrid';
 import {Box} from '@mui/material';
 
+import {SearchField, GridSelect} from 'components/Common/DataGrid';
 import {useStyles} from 'components/Employees/styles';
 import FilterActions from 'components/Employees/EmployeeList/Filters/FilterActions';
 import {benchOptions} from 'components/Employees/EmployeeList/constants';

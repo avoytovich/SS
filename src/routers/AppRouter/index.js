@@ -2,7 +2,6 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 
 import routes from 'constants/routes';
-
 import PrivateRoute from 'components/PrivateRoute';
 import AccessDenied from 'pages/AccessDenied';
 import NotFound from 'pages/NotFound';
@@ -12,7 +11,6 @@ import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
 import Home from 'pages/Home';
 import SkillSet from 'pages/SkillSet';
-
 import {PermissionEnum} from 'constants/permissions';
 
 const AppRouter = () => (

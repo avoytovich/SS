@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+
 import alert from 'assets/images/Alert.svg';
 
 const ErrorFallback = ({error}) => {

@@ -1,14 +1,10 @@
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
-
-import useStyles from 'pages/styles';
-
-import PageLayout from 'components/Common/Layout/PageLayout';
-
 import {Box, Typography} from '@mui/material';
 
+import useStyles from 'pages/styles';
+import PageLayout from 'components/Common/Layout/PageLayout';
 import {ButtonContained} from 'components/Button';
-
 import image from 'assets/images/AccessDenied.svg';
 
 const AccessDenied = () => {

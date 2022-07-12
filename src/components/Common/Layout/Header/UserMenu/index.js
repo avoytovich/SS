@@ -1,11 +1,10 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {NavLink as RouterLink} from 'react-router-dom';
+import {Box, MenuItem} from '@mui/material';
 
 import useModal from 'hooks/useModal';
 import routes from 'constants/routes';
-
-import {Box, MenuItem} from '@mui/material';
 import {StyledMenu} from 'components/Common/Layout/Header/styles';
 import {ButtonText} from 'components/Button';
 

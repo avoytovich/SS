@@ -1,4 +1,5 @@
 import isEqual from 'lodash/isEqual';
+
 import errorCodes from 'constants/errorCodes';
 
 const diffFormValues = (initialValues, newValues) => {

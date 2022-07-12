@@ -1,6 +1,6 @@
 import React from 'react';
-
 import {Box} from '@mui/material';
+
 import useModal from 'hooks/useModal';
 import {ButtonContained} from 'components/Button';
 

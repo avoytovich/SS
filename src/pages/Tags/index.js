@@ -1,11 +1,9 @@
 import React from 'react';
-
 import {ErrorBoundary} from 'react-error-boundary';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
 import ErrorFallback from 'components/ErrorFallback';
 import TagList from 'components/Tags/TagList';
-
 import TagModal from 'components/Tags/TagModal';
 import useModal from 'hooks/useModal';
 import usePermissions from 'hooks/permissions';

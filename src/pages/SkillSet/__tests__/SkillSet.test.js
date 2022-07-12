@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {render, screen} from 'containers/TestProviderWrapper';
+
 import SkillSet from '..';
 
 describe('SkillSet page', () => {

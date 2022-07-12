@@ -9,9 +9,9 @@ import {
   PURGE,
   REGISTER
 } from 'redux-persist';
-
 import storage from 'redux-persist/lib/storage';
 import {setupListeners} from '@reduxjs/toolkit/query';
+
 import authSlice from 'store/auth';
 import skillsReducer from 'store/skills';
 import api from 'services/api';

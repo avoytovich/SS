@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import {Form, Formik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {useSnackbar} from 'notistack';
+import {DialogActions} from '@mui/material';
 
 import {ButtonContained, ButtonOutlined} from 'components/Button';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import ModifyTagSchema from 'components/Tags/TagModal/modifyTagShema';
 import Input from 'components/Common/Form/Input';
-import {DialogActions} from '@mui/material';
 import {formSubmitHandling} from 'utils/forms';
-
 import {useUpdateTagMutation, useAddTagMutation, getTags} from 'services/tags';
 import {useURLParams} from 'hooks/dataGrid';
 import {defaultPage, pageParamName} from 'constants/dataGrid';

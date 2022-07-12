@@ -1,7 +1,8 @@
 import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {MultipleAutocomplete, SearchField} from 'components/Common/DataGrid';
 import {Box} from '@mui/material';
+
+import {MultipleAutocomplete, SearchField} from 'components/Common/DataGrid';
 import useStyles from 'components/Profile/styles';
 import {getOptions} from 'utils/dataGridUtils';
 

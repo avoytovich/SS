@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Box, Typography} from '@mui/material';
+
 import PageLayout from 'components/Common/Layout/PageLayout';
 import logo from 'assets/images/Logo.svg';
 

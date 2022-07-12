@@ -1,12 +1,10 @@
 import * as React from 'react';
 import {NavLink as RouterLink} from 'react-router-dom';
-
 import {AppBar, Box, Toolbar, Link} from '@mui/material';
 
 import usePermissions from 'hooks/permissions';
 import routes from 'constants/routes';
 import logo from 'assets/images/SmartSkills.svg';
-
 import UserMenu from 'components/Common/Layout/Header/UserMenu';
 import {useStyles} from 'components/Common/Layout/Header/styles';
 import navigationLinks from 'constants/header';

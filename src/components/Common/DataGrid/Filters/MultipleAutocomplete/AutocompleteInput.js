@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-
 import {InputAdornment} from '@mui/material';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SearchIcon from '@mui/icons-material/Search';

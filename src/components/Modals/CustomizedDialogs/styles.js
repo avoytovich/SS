@@ -1,4 +1,5 @@
 import {makeStyles} from '@mui/styles';
+
 import {WHITE} from 'theme/colors';
 
 const useStyles = makeStyles({
