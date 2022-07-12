@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {Box, Checkbox, ListItemText, Typography} from '@mui/material';
 import {grey} from '@mui/material/colors';
 

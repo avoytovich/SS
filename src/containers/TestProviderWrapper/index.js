@@ -3,6 +3,7 @@ import {Provider} from 'react-redux';
 import {HelmetProvider} from 'react-helmet-async';
 import {render} from '@testing-library/react';
 import {ThemeProvider} from '@mui/material/styles';
+
 import themeConfig from 'theme/themeConfig';
 import {store} from 'store/store';
 import SnackbarProviderWrapper from 'containers/SnackbarProviderWrapper';

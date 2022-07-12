@@ -2,9 +2,9 @@ import React from 'react';
 import {render, screen} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import PageHeader from './index';
-
 import {ButtonText} from '../../../Button';
+
+import PageHeader from './index';
 
 describe('PageHeader', () => {
   it('should be rendered without crashes', () => {

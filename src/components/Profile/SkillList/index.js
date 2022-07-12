@@ -1,12 +1,11 @@
 import React, {useCallback, useMemo, useState} from 'react';
-
 import {Box} from '@mui/material';
+import {useSelector} from 'react-redux';
 
 import {useFetchSkillsQuery} from 'services/profile';
 import {useFetchTagsQuery} from 'services/tags';
 import SkillListFilter from 'components/Profile/SkillList/SkillListFilter';
 import SkillTable from 'components/Profile/SkillList/SkillTable';
-
 import {
   useDataGridPagination,
   useDataGridSort,
@@ -14,9 +13,7 @@ import {
   useDataGridSearch
 } from 'hooks/dataGrid';
 import useDataGridFilter from 'hooks/dataGrid/useDataGridFilter';
-
 import {filterTagParamName} from 'constants/dataGrid';
-import {useSelector} from 'react-redux';
 import {getFilterByQueryParams, updateFilterParam} from 'components/Profile/SkillList/utils';
 
 export default function SkillList() {

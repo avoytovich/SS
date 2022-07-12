@@ -1,4 +1,5 @@
 import apiUrls from 'constants/apiURLs';
+
 import api from './api';
 
 const skillsApi = api.injectEndpoints({

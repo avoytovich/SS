@@ -1,6 +1,7 @@
+import Cookies from 'js-cookies';
+
 import {PREFIX_KEY} from 'constants/common';
 
-import Cookies from 'js-cookies';
 import Storage from './storage';
 
 class ClientStorage {

@@ -1,5 +1,7 @@
 import React from 'react';
+
 import {fireEvent, render, screen} from 'containers/TestProviderWrapper';
+
 import MySkills from '..';
 
 describe('MySkills', () => {

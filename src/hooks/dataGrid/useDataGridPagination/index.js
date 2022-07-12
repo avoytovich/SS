@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+
 import {defaultPage, pageParamName} from 'constants/dataGrid';
 
 const useDataGridPagination = (queryParams, updateURLParams) => {

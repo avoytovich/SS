@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {fireEvent, render} from 'containers/TestProviderWrapper';
 import FilterActions from 'components/Employees/EmployeeList/Filters/FilterActions';
 

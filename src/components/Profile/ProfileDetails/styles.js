@@ -4,7 +4,6 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import {grey} from '@mui/material/colors';
-
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 export const Accordion = styled(

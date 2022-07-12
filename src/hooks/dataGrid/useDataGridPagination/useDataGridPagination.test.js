@@ -1,4 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
+
 import {useDataGridPagination} from 'hooks/dataGrid';
 
 describe('Test pagination hook', () => {

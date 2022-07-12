@@ -1,6 +1,5 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-
 import {Box, Chip, Skeleton} from '@mui/material';
 
 import {useFetchRecommendedSkillsQuery} from 'services/profile';

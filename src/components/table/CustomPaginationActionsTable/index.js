@@ -11,10 +11,12 @@ import TableHead from '@mui/material/TableHead';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
+
 import SortedTableHead from '../SortedTableHead';
 import FilterTableHead from '../FilterTableHead';
-import useStyles from './styles';
 import TablePaginationActions from '../TablePaginationActions';
+
+import useStyles from './styles';
 
 export default function CustomPaginationActionsTable({
   rows,

@@ -1,8 +1,9 @@
 import React from 'react';
 import {Box, Typography} from '@mui/material';
-import {CompanyUrl} from 'constants/common';
 
+import {CompanyUrl} from 'constants/common';
 import image from 'assets/images/Capgemini.svg';
+
 import FooterBox, {BoxStyled} from './Footer.styles';
 
 const Footer = () => {

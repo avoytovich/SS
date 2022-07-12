@@ -4,14 +4,10 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {ErrorBoundary} from 'react-error-boundary';
 
 import {USER_ROLES_PERMISSIONS} from 'constants/permissions';
-
 import {useFetchUserProfileQuery} from 'services/profile';
-
 import ErrorFallback from 'components/ErrorFallback';
 import AppRouter from 'routers/AppRouter';
-
 import {setProfileUser} from 'store/auth';
-
 import {setPermissions, clearPermissions} from 'store/permissions/permissions';
 
 import 'assets/fonts/Ubuntu-Light.ttf';

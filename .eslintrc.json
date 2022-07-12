@@ -8,6 +8,7 @@
     "airbnb-base",
     "plugin:react/recommended",
     "plugin:cypress/recommended",
+    "plugin:import/recommended",
     "eslint-config-prettier"
   ],
   "parser": "@babel/eslint-parser",
@@ -18,21 +19,44 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react","jest", "eslint-plugin-prettier"],
+  "plugins": ["import", "jest", "prettier", "react"],
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ],
     "react/prop-types": 0,
     "no-underscore-dangle": ["off"],
     "no-console": ["off"],
     "no-param-reassign": ["off"],
     "class-methods-use-this": ["off"],
     "no-tabs": 0,
-    "quotes": [2, "single", { "avoidEscape": false }],
+    "quotes": [
+      2,
+      "single",
+      {
+        "avoidEscape": false
+      }
+    ],
     "arrow-parens": [0],
     "react/react-in-jsx-scope": 0,
     "max-len": [
       1,
-      { "code": 100, "ignoreComments": true, "ignoreTemplateLiterals": true, "ignoreStrings": true }
+      {
+        "code": 100,
+        "ignoreComments": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreStrings": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always"
+      }
     ]
   },
   "settings": {

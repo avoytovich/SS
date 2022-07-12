@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {SnackbarProvider} from 'notistack';
+
 import useStyles from './styles';
 
 const SnackbarProviderWrapper = ({children}) => {

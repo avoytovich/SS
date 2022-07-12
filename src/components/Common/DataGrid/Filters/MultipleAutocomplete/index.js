@@ -1,6 +1,5 @@
 import React, {useCallback, useState} from 'react';
 import PropTypes from 'prop-types';
-
 import {Autocomplete} from '@mui/material';
 
 import AutocompleteInput from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteInput';

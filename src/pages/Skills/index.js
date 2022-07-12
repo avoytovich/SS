@@ -1,15 +1,14 @@
 import React from 'react';
 import {ErrorBoundary} from 'react-error-boundary';
+
 import {PermissionEnum} from 'constants/permissions';
-
 import useModal from 'hooks/useModal';
-
 import PageLayout from 'components/Common/Layout/PageLayout';
 import {ButtonContained} from 'components/Button';
-
 import CreateSkillModal from 'components/Skills/CreateSkillModal';
 import SkillsList from 'components/Skills/SkillsList';
 import ErrorFallback from 'components/ErrorFallback';
+
 import usePermissions from '../../hooks/permissions';
 
 const Skills = () => {
