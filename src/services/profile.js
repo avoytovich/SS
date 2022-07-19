@@ -7,18 +7,19 @@ const profileApi = api.injectEndpoints({
     fetchUserProfile: builder.query({
       query: () => ({
         url: apiUrls.users.myProfile,
-        method: 'get',
+        method: 'GET',
         params: {
           role: 'SuperAdmin'
         }
-      })
+      }),
+      providesTags: ['Profile']
     }),
-    fetchSkills: builder.query({
+    fetchProfileSkills: builder.query({
       query: ({...params}) => ({
         url: apiUrls.users.profileSkills,
         params: {...params}
       }),
-      providesTags: ['Profile'],
+      providesTags: ['ProfileSkills'],
       transformResponse: response => ({...response, skills: response.data})
     }),
     fetchRecommendedSkills: builder.query({
@@ -34,5 +35,8 @@ const profileApi = api.injectEndpoints({
 
 export default profileApi;
 
-export const {useFetchUserProfileQuery, useFetchSkillsQuery, useFetchRecommendedSkillsQuery} =
-  profileApi;
+export const {
+  useFetchUserProfileQuery,
+  useFetchProfileSkillsQuery,
+  useFetchRecommendedSkillsQuery
+} = profileApi;

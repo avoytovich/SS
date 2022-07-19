@@ -24,7 +24,9 @@ const api = createApi({
     'SkillRequests',
     'Skills',
     'Specializations',
-    'Tags'
+    'Tags',
+    'RecommendedSkills',
+    'ProfileSkills'
   ],
   endpoints: () => ({})
 });
