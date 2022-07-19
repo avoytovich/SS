@@ -1,16 +1,16 @@
 export const UserRoleEnum = {
   GUEST: 'guest',
-  SUPER_ADMIN: 'SuperAdmin',
+  ADMIN: 'Admin',
   MODERATOR: 'Moderator',
   MANAGER: 'Manager',
   EMPLOYEE: 'Employee'
 };
 
 const userRoles = {
-  [UserRoleEnum.SUPER_ADMIN]: {
-    id: 'SuperAdmin',
-    label: 'Super Admin',
-    role: UserRoleEnum.SUPER_ADMIN
+  [UserRoleEnum.ADMIN]: {
+    id: 'Admin',
+    label: 'Admin',
+    role: UserRoleEnum.ADMIN
   },
   [UserRoleEnum.MODERATOR]: {id: 'Moderator', label: 'Moderator', role: UserRoleEnum.MODERATOR},
   [UserRoleEnum.MANAGER]: {id: 'Manager', label: 'Manager', role: UserRoleEnum.MANAGER},
