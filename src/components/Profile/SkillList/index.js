@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {Box} from '@mui/material';
 import {useSelector} from 'react-redux';
 
-import {useFetchSkillsQuery} from 'services/profile';
+import {useFetchProfileSkillsQuery} from 'services/profile';
 import {useFetchTagsQuery} from 'services/tags';
 import SkillListFilter from 'components/Profile/SkillList/SkillListFilter';
 import SkillTable from 'components/Profile/SkillList/SkillTable';
@@ -49,7 +49,7 @@ export default function SkillList() {
     data: {skills = [], total = 0, pages = 0} = {},
     isLoading,
     isFetching
-  } = useFetchSkillsQuery(skillsQueryOptions);
+  } = useFetchProfileSkillsQuery(skillsQueryOptions);
 
   const handleSearch = useCallback(
     value => {
