@@ -9,7 +9,7 @@ const profileApi = api.injectEndpoints({
         url: apiUrls.users.myProfile,
         method: 'get',
         params: {
-          role: 'SuperAdmin'
+          role: 'Admin'
         }
       })
     }),
