@@ -116,9 +116,88 @@ Utils described in `utils/*.js`
 - helpers.js - common helpers. Mostly pure functions. Can be updated during the development.
 
 
+## Directory Structure
+
+### src directory
+```
+.
+└── /src
+    ├── /assets
+    ├── /components
+    ├── /constants
+    ├── /containers
+    ├── /hooks
+    ├── /mocks
+    ├── /pages
+    ├── /services
+    ├── /store
+    ├── /theme
+    ├── /utils
+    └── *.js
+```
+
+The `src` directory structure will be as follows:
+
+- assets - global static assets (images, company logo, etc.)
+- components - global shared/reusable components(layout, form components, buttons, etc.)
+- constants - global constants
+[comment]: <> (containers rename to providers ?)
+- containers - providers, global wrappers
+- hooks - Custom hooks
+- mocks
+- pages - folder indicate the route of the react application. 
+- routers -  all routes of the application. It consists of private, protected, and all types of routes.
+- services -  API services
+- store - Global Redux store
+- theme - material UI theme configuration file
+- utils - Utilities, helpers, logger etc.
+
+### pages directory 
+
+The `pages` directory structure will be as follow:
+```
+
+└── /pages
+    ├── /__tests__
+    ├── /components
+    ├── ...
+    └── index.js
+```
+- components - Sub-components, smaller components used exclusively by this page 
+- __tests__ - test files
+- index.js
+
+### component directory
+
+The directory structure will be as follow:
+
+```
+
+└── /components
+    ├── /__tests__
+    ├── *.styles.js
+    ├── ...
+    └── index.js
+```
+
+### Tests
+
+Tests files should be located in `__tests__` folders next to  component, utils etc.
+
+## Styles
+
+All the MUI components are styled with this `styled()` utility.
+
+```
+ All the MUI components  which was  styled with this `makeStyles` must be re-write with  `styled()` utility.
+```
+
+Store  styled-components in a `ComponentName.styles.js` file and keep that related to a specific component
+
 
 
 ## Project documents
+
 
 - [Permissions](/docs/permissions.md)
 - [Hooks](/docs/hooks.md)
