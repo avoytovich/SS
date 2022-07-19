@@ -47,7 +47,7 @@ export const PermissionEnum = {
 
 export const USER_ROLES_PERMISSIONS = {
   [UserRoleEnum.GUEST]: [],
-  [UserRoleEnum.SUPER_ADMIN]: [
+  [UserRoleEnum.ADMIN]: [
     PermissionEnum.TAGS_CREATE,
     PermissionEnum.TAGS_DELETE,
     PermissionEnum.TAGS_EDIT,
