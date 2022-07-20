@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {Box} from '@mui/material';
 
 import {MultipleAutocomplete, SearchField} from 'components/Common/DataGrid';
-import useStyles from 'components/Profile/styles';
 import {getOptions} from 'utils/dataGridUtils';
+
+import useStyles from '../styles';
 
 const SkillListFilter = ({
   search,

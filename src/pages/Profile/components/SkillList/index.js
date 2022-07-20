@@ -4,8 +4,6 @@ import {useSelector} from 'react-redux';
 
 import {useFetchProfileSkillsQuery} from 'services/profile';
 import {useFetchTagsQuery} from 'services/tags';
-import SkillListFilter from 'components/Profile/SkillList/SkillListFilter';
-import SkillTable from 'components/Profile/SkillList/SkillTable';
 import {
   useDataGridPagination,
   useDataGridSort,
@@ -14,7 +12,10 @@ import {
 } from 'hooks/dataGrid';
 import useDataGridFilter from 'hooks/dataGrid/useDataGridFilter';
 import {filterTagParamName} from 'constants/dataGrid';
-import {getFilterByQueryParams, updateFilterParam} from 'components/Profile/SkillList/utils';
+
+import SkillListFilter from './SkillListFilter';
+import SkillTable from './SkillTable';
+import {getFilterByQueryParams, updateFilterParam} from './utils';
 
 export default function SkillList() {
   const {role} = useSelector(state => state.auth.profile);

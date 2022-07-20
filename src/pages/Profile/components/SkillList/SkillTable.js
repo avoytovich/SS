@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import {DataGrid} from '@mui/x-data-grid';
 
 import {dataGridRootStyles, GridPagination, NoRows} from 'components/Common/DataGrid';
-import columns from 'components/Profile/SkillList/constants';
 import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
-import useStyles from 'components/Profile/styles';
+
+import useStyles from '../styles';
+
+import columns from './constants';
 
 const SkillTable = ({
   rows,
