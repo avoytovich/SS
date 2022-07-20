@@ -2,7 +2,8 @@ import React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 
 import {fireEvent, render, screen} from 'containers/TestProviderWrapper';
-import MyProfile from 'pages/Profile';
+
+import MyProfile from '..';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

@@ -3,9 +3,10 @@ import {NavLink as RouterLink} from 'react-router-dom';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
 import {ButtonContained} from 'components/Button';
-import ProfileDetails from 'components/Profile/ProfileDetails';
-import SkillList from 'components/Profile/SkillList';
 import routes from 'constants/routes';
+
+import ProfileDetails from './components/ProfileDetails';
+import SkillList from './components/SkillList';
 
 export default function MyProfile() {
   return (

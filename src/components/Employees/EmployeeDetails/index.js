@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box} from '@mui/material';
 
-import useStyles from 'components/Profile/styles';
+import useStyles from 'pages/Profile/components/styles';
 
 const EmployeeDetails = () => {
   const classes = useStyles();
