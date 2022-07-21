@@ -3,70 +3,65 @@ import {useMemo} from 'react';
 
 import DialogBasic from '../DialogBasic';
 
-import DialogConfirmActions from './components/DialogConfirmActions';
-import SEVERITY from './constants';
+import Actions from './components/Actions';
 
 // eslint-disable-next-line no-use-before-define
 DialogConfirm.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func,
-  onPrimaryButtonClick: PropTypes.func.isRequired,
-  onSecondaryButtonClick: PropTypes.func.isRequired,
-  primaryButtonContent: PropTypes.string.isRequired,
-  primaryButtonDisabled: PropTypes.bool,
-  secondaryButtonContent: PropTypes.string.isRequired,
-  secondaryButtonDisabled: PropTypes.bool,
-  severity: PropTypes.oneOf([SEVERITY.ERROR, SEVERITY.NONE]),
-  title: PropTypes.string
+  ...DialogBasic.propTypes,
+  cancelButtonContent: PropTypes.string,
+  cancelButtonDisabled: PropTypes.bool,
+  confirmButtonContent: PropTypes.string,
+  confirmButtonDisabled: PropTypes.bool,
+  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired
 };
 
 // eslint-disable-next-line no-use-before-define
 DialogConfirm.defaultProps = {
-  primaryButtonDisabled: false,
-  secondaryButtonDisabled: false,
-  severity: SEVERITY.NONE
+  cancelButtonContent: 'Cancel',
+  cancelButtonDisabled: false,
+  confirmButtonContent: 'Confirm',
+  confirmButtonDisabled: false
 };
 
 function DialogConfirm(props) {
   const {
+    cancelButtonContent,
+    cancelButtonDisabled,
     children,
-    onClose,
-    onPrimaryButtonClick,
-    onSecondaryButtonClick,
-    primaryButtonContent,
-    primaryButtonDisabled,
-    secondaryButtonContent,
-    secondaryButtonDisabled,
+    confirmButtonContent,
+    confirmButtonDisabled,
+    onCancel,
+    onConfirm,
     severity,
-    title,
     ...restProps
   } = props;
 
   const actions = useMemo(
     () => (
-      <DialogConfirmActions
-        onPrimaryButtonClick={onPrimaryButtonClick}
-        onSecondaryButtonClick={onSecondaryButtonClick}
-        primaryButtonContent={primaryButtonContent}
-        primaryButtonDisabled={primaryButtonDisabled}
-        secondaryButtonContent={secondaryButtonContent}
-        secondaryButtonDisabled={secondaryButtonDisabled}
+      <Actions
+        onPrimaryButtonClick={onConfirm}
+        onSecondaryButtonClick={onCancel}
+        primaryButtonContent={confirmButtonContent}
+        primaryButtonDisabled={confirmButtonDisabled}
+        secondaryButtonContent={cancelButtonContent}
+        secondaryButtonDisabled={cancelButtonDisabled}
         severity={severity}
       />
     ),
     [
-      onPrimaryButtonClick,
-      onSecondaryButtonClick,
-      primaryButtonContent,
-      primaryButtonDisabled,
-      secondaryButtonContent,
-      secondaryButtonDisabled,
+      cancelButtonContent,
+      cancelButtonDisabled,
+      confirmButtonContent,
+      confirmButtonDisabled,
+      onCancel,
+      onConfirm,
       severity
     ]
   );
 
   return (
-    <DialogBasic {...restProps} actions={actions} onClose={onClose} title={title}>
+    <DialogBasic {...restProps} actions={actions} severity={severity}>
       {children}
     </DialogBasic>
   );
