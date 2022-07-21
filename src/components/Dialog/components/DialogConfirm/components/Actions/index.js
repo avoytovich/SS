@@ -2,12 +2,11 @@ import MuiDialogActions from '@mui/material/DialogActions';
 import MuiStack from '@mui/material/Stack';
 import PropTypes from 'prop-types';
 
+import {SEVERITY} from 'components/constants';
 import {ButtonContained, ButtonOutlined} from 'components/Button';
 
-import SEVERITY from '../../constants';
-
 // eslint-disable-next-line no-use-before-define
-DialogConfirmActions.propTypes = {
+Actions.propTypes = {
   onPrimaryButtonClick: PropTypes.func.isRequired,
   onSecondaryButtonClick: PropTypes.func.isRequired,
   primaryButtonContent: PropTypes.string.isRequired,
@@ -18,13 +17,13 @@ DialogConfirmActions.propTypes = {
 };
 
 // eslint-disable-next-line no-use-before-define
-DialogConfirmActions.defaultProps = {
+Actions.defaultProps = {
   primaryButtonDisabled: false,
   secondaryButtonDisabled: false,
   severity: SEVERITY.NONE
 };
 
-function DialogConfirmActions(props) {
+function Actions(props) {
   const {
     onPrimaryButtonClick,
     onSecondaryButtonClick,
@@ -56,4 +55,4 @@ function DialogConfirmActions(props) {
   );
 }
 
-export default DialogConfirmActions;
+export default Actions;

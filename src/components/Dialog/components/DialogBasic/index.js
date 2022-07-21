@@ -2,6 +2,8 @@ import MuiDialogContent from '@mui/material/DialogContent';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles';
 
+import {SEVERITY} from 'components/constants';
+
 import Dialog from '../Dialog';
 
 import DialogBasicProgress from './components/DialogBasicProgress';
@@ -16,15 +18,17 @@ const StyledDialog = styled(Dialog)(() => ({
 
 // eslint-disable-next-line no-use-before-define
 DialogBasic.propTypes = {
+  ...Dialog.propTypes,
   actions: PropTypes.element,
-  children: PropTypes.node,
   onClose: PropTypes.func,
+  severity: PropTypes.oneOf([SEVERITY.ERROR, SEVERITY.NONE]),
   showProgress: PropTypes.bool,
   title: PropTypes.string
 };
 
 // eslint-disable-next-line no-use-before-define
 DialogBasic.defaultProps = {
+  severity: SEVERITY.NONE,
   showProgress: false
 };
 
