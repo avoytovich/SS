@@ -1,6 +1,6 @@
 import {makeStyles} from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const styles = makeStyles(() => ({
   tagBox: {
     height: '100%'
   },
@@ -22,4 +22,4 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default useStyles;
+export default styles;

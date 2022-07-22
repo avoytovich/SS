@@ -34,7 +34,7 @@ const getActionColumn = (onEdit, onRemove, editPermissions, deletePermissions) =
   ]
 });
 
-export const getColumns = (onEdit, onRemove, editPermissions, deletePermissions) => {
+const getColumns = (onEdit, onRemove, editPermissions, deletePermissions) => {
   const columns = [
     {
       field: 'name',
@@ -57,8 +57,4 @@ export const getColumns = (onEdit, onRemove, editPermissions, deletePermissions)
   return columns;
 };
 
-export const getConfirmTagValues = tag => ({
-  isOpen: true,
-  text: `Would you like to remove "${tag.name}" tag?`,
-  tagId: tag.id
-});
+export default getColumns;

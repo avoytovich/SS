@@ -1,10 +1,9 @@
-import React, {useState, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
 import {useDeleteTagMutation, useFetchTagsQuery} from 'services/tags';
-import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
 import {
   useDataGridPagination,
@@ -13,17 +12,19 @@ import {
   useDataGridSearch
 } from 'hooks/dataGrid';
 import {PermissionEnum} from 'constants/permissions';
-import {getColumns, getConfirmTagValues} from 'components/Tags/TagList/utils';
 import {headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
-import useStyles from 'components/Tags/TagList/styles';
+
+import getColumns from './utils';
+import styles from './styles';
+import useDeleteTagDialog from './components/DeleteTagDialog/hooks/useDeleteTagDialog';
+import DeleteTagDialog from './components/DeleteTagDialog';
 
 export default function TagList({onSaveOrUpdate, hasPermissions}) {
-  const classes = useStyles();
-  const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
+  const deleteTagDialog = useDeleteTagDialog();
+  const {clearQueryParams, queryParams, updateURLParams} = useURLParams();
   const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
   const {page, tablePage, onPageChange} = useDataGridPagination(queryParams, updateURLParams);
   const {search, onSearchChange} = useDataGridSearch(queryParams, updateURLParams);
-  const [deleteConfirmModalValues, setDeleteConfirmModalValues] = useState(null);
   const queryOptions = useMemo(
     () => ({...(page && {page}), ...(search && {search}), ...(sort && {sort})}),
     [page, search, sort]
@@ -38,8 +39,6 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
 
   const isFilterSelected = search || sort;
 
-  const onSetConfirmValues = tag => setDeleteConfirmModalValues(getConfirmTagValues(tag));
-
   const handleEditTag = tag => {
     onSaveOrUpdate({
       tagName: tag.name,
@@ -49,26 +48,30 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
 
   const onCreateTag = () => onSaveOrUpdate();
 
-  const columns = getColumns(
-    handleEditTag,
-    onSetConfirmValues,
-    hasPermissions([PermissionEnum.TAGS_EDIT]),
-    hasPermissions([PermissionEnum.TAGS_DELETE])
-  );
+  const handleDeleteTag = tag => {
+    deleteTagDialog.setTag(tag);
+    deleteTagDialog.setOpen(true);
 
-  const onCloseConfirmModal = () => setDeleteConfirmModalValues(null);
-
-  const onClearFilters = () => {
     if (tags.length === 1) {
       clearQueryParams();
     }
   };
 
-  const handConfirmRemove = () => {
-    onClearFilters();
-    deleteTag({id: deleteConfirmModalValues.tagId});
-    onCloseConfirmModal();
-  };
+  const handleDeleteTagCancel = useCallback(() => {
+    deleteTagDialog.setOpen(false);
+  }, [deleteTagDialog.setOpen]);
+
+  const handleDeleteTagConfirm = useCallback(() => {
+    deleteTag({id: deleteTagDialog.tag.id});
+    deleteTagDialog.setOpen(false);
+  }, [deleteTag, deleteTagDialog.setOpen, deleteTagDialog.tag]);
+
+  const columns = getColumns(
+    handleEditTag,
+    handleDeleteTag,
+    hasPermissions([PermissionEnum.TAGS_EDIT]),
+    hasPermissions([PermissionEnum.TAGS_DELETE])
+  );
 
   const handlePageChange = nextPage => onPageChange(nextPage);
 
@@ -80,7 +83,7 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
 
   return (
     <>
-      <Box component="form" className={classes.filterContainer} data-testid="tag-list-filter">
+      <Box component="form" className={styles.filterContainer} data-testid="tag-list-filter">
         <SearchField
           id="tag-name-search"
           value={search}
@@ -89,7 +92,8 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
           onClear={handleClearFilter}
         />
       </Box>
-      <Box className={classes.tagBox} data-testid="tag-list-box">
+
+      <Box className={styles.tagBox} data-testid="tag-list-box">
         <DataGrid
           components={{
             Pagination: pages > 1 && GridPagination,
@@ -97,7 +101,7 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
           }}
           componentsProps={{
             noRowsOverlay: {
-              className: classes.tableEmptyMessage,
+              className: styles.tableEmptyMessage,
               emptyMessage:
                 isError || isFilterSelected
                   ? 'No tags. Please select other filters'
@@ -129,16 +133,13 @@ export default function TagList({onSaveOrUpdate, hasPermissions}) {
           autoHeight
         />
       </Box>
-      {deleteConfirmModalValues && (
-        <CustomizedDialogs
-          isOpen={deleteConfirmModalValues.isOpen || false}
-          isRemove
-          onClose={onCloseConfirmModal}
-          handleSubmit={handConfirmRemove}
-          text={deleteConfirmModalValues.text || ''}
-          confirmText="Remove"
-        />
-      )}
+
+      <DeleteTagDialog
+        onCancel={handleDeleteTagCancel}
+        onConfirm={handleDeleteTagConfirm}
+        open={deleteTagDialog.open}
+        tag={deleteTagDialog.tag}
+      />
     </>
   );
 }
