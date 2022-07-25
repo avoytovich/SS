@@ -5,9 +5,9 @@ import api from './api';
 const competenciesApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchCompetencies: builder.query({
-      query: ({...params}) => ({
+      query: params => ({
         url: apiUrls.competencies.root,
-        params: {...params}
+        params
       }),
       providesTags: ['Competencies'],
       transformResponse: response => ({...response, competencies: response.data})

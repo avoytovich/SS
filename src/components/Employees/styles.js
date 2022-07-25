@@ -2,9 +2,6 @@ import {makeStyles} from '@material-ui/core';
 import {styled} from '@mui/material/styles';
 
 export const useStyles = makeStyles(() => ({
-  filterContainer: {
-    margin: '8px 14px 16px'
-  },
   filterSearchContainer: {
     display: 'flex',
     justifyContent: 'space-between'

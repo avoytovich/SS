@@ -51,7 +51,7 @@ const SkillsList = ({onChanges}) => {
   // Filters values
   const {search, onSearchChange} = useDataGridSearch(queryParams, updateURLParams);
 
-  const {data: {tags: tagsData = []} = {}} = useFetchTagsQuery({});
+  const {data: {tags: tagsData = []} = {}} = useFetchTagsQuery();
 
   const {filter: tagFilter, onFilterChange: onTagFilterChange} = useDataGridFilter(
     queryParams,

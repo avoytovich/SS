@@ -5,9 +5,9 @@ import api from './api';
 const senioritiesApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchSeniorities: builder.query({
-      query: ({...params}) => ({
+      query: params => ({
         url: apiUrls.seniorities.root,
-        params: {...params}
+        params
       }),
       providesTags: ['Seniorities'],
       transformResponse: response => ({...response, seniorities: response.data})

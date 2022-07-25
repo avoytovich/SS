@@ -5,27 +5,27 @@ import api from './api';
 const profileApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchUserProfile: builder.query({
-      query: () => ({
+      query: params => ({
         url: apiUrls.users.myProfile,
         method: 'GET',
-        params: {
-          role: 'Admin'
-        }
+        params
       }),
       providesTags: ['Profile']
     }),
     fetchProfileSkills: builder.query({
-      query: ({...params}) => ({
+      query: params => ({
         url: apiUrls.users.profileSkills,
-        params: {...params}
+        method: 'GET',
+        params
       }),
       providesTags: ['ProfileSkills'],
       transformResponse: response => ({...response, skills: response.data})
     }),
     fetchRecommendedSkills: builder.query({
-      query: ({...params}) => ({
+      query: params => ({
         url: apiUrls.users.recommendedSkills,
-        params: {...params}
+        method: 'GET',
+        params
       }),
       providesTags: ['RecommendedSkills'],
       transformResponse: response => ({...response, skills: response.data})

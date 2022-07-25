@@ -1,6 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {Box} from '@mui/material';
-import {useSelector} from 'react-redux';
 
 import {useFetchProfileSkillsQuery} from 'services/profile';
 import {useFetchTagsQuery} from 'services/tags';
@@ -18,7 +17,6 @@ import SkillTable from './SkillTable';
 import {getFilterByQueryParams, updateFilterParam} from './utils';
 
 export default function SkillList() {
-  const {role} = useSelector(state => state.auth.profile);
   const [tagsSearch, setTagsSearch] = useState('');
   const {data: {tags = []} = {}} = useFetchTagsQuery({...(tagsSearch && {tagsSearch})});
 
@@ -37,7 +35,6 @@ export default function SkillList() {
 
   const skillsQueryOptions = useMemo(
     () => ({
-      role,
       ...(page && {page}),
       ...(search && {search}),
       ...(sort && {sort}),

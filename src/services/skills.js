@@ -5,10 +5,10 @@ import api from './api';
 const skillsApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchSkills: builder.query({
-      query: queryOptions => ({
+      query: params => ({
         url: apiUrls.skills.root,
         method: 'GET',
-        params: queryOptions
+        params
       }),
       providesTags: ['Skills'],
       transformResponse: response => ({...response, skills: response.data})
