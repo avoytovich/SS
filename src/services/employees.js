@@ -5,9 +5,9 @@ import api from './api';
 const employeesApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchEmployees: builder.query({
-      query: ({...params}) => ({
+      query: params => ({
         url: apiUrls.users.root,
-        params: {...params}
+        params
       }),
       providesTags: ['Employees'],
       transformResponse: response => ({...response, employees: response.data})

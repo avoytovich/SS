@@ -6,7 +6,7 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import {StyledIcon} from 'components/Common/DataGrid/Filters/MultipleAutocomplete/styles';
 
-function SearchField({value, id, label, minWidth, size, onChange, onClear}) {
+function SearchField({value, id, label, minWidth, size, onChange, onClear, ...rest}) {
   const ClearFieldButton = (
     <StyledIcon data-testid={`${id}-remove-btn`} aria-label="delete" onClick={onClear}>
       <CloseOutlinedIcon fontSize="small" />
@@ -24,6 +24,7 @@ function SearchField({value, id, label, minWidth, size, onChange, onClear}) {
       size={size}
       onChange={handleTagSearch}
       value={value}
+      {...rest}
       InputProps={{
         endAdornment: <InputAdornment position="end">{value && ClearFieldButton}</InputAdornment>
       }}

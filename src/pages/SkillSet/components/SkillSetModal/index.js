@@ -14,14 +14,14 @@ import {ButtonContained, ButtonOutlined} from 'components/Button';
 import {CreateSkillSetSchema, initialValues} from './skillSetShema';
 
 export default function SkillSetModal({isOpen, onClose, ...rest}) {
-  const {role, id} = useSelector(state => state.auth.profile);
+  const {id} = useSelector(state => state.auth.profile);
   const [addSkillRequests] = useAddSkillRequestsMutation();
   const {enqueueSnackbar} = useSnackbar();
 
   const onSave = (values, actions) => {
     formSubmitHandling(
       addSkillRequests,
-      {...values, role, users_id: id},
+      {...values, users_id: id},
       actions,
       () => {
         onClose();

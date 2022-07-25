@@ -33,7 +33,7 @@ const EmployeeFilters = ({
     search || bench || competencies.length || specializations.length || seniorities.length;
 
   return (
-    <Box component="form" className={classes.filterContainer}>
+    <Box component="form">
       <Box className={classes.filterSearchContainer}>
         {!isFiltersOpen && (
           <SearchField
@@ -57,7 +57,7 @@ const EmployeeFilters = ({
             id="employee-name-search"
             value={search}
             label="Search by name"
-            minWidth="217px"
+            sx={{width: 187}}
             onChange={onSearch}
             onClear={onClearSearch}
           />
@@ -65,7 +65,7 @@ const EmployeeFilters = ({
             id="competencies"
             name={filterCompetencyParamName}
             multiple
-            minWidth="217px"
+            minWidth={187}
             value={competencies}
             label="Competency"
             options={competencyOptions}
@@ -76,7 +76,7 @@ const EmployeeFilters = ({
             id="specializations"
             name={filterSpecializationParamName}
             multiple
-            minWidth="217px"
+            minWidth={187}
             value={specializations}
             label="Specialization"
             options={specializationOptions}
@@ -89,7 +89,7 @@ const EmployeeFilters = ({
             multiple
             value={seniorities}
             label="Level"
-            minWidth="217px"
+            minWidth={187}
             options={seniorityOptions}
             onChange={onChangeFilter}
             onClear={onChangeFilter}
@@ -98,7 +98,7 @@ const EmployeeFilters = ({
             name={filterBenchParamName}
             value={bench}
             label="Is on bench"
-            minWidth={220}
+            minWidth={187}
             options={benchOptions}
             onChange={onChangeFilter}
             onClear={onChangeFilter}

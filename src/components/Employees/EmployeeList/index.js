@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import {useSelector} from 'react-redux';
 import {Box} from '@mui/material';
 
 import {
@@ -25,10 +24,9 @@ import {
 } from 'constants/dataGrid';
 
 export default function EmployeeList() {
-  const {role} = useSelector(state => state.auth.profile);
-  const {data: {competencies = []} = {}} = useFetchCompetenciesQuery({role});
-  const {data: {specializations = []} = {}} = useFetchSpecializationsQuery({role});
-  const {data: {seniorities = []} = {}} = useFetchSenioritiesQuery({role});
+  const {data: {competencies = []} = {}} = useFetchCompetenciesQuery();
+  const {data: {specializations = []} = {}} = useFetchSpecializationsQuery();
+  const {data: {seniorities = []} = {}} = useFetchSenioritiesQuery();
 
   const {queryParams, updateURLParams, clearQueryParams} = useURLParams();
   const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
@@ -54,7 +52,6 @@ export default function EmployeeList() {
     isLoading,
     isFetching
   } = useFetchEmployeesQuery({
-    role,
     ...(page && {page}),
     ...(search && {search}),
     ...(sort && {sort}),

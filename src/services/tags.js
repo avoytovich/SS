@@ -5,9 +5,9 @@ import api from './api';
 const tagsApi = api.injectEndpoints({
   endpoints: builder => ({
     fetchTags: builder.query({
-      query: ({...params}) => ({
+      query: params => ({
         url: apiUrls.tags.root,
-        params: {...params}
+        params
       }),
       providesTags: ['Tags'],
       transformResponse: response => ({...response, tags: response.data})

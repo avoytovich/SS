@@ -38,7 +38,7 @@ export const MultipleSelectedValue = ({values, options}) => (
   <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
     <Typography variant="body1">{getFirstSelectedLabel(options, values)}</Typography>
     <Typography variant="body2" color="primary">
-      {values.length > 1 && `+ ${values.length - 1}`}
+      {values.length > 1 && `+${values.length - 1}`}
     </Typography>
   </Box>
 );

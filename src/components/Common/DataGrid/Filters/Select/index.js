@@ -24,7 +24,7 @@ const GridSelect = ({id, name, value, multiple, label, minWidth, options, onChan
     <StyledIcon
       id="remove-icon"
       data-testid={`${id}-select-remove-icon`}
-      sx={{marginRight: '10px'}}
+      sx={{marginRight: '6px'}}
       onClick={handleCLear}
     >
       <CloseOutlinedIcon />
