@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 
 import useModal from 'hooks/useModal';
 import {getAllSkills, setBasicSkills} from 'store/skills';
-import Card from 'components/Common/Card';
+import Card from 'components/Card';
 import Paragraph from 'components/Typography/components/Paragraph';
 
 import SkillSetModal from '../SkillSetModal';

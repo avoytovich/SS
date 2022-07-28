@@ -8,7 +8,7 @@ const StyledMuiChip = styled(MuiChip)(() => ({
   borderRadius: 18,
   fontSize: '12px',
   lineHeight: '16px',
-  padding: '4px 6px',
+  padding: '4px 7px',
   minWidth: '32px',
   margin: '4px 2px',
   '& .MuiChip-label': {

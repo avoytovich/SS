@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 
 import {Subtitle} from 'components/Typography';
 import {ButtonOutlined} from 'components/Button';
-import Card from 'components/Common/Card';
+import Card from 'components/Card';
 import {BoxOutlined, BoxSubtitle} from 'components/Box';
 import {ChipContained} from 'components/Chip';
 
