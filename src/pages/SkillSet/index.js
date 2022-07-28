@@ -1,15 +1,20 @@
 import React from 'react';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
-import Card from 'components/Common/Card';
 
-import MySkills from './components';
+import {ButtonContained} from '../../components/Button';
 
-export default function SkillSet() {
+import SkillSetSeniority from './components/SkillSetSeniority';
+import InputSkills from './components/InputSkills';
+
+function SkillSet() {
   return (
     <PageLayout type="cardsLayout" title="My Skill Set" hiddenHeader>
-      <MySkills />
-      <Card title="Set skills seniority">test</Card>
+      <InputSkills />
+      <SkillSetSeniority />
+      <ButtonContained>Finish</ButtonContained>
     </PageLayout>
   );
 }
+
+export default SkillSet;

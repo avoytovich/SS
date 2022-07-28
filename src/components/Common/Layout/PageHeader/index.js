@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Box, Typography} from '@mui/material';
+import {Box} from '@mui/material';
+
+import {Heading} from 'components/Typography';
 
 import useStyles from './styles';
 
@@ -10,14 +12,9 @@ const PageHeader = ({title, subTitle, children, extra, rest}) => {
     <div id="page-header" data-testid="page-header-main" className="page-header" {...rest}>
       <Box className={classes.titleWrap}>
         <div className="page-header--title-wrap" data-testid="page-header-title">
-          <Typography
-            variant={'h4'}
-            component="h1"
-            data-testid="page-header-title-text"
-            className="page-header--title-wrap--text"
-          >
+          <Heading data-testid="page-header-title-text" className="page-header--title-wrap--text">
             {title}
-          </Typography>
+          </Heading>
           {subTitle && <div className="page-header--description">{subTitle}</div>}
         </div>
         {extra && (

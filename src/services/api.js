@@ -26,6 +26,7 @@ const api = createApi({
     'Specializations',
     'Tags',
     'RecommendedSkills',
+    'AutocompleteSkills',
     'ProfileSkills'
   ],
   endpoints: () => ({})

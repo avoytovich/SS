@@ -46,6 +46,7 @@ const themeConfig = createTheme({
   },
   typography: {
     fontFamily: '"Ubuntu", sans-serif',
+    fontWeight: 400,
     fontSize: 14
   },
   components: {

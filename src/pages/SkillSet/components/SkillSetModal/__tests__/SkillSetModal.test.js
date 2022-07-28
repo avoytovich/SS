@@ -1,10 +1,9 @@
-import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen, waitFor} from 'containers/TestProviderWrapper';
 
 import '@testing-library/jest-dom/extend-expect';
-import SkillSetModal from '../SkillSetModal';
+import SkillSetModal from '../index';
 
 const onCloseMock = jest.fn();
 
