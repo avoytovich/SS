@@ -6,22 +6,25 @@ import {Form, Formik} from 'formik';
 import {DialogActions} from '@mui/material';
 
 import {useAddSkillRequestsMutation} from 'services/skillRequests';
+import {useFetchTagsQuery} from 'services/tags';
 import {formSubmitHandling} from 'utils/forms';
 import Input from 'components/Common/Form/Input';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import {ButtonContained, ButtonOutlined} from 'components/Button';
+import SelectField from 'components/Common/Form/Select';
 
 import {CreateSkillSetSchema, initialValues} from './skillSetShema';
 
 export default function SkillSetModal({isOpen, onClose, ...rest}) {
   const {id} = useSelector(state => state.auth.profile);
-  const [addSkillRequests] = useAddSkillRequestsMutation();
+  const [addSkillRequests, {isLoading}] = useAddSkillRequestsMutation();
   const {enqueueSnackbar} = useSnackbar();
+  const {data: {tags = []} = {}} = useFetchTagsQuery({});
 
   const onSave = (values, actions) => {
     formSubmitHandling(
       addSkillRequests,
-      {...values, users_id: id},
+      {...values, tags: values.tags.map(value => value.id), users_id: id},
       actions,
       () => {
         onClose();
@@ -41,16 +44,17 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
       onSave={onSave}
       title="Propose new skill"
       withCustomBtns
+      updating={isLoading}
       {...rest}
     >
       <Formik
         validateOnBlur={false}
-        validateOnChange
+        validateOnChange={false}
         onSubmit={onSave}
         validationSchema={CreateSkillSetSchema}
         initialValues={initialValues}
       >
-        {({isSubmitting, isValid, dirty}) => (
+        {({isSubmitting, dirty, errors}) => (
           <Form autoComplete="off">
             <Input
               name="name"
@@ -58,6 +62,14 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
               placeholder="Type skill name"
               data-testid="skill-set-modal-input-name"
               sx={{marginBottom: '16px'}}
+            />
+            <SelectField
+              name="tags"
+              label="Tags"
+              options={tags}
+              multiple
+              placeholder="Choose tags"
+              errors={errors}
             />
             <Input
               name="description"
@@ -78,7 +90,7 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
               <ButtonContained
                 type="submit"
                 data-testid="skill-set-modal-confirm-btn"
-                disabled={isSubmitting || !isValid || !dirty}
+                disabled={isSubmitting || !dirty}
               >
                 Propose
               </ButtonContained>

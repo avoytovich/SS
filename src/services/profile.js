@@ -28,7 +28,7 @@ const profileApi = api.injectEndpoints({
         params
       }),
       providesTags: ['RecommendedSkills'],
-      transformResponse: response => ({...response, skills: response.data})
+      transformResponse: response => response.data
     })
   })
 });
