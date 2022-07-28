@@ -1,15 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Grid} from '@mui/material';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
+import {removeSkill} from 'store/skills';
 import {Subtitle} from 'components/Typography';
 import {ButtonOutlined} from 'components/Button';
 import Card from 'components/Card';
 import {BoxOutlined, BoxSubtitle} from 'components/Box';
 import {ChipContained} from 'components/Chip';
+import {SKILLS_LEVELS} from 'constants/common';
 
 const SkillSetSeniority = () => {
-  const {basicSkills} = useSelector(state => state.skills);
+  const dispatch = useDispatch();
+
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+
+  const skills = useSelector(state => state.skills);
+
+  const handleDeleteSkill = (group, skill) => {
+    console.log(skill);
+    dispatch(removeSkill({from: group, selectedSkill: skill}));
+  };
+
+  const handleSelectSkill = (group, skill) => {
+    setSelectedSkills([...selectedSkills, skill]);
+    if (!selectedGroup || selectedGroup !== group) setSelectedGroup(group);
+  };
 
   return (
     <Card title="Set skills seniority">
@@ -28,12 +45,16 @@ const SkillSetSeniority = () => {
           </Grid>
           <Grid item xs={12}>
             <BoxOutlined>
-              {basicSkills.map(skill => (
+              {skills[SKILLS_LEVELS.BASIC].map(skill => (
                 <ChipContained
                   key={skill.id}
                   label={skill.name}
-                  onClick={() => {}}
-                  onDelete={() => {}}
+                  onClick={() => {
+                    handleSelectSkill(SKILLS_LEVELS.BASIC, skill);
+                  }}
+                  onDelete={() => {
+                    handleDeleteSkill(SKILLS_LEVELS.BASIC, skill);
+                  }}
                 />
               ))}
             </BoxOutlined>

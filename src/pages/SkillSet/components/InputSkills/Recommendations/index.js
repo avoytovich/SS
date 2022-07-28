@@ -7,6 +7,8 @@ import {filterObjectArray} from 'utils/helpers';
 import {Box} from 'components/Box';
 import Paragraph from 'components/Typography/components/Paragraph';
 
+import {SKILLS_LEVELS} from '../../../../../constants/common';
+
 import SkillsSkeleton from './SkillsSkeleton';
 import Skills from './Skills';
 
@@ -20,8 +22,15 @@ const StyledBox = styled(Box)(({theme}) => ({
   backgroundColor: theme.palette.grey.A100
 }));
 
-export default function RecommendationSkills({onSelectSkill, onFetchSelectedSkills}) {
-  const {senioritySkills} = useSelector(state => state.skills);
+export default function RecommendationSkills({onSelectSkill}) {
+  const allSkills = useSelector(state => state.skills);
+  const senioritySkills = [
+    ...allSkills[SKILLS_LEVELS.BASIC],
+    ...allSkills[SKILLS_LEVELS.ADVANCED],
+    ...allSkills[SKILLS_LEVELS.INTERMEDIATE],
+    ...allSkills[SKILLS_LEVELS.EXPERT]
+  ];
+
   const {data: skills = [], isLoading} = useFetchRecommendedSkillsQuery(undefined, {
     selectFromResult: result => ({
       ...result,
@@ -32,9 +41,8 @@ export default function RecommendationSkills({onSelectSkill, onFetchSelectedSkil
   const handleSelectSkill = useCallback(
     skill => {
       onSelectSkill(skill);
-      onFetchSelectedSkills();
     },
-    [onSelectSkill, onFetchSelectedSkills]
+    [onSelectSkill]
   );
 
   return (
