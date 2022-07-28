@@ -2,7 +2,7 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 
 import routes from 'constants/routes';
-import PrivateRoute from 'components/PrivateRoute';
+import PrivateRoute from 'components/Routes/PrivateRoute';
 import AccessDenied from 'pages/AccessDenied';
 import NotFound from 'pages/NotFound';
 import Skills from 'pages/Skills';
