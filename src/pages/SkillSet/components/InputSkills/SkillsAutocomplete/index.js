@@ -7,6 +7,8 @@ import {styled} from '@mui/material/styles';
 import {useFetchAutocompleteSkillsQuery} from 'services/skills';
 import {filterObjectArray} from 'utils/helpers';
 
+import {SKILLS_LEVELS} from '../../../../../constants/common';
+
 import AutocompletePaper from './AutocompletePaper';
 
 const AutocompleteOption = styled('li')(({theme}) => ({
@@ -25,8 +27,15 @@ const AutocompleteInputStyled = styled(TextField)(() => ({
   }
 }));
 
-const SkillsAutocomplete = ({onSelectSkill, onProposeSkill, onFetchSelectedSkills}) => {
-  const {senioritySkills} = useSelector(state => state.skills);
+const SkillsAutocomplete = ({onSelectSkill, onProposeSkill}) => {
+  const allSkills = useSelector(state => state.skills);
+  const senioritySkills = [
+    ...allSkills[SKILLS_LEVELS.BASIC],
+    ...allSkills[SKILLS_LEVELS.ADVANCED],
+    ...allSkills[SKILLS_LEVELS.INTERMEDIATE],
+    ...allSkills[SKILLS_LEVELS.EXPERT]
+  ];
+
   const {data: skills = []} = useFetchAutocompleteSkillsQuery(undefined, {
     selectFromResult: result => ({
       ...result,
@@ -38,7 +47,6 @@ const SkillsAutocomplete = ({onSelectSkill, onProposeSkill, onFetchSelectedSkill
   const handleSelectSkill = (event, newValue) => {
     setSelectedSkill(newValue.id);
     onSelectSkill(newValue);
-    onFetchSelectedSkills();
   };
 
   return (

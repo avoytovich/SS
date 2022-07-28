@@ -16,11 +16,18 @@ export const INPUT_TYPES = {
   DATE: 'date',
   PASSWORD: 'password'
 };
+export const SKILLS_LEVELS = {
+  BASIC: 'Basic',
+  INTERMEDIATE: 'Intermediate',
+  ADVANCED: 'Advanced',
+  EXPERT: 'Expert',
+  NONE: 'None'
+};
 
 export const employeeSkillLevels = new Map([
-  ['None', 0],
-  ['Basic', 1],
-  ['Intermediate', 2],
-  ['Advanced', 3],
-  ['Expert', 4]
+  [SKILLS_LEVELS.NONE, 0],
+  [SKILLS_LEVELS.BASIC, 1],
+  [SKILLS_LEVELS.INTERMEDIATE, 2],
+  [SKILLS_LEVELS.ADVANCED, 3],
+  [SKILLS_LEVELS.EXPERT, 4]
 ]);
