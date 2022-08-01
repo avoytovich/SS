@@ -14,9 +14,13 @@ const StyledMuiChip = styled(MuiChip)(() => ({
   '& .MuiChip-label': {
     padding: 0
   },
-  '& .MuiChip-deleteIcon': {
+  '& .MuiSvgIcon-root': {
     fontSize: '16px',
-    margin: '0 0 0 5px'
+    margin: '0 5px 0 0',
+    '&.MuiChip-deleteIcon': {
+      fontSize: '16px',
+      margin: '0 0 0 5px'
+    }
   }
 }));
 

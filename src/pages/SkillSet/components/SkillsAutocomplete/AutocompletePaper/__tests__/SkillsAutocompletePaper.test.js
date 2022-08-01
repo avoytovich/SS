@@ -1,6 +1,6 @@
 import {fireEvent, render, screen} from 'containers/TestProviderWrapper';
 
-import SkillsAutocompletePaper from '..';
+import SkillsAutocompletePaper from '../index';
 
 const mockOnClick = jest.fn();
 

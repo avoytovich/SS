@@ -7,7 +7,7 @@ import {styled} from '@mui/material/styles';
 import {useFetchAutocompleteSkillsQuery} from 'services/skills';
 import {filterObjectArray} from 'utils/helpers';
 
-import {SKILLS_LEVELS} from '../../../../../constants/common';
+import {SKILLS_LEVELS} from '../../../../constants/common';
 
 import AutocompletePaper from './AutocompletePaper';
 

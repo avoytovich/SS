@@ -29,6 +29,13 @@ const profileApi = api.injectEndpoints({
       }),
       providesTags: ['RecommendedSkills'],
       transformResponse: response => response.data
+    }),
+    setProfileSkills: builder.mutation({
+      query: params => ({
+        url: apiUrls.users.profileSkillSet,
+        method: 'PUT',
+        body: params
+      })
     })
   })
 });
@@ -38,5 +45,6 @@ export default profileApi;
 export const {
   useFetchUserProfileQuery,
   useFetchProfileSkillsQuery,
-  useFetchRecommendedSkillsQuery
+  useFetchRecommendedSkillsQuery,
+  useSetProfileSkillsMutation
 } = profileApi;
