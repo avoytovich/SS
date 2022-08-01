@@ -7,7 +7,7 @@ import {filterObjectArray} from 'utils/helpers';
 import {Box} from 'components/Box';
 import Paragraph from 'components/Typography/components/Paragraph';
 
-import {SKILLS_LEVELS} from '../../../../../constants/common';
+import {SKILLS_LEVELS} from '../../../../constants/common';
 
 import SkillsSkeleton from './SkillsSkeleton';
 import Skills from './Skills';

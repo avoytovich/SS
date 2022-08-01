@@ -19,18 +19,39 @@ const SkillSetSeniority = () => {
 
   const skills = useSelector(state => state.skills);
 
+  const filterSkills = skill => {
+    const newSelectedSkills = selectedSkills.filter(item => skill.id !== item);
+    return newSelectedSkills;
+  };
+
   const handleDeleteSkill = (group, skill) => {
     dispatch(removeSkill({from: group, selectedSkill: skill}));
+    const newSelectedSkills = filterSkills(skill);
+
+    setSelectedSkills(newSelectedSkills);
   };
 
   const handleSelectSkill = (group, skill) => {
+    //  const groupName = newSelectedSkills.length > 0 ? group : '';
     if (!selectedGroup || selectedGroup !== group) setSelectedGroup(group);
-    setSelectedSkills([...selectedSkills, skill.id]);
+
+    const index = selectedSkills.indexOf(skill.id);
+    let newSelectedSkills = [];
+
+    if (index === -1) {
+      newSelectedSkills = [...selectedSkills, skill.id];
+    } else {
+      newSelectedSkills = filterSkills(skill);
+    }
+
+    setSelectedSkills(newSelectedSkills);
   };
 
   const handleClickOnGroup = group => {
     if (!selectedGroup || selectedGroup === group) return;
     dispatch(moveSkills({from: selectedGroup, to: group, selectedSkillsId: selectedSkills}));
+    setSelectedGroup('');
+    setSelectedSkills([]);
   };
 
   return (
@@ -50,6 +71,7 @@ const SkillSetSeniority = () => {
           </Grid>
           <Grid item xs={12}>
             <SeniorityGroup
+              selectedSkills={selectedSkills}
               name={SKILLS_LEVELS.BASIC}
               skills={skills[SKILLS_LEVELS.BASIC]}
               onDeleteSkill={handleDeleteSkill}
@@ -60,10 +82,11 @@ const SkillSetSeniority = () => {
         </Grid>
         <Grid item xs={4}>
           <BoxSubtitle>
-            <Subtitle>Intermidiete</Subtitle>
+            <Subtitle>Intermediate</Subtitle>
             <Subtitle size="sm">Enough knowledge to implement technical tasks her/himself</Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
+            selectedSkills={selectedSkills}
             name={SKILLS_LEVELS.INTERMEDIATE}
             skills={skills[SKILLS_LEVELS.INTERMEDIATE]}
             onDeleteSkill={handleDeleteSkill}
@@ -73,12 +96,13 @@ const SkillSetSeniority = () => {
         </Grid>
         <Grid item xs={4}>
           <BoxSubtitle>
-            <Subtitle>Avdanced</Subtitle>
+            <Subtitle>Advanced</Subtitle>
             <Subtitle size="sm">
               Strong knowledge, can set/explain technical tasks and guide others
             </Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
+            selectedSkills={selectedSkills}
             name={SKILLS_LEVELS.ADVANCED}
             skills={skills[SKILLS_LEVELS.ADVANCED]}
             onDeleteSkill={handleDeleteSkill}
@@ -92,6 +116,7 @@ const SkillSetSeniority = () => {
             <Subtitle size="sm">May technically lead dedicated area</Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
+            selectedSkills={selectedSkills}
             name={SKILLS_LEVELS.EXPERT}
             skills={skills[SKILLS_LEVELS.EXPERT]}
             onDeleteSkill={handleDeleteSkill}

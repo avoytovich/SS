@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import {BoxOutlined} from 'components/Box';
 import {ChipContained} from 'components/Chip';
 
-const SeniorityGroup = ({name, skills, onDeleteSkill, onSelectSkill, onClickGroup}) => {
+const SeniorityGroup = ({
+  name,
+  skills,
+  onDeleteSkill,
+  selectedSkills,
+  onSelectSkill,
+  onClickGroup
+}) => {
   const handleDeleteSkill = skill => {
     if (onDeleteSkill) onDeleteSkill(name, skill);
   };
@@ -27,6 +34,7 @@ const SeniorityGroup = ({name, skills, onDeleteSkill, onSelectSkill, onClickGrou
           <ChipContained
             key={skill.id}
             label={skill.name}
+            selected={selectedSkills.length > 0 && selectedSkills.indexOf(skill.id) > -1}
             onClick={() => {
               handleSelectSkill(skill);
             }}
@@ -40,6 +48,7 @@ const SeniorityGroup = ({name, skills, onDeleteSkill, onSelectSkill, onClickGrou
 };
 
 SeniorityGroup.propTypes = {
+  selectedSkills: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   onDeleteSkill: PropTypes.func.isRequired,
   onSelectSkill: PropTypes.func.isRequired,

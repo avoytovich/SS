@@ -5,6 +5,7 @@ const apiUrls = {
     details: id => `/users/${id}`,
     myProfile: '/users/me',
     profileSkills: '/users/me/skills',
+    profileSkillSet: '/users/me/skill-set',
     recommendedSkills: '/users/me/recommended/skills'
   },
   tags: {

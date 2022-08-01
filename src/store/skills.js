@@ -7,7 +7,8 @@ const initialState = {
   [SKILLS_LEVELS.INTERMEDIATE]: [],
   [SKILLS_LEVELS.ADVANCED]: [],
   [SKILLS_LEVELS.EXPERT]: [],
-  senioritySkills: []
+  senioritySkills: [],
+  allSkillsID: []
 };
 
 const skillsSlice = createSlice({
@@ -18,7 +19,8 @@ const skillsSlice = createSlice({
       state[from] = state[from].filter(item => item.id !== selectedSkill.id);
     },
     moveSkills: (state, {payload: {from, to, selectedSkillsId}}) => {
-      const moved = [];
+      const moved = state[to];
+
       state[from] = state[from].filter(item => {
         const isSelected = selectedSkillsId.indexOf(item.id) > -1;
         if (isSelected) moved.push(item);
