@@ -16,12 +16,20 @@ export const INPUT_TYPES = {
   DATE: 'date',
   PASSWORD: 'password'
 };
+
 export const SKILLS_LEVELS = {
   BASIC: 'Basic',
   INTERMEDIATE: 'Intermediate',
   ADVANCED: 'Advanced',
   EXPERT: 'Expert',
   NONE: 'None'
+};
+
+export const SKILLS_COLORS = {
+  [SKILLS_LEVELS.BASIC]: 'blue',
+  [SKILLS_LEVELS.INTERMEDIATE]: 'orange',
+  [SKILLS_LEVELS.ADVANCED]: 'green',
+  [SKILLS_LEVELS.EXPERT]: 'dark'
 };
 
 export const employeeSkillLevels = new Map([

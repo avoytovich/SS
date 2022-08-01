@@ -21,6 +21,9 @@ const SkillSetSeniority = () => {
 
   const filterSkills = skill => {
     const newSelectedSkills = selectedSkills.filter(item => skill.id !== item);
+    if (newSelectedSkills.length === 0) {
+      setSelectedGroup('');
+    }
     return newSelectedSkills;
   };
 
@@ -71,6 +74,7 @@ const SkillSetSeniority = () => {
           </Grid>
           <Grid item xs={12}>
             <SeniorityGroup
+              isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.BASIC}
               selectedSkills={selectedSkills}
               name={SKILLS_LEVELS.BASIC}
               skills={skills[SKILLS_LEVELS.BASIC]}
@@ -86,6 +90,7 @@ const SkillSetSeniority = () => {
             <Subtitle size="sm">Enough knowledge to implement technical tasks her/himself</Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
+            isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.INTERMEDIATE}
             selectedSkills={selectedSkills}
             name={SKILLS_LEVELS.INTERMEDIATE}
             skills={skills[SKILLS_LEVELS.INTERMEDIATE]}
@@ -102,6 +107,7 @@ const SkillSetSeniority = () => {
             </Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
+            isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.ADVANCED}
             selectedSkills={selectedSkills}
             name={SKILLS_LEVELS.ADVANCED}
             skills={skills[SKILLS_LEVELS.ADVANCED]}
@@ -116,6 +122,7 @@ const SkillSetSeniority = () => {
             <Subtitle size="sm">May technically lead dedicated area</Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
+            isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.EXPERT}
             selectedSkills={selectedSkills}
             name={SKILLS_LEVELS.EXPERT}
             skills={skills[SKILLS_LEVELS.EXPERT]}

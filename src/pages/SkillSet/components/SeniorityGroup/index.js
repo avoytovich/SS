@@ -2,9 +2,13 @@ import PropTypes from 'prop-types';
 
 import {BoxOutlined} from 'components/Box';
 import {ChipContained} from 'components/Chip';
+import {SKILLS_COLORS} from 'constants/common';
+
+import TapBox from '../TapBox';
 
 const SeniorityGroup = ({
   name,
+  isCanToMoved,
   skills,
   onDeleteSkill,
   selectedSkills,
@@ -43,6 +47,7 @@ const SeniorityGroup = ({
             }}
           />
         ))}
+      {isCanToMoved && <TapBox color={SKILLS_COLORS[name]}>Tap here</TapBox>}
     </BoxOutlined>
   );
 };
@@ -53,7 +58,8 @@ SeniorityGroup.propTypes = {
   onDeleteSkill: PropTypes.func.isRequired,
   onSelectSkill: PropTypes.func.isRequired,
   onClickGroup: PropTypes.func.isRequired,
-  skills: PropTypes.array.isRequired
+  skills: PropTypes.array.isRequired,
+  isCanToMoved: PropTypes.bool
 };
 
 export default SeniorityGroup;
