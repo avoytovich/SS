@@ -6,7 +6,8 @@ import Box from '../Box';
 const StyledBox = styled(Box)(() => ({
   border: '1px solid rgba(0, 0, 0, 0.1)',
   borderRadius: 8,
-  minHeight: 87
+  minHeight: 87,
+  position: 'relative'
 }));
 
 // eslint-disable-next-line no-use-before-define
