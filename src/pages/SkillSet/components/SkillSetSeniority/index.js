@@ -2,13 +2,14 @@ import React, {useState} from 'react';
 import {Grid} from '@mui/material';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {removeSkill} from 'store/skills';
+import {SKILLS_LEVELS} from 'constants/common';
+import {removeSkill, moveSkills} from 'store/skills';
 import {Subtitle} from 'components/Typography';
 import {ButtonOutlined} from 'components/Button';
 import Card from 'components/Card';
-import {BoxOutlined, BoxSubtitle} from 'components/Box';
-import {ChipContained} from 'components/Chip';
-import {SKILLS_LEVELS} from 'constants/common';
+import {BoxSubtitle} from 'components/Box';
+
+import SeniorityGroup from '../SeniorityGroup';
 
 const SkillSetSeniority = () => {
   const dispatch = useDispatch();
@@ -19,13 +20,17 @@ const SkillSetSeniority = () => {
   const skills = useSelector(state => state.skills);
 
   const handleDeleteSkill = (group, skill) => {
-    console.log(skill);
     dispatch(removeSkill({from: group, selectedSkill: skill}));
   };
 
   const handleSelectSkill = (group, skill) => {
-    setSelectedSkills([...selectedSkills, skill]);
     if (!selectedGroup || selectedGroup !== group) setSelectedGroup(group);
+    setSelectedSkills([...selectedSkills, skill.id]);
+  };
+
+  const handleClickOnGroup = group => {
+    if (!selectedGroup || selectedGroup === group) return;
+    dispatch(moveSkills({from: selectedGroup, to: group, selectedSkillsId: selectedSkills}));
   };
 
   return (
@@ -44,20 +49,13 @@ const SkillSetSeniority = () => {
             <ButtonOutlined disabled>Change seniority</ButtonOutlined>
           </Grid>
           <Grid item xs={12}>
-            <BoxOutlined>
-              {skills[SKILLS_LEVELS.BASIC].map(skill => (
-                <ChipContained
-                  key={skill.id}
-                  label={skill.name}
-                  onClick={() => {
-                    handleSelectSkill(SKILLS_LEVELS.BASIC, skill);
-                  }}
-                  onDelete={() => {
-                    handleDeleteSkill(SKILLS_LEVELS.BASIC, skill);
-                  }}
-                />
-              ))}
-            </BoxOutlined>
+            <SeniorityGroup
+              name={SKILLS_LEVELS.BASIC}
+              skills={skills[SKILLS_LEVELS.BASIC]}
+              onDeleteSkill={handleDeleteSkill}
+              onSelectSkill={handleSelectSkill}
+              onClickGroup={handleClickOnGroup}
+            />
           </Grid>
         </Grid>
         <Grid item xs={4}>
@@ -65,7 +63,13 @@ const SkillSetSeniority = () => {
             <Subtitle>Intermidiete</Subtitle>
             <Subtitle size="sm">Enough knowledge to implement technical tasks her/himself</Subtitle>
           </BoxSubtitle>
-          <BoxOutlined></BoxOutlined>
+          <SeniorityGroup
+            name={SKILLS_LEVELS.INTERMEDIATE}
+            skills={skills[SKILLS_LEVELS.INTERMEDIATE]}
+            onDeleteSkill={handleDeleteSkill}
+            onSelectSkill={handleSelectSkill}
+            onClickGroup={handleClickOnGroup}
+          />
         </Grid>
         <Grid item xs={4}>
           <BoxSubtitle>
@@ -74,14 +78,26 @@ const SkillSetSeniority = () => {
               Strong knowledge, can set/explain technical tasks and guide others
             </Subtitle>
           </BoxSubtitle>
-          <BoxOutlined></BoxOutlined>
+          <SeniorityGroup
+            name={SKILLS_LEVELS.ADVANCED}
+            skills={skills[SKILLS_LEVELS.ADVANCED]}
+            onDeleteSkill={handleDeleteSkill}
+            onSelectSkill={handleSelectSkill}
+            onClickGroup={handleClickOnGroup}
+          />
         </Grid>
         <Grid item xs={4}>
           <BoxSubtitle>
             <Subtitle>Expert</Subtitle>
             <Subtitle size="sm">May technically lead dedicated area</Subtitle>
           </BoxSubtitle>
-          <BoxOutlined></BoxOutlined>
+          <SeniorityGroup
+            name={SKILLS_LEVELS.EXPERT}
+            skills={skills[SKILLS_LEVELS.EXPERT]}
+            onDeleteSkill={handleDeleteSkill}
+            onSelectSkill={handleSelectSkill}
+            onClickGroup={handleClickOnGroup}
+          />
         </Grid>
       </Grid>
     </Card>

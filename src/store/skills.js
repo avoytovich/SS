@@ -14,22 +14,18 @@ const skillsSlice = createSlice({
   name: 'skills',
   initialState,
   reducers: {
-    getAllSkills: state => {
-      state.senioritySkills = [
-        ...state[SKILLS_LEVELS.BASIC],
-        ...state[SKILLS_LEVELS.INTERMEDIATE],
-        ...state[SKILLS_LEVELS.ADVANCED],
-        ...state[SKILLS_LEVELS.EXPERT]
-      ];
-    },
     removeSkill: (state, {payload: {from, selectedSkill}}) => {
       state[from] = state[from].filter(item => item.id !== selectedSkill.id);
     },
-    removeSkills: (state, {payload: {from, to, selectedSkills}}) => {
-      console.log(from, to, selectedSkills);
-    },
-    moveSkills: (state, {payload: {from, to, selectedSkills}}) => {
-      console.log(from, to, selectedSkills);
+    moveSkills: (state, {payload: {from, to, selectedSkillsId}}) => {
+      const moved = [];
+      state[from] = state[from].filter(item => {
+        const isSelected = selectedSkillsId.indexOf(item.id) > -1;
+        if (isSelected) moved.push(item);
+        return !isSelected;
+      });
+
+      state[to] = moved;
     },
     setBasicSkills: (state, {payload}) => {
       state[SKILLS_LEVELS.BASIC] = [...state[SKILLS_LEVELS.BASIC], payload];
@@ -37,7 +33,6 @@ const skillsSlice = createSlice({
   }
 });
 
-export const {setBasicSkills, getAllSkills, removeSkills, moveSkills, removeSkill} =
-  skillsSlice.actions;
+export const {setBasicSkills, moveSkills, removeSkill} = skillsSlice.actions;
 
 export default skillsSlice.reducer;

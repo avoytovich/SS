@@ -88,8 +88,7 @@ const SkillsAutocomplete = ({onSelectSkill, onProposeSkill}) => {
 
 SkillsAutocomplete.propTypes = {
   onSelectSkill: PropTypes.func.isRequired,
-  onProposeSkill: PropTypes.func.isRequired,
-  onFetchSelectedSkills: PropTypes.func.isRequired
+  onProposeSkill: PropTypes.func.isRequired
 };
 
 export default SkillsAutocomplete;
