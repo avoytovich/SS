@@ -5,7 +5,7 @@ import {Box} from 'components/Box';
 
 const StyledEmptyStatus = styled(Box)(() => ({
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center'
