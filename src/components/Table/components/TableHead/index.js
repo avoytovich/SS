@@ -35,7 +35,7 @@ TableHead.propTypes = {
   orderBy: PropTypes.string,
   headCells: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.number,
+      key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       label: PropTypes.string,
       align: PropTypes.string,
       sortable: PropTypes.bool

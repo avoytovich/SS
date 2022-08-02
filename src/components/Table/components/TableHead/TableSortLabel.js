@@ -20,7 +20,7 @@ const TableSortLabel = ({cell, onSort, isActive, sortDirection}) => {
 
 TableSortLabel.propTypes = {
   cell: PropTypes.shape({
-    key: PropTypes.number,
+    key: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.string,
     align: PropTypes.string,
     sortable: PropTypes.bool

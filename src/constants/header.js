@@ -22,6 +22,13 @@ const navigationLinks = [
     key: 'employees',
     permissions: [PermissionEnum.USERS_LIST],
     exact: true
+  },
+  {
+    pathName: routes.users.list,
+    linkName: 'Users',
+    key: 'users',
+    permissions: [PermissionEnum.USERS_MANAGMENT_LIST],
+    exact: true
   }
 ];
 
