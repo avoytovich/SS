@@ -11,6 +11,7 @@ import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
 import Home from 'pages/Home';
 import SkillSet from 'pages/SkillSet';
+import Users from 'pages/Users';
 import {PermissionEnum} from 'constants/permissions';
 
 const AppRouter = () => (
@@ -26,6 +27,13 @@ const AppRouter = () => (
     </PrivateRoute>
     <PrivateRoute path={routes.profile} permissions={[PermissionEnum.USERS_ME]} exact>
       <MyProfile />
+    </PrivateRoute>
+    <PrivateRoute
+      path={routes.users.list}
+      permissions={[PermissionEnum.USERS_MANAGMENT_LIST]}
+      exact
+    >
+      <Users />
     </PrivateRoute>
     <PrivateRoute path={routes.home} exact>
       <Home />

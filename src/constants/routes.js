@@ -23,6 +23,9 @@ const routes = {
   roles: {
     list: '/roles'
   },
+  users: {
+    list: '/users'
+  },
   errors: {
     pageNotFound: '/page-not-found',
     accessDenied: '/access-denied',

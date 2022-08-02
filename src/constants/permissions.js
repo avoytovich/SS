@@ -65,7 +65,10 @@ export const USER_ROLES_PERMISSIONS = {
     PermissionEnum.SKILLSSET_DETAILS,
     PermissionEnum.USERS_ME,
     PermissionEnum.USERS_LIST,
-    PermissionEnum.USERS_DETAILS
+    PermissionEnum.USERS_DETAILS,
+    PermissionEnum.USERS_MANAGMENT_LIST,
+    PermissionEnum.USERS_MANAGMENT_CREATE,
+    PermissionEnum.USERS_MANAGMENT_DELETE
   ],
   [UserRoleEnum.MODERATOR]: [
     PermissionEnum.TAGS_CREATE,
