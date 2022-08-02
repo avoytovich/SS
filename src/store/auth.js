@@ -4,7 +4,8 @@ const initialState = {
   profile: {},
   token: null,
   isAuthenticated: false,
-  auth: {}
+  auth: {},
+  profilePhoto: ''
 };
 
 const authSlice = createSlice({
@@ -19,6 +20,10 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
     },
 
+    setProfilePhoto: (state, action) => {
+      state.profilePhoto = action.payload;
+    },
+
     logout: state => {
       state.profile = {};
       state.token = null;
@@ -28,4 +33,4 @@ const authSlice = createSlice({
 
 export default authSlice;
 
-export const {setAuthData, logout, setProfileUser} = authSlice.actions;
+export const {setAuthData, logout, setProfileUser, setProfilePhoto} = authSlice.actions;

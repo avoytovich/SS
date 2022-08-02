@@ -7,11 +7,14 @@ import useModal from 'hooks/useModal';
 import routes from 'constants/routes';
 import {StyledMenu} from 'components/Common/Layout/Header/styles';
 import {ButtonText} from 'components/Button';
+import Avatar from 'components/Avatar';
 
 export default function UserMenu() {
-  const {profile, auth} = useSelector(state => state.auth);
+  const {profile, profilePhoto} = useSelector(state => state.auth);
   const {isOpen, toggle} = useModal();
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const userName = `${profile?.first_name} ${profile?.last_name}`;
 
   const handleClick = event => {
     toggle();
@@ -32,8 +35,8 @@ export default function UserMenu() {
         aria-expanded={isOpen ? 'true' : undefined}
         onClick={handleClick}
       >
-        {/* TODO:Remove auth.name after integration SSO on backend side */}
-        {auth.name ? auth.name : `${profile?.first_name} ${profile?.last_name}`}
+        <Avatar src={profilePhoto} name={userName} />
+        {userName}
       </ButtonText>
       <StyledMenu
         id="user-menu"
