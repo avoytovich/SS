@@ -5,13 +5,8 @@ import {Box} from '@mui/material';
 
 import {useFetchSkillsQuery, useDeleteSkillMutation} from 'services/skills';
 import {useFetchTagsQuery} from 'services/tags';
-import {
-  GridPagination,
-  NoRows,
-  SearchField,
-  MultipleAutocomplete,
-  dataGridRootStyles
-} from 'components/Common/DataGrid';
+import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
+import Autocomplete from 'components/Autocomplete';
 import {filterTagParamName, headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
 import {
   useDataGridPagination,
@@ -156,7 +151,8 @@ const SkillsList = ({onChanges}) => {
           onChange={handleSkillSearch}
           onClear={handleClearFilter}
         />
-        <MultipleAutocomplete
+        <Autocomplete
+          multiple
           name="tags"
           label="Tags"
           options={filterOptions}

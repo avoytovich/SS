@@ -1,9 +1,9 @@
-import React, {useCallback, useState} from 'react';
+import {useCallback, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Autocomplete} from '@mui/material';
 
-import AutocompleteInput from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteInput';
-import AutocompleteOption from 'components/Common/DataGrid/Filters/MultipleAutocomplete/AutocompleteOption';
+import AutocompleteInput from './AutocompleteInput';
+import AutocompleteOption from './AutocompleteOption';
 
 const MultipleAutocomplete = ({
   name,
@@ -114,4 +114,4 @@ MultipleAutocomplete.defaultProps = {
   minWidth: 240
 };
 
-export default React.memo(MultipleAutocomplete);
+export default MultipleAutocomplete;

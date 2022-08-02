@@ -2,8 +2,9 @@ import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {Box} from '@mui/material';
 
-import {MultipleAutocomplete, SearchField} from 'components/Common/DataGrid';
+import {SearchField} from 'components/Common/DataGrid';
 import {getOptions} from 'utils/dataGridUtils';
+import Autocomplete from 'components/Autocomplete';
 
 import useStyles from '../styles';
 
@@ -28,7 +29,8 @@ const SkillListFilter = ({
         onChange={onSearch}
         onClear={onClearSearch}
       />
-      <MultipleAutocomplete
+      <Autocomplete
+        multiple
         name="tags"
         label="Tags"
         options={options}
