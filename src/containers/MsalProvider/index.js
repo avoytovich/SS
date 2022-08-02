@@ -3,11 +3,11 @@ import * as msal from '@azure/msal-browser';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {setAuthData} from 'store/auth';
+import {setAuthData, setProfilePhoto} from 'store/auth';
 import Session from 'utils/session';
 import {INIT_PAGE} from 'constants/common';
 
-import {loginScope} from '../../constants/msalConfig-config';
+import {loginScope, graphConfig} from '../../constants/msalConfig-config';
 
 const ua = window.navigator.userAgent;
 const msie = ua.indexOf('MSIE ');
@@ -18,6 +18,23 @@ const isEdge = msedge > 0;
 
 export const MsalContext = React.createContext();
 export const useMsal = () => useContext(MsalContext);
+
+// TODO: REFACTOR this function.
+
+function callMSGraph(endpoint, token, callback) {
+  const bearer = `Bearer ${token}`;
+
+  const options = {
+    method: 'GET',
+    headers: {'Content-Type': 'image/*', Authorization: bearer},
+    responseType: 'arraybuffer'
+  };
+
+  fetch(endpoint, options)
+    .then(response => response.arrayBuffer())
+    .then(response => callback(response, endpoint))
+    .catch(error => console.log(error));
+}
 
 export const MsalProvider = ({children, config}) => {
   const dispatch = useDispatch();
@@ -34,6 +51,7 @@ export const MsalProvider = ({children, config}) => {
     }
 
     const pc = new msal.PublicClientApplication(config);
+
     setPublicClient(pc);
 
     pc.handleRedirectPromise()
@@ -44,8 +62,16 @@ export const MsalProvider = ({children, config}) => {
           dispatch(setAuthData(usr));
 
           if (response.accessToken) {
+            callMSGraph(graphConfig.graphMePhotoEndpoint, response.accessToken, data => {
+              const TYPED_ARRAY = new Uint8Array(data);
+              const STRING_CHAR = String.fromCharCode.apply(null, TYPED_ARRAY);
+              const base64String = btoa(STRING_CHAR);
+              dispatch(setProfilePhoto(`data:image/*;base64, ${base64String}`));
+            });
+
             Session.set(response.accessToken);
             const path = Session.get(INIT_PAGE);
+
             setInitialPath(path);
             Session.set(INIT_PAGE, null);
             setIsAuthenticated(true);
