@@ -13,8 +13,8 @@ describe('SkillSet page', () => {
   it('should render input skills section', async () => {
     render(<SkillSet />);
     expect(screen.getByTestId('input-skills-box')).toBeVisible();
-    expect(screen.getByTestId('input-skills-box-autocomplete')).toBeVisible();
-    expect(screen.getByTestId('input-skills-recommendation-box')).toBeVisible();
+    expect(screen.getByTestId('skills-autocomplete')).toBeVisible();
+    expect(screen.getByTestId('skills-autocomplete')).toBeVisible();
     expect(screen.getByTestId('input-skills-recommendation-title')).toHaveTextContent(
       'Recommendations based on your profile'
     );

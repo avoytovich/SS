@@ -1,14 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {InputAdornment} from '@mui/material';
+import {styled} from '@mui/material/styles';
+import {InputAdornment, TextField} from '@mui/material';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 
-import {
-  StyledInputContent,
-  StyledTextField,
-  StyledIcon
-} from 'components/Common/DataGrid/Filters/MultipleAutocomplete/styles';
+import IconStyled from './Icon.styles';
+import InputContentStyled from './InputContent.styles';
+
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: prop => prop !== 'disabled'
+})(({theme, disabled, width}) => ({
+  color: disabled ? theme.palette.common.black : theme.palette.primary.main,
+  backgroundColor: disabled ? theme.palette.grey[50] : theme.palette.common.white,
+  minWidth: width || 240,
+  '.MuiOutlinedInput-root .MuiAutocomplete-input': {
+    padding: '8.5px 2px',
+    fontSize: 16
+  }
+}));
 
 const getInputValue = (id, values) =>
   values.length > 1 ? `${values.length} ${id} selected` : values[0].label;
@@ -16,23 +26,17 @@ const getInputValue = (id, values) =>
 const InputIcon = ({isRemove, onRemove}) => {
   if (isRemove) {
     return (
-      <StyledIcon id="remove-icon" data-testid="remove-icon" onClick={onRemove}>
+      <IconStyled id="remove-icon" data-testid="remove-icon" onClick={onRemove}>
         <CloseOutlinedIcon />
-      </StyledIcon>
+      </IconStyled>
     );
   }
   return (
-    <StyledIcon id="search-icon" data-testid="search-icon" onClick={onRemove}>
+    <IconStyled id="search-icon" data-testid="search-icon" onClick={onRemove}>
       <SearchIcon />
-    </StyledIcon>
+    </IconStyled>
   );
 };
-
-const InputContent = ({content, toggle}) => (
-  <StyledInputContent id="selected-value" data-testid="selected-value" onClick={toggle}>
-    {content}
-  </StyledInputContent>
-);
 
 const AutocompleteInput = ({
   id,
@@ -73,7 +77,7 @@ const AutocompleteInput = ({
         startAdornment: (
           <InputAdornment position="start">
             {startAdornment && (
-              <InputContent content={startAdornment} toggle={toggleAutocomplete} />
+              <InputContentStyled onClick={toggleAutocomplete}>{startAdornment}</InputContentStyled>
             )}
           </InputAdornment>
         ),
