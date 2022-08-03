@@ -1,20 +1,25 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useSnackbar} from 'notistack';
-import {useHistory} from 'react-router-dom';
+import {useHistory, NavLink} from 'react-router-dom';
 
+import {
+  useSetProfileSkillsMutation,
+  useFetchProfileSkillSetQuery,
+  useFetchRecommendedSkillsQuery
+} from 'services/profile';
+import useModal from 'hooks/useModal';
+import {setBasicSkills} from 'store/skills';
+import {ArrayObjsToArrayIds} from 'utils/helpers';
+import {SKILLS_LEVELS} from 'constants/common';
+import routes from 'constants/routes';
+import {ButtonContained, ButtonOutlined} from 'components/Button';
+import {PageLoader} from 'components/Loader';
+import {formSubmitHandling} from 'utils/forms';
+import {Paragraph} from 'components/Typography';
+import Card from 'components/Card';
 import PageLayout from 'components/Common/Layout/PageLayout';
-import {useSetProfileSkillsMutation} from 'services/profile';
-import {ButtonContained} from 'components/Button';
-
-import {formSubmitHandling} from '../../utils/forms';
-import Paragraph from '../../components/Typography/components/Paragraph';
-import Card from '../../components/Card';
-import useModal from '../../hooks/useModal';
-import {setBasicSkills} from '../../store/skills';
-import {SKILLS_LEVELS} from '../../constants/common';
-import {ArrayObjsToArrayIds} from '../../utils/helpers';
-import routes from '../../constants/routes';
+import {ButtonGroupBasic} from 'components/ButtonGroup';
 
 import SkillSetSeniority from './components/SkillSetSeniority';
 import SkillsAutocomplete from './components/SkillsAutocomplete';
@@ -28,6 +33,9 @@ function SkillSet() {
   const allSkills = useSelector(state => state.skills);
   const history = useHistory();
   const {enqueueSnackbar} = useSnackbar();
+
+  const {data: {data: skillsSet = []} = {}, isLoading} = useFetchProfileSkillSetQuery();
+  const Recommended = useFetchRecommendedSkillsQuery();
 
   const onToggleModal = () => setIsOpen(value => !value);
 
@@ -50,11 +58,16 @@ function SkillSet() {
         history.push(routes.profile);
       },
       () => {
-        enqueueSnackbar('Your skills have not saved, please check form fields', {variant: 'error'});
+        enqueueSnackbar('Your skills have not saved, please add skills', {variant: 'error'});
       }
     );
   };
-  return (
+
+  return isLoading || Recommended.isLoading ? (
+    <PageLayout type="cardsLayout" title="My Skill Set" hiddenHeader>
+      <PageLoader />
+    </PageLayout>
+  ) : (
     <PageLayout type="cardsLayout" title="My Skill Set" hiddenHeader>
       <Card title="Input skills" data-testid="input-skills-box">
         <Paragraph>Type skill name or click on recommended skill below</Paragraph>
@@ -62,10 +75,17 @@ function SkillSet() {
         <RecommendationSkills onSelectSkill={onSelectSkill} />
         <SkillSetModal isOpen={isOpen} onClose={onToggleModal} />
       </Card>
-      <SkillSetSeniority />
-      <ButtonContained onClick={handleSubmitSkills} disabled={isAddLoading}>
-        Finish
-      </ButtonContained>
+      <SkillSetSeniority initialSkillsSet={skillsSet} />
+
+      <ButtonGroupBasic position="right">
+        <ButtonOutlined to={routes.profile} component={NavLink} disabled={isAddLoading}>
+          Cancel
+        </ButtonOutlined>
+        <ButtonContained onClick={handleSubmitSkills} disabled={isAddLoading}>
+          Finish
+        </ButtonContained>
+      </ButtonGroupBasic>
+      {isAddLoading && <PageLoader />}
     </PageLayout>
   );
 }
