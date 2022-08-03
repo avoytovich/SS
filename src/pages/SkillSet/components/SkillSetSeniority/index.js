@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Grid} from '@mui/material';
 import {useSelector, useDispatch} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {SKILLS_LEVELS} from 'constants/common';
-import {removeSkill, moveSkills} from 'store/skills';
+import {removeSkill, moveSkills, setInitialSkillsSet} from 'store/skills';
 import {Subtitle} from 'components/Typography';
 import {ButtonOutlined} from 'components/Button';
 import Card from 'components/Card';
@@ -11,13 +12,19 @@ import {BoxSubtitle} from 'components/Box';
 
 import SeniorityGroup from '../SeniorityGroup';
 
-const SkillSetSeniority = () => {
+const SkillSetSeniority = ({initialSkillsSet}) => {
   const dispatch = useDispatch();
 
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
 
   const skills = useSelector(state => state.skills);
+
+  useEffect(() => {
+    console.log(initialSkillsSet);
+    dispatch(setInitialSkillsSet(initialSkillsSet));
+    console.log('initialSkillsSet changed');
+  }, [initialSkillsSet]);
 
   const filterSkills = skill => {
     const newSelectedSkills = selectedSkills.filter(item => skill.id !== item);
@@ -134,6 +141,14 @@ const SkillSetSeniority = () => {
       </Grid>
     </Card>
   );
+};
+
+SkillSetSeniority.propTypes = {
+  initialSkillsSet: PropTypes.object
+};
+
+SkillSetSeniority.defaultProps = {
+  initialSkillsSet: {}
 };
 
 export default SkillSetSeniority;

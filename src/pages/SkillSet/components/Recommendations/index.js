@@ -9,7 +9,6 @@ import Paragraph from 'components/Typography/components/Paragraph';
 
 import {SKILLS_LEVELS} from '../../../../constants/common';
 
-import SkillsSkeleton from './SkillsSkeleton';
 import Skills from './Skills';
 
 const StyledBox = styled(Box)(({theme}) => ({
@@ -31,7 +30,7 @@ export default function RecommendationSkills({onSelectSkill}) {
     ...allSkills[SKILLS_LEVELS.EXPERT]
   ];
 
-  const {data: skills = [], isLoading} = useFetchRecommendedSkillsQuery(undefined, {
+  const {data: skills = []} = useFetchRecommendedSkillsQuery(undefined, {
     selectFromResult: result => ({
       ...result,
       data: filterObjectArray(result.data, senioritySkills)
@@ -50,11 +49,7 @@ export default function RecommendationSkills({onSelectSkill}) {
       <Paragraph size="sm" data-testid="input-skills-recommendation-title">
         Recommendations based on your profile
       </Paragraph>
-      {isLoading && !skills.length ? (
-        <SkillsSkeleton />
-      ) : (
-        <Skills skills={skills} onSelectSkill={handleSelectSkill} />
-      )}
+      {skills.length > 0 && <Skills skills={skills} onSelectSkill={handleSelectSkill} />}
     </StyledBox>
   );
 }

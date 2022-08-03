@@ -30,12 +30,21 @@ const profileApi = api.injectEndpoints({
       providesTags: ['RecommendedSkills'],
       transformResponse: response => response.data
     }),
+    fetchProfileSkillSet: builder.query({
+      query: params => ({
+        url: apiUrls.users.profileSkillSet,
+        method: 'GET',
+        params
+      }),
+      providesTags: ['ProfileSkillSet']
+    }),
     setProfileSkills: builder.mutation({
       query: params => ({
         url: apiUrls.users.profileSkillSet,
         method: 'PUT',
         body: params
-      })
+      }),
+      invalidatesTags: ['ProfileSkills', 'ProfileSkillSet']
     })
   })
 });
@@ -46,5 +55,6 @@ export const {
   useFetchUserProfileQuery,
   useFetchProfileSkillsQuery,
   useFetchRecommendedSkillsQuery,
-  useSetProfileSkillsMutation
+  useSetProfileSkillsMutation,
+  useFetchProfileSkillSetQuery
 } = profileApi;

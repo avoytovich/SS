@@ -29,12 +29,18 @@ const skillsSlice = createSlice({
 
       state[to] = moved;
     },
+    setInitialSkillsSet: (state, {payload}) => {
+      state[SKILLS_LEVELS.BASIC] = payload[SKILLS_LEVELS.BASIC];
+      state[SKILLS_LEVELS.ADVANCED] = payload[SKILLS_LEVELS.ADVANCED];
+      state[SKILLS_LEVELS.INTERMEDIATE] = payload[SKILLS_LEVELS.INTERMEDIATE];
+      state[SKILLS_LEVELS.EXPERT] = payload[SKILLS_LEVELS.EXPERT];
+    },
     setBasicSkills: (state, {payload}) => {
       state[SKILLS_LEVELS.BASIC] = [...state[SKILLS_LEVELS.BASIC], payload];
     }
   }
 });
 
-export const {setBasicSkills, moveSkills, removeSkill} = skillsSlice.actions;
+export const {setBasicSkills, moveSkills, removeSkill, setInitialSkillsSet} = skillsSlice.actions;
 
 export default skillsSlice.reducer;

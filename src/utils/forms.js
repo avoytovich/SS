@@ -46,7 +46,7 @@ const formSubmitHandling = (submitFn, values, actions, onSuccess, onError) => {
       if (actions) actions.resetForm();
     })
     .catch(error => {
-      formErrorsHandling(error, actions);
+      if (actions) formErrorsHandling(error, actions);
       if (onError) onError();
     })
     .finally(() => {

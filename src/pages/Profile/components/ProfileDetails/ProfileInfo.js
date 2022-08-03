@@ -10,7 +10,7 @@ const InfoItem = ({title, item}) => (
   </Box>
 );
 
-export default function ProfileInfo({competency, specialization, level}) {
+export default function ProfileInfo({competency, specialization, seniority}) {
   return (
     <Box sx={{flex: '1', padding: '22px 24px 24px'}}>
       <Box sx={{fontSize: 12, textAlign: 'left', fontWeight: 500, mb: '4px'}} color={grey[600]}>
@@ -19,7 +19,7 @@ export default function ProfileInfo({competency, specialization, level}) {
       <Box data-cy="profile-info">
         <InfoItem title="Specialization" item={specialization} />
         <InfoItem title="Competency" item={competency} />
-        <InfoItem title="Level" item={level} />
+        <InfoItem title="Seniority" item={seniority} />
       </Box>
     </Box>
   );
@@ -27,12 +27,12 @@ export default function ProfileInfo({competency, specialization, level}) {
 
 ProfileInfo.propTypes = {
   competency: PropTypes.string,
-  level: PropTypes.string,
+  seniority: PropTypes.string,
   specialization: PropTypes.string
 };
 
 ProfileInfo.defaultProps = {
   competency: 'N/A',
-  level: 'N/A',
+  seniority: 'N/A',
   specialization: 'N/A'
 };

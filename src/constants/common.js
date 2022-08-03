@@ -18,11 +18,11 @@ export const INPUT_TYPES = {
 };
 
 export const SKILLS_LEVELS = {
-  BASIC: 'Basic',
-  INTERMEDIATE: 'Intermediate',
-  ADVANCED: 'Advanced',
-  EXPERT: 'Expert',
-  NONE: 'None'
+  BASIC: 'basic',
+  INTERMEDIATE: 'intermediate',
+  ADVANCED: 'advanced',
+  EXPERT: 'expert',
+  NONE: 'none'
 };
 
 export const SKILLS_COLORS = {
