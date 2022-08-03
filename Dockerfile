@@ -1,5 +1,5 @@
 # get the base node image
-FROM node:16.15.0-slim
+FROM node:slim
 
 ARG REACT_APP_MSAL_CLIENT_ID
 ARG REACT_APP_MSAL_TENANT_ID
@@ -15,7 +15,7 @@ ENV REACT_APP_MSAL_TENANT_ID=$REACT_APP_MSAL_TENANT_ID
 COPY package.json ./
 
 # install npm dependencies
-RUN npm install
+RUN yarn install
 
 # copy other project files
 COPY . .
