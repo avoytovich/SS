@@ -29,7 +29,8 @@ const api = createApi({
     'AutocompleteSkills',
     'ProfileSkills',
     'UserRoles',
-    'UserManagements'
+    'UserManagements',
+    'UsersAutocomplete'
   ],
   endpoints: () => ({})
 });

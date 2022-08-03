@@ -5,10 +5,13 @@ import {Box} from 'components/Box';
 import {ButtonContained} from 'components/Button';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import usePermissions from 'hooks/permissions';
+import useModal from 'hooks/useModal';
 import {PermissionEnum} from 'constants/permissions';
+import {UserRoleEnum} from 'constants/userRoles';
 
 import UsersTabs from './components/UsersTabs';
 import TabPanel from './components/UsersTabs/TabPanel';
+import CreateAdminModal from './components/CreateAdminModal';
 
 const StyledBox = styled(Box)(() => ({
   marginTop: '-30px',
@@ -17,16 +20,19 @@ const StyledBox = styled(Box)(() => ({
 
 const Users = () => {
   const {hasPermissions} = usePermissions();
-  const [tab, setTab] = useState(0);
+  const createModal = useModal();
+  const [tab, setTab] = useState(UserRoleEnum.ADMIN);
 
-  const onCreateAdmin = () => {};
+  const onToggleCreateAdmin = () => {
+    createModal.toggle();
+  };
 
   const extraButtons = hasPermissions([PermissionEnum.USERS_MANAGMENT_CREATE])
     ? [
         <ButtonContained
           key="user-page-create-btn"
           data-testid="user-page-create-btn"
-          onClick={onCreateAdmin}
+          onClick={onToggleCreateAdmin}
         >
           Add Admin
         </ButtonContained>
@@ -39,6 +45,9 @@ const Users = () => {
         <UsersTabs tab={tab} onChange={setTab} />
         <TabPanel tab={tab} />
       </StyledBox>
+      {createModal.isOpen && (
+        <CreateAdminModal tab={tab} isOpen={createModal.isOpen} onClose={onToggleCreateAdmin} />
+      )}
     </PageLayout>
   );
 };

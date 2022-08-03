@@ -65,7 +65,7 @@ const SelectField = ({
             variant="outlined"
           />
         )}
-        disableCloseOnSelect
+        disableCloseOnSelect={multiple}
         // renderOption={(props, option, {selected}) => (
         //   <li {...props} className={classes.optionItems}>
         //     <Checkbox

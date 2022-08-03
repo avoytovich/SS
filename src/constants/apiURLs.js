@@ -4,11 +4,13 @@ const apiUrls = {
     roles: '/roles',
     rootWithQueries: query => `/users/?${query}`,
     details: id => `/users/${id}`,
+    managementDetails: id => `/users/${id}/management`,
     myProfile: '/users/me',
     profileSkills: '/users/me/skills',
     profileSkillSet: '/users/me/skill-set',
     recommendedSkills: '/users/me/recommended/skills',
-    management: '/users/management'
+    management: '/users/management',
+    autocomplete: 'users/autocomplete'
   },
   tags: {
     root: '/tags',

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 
 import SingleAutocomplete from './components/Autocomplete';
 import MultipleAutocomplete from './components/MultipleAutocomplete';
+import AutocompleteOption from './components/AutocompleteOption';
 
 const Autocomplete = ({multiple, ...props}) =>
   multiple ? <MultipleAutocomplete {...props} /> : <SingleAutocomplete {...props} />;
@@ -17,3 +18,4 @@ Autocomplete.defaultProps = {
 };
 
 export default Autocomplete;
+export {AutocompleteOption};
