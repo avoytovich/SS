@@ -10,14 +10,14 @@ const StyledBox = styled(Box)(({theme}) => ({
   background: theme.palette.common.white
 }));
 
-const TabPagePanel = props => {
+const TabPanelContainer = props => {
   const {children, ...restProps} = props;
 
   return <StyledBox {...restProps}>{children}</StyledBox>;
 };
 
-TabPagePanel.propTypes = {
+TabPanelContainer.propTypes = {
   children: PropTypes.node
 };
 
-export default TabPagePanel;
+export default TabPanelContainer;

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import {
   TableContainer,
   Table,
@@ -9,14 +11,15 @@ import {
 } from 'components/Table';
 import {useFetchManagementsQuery} from 'services/users';
 import {UserRoleEnum} from 'constants/userRoles';
+import usePermissions from 'hooks/permissions';
+import {PermissionEnum} from 'constants/permissions';
 
 import headCells from '../constants';
 import DeleteIcon from '../DeleteIcon';
 
-const ManagerList = () => {
+const ManagerList = ({onDeleteRole}) => {
+  const {hasPermissions} = usePermissions();
   const {data = []} = useFetchManagementsQuery({role: UserRoleEnum.MANAGER});
-
-  const handleDeleteManager = () => {};
 
   return (
     <TableContainer>
@@ -28,7 +31,9 @@ const ManagerList = () => {
               <TableCell>{manager.full_name}</TableCell>
               <TableCell>{manager.email}</TableCell>
               <TableCell>
-                <DeleteIcon onClick={handleDeleteManager} />
+                {hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]) && (
+                  <DeleteIcon onClick={() => onDeleteRole(manager)} />
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -37,6 +42,10 @@ const ManagerList = () => {
       {data.length === 0 && <NoRowsOverlay />}
     </TableContainer>
   );
+};
+
+ManagerList.propTypes = {
+  onDeleteRole: PropTypes.func.isRequired
 };
 
 export default ManagerList;

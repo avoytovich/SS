@@ -1,5 +1,6 @@
 import Tabs from './components/Tabs';
 import Tab from './components/Tab';
-import TabPagePanel from './components/TabPagePanel';
+import TabPanelContainer from './components/TabPanelContainer';
+import TabPanel from './components/TabPanel';
 
-export {Tab, Tabs, TabPagePanel};
+export {Tab, Tabs, TabPanelContainer, TabPanel};
