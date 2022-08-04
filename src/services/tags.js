@@ -12,6 +12,14 @@ const tagsApi = api.injectEndpoints({
       providesTags: ['Tags'],
       transformResponse: response => ({...response, tags: response.data})
     }),
+    fetchAutocompleteTags: builder.query({
+      query: params => ({
+        url: apiUrls.tags.autocomplete,
+        params
+      }),
+      providesTags: ['AutocompleteTags'],
+      transformResponse: response => response.data
+    }),
     addTag: builder.mutation({
       query: params => ({
         url: apiUrls.tags.root,
@@ -37,8 +45,13 @@ const tagsApi = api.injectEndpoints({
 });
 
 export default tagsApi;
-export const {useFetchTagsQuery, useUpdateTagMutation, useAddTagMutation, useDeleteTagMutation} =
-  tagsApi;
+export const {
+  useFetchTagsQuery,
+  useFetchAutocompleteTagsQuery,
+  useUpdateTagMutation,
+  useAddTagMutation,
+  useDeleteTagMutation
+} = tagsApi;
 
 export const getTags = {
   type: `${tagsApi.reducerPath}/invalidateTags`,

@@ -4,7 +4,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import {Box} from '@mui/material';
 
 import {useFetchSkillsQuery, useDeleteSkillMutation} from 'services/skills';
-import {useFetchTagsQuery} from 'services/tags';
+import {useFetchAutocompleteTagsQuery} from 'services/tags';
 import {GridPagination, NoRows, SearchField, dataGridRootStyles} from 'components/Common/DataGrid';
 import Autocomplete from 'components/Autocomplete';
 import {filterTagParamName, headerHeight, pageSize, rowHeight} from 'constants/dataGrid';
@@ -46,7 +46,7 @@ const SkillsList = ({onChanges}) => {
   // Filters values
   const {search, onSearchChange} = useDataGridSearch(queryParams, updateURLParams);
 
-  const {data: {tags: tagsData = []} = {}} = useFetchTagsQuery();
+  const {data: tagsData = []} = useFetchAutocompleteTagsQuery();
 
   const {filter: tagFilter, onFilterChange: onTagFilterChange} = useDataGridFilter(
     queryParams,
@@ -73,7 +73,7 @@ const SkillsList = ({onChanges}) => {
 
   const tagsQueryOptions = useMemo(() => ({...(tagsSearch && {tagsSearch})}), [tagsSearch]);
 
-  const {data: {tags = []} = {}} = useFetchTagsQuery(tagsQueryOptions);
+  const {data: tags = []} = useFetchAutocompleteTagsQuery(tagsQueryOptions);
 
   const filterOptions = useMemo(() => tags.map(tag => ({id: tag.id, label: tag.name})), [tags]);
 

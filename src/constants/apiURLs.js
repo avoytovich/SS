@@ -15,7 +15,8 @@ const apiUrls = {
   tags: {
     root: '/tags',
     rootWithQueries: query => `/tags/?${query}`,
-    details: id => `/tags/${id}`
+    details: id => `/tags/${id}`,
+    autocomplete: 'tags/autocomplete'
   },
   skills: {
     root: '/skills',
