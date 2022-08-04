@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {Box} from '@mui/material';
 
 import {useFetchProfileSkillsQuery} from 'services/profile';
-import {useFetchTagsQuery} from 'services/tags';
+import {useFetchAutocompleteTagsQuery} from 'services/tags';
 import {
   useDataGridPagination,
   useDataGridSort,
@@ -18,7 +18,7 @@ import {getFilterByQueryParams, updateFilterParam} from './utils';
 
 export default function SkillList() {
   const [tagsSearch, setTagsSearch] = useState('');
-  const {data: {tags = []} = {}} = useFetchTagsQuery({...(tagsSearch && {tagsSearch})});
+  const {data: tags = []} = useFetchAutocompleteTagsQuery({...(tagsSearch && {tagsSearch})});
 
   const {queryParams, updateURLParams} = useURLParams();
   const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
