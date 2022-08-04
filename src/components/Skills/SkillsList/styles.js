@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => ({
   filterContainer: {
     display: 'flex',
     flexDirection: 'row',
-    margin: '8px 8px 14px 16px',
+    margin: '8px 0 14px',
     minWidth: 240,
     flexWrap: 'wrap',
     gap: '18px'
