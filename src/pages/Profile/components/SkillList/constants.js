@@ -15,7 +15,7 @@ const columns = [
     field: 'tags',
     headerName: 'Tag name',
     minWidth: 90,
-    renderCell: params => <ChipList value={params.value} />,
+    renderCell: params => <ChipList values={params.value} />,
     flex: 3,
     sortable: false
   },
