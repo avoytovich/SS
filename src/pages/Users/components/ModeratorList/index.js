@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import {
   TableContainer,
   Table,
@@ -9,14 +11,15 @@ import {
 } from 'components/Table';
 import {useFetchManagementsQuery} from 'services/users';
 import {UserRoleEnum} from 'constants/userRoles';
+import usePermissions from 'hooks/permissions';
+import {PermissionEnum} from 'constants/permissions';
 
 import headCells from '../constants';
 import DeleteIcon from '../DeleteIcon';
 
-const ModeratorList = () => {
+const ModeratorList = ({onDeleteRole}) => {
+  const {hasPermissions} = usePermissions();
   const {data = []} = useFetchManagementsQuery({role: UserRoleEnum.MODERATOR});
-
-  const handleDeleteModerator = () => {};
 
   return (
     <TableContainer>
@@ -28,7 +31,9 @@ const ModeratorList = () => {
               <TableCell>{moderator.full_name}</TableCell>
               <TableCell>{moderator.email}</TableCell>
               <TableCell>
-                <DeleteIcon onClick={handleDeleteModerator} />
+                {hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]) && (
+                  <DeleteIcon onClick={() => onDeleteRole(moderator)} />
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -37,6 +42,10 @@ const ModeratorList = () => {
       {data.length === 0 && <NoRowsOverlay />}
     </TableContainer>
   );
+};
+
+ModeratorList.propTypes = {
+  onDeleteRole: PropTypes.func.isRequired
 };
 
 export default ModeratorList;
