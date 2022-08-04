@@ -19,7 +19,7 @@ export const getColumns = (onDelete, onEdit, editPermissions, deletePermissions)
     {
       field: 'tags',
       headerName: 'Tags',
-      renderCell: params => <ChipList value={params.value} />,
+      renderCell: params => <ChipList values={params.value} />,
       sortable: false,
       minWidth: 90,
       flex: 5
