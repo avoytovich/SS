@@ -75,13 +75,17 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
               name="description"
               label="Description"
               placeholder="Type description"
-              sx={{marginBottom: '16px'}}
+              multiline
+              rows={3}
+              rowsMax={15}
             />
             <Input
               name="comment"
               label="Comment"
               placeholder="Type comment"
-              sx={{marginBottom: '16px'}}
+              multiline
+              rows={3}
+              rowsMax={15}
             />
             <DialogActions>
               <ButtonOutlined data-testid="skill-set-modal-cancel-btn" onClick={onClose}>
