@@ -1,19 +1,33 @@
+import {useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {Formik} from 'formik';
+import {Formik, Form} from 'formik';
+import {DialogActions} from '@mui/material';
 import {useSnackbar} from 'notistack';
 
 import {UserRoleEnum} from 'constants/userRoles';
-import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
-import {useLazyFetchManagementsQuery, useSetUserRoleMutation} from 'services/users';
+import {
+  useLazyFetchManagementsQuery,
+  useSetUserRoleMutation,
+  useFetchUserRolesQuery,
+  useFetchUsersAutocompleteQuery
+} from 'services/users';
 import {formSubmitHandling} from 'utils/forms';
+import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
+import {ButtonContained, ButtonOutlined} from 'components/Button';
+import SelectField from 'components/Common/Form/Select';
+import {AutocompleteOption} from 'components/Autocomplete';
+import {Paragraph} from 'components/Typography';
 
-import {CreateAdminSchema, initialValues} from './createAdminShema';
-import CreateAdminFrom from './CreateAdminFrom';
+import CreateAdminSchema from './createAdminShema';
 
-const CreateAdminModal = ({isOpen, tab, onClose}) => {
+const CreateAdminModal = ({isOpen, currentRoleName, onClose}) => {
   const {enqueueSnackbar} = useSnackbar();
   const [setUserRole] = useSetUserRoleMutation();
-  const [trigger] = useLazyFetchManagementsQuery({role: tab});
+  const [trigger] = useLazyFetchManagementsQuery({currentRoleName});
+  const {data: roles = []} = useFetchUserRolesQuery({operators: true});
+  const {data: users = []} = useFetchUsersAutocompleteQuery();
+  const operatorRole = roles.find(role => role.name === currentRoleName);
+  const initialValues = useMemo(() => ({user: null, role: operatorRole ?? null}), [operatorRole]);
 
   const handleClose = resetForm => {
     resetForm();
@@ -28,10 +42,12 @@ const CreateAdminModal = ({isOpen, tab, onClose}) => {
       () => {
         trigger();
         onClose();
-        enqueueSnackbar('Admin have successfully saved');
+        enqueueSnackbar(`${currentRoleName} have successfully saved`);
       },
       () => {
-        enqueueSnackbar('Admin have not saved, please check form fields', {variant: 'error'});
+        enqueueSnackbar(`${currentRoleName} have not saved, please check form fields`, {
+          variant: 'error'
+        });
       }
     );
   };
@@ -42,7 +58,7 @@ const CreateAdminModal = ({isOpen, tab, onClose}) => {
       isOpen={isOpen}
       onClose={onClose}
       onCancel={onClose}
-      title="Add Admin User"
+      title={`Add ${currentRoleName} User`}
       text="Select Role and input user E-mail"
       data-testid="create-admin-modal"
       withCustomBtns
@@ -57,13 +73,46 @@ const CreateAdminModal = ({isOpen, tab, onClose}) => {
         enableReinitialize
       >
         {({isSubmitting, dirty, resetForm, errors}) => (
-          <CreateAdminFrom
-            isSubmitting={isSubmitting}
-            dirty={dirty}
-            resetForm={resetForm}
-            errors={errors}
-            onClose={handleClose}
-          />
+          <Form>
+            <SelectField
+              name="role"
+              label="Select Role"
+              options={roles}
+              errors={errors}
+              placeholder="Role"
+            />
+            <SelectField
+              name="user"
+              label="User’s E-mail"
+              options={users}
+              placeholder="User"
+              errors={errors}
+              getOptionLabel={option => option.email}
+              renderOption={(optionProps, option) => (
+                <AutocompleteOption {...optionProps}>
+                  <div>
+                    <Paragraph>{option.email}</Paragraph>
+                    <Paragraph size="sm">{option.full_name}</Paragraph>
+                  </div>
+                </AutocompleteOption>
+              )}
+            />
+            <DialogActions>
+              <ButtonOutlined
+                data-testid="admin-modal-cancel-btn"
+                onClick={() => handleClose(resetForm)}
+              >
+                Cancel
+              </ButtonOutlined>
+              <ButtonContained
+                type="submit"
+                data-testid="admin-modal-confirm-btn"
+                disabled={isSubmitting || !dirty}
+              >
+                Add
+              </ButtonContained>
+            </DialogActions>
+          </Form>
         )}
       </Formik>
     </CustomizedDialogs>
@@ -71,8 +120,11 @@ const CreateAdminModal = ({isOpen, tab, onClose}) => {
 };
 
 CreateAdminModal.propTypes = {
-  tab: PropTypes.oneOf([UserRoleEnum.ADMIN, UserRoleEnum.MODERATOR, UserRoleEnum.MANAGER])
-    .isRequired,
+  currentRoleName: PropTypes.oneOf([
+    UserRoleEnum.ADMIN,
+    UserRoleEnum.MODERATOR,
+    UserRoleEnum.MANAGER
+  ]).isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired

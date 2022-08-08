@@ -56,10 +56,10 @@ const Users = () => {
     setUserRole({role_id: roleId, id: removeUserId})
       .unwrap()
       .then(() => {
-        enqueueSnackbar('User have successfully removed');
+        enqueueSnackbar(`${tab} have successfully removed`);
       })
       .catch(() => {
-        enqueueSnackbar('User have not removed', {variant: 'error'});
+        enqueueSnackbar(`${tab} have not removed`, {variant: 'error'});
       })
       .finally(() => {
         trigger();
@@ -86,7 +86,7 @@ const Users = () => {
           data-testid="user-page-create-btn"
           onClick={onToggleCreateAdmin}
         >
-          Add Admin
+          {`Add ${tab}`}
         </ButtonContained>
       ]
     : [];
@@ -120,7 +120,11 @@ const Users = () => {
         </TabPanelContainer>
       </StyledBox>
       {isCreateModalOpen && (
-        <CreateAdminModal tab={tab} isOpen={isCreateModalOpen} onClose={onToggleCreateAdmin} />
+        <CreateAdminModal
+          currentRoleName={tab}
+          isOpen={isCreateModalOpen}
+          onClose={onToggleCreateAdmin}
+        />
       )}
       {isRemoveModalOpen && (
         <CustomizedDialogs

@@ -9,6 +9,4 @@ const CreateAdminSchema = Yup.object().shape({
   role: Yup.object().nullable().required()
 });
 
-const initialValues = {user: null, role: null};
-
-export {CreateAdminSchema, initialValues};
+export default CreateAdminSchema;
