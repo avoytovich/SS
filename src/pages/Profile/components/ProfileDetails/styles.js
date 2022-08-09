@@ -4,7 +4,8 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import {grey} from '@mui/material/colors';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+
+import {ArrowRightIcon} from 'components/Icons';
 
 export const Accordion = styled(
   props => <MuiAccordion disableGutters elevation={0} square {...props} />,

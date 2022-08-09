@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import {styled} from '@mui/material/styles';
-import CheckIcon from '@mui/icons-material/Check';
+
+import {CheckIcon} from 'components/Icons';
 
 import Chip from '../Chip';
 

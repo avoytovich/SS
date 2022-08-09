@@ -2,28 +2,15 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import {InputAdornment} from '@mui/material';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import {styled} from '@mui/material/styles';
 
-const StyledIcon = styled('span')(({theme}) => ({
-  display: 'flex',
-  cursor: 'pointer',
-  alignItems: 'center',
-  '& svg': {
-    fontSize: '18px'
-  },
-  '&:hover': {
-    'svg > path': {
-      fill: theme.palette.primary.main
-    }
-  }
-}));
+import {CloseIcon} from 'components/Icons';
+import {IconButton} from 'components/Button';
 
 function SearchField({value, id, label, minWidth, size, onChange, onClear, ...rest}) {
   const ClearFieldButton = (
-    <StyledIcon data-testid={`${id}-remove-btn`} aria-label="delete" onClick={onClear}>
-      <CloseOutlinedIcon fontSize="small" />
-    </StyledIcon>
+    <IconButton data-testid={`${id}-remove-btn`} size="small" aria-label="delete" onClick={onClear}>
+      <CloseIcon fontSize="small" />
+    </IconButton>
   );
 
   const handleTagSearch = e => onChange(e.target.value);

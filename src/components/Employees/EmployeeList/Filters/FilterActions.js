@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Box} from '@mui/material';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import {grey} from '@mui/material/colors';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
-import {ButtonOutlined, ButtonText} from 'components/Button';
-import {useStyles, StyledIcon} from 'components/Employees/styles';
+import {CloseIcon, FilterAltIcon} from 'components/Icons';
+import {ButtonOutlined, ButtonText, IconButton} from 'components/Button';
+import useStyles from 'components/Employees/styles';
 
 const FilterActions = ({isFiltersOpen, isFilterSelected, setIsFiltersOpen, onClearFilters}) => {
   const classes = useStyles();
@@ -25,9 +24,9 @@ const FilterActions = ({isFiltersOpen, isFilterSelected, setIsFiltersOpen, onCle
         >
           Clean up
         </ButtonText>
-        <StyledIcon id="remove-icon" data-testid="close-icon" onClick={toggleFilters}>
-          <CloseOutlinedIcon />
-        </StyledIcon>
+        <IconButton id="remove-icon" data-testid="close-icon" size="small" onClick={toggleFilters}>
+          <CloseIcon />
+        </IconButton>
       </Box>
     );
   }
@@ -46,7 +45,7 @@ const FilterActions = ({isFiltersOpen, isFilterSelected, setIsFiltersOpen, onCle
       )}
       <ButtonOutlined
         data-testid="filters-open-btn"
-        startIcon={<FilterAltOutlinedIcon />}
+        startIcon={<FilterAltIcon />}
         onClick={toggleFilters}
       >
         Filter

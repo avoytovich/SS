@@ -1,7 +1,6 @@
 import {makeStyles} from '@material-ui/core';
-import {styled} from '@mui/material/styles';
 
-export const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(() => ({
   filterSearchContainer: {
     display: 'flex',
     justifyContent: 'space-between'
@@ -22,19 +21,4 @@ export const useStyles = makeStyles(() => ({
   }
 }));
 
-export const StyledIcon = styled('span')(({theme}) => ({
-  display: 'flex',
-  cursor: 'pointer',
-  fontSize: '8px',
-  '.MuiSvgIcon-root': {
-    fontSize: '16px'
-  },
-  'svg > path': {
-    fill: theme.palette.grey[600]
-  },
-  '&:hover': {
-    'svg > path': {
-      fill: theme.palette.grey[900]
-    }
-  }
-}));
+export default useStyles;

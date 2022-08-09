@@ -1,8 +1,7 @@
 import React from 'react';
 import {GridActionsCellItem} from '@mui/x-data-grid';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
+import {DeleteIcon, EditIcon} from 'components/Icons';
 import {filterTagParamName} from 'constants/dataGrid';
 import ChipList from 'components/Common/ChipList';
 import {getOptions} from 'utils/dataGridUtils';
@@ -48,7 +47,7 @@ export const getColumns = (onDelete, onEdit, editPermissions, deletePermissions)
             data-testid={`${id}-edit`}
             key={`${id}-edit`}
             onClick={() => onEdit(row)}
-            icon={<EditOutlinedIcon sx={{fontSize: 24}} />}
+            icon={<EditIcon sx={{fontSize: 24}} />}
             label="Edit"
           />
         ) : null,
@@ -56,7 +55,7 @@ export const getColumns = (onDelete, onEdit, editPermissions, deletePermissions)
           <GridActionsCellItem
             key={`${id}-remove`}
             data-testid="remove-skill-btn"
-            icon={<DeleteOutlinedIcon sx={{fontSize: 24}} />}
+            icon={<DeleteIcon sx={{fontSize: 24}} />}
             onClick={() => onDelete(row)}
             label="Delete"
           />

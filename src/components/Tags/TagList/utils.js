@@ -1,7 +1,7 @@
 import React from 'react';
 import {GridActionsCellItem} from '@mui/x-data-grid';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+
+import {DeleteIcon, EditIcon} from 'components/Icons';
 
 const getActionColumn = (onEdit, onRemove, editPermissions, deletePermissions) => ({
   field: 'actions',
@@ -18,7 +18,7 @@ const getActionColumn = (onEdit, onRemove, editPermissions, deletePermissions) =
         data-testid={`${id}-edit`}
         key={`${id}-edit`}
         onClick={() => onEdit(row)}
-        icon={<EditOutlinedIcon sx={{fontSize: 24}} />}
+        icon={<EditIcon sx={{fontSize: 24}} />}
         label="Edit"
       />
     ) : null,
@@ -26,7 +26,7 @@ const getActionColumn = (onEdit, onRemove, editPermissions, deletePermissions) =
       <GridActionsCellItem
         key={`${id}-remove`}
         data-testid="remove-tag-btn"
-        icon={<DeleteOutlinedIcon sx={{fontSize: 24}} />}
+        icon={<DeleteIcon sx={{fontSize: 24}} />}
         onClick={() => onRemove(row)}
         label="Delete"
       />

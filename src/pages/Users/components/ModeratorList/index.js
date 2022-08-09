@@ -9,13 +9,14 @@ import {
   TableCell,
   NoRowsOverlay
 } from 'components/Table';
+import {DeleteIcon} from 'components/Icons';
+import {IconButton} from 'components/Button';
 import {useFetchManagementsQuery} from 'services/users';
 import {UserRoleEnum} from 'constants/userRoles';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 
 import headCells from '../constants';
-import DeleteIcon from '../DeleteIcon';
 
 const ModeratorList = ({onDeleteRole}) => {
   const {hasPermissions} = usePermissions();
@@ -32,7 +33,9 @@ const ModeratorList = ({onDeleteRole}) => {
               <TableCell>{moderator.email}</TableCell>
               <TableCell>
                 {hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]) && (
-                  <DeleteIcon onClick={() => onDeleteRole(moderator)} />
+                  <IconButton justifyContent="flex-end" onClick={() => onDeleteRole(moderator)}>
+                    <DeleteIcon />
+                  </IconButton>
                 )}
               </TableCell>
             </TableRow>

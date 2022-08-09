@@ -1,14 +1,16 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import {styled} from '@mui/material/styles';
 import {FormControl, Select, MenuItem} from '@mui/material';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 import {getRenderValue, Option} from 'components/Common/DataGrid/Filters/Select/utils';
-import {
-  selectStyles,
-  useStyles,
-  StyledIcon
-} from 'components/Common/DataGrid/Filters/Select/styles';
+import {selectStyles, useStyles} from 'components/Common/DataGrid/Filters/Select/styles';
+import {IconButton} from 'components/Button';
+import {CloseIcon} from 'components/Icons';
+
+const StyledCloseIconButton = styled(IconButton)(() => ({
+  marginRight: '6px'
+}));
 
 const GridSelect = ({id, name, value, multiple, label, minWidth, options, onChange, onClear}) => {
   const classes = useStyles();
@@ -21,14 +23,14 @@ const GridSelect = ({id, name, value, multiple, label, minWidth, options, onChan
   const getSelectValue = () => getRenderValue(value, options, multiple, label);
 
   const renderCloseIcon = () => (
-    <StyledIcon
+    <StyledCloseIconButton
       id="remove-icon"
       data-testid={`${id}-select-remove-icon`}
-      sx={{marginRight: '6px'}}
+      size="small"
       onClick={handleCLear}
     >
-      <CloseOutlinedIcon />
-    </StyledIcon>
+      <CloseIcon />
+    </StyledCloseIconButton>
   );
 
   return (
