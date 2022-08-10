@@ -30,14 +30,14 @@ linter:
   image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   script:
     - cd /app
-    - yarn run lint
+    - npm run lint
 
 unit-tests:
   stage: quality
   image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   script:
     - cd /app
-    - yarn run test
+    - npm run test
 
 build-and-push-to-registry:
   stage: publish
@@ -47,7 +47,7 @@ build-and-push-to-registry:
   script:
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker run $CONTAINER_RELEASE_IMAGE yarn run build
+    - docker run $CONTAINER_RELEASE_IMAGE npm run build
     - echo "window.COMMIT='$CI_COMMIT_SHA'; window.BRANCH='$CI_COMMIT_REF_NAME'; window.PIPELINE_LINK='$CI_PIPELINE_URL'; window.BRANCH_LINK='$BRANCH_LINK'" > version.js
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
