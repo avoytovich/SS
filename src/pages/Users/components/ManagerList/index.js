@@ -7,6 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableCellAction,
   NoRowsOverlay
 } from 'components/Table';
 import {DeleteIcon} from 'components/Icons';
@@ -31,13 +32,13 @@ const ManagerList = ({onDeleteRole}) => {
             <TableRow key={manager.id}>
               <TableCell>{manager.full_name}</TableCell>
               <TableCell>{manager.email}</TableCell>
-              <TableCell>
+              <TableCellAction>
                 {hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]) && (
-                  <IconButton justifyContent="flex-end" onClick={() => onDeleteRole(manager)}>
+                  <IconButton onClick={() => onDeleteRole(manager)}>
                     <DeleteIcon />
                   </IconButton>
                 )}
-              </TableCell>
+              </TableCellAction>
             </TableRow>
           ))}
         </TableBody>

@@ -1,9 +1,9 @@
-import DeleteIcon from './components/DeleteIcon';
-import EditIcon from './components/EditIcon';
-import CloseIcon from './components/CloseIcon';
-import CheckIcon from './components/CheckIcon';
-import SearchIcon from './components/SearchIcon';
-import ArrowRightIcon from './components/ArrowRightIcon';
-import FilterAltIcon from './components/FilterAltIcon';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/CloseOutlined';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import EditIcon from '@mui/icons-material/EditOutlined';
+import FilterAltIcon from '@mui/icons-material/FilterAltOutlined';
+import SearchIcon from '@mui/icons-material/Search';
 
 export {ArrowRightIcon, CheckIcon, CloseIcon, DeleteIcon, EditIcon, SearchIcon, FilterAltIcon};

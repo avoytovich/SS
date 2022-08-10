@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import MuiIconButton from '@mui/material/IconButton';
 import {styled} from '@mui/material/styles';
 
 const iconSizes = {
@@ -7,23 +8,11 @@ const iconSizes = {
   large: '28px'
 };
 
-const StyledIconButton = styled('span', {
-  shouldForwardProp: prop => prop !== 'justifyContent' && prop !== 'size' && prop !== 'color'
-})(({theme, justifyContent, size, color}) => ({
-  display: 'flex',
-  cursor: 'pointer',
-  alignItems: 'center',
-  justifyContent,
+const StyledIconButton = styled(MuiIconButton, {
+  shouldForwardProp: prop => prop !== 'size'
+})(({size}) => ({
   svg: {
     fontSize: iconSizes[size]
-  },
-  'svg > path': {
-    fill: color || theme.palette.grey[600]
-  },
-  '&:hover': {
-    'svg > path': {
-      fill: theme.palette.primary.main
-    }
   }
 }));
 
@@ -35,13 +24,10 @@ const IconButton = props => {
 
 IconButton.propTypes = {
   children: PropTypes.node,
-  justifyContent: PropTypes.string,
-  color: PropTypes.string,
   size: PropTypes.string
 };
 
 IconButton.defaultProps = {
-  justifyContent: 'center',
   size: 'medium'
 };
 

@@ -1,6 +1,4 @@
-import React from 'react';
-import MuiTableCell from '@mui/material/TableCell';
+import TableCell from './components/TableCell';
+import TableCellAction from './components/TableCellAction';
 
-const TableCell = props => <MuiTableCell {...props} />;
-
-export default TableCell;
+export {TableCell, TableCellAction};

@@ -1,10 +1,20 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import {styled} from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import {InputAdornment} from '@mui/material';
 
 import {CloseIcon} from 'components/Icons';
 import {IconButton} from 'components/Button';
+
+const StyledTextField = styled(TextField, {
+  shouldForwardProp: prop => prop !== 'width'
+})(({width}) => ({
+  minWidth: width,
+  '.MuiOutlinedInput-root': {
+    paddingRight: 8
+  }
+}));
 
 function SearchField({value, id, label, minWidth, size, onChange, onClear, ...rest}) {
   const ClearFieldButton = (
@@ -16,11 +26,11 @@ function SearchField({value, id, label, minWidth, size, onChange, onClear, ...re
   const handleTagSearch = e => onChange(e.target.value);
 
   return (
-    <TextField
+    <StyledTextField
       id={id}
       data-testid={`${id}-input`}
       placeholder={label}
-      sx={{minWidth}}
+      width={minWidth}
       size={size}
       onChange={handleTagSearch}
       value={value}
@@ -45,7 +55,7 @@ SearchField.defaultProps = {
   id: 'search-field',
   label: 'Label',
   size: 'small',
-  minWidth: '233px',
+  minWidth: '238px',
   onClear: () => {}
 };
 

@@ -7,6 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableCellAction,
   NoRowsOverlay
 } from 'components/Table';
 import {DeleteIcon} from 'components/Icons';
@@ -31,13 +32,13 @@ const ModeratorList = ({onDeleteRole}) => {
             <TableRow key={moderator.id}>
               <TableCell>{moderator.full_name}</TableCell>
               <TableCell>{moderator.email}</TableCell>
-              <TableCell>
+              <TableCellAction>
                 {hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]) && (
-                  <IconButton justifyContent="flex-end" onClick={() => onDeleteRole(moderator)}>
+                  <IconButton onClick={() => onDeleteRole(moderator)}>
                     <DeleteIcon />
                   </IconButton>
                 )}
-              </TableCell>
+              </TableCellAction>
             </TableRow>
           ))}
         </TableBody>
