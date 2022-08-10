@@ -1,5 +1,5 @@
 # get the base node image
-FROM node:16.15.0
+FROM node:slim
 
 ARG REACT_APP_MSAL_CLIENT_ID
 ARG REACT_APP_MSAL_TENANT_ID
