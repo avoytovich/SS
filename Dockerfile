@@ -15,7 +15,7 @@ ENV REACT_APP_MSAL_TENANT_ID=$REACT_APP_MSAL_TENANT_ID
 COPY package.json ./
 
 # install npm dependencies
-RUN yarn install
+RUN npm install
 
 # copy other project files
 COPY . .
