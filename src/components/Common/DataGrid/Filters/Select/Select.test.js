@@ -19,18 +19,20 @@ describe('Grid Select test', () => {
     expect(queryByTestId('grid-select-select')).toBeVisible();
   });
   it('should render select', () => {
-    const {queryByTestId, getByRole} = render(<GridSelect options={options} value="1" />);
+    const {queryByTestId, getByRole, getAllByRole} = render(
+      <GridSelect options={options} value="1" />
+    );
     expect(queryByTestId('grid-select-control')).toBeVisible();
     expect(queryByTestId('grid-select-select')).toBeVisible();
 
-    fireEvent.mouseDown(getByRole('button'));
+    fireEvent.mouseDown(getAllByRole('button')[0]);
 
     const listbox = within(getByRole('listbox'));
 
     fireEvent.click(listbox.getByText(/label 2/i));
   });
   it('should render multiple select', () => {
-    const {queryByTestId, getByRole} = render(
+    const {queryByTestId, getByRole, getAllByRole} = render(
       <GridSelect
         multiple
         options={options}
@@ -43,14 +45,14 @@ describe('Grid Select test', () => {
     expect(queryByTestId('grid-select-control')).toBeVisible();
     expect(queryByTestId('grid-select-select')).toBeVisible();
 
-    fireEvent.mouseDown(getByRole('button'));
+    fireEvent.mouseDown(getAllByRole('button')[0]);
 
     const listbox = within(getByRole('listbox'));
 
     fireEvent.click(listbox.getByText(/label 2/i));
   });
   it('should render clear multiple select', () => {
-    const {queryByTestId, getByRole} = render(
+    const {queryByTestId, getAllByRole} = render(
       <GridSelect
         multiple
         options={options}
@@ -63,7 +65,7 @@ describe('Grid Select test', () => {
     expect(queryByTestId('grid-select-control')).toBeVisible();
     expect(queryByTestId('grid-select-select')).toBeVisible();
 
-    fireEvent.mouseDown(getByRole('button'));
+    fireEvent.mouseDown(getAllByRole('button')[0]);
 
     expect(queryByTestId('grid-select-select-remove-icon')).toBeVisible();
     fireEvent.click(queryByTestId('grid-select-select-remove-icon'));
