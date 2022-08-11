@@ -1,8 +1,9 @@
-import MuiCloseIcon from '@mui/icons-material/Close';
 import MuiDialogTitle from '@mui/material/DialogTitle';
 import MuiIconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles';
+
+import {CloseIcon} from 'components/Icons';
 
 const StyledMuiIconButton = styled(MuiIconButton)(() => ({
   padding: 4,
@@ -26,7 +27,7 @@ function DialogBasicTitle(props) {
 
       {onClose ? (
         <StyledMuiIconButton aria-label="close" onClick={onClose}>
-          <MuiCloseIcon />
+          <CloseIcon />
         </StyledMuiIconButton>
       ) : null}
     </MuiDialogTitle>

@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles';
 import {InputAdornment, TextField} from '@mui/material';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import SearchIcon from '@mui/icons-material/Search';
 
-import IconStyled from './Icon.styles';
+import {CloseIcon, SearchIcon} from 'components/Icons';
+import {IconButton} from 'components/Button';
+
 import InputContentStyled from './InputContent.styles';
 
 const StyledTextField = styled(TextField, {
@@ -26,15 +26,15 @@ const getInputValue = (id, values) =>
 const InputIcon = ({isRemove, onRemove}) => {
   if (isRemove) {
     return (
-      <IconStyled id="remove-icon" data-testid="remove-icon" onClick={onRemove}>
-        <CloseOutlinedIcon />
-      </IconStyled>
+      <IconButton id="remove-icon" data-testid="remove-icon" size="small" onClick={onRemove}>
+        <CloseIcon />
+      </IconButton>
     );
   }
   return (
-    <IconStyled id="search-icon" data-testid="search-icon" onClick={onRemove}>
+    <IconButton id="search-icon" data-testid="search-icon" size="small" onClick={onRemove}>
       <SearchIcon />
-    </IconStyled>
+    </IconButton>
   );
 };
 

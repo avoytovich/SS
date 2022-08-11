@@ -1,7 +1,8 @@
 import MuiChip from '@mui/material/Chip';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles';
-import {Close} from '@mui/icons-material';
+
+import {CloseIcon} from 'components/Icons';
 
 // common MuiChip styles should go here
 const StyledMuiChip = styled(MuiChip)(() => ({
@@ -31,7 +32,7 @@ Chip.propTypes = {
 
 // eslint-disable-next-line no-use-before-define
 Chip.defaultProps = {
-  deleteIcon: <Close />
+  deleteIcon: <CloseIcon />
 };
 
 function Chip(props) {

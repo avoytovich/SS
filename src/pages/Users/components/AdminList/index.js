@@ -8,15 +8,17 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableCellAction,
   NoRowsOverlay
 } from 'components/Table';
+import {DeleteIcon} from 'components/Icons';
+import {IconButton} from 'components/Button';
 import {useFetchManagementsQuery} from 'services/users';
 import {UserRoleEnum} from 'constants/userRoles';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 
 import headCells from '../constants';
-import DeleteIcon from '../DeleteIcon';
 
 const AdminList = ({onDeleteRole}) => {
   const {profile} = useSelector(state => state.auth);
@@ -35,11 +37,13 @@ const AdminList = ({onDeleteRole}) => {
             <TableRow key={admin.id}>
               <TableCell>{admin.full_name}</TableCell>
               <TableCell>{admin.email}</TableCell>
-              <TableCell>
+              <TableCellAction>
                 {hasDeletePermissions(admin.id) && (
-                  <DeleteIcon onClick={() => onDeleteRole(admin)} />
+                  <IconButton onClick={() => onDeleteRole(admin)}>
+                    <DeleteIcon />
+                  </IconButton>
                 )}
-              </TableCell>
+              </TableCellAction>
             </TableRow>
           ))}
         </TableBody>

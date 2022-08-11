@@ -7,15 +7,17 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  TableCellAction,
   NoRowsOverlay
 } from 'components/Table';
+import {DeleteIcon} from 'components/Icons';
+import {IconButton} from 'components/Button';
 import {useFetchManagementsQuery} from 'services/users';
 import {UserRoleEnum} from 'constants/userRoles';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 
 import headCells from '../constants';
-import DeleteIcon from '../DeleteIcon';
 
 const ModeratorList = ({onDeleteRole}) => {
   const {hasPermissions} = usePermissions();
@@ -30,11 +32,13 @@ const ModeratorList = ({onDeleteRole}) => {
             <TableRow key={moderator.id}>
               <TableCell>{moderator.full_name}</TableCell>
               <TableCell>{moderator.email}</TableCell>
-              <TableCell>
+              <TableCellAction>
                 {hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]) && (
-                  <DeleteIcon onClick={() => onDeleteRole(moderator)} />
+                  <IconButton onClick={() => onDeleteRole(moderator)}>
+                    <DeleteIcon />
+                  </IconButton>
                 )}
-              </TableCell>
+              </TableCellAction>
             </TableRow>
           ))}
         </TableBody>
