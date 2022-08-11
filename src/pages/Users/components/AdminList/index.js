@@ -13,17 +13,14 @@ import {
 } from 'components/Table';
 import {DeleteIcon} from 'components/Icons';
 import {IconButton} from 'components/Button';
-import {useFetchManagementsQuery} from 'services/users';
-import {UserRoleEnum} from 'constants/userRoles';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 
 import headCells from '../constants';
 
-const AdminList = ({onDeleteRole}) => {
+const AdminList = ({admins, onDeleteRole}) => {
   const {profile} = useSelector(state => state.auth);
   const {hasPermissions} = usePermissions();
-  const {data = []} = useFetchManagementsQuery({role: UserRoleEnum.ADMIN});
 
   const hasDeletePermissions = userId =>
     profile.id !== userId && hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]);
@@ -33,7 +30,7 @@ const AdminList = ({onDeleteRole}) => {
       <Table id="user-admin-list">
         <TableHead headCells={headCells} />
         <TableBody>
-          {data.map(admin => (
+          {admins.map(admin => (
             <TableRow key={admin.id}>
               <TableCell>{admin.full_name}</TableCell>
               <TableCell>{admin.email}</TableCell>
@@ -48,13 +45,14 @@ const AdminList = ({onDeleteRole}) => {
           ))}
         </TableBody>
       </Table>
-      {data.length === 0 && <NoRowsOverlay />}
+      {admins.length === 0 && <NoRowsOverlay />}
     </TableContainer>
   );
 };
 
 AdminList.propTypes = {
-  onDeleteRole: PropTypes.func.isRequired
+  onDeleteRole: PropTypes.func.isRequired,
+  admins: PropTypes.array.isRequired
 };
 
 export default AdminList;

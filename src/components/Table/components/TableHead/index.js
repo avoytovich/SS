@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MuiTableHead from '@mui/material/TableHead';
 
 import TableRow from '../TableRow';
-import {TableCell} from '../TableCell';
+import {TableCell} from '../TableCells';
 
 import TableSortLabel from './TableSortLabel';
 

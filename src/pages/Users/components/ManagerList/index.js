@@ -12,23 +12,20 @@ import {
 } from 'components/Table';
 import {DeleteIcon} from 'components/Icons';
 import {IconButton} from 'components/Button';
-import {useFetchManagementsQuery} from 'services/users';
-import {UserRoleEnum} from 'constants/userRoles';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 
 import headCells from '../constants';
 
-const ManagerList = ({onDeleteRole}) => {
+const ManagerList = ({managers, onDeleteRole}) => {
   const {hasPermissions} = usePermissions();
-  const {data = []} = useFetchManagementsQuery({role: UserRoleEnum.MANAGER});
 
   return (
     <TableContainer>
       <Table id="user-manager-list">
         <TableHead headCells={headCells} />
         <TableBody>
-          {data.map(manager => (
+          {managers.map(manager => (
             <TableRow key={manager.id}>
               <TableCell>{manager.full_name}</TableCell>
               <TableCell>{manager.email}</TableCell>
@@ -43,13 +40,14 @@ const ManagerList = ({onDeleteRole}) => {
           ))}
         </TableBody>
       </Table>
-      {data.length === 0 && <NoRowsOverlay />}
+      {managers.length === 0 && <NoRowsOverlay />}
     </TableContainer>
   );
 };
 
 ManagerList.propTypes = {
-  onDeleteRole: PropTypes.func.isRequired
+  onDeleteRole: PropTypes.func.isRequired,
+  managers: PropTypes.array.isRequired
 };
 
 export default ManagerList;
