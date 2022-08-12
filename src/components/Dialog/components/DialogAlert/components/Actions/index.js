@@ -1,7 +1,7 @@
 import MuiDialogActions from '@mui/material/DialogActions';
 import PropTypes from 'prop-types';
 
-import {SEVERITY} from 'components/constants';
+import SEVERITY from 'constants/severity';
 import {ButtonContained} from 'components/Button';
 
 // eslint-disable-next-line no-use-before-define

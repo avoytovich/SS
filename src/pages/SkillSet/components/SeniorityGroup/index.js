@@ -57,9 +57,12 @@ SeniorityGroup.propTypes = {
   name: PropTypes.string.isRequired,
   onDeleteSkill: PropTypes.func.isRequired,
   onSelectSkill: PropTypes.func.isRequired,
-  onClickGroup: PropTypes.func.isRequired,
+  onClickGroup: PropTypes.func,
   skills: PropTypes.array.isRequired,
   isCanToMoved: PropTypes.bool
 };
 
+SeniorityGroup.defaultProps = {
+  isCanToMoved: false
+};
 export default SeniorityGroup;
