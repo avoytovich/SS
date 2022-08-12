@@ -41,33 +41,33 @@ const DropdownMenu = props => {
       >
         {buttonName}
       </ButtonOutlined>
-      {items &&
-        !children(
-          <Menu
-            id="demo-customized-menu"
-            MenuListProps={{
-              'aria-labelledby': 'demo-customized-button'
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-          >
-            {items.map(item => (
-              <MenuItem key={item.name} onClick={e => handleMenuClick(item, e)}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Menu>
-        )}
+      {items && !children && (
+        <Menu
+          id="demo-customized-menu"
+          MenuListProps={{
+            'aria-labelledby': 'demo-customized-button'
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          {items.map(item => (
+            <MenuItem key={item.name} onClick={e => handleMenuClick(item, e)}>
+              {item.name}
+            </MenuItem>
+          ))}
+        </Menu>
+      )}
       {children}
     </StyledDropdownMenu>
   );
 };
 
 DropdownMenu.propTypes = {
-  items: PropTypes.array.isRequired,
+  items: PropTypes.array,
   buttonName: PropTypes.string.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  children: PropTypes.node
 };
 
 export default DropdownMenu;
