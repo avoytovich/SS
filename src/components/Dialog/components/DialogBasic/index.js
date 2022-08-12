@@ -1,8 +1,8 @@
+import {SEVERITY} from 'constants';
+
 import MuiDialogContent from '@mui/material/DialogContent';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles';
-
-import {SEVERITY} from 'components/constants';
 
 import Dialog from '../Dialog';
 
