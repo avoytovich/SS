@@ -19,8 +19,9 @@ import {
   TableRow,
   FilterContainer
 } from 'components/Table';
+import {PageLoader} from 'components/Loader';
 import {SearchField} from 'components/Common/DataGrid';
-import ChipList from 'components/Common/ChipList';
+import {ChipOutlined} from 'components/Chip';
 import {IconButton} from 'components/Button';
 import {DeleteIcon, EditIcon} from 'components/Icons';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
@@ -45,7 +46,7 @@ const SkillsList = ({onChanges}) => {
   const tagFilters = getFilterValue('tags');
   const [deleteSkill] = useDeleteSkillMutation();
   const {data: tags = []} = useFetchAutocompleteTagsQuery();
-  const {data: {skills = [], pages = 0} = {}} = useFetchSkillsQuery({
+  const {data: {skills = [], pages = 0} = {}, isLoading} = useFetchSkillsQuery({
     ...(page && {page}),
     ...(search && {search}),
     ...(sort && {sort}),
@@ -102,9 +103,13 @@ const SkillsList = ({onChanges}) => {
     onFilterChange('tags', selectedTagIds);
   };
 
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
   return (
     <>
-      <TableContainer data-testid="skills-list-container">
+      <TableContainer>
         <FilterContainer data-testid="skills-list-filter">
           <SearchField
             id="requested-name-search"
@@ -130,7 +135,9 @@ const SkillsList = ({onChanges}) => {
               <TableRow key={skill.id}>
                 <TableCell>{skill.name}</TableCell>
                 <TableCell maxWidth={400}>
-                  <ChipList values={skill.tags} />
+                  {skill.tags.map(item => (
+                    <ChipOutlined size="small" key={item.name} label={item.name} />
+                  ))}
                 </TableCell>
                 <TableCell>{skill.engineers_count}</TableCell>
                 <TableCellAction>

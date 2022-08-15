@@ -11,6 +11,7 @@ import {
   NoRowsOverlay,
   TablePagination
 } from 'components/Table';
+import {PageLoader} from 'components/Loader';
 import {Box} from 'components/Box';
 import {SearchField} from 'components/Common/DataGrid';
 import {RateReviewIcon} from 'components/Icons';
@@ -31,7 +32,7 @@ const headCells = [
 const RequestedList = ({status}) => {
   const {hasPermissions} = usePermissions();
   const {page, search, sort, onSearchChange} = useTable();
-  const {data: {data: skills = [], pages} = {}} = useFetchRequestedSkillsQuery({
+  const {data: {data: skills = [], pages} = {}, isLoading} = useFetchRequestedSkillsQuery({
     status,
     ...(page && {page}),
     ...(search && {search}),
@@ -45,6 +46,10 @@ const RequestedList = ({status}) => {
   const handleClearSearch = () => {
     onSearchChange('');
   };
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   return (
     <TableContainer>
