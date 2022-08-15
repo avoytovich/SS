@@ -8,11 +8,10 @@ import {useFetchTagsQuery} from 'services/tags';
 import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'services/skills';
 import {useURLParams} from 'hooks/dataGrid';
 import {diffFormValues, formSubmitHandling} from 'utils/forms';
-
-import DialogControls from '../../Modals/DialogControls';
-import Input from '../../Common/Form/Input';
-import SelectField from '../../Common/Form/Select';
-import CustomizedDialogs from '../../Modals/CustomizedDialogs';
+import DialogControls from 'components/Modals/DialogControls';
+import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
+import Input from 'components/Common/Form/Input';
+import SelectField from 'components/Common/Form/Select';
 
 import CreateSkillSchema from './createSkillShema';
 

@@ -1,13 +1,12 @@
 import React from 'react';
-import {Box, Chip} from '@mui/material';
 import PropTypes from 'prop-types';
 
+import {Box} from 'components/Box';
+import {ChipOutlined} from 'components/Chip';
+
 const ChipList = ({values}) => (
-  <Box display="flex" gap="5px" overflow="hidden">
-    {values &&
-      values.map(item => (
-        <Chip size="small" key={item.name} label={item.name} variant="outlined" />
-      ))}
+  <Box>
+    {values && values.map(item => <ChipOutlined size="small" key={item.name} label={item.name} />)}
   </Box>
 );
 
