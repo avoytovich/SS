@@ -6,7 +6,7 @@ const useURLParams = () => {
   const history = useHistory();
   const {pathname, search} = useLocation();
 
-  const queryParams = new URLSearchParams(search);
+  let queryParams = new URLSearchParams(search);
 
   const updateHistory = params => {
     history.push({
@@ -29,6 +29,7 @@ const useURLParams = () => {
 
   const clearQueryParams = () => {
     updateHistory('');
+    queryParams = new URLSearchParams();
   };
 
   const updateURLParams = (value, paramName) => {

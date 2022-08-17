@@ -1,44 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MuiTablePagination from '@mui/material/TablePagination';
+import {styled} from '@mui/material/styles';
+import MuiPagination from '@mui/material/Pagination';
 
-const TablePagination = (
-  count,
-  page,
-  rowsPerPageOptions,
-  rowsPerPage,
-  onPageChange,
-  onRowsPerPageChange,
-  ...props
-) => (
-  <MuiTablePagination
-    rowsPerPageOptions={rowsPerPageOptions}
-    rowsPerPage={rowsPerPage}
-    component="div"
-    count={count}
-    page={page}
-    onPageChange={onPageChange}
-    onRowsPerPageChange={onRowsPerPageChange}
-    {...props}
-  />
-);
+import {defaultPage} from 'constants/dataGrid';
+import useTable from 'hooks/useTable';
+
+const StyledMuiPagination = styled(MuiPagination)(() => ({
+  paddingTop: 10,
+  '& ul': {
+    justifyContent: 'flex-end'
+  }
+}));
+
+const TablePagination = ({count, page, onPageChange, ...props}) => {
+  const {page: tablePage, onPageChange: onChange} = useTable();
+
+  const handlePageChange = (event, value) => {
+    onChange(value);
+    onPageChange(value);
+  };
+
+  if (count <= defaultPage) {
+    return null;
+  }
+
+  return (
+    <StyledMuiPagination
+      shape="rounded"
+      count={count}
+      page={tablePage || page}
+      onChange={handlePageChange}
+      {...props}
+    />
+  );
+};
 
 TablePagination.propTypes = {
   count: PropTypes.number,
   page: PropTypes.number,
-  rowsPerPage: PropTypes.number,
-  rowsPerPageOptions: PropTypes.array,
-  onPageChange: PropTypes.func,
-  onRowsPerPageChange: PropTypes.func
+  onPageChange: PropTypes.func
 };
 
 TablePagination.defaultProps = {
   count: 0,
-  page: 0,
-  rowsPerPage: 20,
-  rowsPerPageOptions: [],
-  onPageChange: () => {},
-  onRowsPerPageChange: () => {}
+  onPageChange: () => {}
 };
 
 export default React.memo(TablePagination);

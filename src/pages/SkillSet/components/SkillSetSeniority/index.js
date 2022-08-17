@@ -3,12 +3,12 @@ import {Grid} from '@mui/material';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {SKILLS_LEVELS} from 'constants/common';
+import {SKILLS_LEVELS, SKILLS_LEVELS_NAMES} from 'constants/common';
 import {removeSkill, moveSkills, setInitialSkillsSet} from 'store/skills';
 import {Subtitle} from 'components/Typography';
-import {ButtonOutlined} from 'components/Button';
 import Card from 'components/Card';
 import {BoxSubtitle} from 'components/Box';
+import {DropdownMenu} from 'components/Menu';
 
 import SeniorityGroup from '../SeniorityGroup';
 
@@ -17,13 +17,12 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
 
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
+  const [moveSkillsMenu, setMoveSkillsMenu] = useState([]);
 
   const skills = useSelector(state => state.skills);
 
   useEffect(() => {
-    console.log(initialSkillsSet);
     dispatch(setInitialSkillsSet(initialSkillsSet));
-    console.log('initialSkillsSet changed');
   }, [initialSkillsSet]);
 
   const filterSkills = skill => {
@@ -43,7 +42,19 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
 
   const handleSelectSkill = (group, skill) => {
     //  const groupName = newSelectedSkills.length > 0 ? group : '';
-    if (!selectedGroup || selectedGroup !== group) setSelectedGroup(group);
+    if (!selectedGroup || selectedGroup !== group) {
+      setSelectedGroup(group);
+      const levels = [];
+      Object.keys(SKILLS_LEVELS).forEach(level => {
+        if (SKILLS_LEVELS[level] !== group) {
+          levels.push({
+            name: SKILLS_LEVELS_NAMES[level],
+            level: SKILLS_LEVELS[level]
+          });
+        }
+      });
+      setMoveSkillsMenu(levels);
+    }
 
     const index = selectedSkills.indexOf(skill.id);
     let newSelectedSkills = [];
@@ -77,7 +88,12 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
             </Subtitle>
           </Grid>
           <Grid item xs={4} textAlign="right">
-            <ButtonOutlined disabled>Change seniority</ButtonOutlined>
+            <DropdownMenu
+              buttonName="Change seniority"
+              disabled={!selectedSkills || selectedSkills.length === 0}
+              onMenuItemClick={item => handleClickOnGroup(item.level)}
+              items={moveSkillsMenu}
+            />
           </Grid>
           <Grid item xs={12}>
             <SeniorityGroup

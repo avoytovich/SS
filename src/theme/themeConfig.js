@@ -21,6 +21,7 @@ const themeConfig = createTheme({
       light: VIBRANT_BLUE,
       main: CAPGEMINI_BLUE,
       dark: DEEP_PURPLE,
+      black: DARK_GREY,
       contrastText: WHITE,
       separator: GREY_2
     },

@@ -31,7 +31,8 @@ const api = createApi({
     'UserRoles',
     'UserManagements',
     'UsersAutocomplete',
-    'AutocompleteTags'
+    'AutocompleteTags',
+    'RequestedSkills'
   ],
   endpoints: () => ({})
 });

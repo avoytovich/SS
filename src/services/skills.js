@@ -22,7 +22,14 @@ const skillsApi = api.injectEndpoints({
       providesTags: ['AutocompleteSkills'],
       transformResponse: response => response.data
     }),
-
+    fetchRequestedSkills: builder.query({
+      query: params => ({
+        url: apiUrls.skills.requested,
+        method: 'GET',
+        params
+      }),
+      providesTags: ['RequestedSkills']
+    }),
     addSkill: builder.mutation({
       query: ({...params}) => ({
         url: apiUrls.skills.root,
@@ -59,6 +66,7 @@ export default skillsApi;
 export const {
   useFetchSkillsQuery,
   useFetchAutocompleteSkillsQuery,
+  useFetchRequestedSkillsQuery,
   useAddSkillMutation,
   useDeleteSkillMutation,
   useUpdateSkillMutation

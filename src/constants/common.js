@@ -21,8 +21,14 @@ export const SKILLS_LEVELS = {
   BASIC: 'basic',
   INTERMEDIATE: 'intermediate',
   ADVANCED: 'advanced',
-  EXPERT: 'expert',
-  NONE: 'none'
+  EXPERT: 'expert'
+};
+
+export const SKILLS_LEVELS_NAMES = {
+  BASIC: 'Basic',
+  INTERMEDIATE: 'Intermediate',
+  ADVANCED: 'Advanced',
+  EXPERT: 'Expert'
 };
 
 export const SKILLS_COLORS = {
@@ -33,7 +39,6 @@ export const SKILLS_COLORS = {
 };
 
 export const employeeSkillLevels = new Map([
-  [SKILLS_LEVELS.NONE, 0],
   [SKILLS_LEVELS.BASIC, 1],
   [SKILLS_LEVELS.INTERMEDIATE, 2],
   [SKILLS_LEVELS.ADVANCED, 3],

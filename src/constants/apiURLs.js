@@ -22,6 +22,7 @@ const apiUrls = {
     root: '/skills',
     mock: '/skills/mock',
     autocomplete: '/skills/autocomplete',
+    requested: '/skill-requests',
     rootWithQueries: query => `/skills/?${query}`,
     details: id => `/skills/${id}`
   },
