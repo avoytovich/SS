@@ -12,7 +12,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableCellAction,
   TableContainer,
   TableHead,
   TablePagination,
@@ -22,6 +21,7 @@ import {
 import {PageLoader} from 'components/Loader';
 import {SearchField} from 'components/Common/DataGrid';
 import {ChipOutlined} from 'components/Chip';
+import {Box} from 'components/Box';
 import {IconButton} from 'components/Button';
 import {DeleteIcon, EditIcon} from 'components/Icons';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
@@ -133,25 +133,27 @@ const SkillsList = ({onChanges}) => {
           <TableBody>
             {skills.map(skill => (
               <TableRow key={skill.id}>
-                <TableCell>{skill.name}</TableCell>
+                <TableCell maxWidth={300}>{skill.name}</TableCell>
                 <TableCell maxWidth={400}>
                   {skill.tags.map(item => (
                     <ChipOutlined size="small" key={item.name} label={item.name} />
                   ))}
                 </TableCell>
                 <TableCell>{skill.engineers_count}</TableCell>
-                <TableCellAction>
-                  {hasPermissions([PermissionEnum.SKILLS_EDIT]) && (
-                    <IconButton onClick={() => onEditSkill(skill)}>
-                      <EditIcon />
-                    </IconButton>
-                  )}
-                  {hasPermissions([PermissionEnum.SKILLS_DELETE]) && (
-                    <IconButton onClick={() => onDeleteSkill(skill)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
-                </TableCellAction>
+                <TableCell>
+                  <Box display="flex">
+                    {hasPermissions([PermissionEnum.SKILLS_EDIT]) && (
+                      <IconButton onClick={() => onEditSkill(skill)}>
+                        <EditIcon />
+                      </IconButton>
+                    )}
+                    {hasPermissions([PermissionEnum.SKILLS_DELETE]) && (
+                      <IconButton onClick={() => onDeleteSkill(skill)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    )}
+                  </Box>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -19,10 +19,8 @@ import {
   useSetUserRoleMutation
 } from 'services/users';
 
-import AdminList from './components/AdminList';
-import ModeratorList from './components/ModeratorList';
-import ManagerList from './components/ManagerList';
 import CreateAdminModal from './components/CreateAdminModal';
+import UserList from './components/UserList';
 
 const StyledBox = styled(Box)(() => ({
   marginTop: '-30px',
@@ -120,13 +118,26 @@ const Users = () => {
             </Tabs>
             <TabPanelContainer>
               <TabPanel value={tab} index={UserRoleEnum.ADMIN}>
-                <AdminList admins={users} onDeleteRole={handleDeleteRole} />
+                <UserList
+                  users={users}
+                  isAdmin
+                  hasDeletePermissions={hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE])}
+                  onDeleteRole={handleDeleteRole}
+                />
               </TabPanel>
               <TabPanel value={tab} index={UserRoleEnum.MODERATOR}>
-                <ModeratorList moderators={users} onDeleteRole={handleDeleteRole} />
+                <UserList
+                  users={users}
+                  hasDeletePermissions={hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE])}
+                  onDeleteRole={handleDeleteRole}
+                />
               </TabPanel>
               <TabPanel value={tab} index={UserRoleEnum.MANAGER}>
-                <ManagerList managers={users} onDeleteRole={handleDeleteRole} />
+                <UserList
+                  users={users}
+                  hasDeletePermissions={hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE])}
+                  onDeleteRole={handleDeleteRole}
+                />
               </TabPanel>
             </TabPanelContainer>
           </StyledBox>

@@ -5,7 +5,7 @@ import MuiTableHead from '@mui/material/TableHead';
 import useTable from 'hooks/useTable';
 
 import TableRow from '../TableRow';
-import {TableCell} from '../TableCells';
+import TableCell from '../TableCell';
 
 import TableSortLabel from './TableSortLabel';
 
@@ -26,6 +26,7 @@ const TableHead = ({id, headCells, sortBy, onSort}) => {
           <TableCell
             id={`${id}-${cell.key}`}
             key={cell.key}
+            variant="head"
             align={cell.align ?? 'left'}
             sortDirection={isActive(cell.key) ? sortDirection : false}
           >
