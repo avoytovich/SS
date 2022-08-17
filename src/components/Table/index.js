@@ -4,8 +4,9 @@ import TableBody from './components/TableBody';
 import TableContainer from './components/TableContainer';
 import TablePagination from './components/TablePagination';
 import TableRow from './components/TableRow';
-import {TableCell, TableCellAction} from './components/TableCell';
+import {TableCell, TableCellAction} from './components/TableCells';
 import NoRowsOverlay from './components/NoRowsOverlay';
+import FilterContainer from './components/TableFilterContainer';
 
 export {
   Table,
@@ -16,5 +17,6 @@ export {
   TableRow,
   TableCell,
   TableCellAction,
-  NoRowsOverlay
+  NoRowsOverlay,
+  FilterContainer
 };

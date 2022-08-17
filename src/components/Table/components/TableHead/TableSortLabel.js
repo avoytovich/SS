@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import MuiTableSortLabel from '@mui/material/TableSortLabel';
 
 const TableSortLabel = ({cell, onSort, isActive, sortDirection}) => {
-  const onSortCell = () => onSort(cell.id);
+  const onSortCell = () => {
+    if (cell.sortable) onSort({direction: sortDirection, field: cell.key});
+  };
   return (
     <MuiTableSortLabel
       id={`${cell.key}-sort-label`}
