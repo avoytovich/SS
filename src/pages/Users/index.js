@@ -120,7 +120,6 @@ const Users = () => {
               <TabPanel value={tab} index={UserRoleEnum.ADMIN}>
                 <UserList
                   users={users}
-                  isAdmin
                   hasDeletePermissions={hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE])}
                   onDeleteRole={handleDeleteRole}
                 />

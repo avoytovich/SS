@@ -16,7 +16,7 @@ import {IconButton} from 'components/Button';
 
 import headCells from '../constants';
 
-const UserList = ({users, hasDeletePermissions, isAdmin, onDeleteRole}) => {
+const UserList = ({users, hasDeletePermissions, onDeleteRole}) => {
   const {profile} = useSelector(state => state.auth);
 
   return (
@@ -30,7 +30,7 @@ const UserList = ({users, hasDeletePermissions, isAdmin, onDeleteRole}) => {
               <TableCell>{user.email}</TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="flex-end">
-                  {(isAdmin ? profile.id !== user.id : hasDeletePermissions) && (
+                  {profile.id !== user.id && hasDeletePermissions && (
                     <IconButton onClick={() => onDeleteRole(user)}>
                       <DeleteIcon />
                     </IconButton>
@@ -49,12 +49,10 @@ const UserList = ({users, hasDeletePermissions, isAdmin, onDeleteRole}) => {
 UserList.propTypes = {
   onDeleteRole: PropTypes.func.isRequired,
   users: PropTypes.array.isRequired,
-  hasDeletePermissions: PropTypes.bool,
-  isAdmin: PropTypes.bool
+  hasDeletePermissions: PropTypes.bool
 };
 
 UserList.defaultProps = {
-  isAdmin: false,
   hasDeletePermissions: false
 };
 
