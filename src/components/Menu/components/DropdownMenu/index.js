@@ -25,6 +25,7 @@ const DropdownMenu = props => {
 
   const handleMenuClick = item => {
     if (onMenuItemClick) onMenuItemClick(item);
+    handleClose();
   };
 
   return (
