@@ -5,6 +5,7 @@ import {styled} from '@mui/material/styles';
 import {Box} from 'components/Box';
 import {ButtonContained} from 'components/Button';
 import PageLayout from 'components/Common/Layout/PageLayout';
+import {PageLoader} from 'components/Loader';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import usePermissions from 'hooks/permissions';
 import useModal from 'hooks/useModal';
@@ -12,15 +13,14 @@ import {PermissionEnum} from 'constants/permissions';
 import {UserRoleEnum} from 'constants/userRoles';
 import {TabPanelContainer, TabPanel, Tab, Tabs} from 'components/Tabs';
 import {
+  useFetchManagementsQuery,
   useFetchUserRolesQuery,
   useLazyFetchManagementsQuery,
   useSetUserRoleMutation
 } from 'services/users';
 
-import AdminList from './components/AdminList';
-import ModeratorList from './components/ModeratorList';
-import ManagerList from './components/ManagerList';
 import CreateAdminModal from './components/CreateAdminModal';
+import UserList from './components/UserList';
 
 const StyledBox = styled(Box)(() => ({
   marginTop: '-30px',
@@ -41,6 +41,7 @@ const Users = () => {
   const {data: roles = []} = useFetchUserRolesQuery();
   const [setUserRole] = useSetUserRoleMutation();
   const [trigger] = useLazyFetchManagementsQuery({role: tab});
+  const {data: users = [], isLoading, isFetching} = useFetchManagementsQuery({role: tab});
 
   const handleDeleteRole = user => {
     toggleRemoveModal();
@@ -97,44 +98,54 @@ const Users = () => {
 
   return (
     <PageLayout title="Users" type="users-page" extra={extraButtons}>
-      <StyledBox>
-        <Tabs value={tab} onChange={handleChangeTab} aria-label="skill tabs">
-          <Tab value={UserRoleEnum.ADMIN} data-testid="user-page-tab-admins" label="Admins" />
-          <Tab
-            value={UserRoleEnum.MODERATOR}
-            data-testid="user-page-tab-moderators"
-            label="Moderators"
-          />
-          <Tab value={UserRoleEnum.MANAGER} data-testid="user-page-tab-managers" label="Managers" />
-        </Tabs>
-        <TabPanelContainer>
-          <TabPanel value={tab} index={UserRoleEnum.ADMIN}>
-            <AdminList onDeleteRole={handleDeleteRole} />
-          </TabPanel>
-          <TabPanel value={tab} index={UserRoleEnum.MODERATOR}>
-            <ModeratorList onDeleteRole={handleDeleteRole} />
-          </TabPanel>
-          <TabPanel value={tab} index={UserRoleEnum.MANAGER}>
-            <ManagerList onDeleteRole={handleDeleteRole} />
-          </TabPanel>
-        </TabPanelContainer>
-      </StyledBox>
-      {isCreateModalOpen && (
-        <CreateAdminModal
-          currentRoleName={tab}
-          isOpen={isCreateModalOpen}
-          onClose={onToggleCreateAdmin}
-        />
-      )}
-      {isRemoveModalOpen && (
-        <CustomizedDialogs
-          isOpen={isRemoveModalOpen}
-          isRemove
-          onClose={onCloseConfirmModal}
-          handleSubmit={handleConfirmDelete}
-          text={`Remove permission for user "${removeUserName}.`}
-          confirmText="Remove"
-        />
+      {isLoading || isFetching ? (
+        <PageLoader />
+      ) : (
+        <>
+          <StyledBox>
+            <Tabs value={tab} onChange={handleChangeTab} aria-label="skill tabs">
+              <Tab value={UserRoleEnum.ADMIN} data-testid="user-page-tab-admins" label="Admins" />
+              <Tab
+                value={UserRoleEnum.MODERATOR}
+                data-testid="user-page-tab-moderators"
+                label="Moderators"
+              />
+              <Tab
+                value={UserRoleEnum.MANAGER}
+                data-testid="user-page-tab-managers"
+                label="Managers"
+              />
+            </Tabs>
+            <TabPanelContainer>
+              <TabPanel value={tab} index={UserRoleEnum.ADMIN}>
+                <UserList users={users} onDeleteRole={handleDeleteRole} />
+              </TabPanel>
+              <TabPanel value={tab} index={UserRoleEnum.MODERATOR}>
+                <UserList users={users} onDeleteRole={handleDeleteRole} />
+              </TabPanel>
+              <TabPanel value={tab} index={UserRoleEnum.MANAGER}>
+                <UserList users={users} onDeleteRole={handleDeleteRole} />
+              </TabPanel>
+            </TabPanelContainer>
+          </StyledBox>
+          {isCreateModalOpen && (
+            <CreateAdminModal
+              currentRoleName={tab}
+              isOpen={isCreateModalOpen}
+              onClose={onToggleCreateAdmin}
+            />
+          )}
+          {isRemoveModalOpen && (
+            <CustomizedDialogs
+              isOpen={isRemoveModalOpen}
+              isRemove
+              onClose={onCloseConfirmModal}
+              handleSubmit={handleConfirmDelete}
+              text={`Remove permission for user "${removeUserName}.`}
+              confirmText="Remove"
+            />
+          )}
+        </>
       )}
     </PageLayout>
   );

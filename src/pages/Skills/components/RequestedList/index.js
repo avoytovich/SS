@@ -7,7 +7,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableCellAction,
   NoRowsOverlay,
   TablePagination
 } from 'components/Table';
@@ -16,7 +15,7 @@ import {Box} from 'components/Box';
 import {SearchField} from 'components/Common/DataGrid';
 import {RateReviewIcon} from 'components/Icons';
 import {IconButton} from 'components/Button';
-import ChipList from 'components/Common/ChipList';
+import {ChipOutlined} from 'components/Chip';
 import usePermissions from 'hooks/permissions';
 import useTable from 'hooks/useTable';
 import {PermissionEnum} from 'constants/permissions';
@@ -67,18 +66,22 @@ const RequestedList = ({status}) => {
         <TableBody>
           {skills.map(skill => (
             <TableRow key={skill.id}>
-              <TableCell>{skill.name}</TableCell>
-              <TableCell>
-                <ChipList values={skill.tags} />
+              <TableCell maxWidth={300}>{skill.name}</TableCell>
+              <TableCell maxWidth={400}>
+                {skill.tags.map(item => (
+                  <ChipOutlined size="small" key={item.name} label={item.name} />
+                ))}
               </TableCell>
               <TableCell>{skill.description}</TableCell>
-              <TableCellAction>
-                {hasPermissions([PermissionEnum.SKILLS_DETAILS]) && (
-                  <IconButton onClick={() => {}}>
-                    <RateReviewIcon />
-                  </IconButton>
-                )}
-              </TableCellAction>
+              <TableCell>
+                <Box display="flex" justifyContent="flex-end">
+                  {hasPermissions([PermissionEnum.SKILLS_DETAILS]) && (
+                    <IconButton onClick={() => {}}>
+                      <RateReviewIcon />
+                    </IconButton>
+                  )}
+                </Box>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
