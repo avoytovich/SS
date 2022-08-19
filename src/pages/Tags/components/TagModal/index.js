@@ -7,12 +7,13 @@ import {DialogActions} from '@mui/material';
 
 import {ButtonContained, ButtonOutlined} from 'components/Button';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
-import ModifyTagSchema from 'components/Tags/TagModal/modifyTagShema';
 import Input from 'components/Common/Form/Input';
 import {formSubmitHandling} from 'utils/forms';
 import {useUpdateTagMutation, useAddTagMutation, getTags} from 'services/tags';
 import {useURLParams} from 'hooks/dataGrid';
 import {defaultPage, pageParamName} from 'constants/dataGrid';
+
+import ModifyTagSchema from './modifyTagShema';
 
 export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   const dispatch = useDispatch();
