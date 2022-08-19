@@ -141,7 +141,7 @@ const SkillsList = ({onChanges}) => {
                 </TableCell>
                 <TableCell>{skill.engineers_count}</TableCell>
                 <TableCell>
-                  <Box display="flex">
+                  <Box justifyContent="flex-end">
                     {hasPermissions([PermissionEnum.SKILLS_EDIT]) && (
                       <IconButton onClick={() => onEditSkill(skill)}>
                         <EditIcon />

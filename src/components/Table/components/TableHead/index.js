@@ -27,7 +27,7 @@ const TableHead = ({id, headCells, sortBy, onSort}) => {
             id={`${id}-${cell.key}`}
             key={cell.key}
             variant="head"
-            align={cell.align ?? 'left'}
+            align={cell.align}
             sortDirection={isActive(cell.key) ? sortDirection : false}
           >
             <TableSortLabel

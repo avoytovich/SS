@@ -118,25 +118,13 @@ const Users = () => {
             </Tabs>
             <TabPanelContainer>
               <TabPanel value={tab} index={UserRoleEnum.ADMIN}>
-                <UserList
-                  users={users}
-                  hasDeletePermissions={hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE])}
-                  onDeleteRole={handleDeleteRole}
-                />
+                <UserList users={users} onDeleteRole={handleDeleteRole} />
               </TabPanel>
               <TabPanel value={tab} index={UserRoleEnum.MODERATOR}>
-                <UserList
-                  users={users}
-                  hasDeletePermissions={hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE])}
-                  onDeleteRole={handleDeleteRole}
-                />
+                <UserList users={users} onDeleteRole={handleDeleteRole} />
               </TabPanel>
               <TabPanel value={tab} index={UserRoleEnum.MANAGER}>
-                <UserList
-                  users={users}
-                  hasDeletePermissions={hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE])}
-                  onDeleteRole={handleDeleteRole}
-                />
+                <UserList users={users} onDeleteRole={handleDeleteRole} />
               </TabPanel>
             </TabPanelContainer>
           </StyledBox>

@@ -13,11 +13,17 @@ import {
 import {Box} from 'components/Box';
 import {DeleteIcon} from 'components/Icons';
 import {IconButton} from 'components/Button';
+import usePermissions from 'hooks/permissions';
 
 import headCells from '../constants';
+import {PermissionEnum} from '../../../../constants/permissions';
 
-const UserList = ({users, hasDeletePermissions, onDeleteRole}) => {
+const UserList = ({users, onDeleteRole}) => {
   const {profile} = useSelector(state => state.auth);
+  const {hasPermissions} = usePermissions();
+
+  const isShowRemoveButton = userId =>
+    profile.id !== userId && hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]);
 
   return (
     <TableContainer>
@@ -30,11 +36,12 @@ const UserList = ({users, hasDeletePermissions, onDeleteRole}) => {
               <TableCell>{user.email}</TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="flex-end">
-                  {profile.id !== user.id && hasDeletePermissions && (
-                    <IconButton onClick={() => onDeleteRole(user)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
+                  {isShowRemoveButton(user.id) &&
+                    hasPermissions([PermissionEnum.USERS_MANAGMENT_DELETE]) && (
+                      <IconButton onClick={() => onDeleteRole(user)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    )}
                 </Box>
               </TableCell>
             </TableRow>
@@ -48,12 +55,7 @@ const UserList = ({users, hasDeletePermissions, onDeleteRole}) => {
 
 UserList.propTypes = {
   onDeleteRole: PropTypes.func.isRequired,
-  users: PropTypes.array.isRequired,
-  hasDeletePermissions: PropTypes.bool
-};
-
-UserList.defaultProps = {
-  hasDeletePermissions: false
+  users: PropTypes.array.isRequired
 };
 
 export default UserList;
