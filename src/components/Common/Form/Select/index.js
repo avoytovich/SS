@@ -20,6 +20,7 @@ const SelectField = ({
   multiple,
   fullWidth,
   options,
+  onChange,
   ...params
 }) => {
   const classes = useStyles();
@@ -42,6 +43,9 @@ const SelectField = ({
       const newValues = [];
       values.map(value => newValues.push(value.id));
       formikProps.setFieldValue(returnIdToField, newValues);
+    }
+    if (onChange) {
+      onChange(event, values);
     }
   };
 
@@ -66,6 +70,7 @@ const SelectField = ({
           />
         )}
         disableCloseOnSelect={multiple}
+        disableClearable={!multiple}
         // renderOption={(props, option, {selected}) => (
         //   <li {...props} className={classes.optionItems}>
         //     <Checkbox
