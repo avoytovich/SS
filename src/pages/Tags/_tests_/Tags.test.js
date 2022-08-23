@@ -1,9 +1,10 @@
 import React from 'react';
 
 import {act, fireEvent, render, screen, store} from 'containers/TestProviderWrapper';
-import Tags from 'pages/Tags';
 import {setPermissions} from 'store/permissions/permissions';
 import routes from 'constants/routes';
+
+import Tags from '../index';
 
 const mockUseLocationPath = routes.tags.list;
 
