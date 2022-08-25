@@ -6,6 +6,7 @@ import PrivateRoute from 'components/Routes/PrivateRoute';
 import AccessDenied from 'pages/AccessDenied';
 import NotFound from 'pages/NotFound';
 import Skills from 'pages/Skills';
+import SkillDetails from 'pages/Skills/SkillDetails';
 import Employees from 'pages/Employees';
 import Tags from 'pages/Tags';
 import MyProfile from 'pages/Profile';
@@ -18,6 +19,13 @@ const AppRouter = () => (
   <Switch>
     <PrivateRoute path={routes.skills.list} permissions={[PermissionEnum.SKILLS_LIST]} exact>
       <Skills />
+    </PrivateRoute>
+    <PrivateRoute
+      path={routes.skills.details.path}
+      permissions={[PermissionEnum.SKILLS_DETAILS]}
+      exact
+    >
+      <SkillDetails />
     </PrivateRoute>
     <PrivateRoute path={routes.employees.list} permissions={[PermissionEnum.USERS_LIST]} exact>
       <Employees />

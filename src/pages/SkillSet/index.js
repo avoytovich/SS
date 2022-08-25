@@ -45,8 +45,7 @@ function SkillSet() {
     const values = {
       basic: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.BASIC]),
       intermediate: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.INTERMEDIATE]),
-      advanced: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.ADVANCED]),
-      expert: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.EXPERT])
+      advanced: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.ADVANCED])
     };
 
     formSubmitHandling(
@@ -75,7 +74,8 @@ function SkillSet() {
         <RecommendationSkills onSelectSkill={onSelectSkill} />
         <SkillSetModal isOpen={isOpen} onClose={onToggleModal} />
       </Card>
-      <SkillSetSeniority initialSkillsSet={skillsSet} />
+
+      {skillsSet && <SkillSetSeniority initialSkillsSet={skillsSet} />}
 
       <ButtonGroupBasic position="right">
         <ButtonOutlined to={routes.profile} component={NavLink} disabled={isAddLoading}>

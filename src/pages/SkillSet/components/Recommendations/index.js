@@ -26,8 +26,7 @@ export default function RecommendationSkills({onSelectSkill}) {
   const senioritySkills = [
     ...allSkills[SKILLS_LEVELS.BASIC],
     ...allSkills[SKILLS_LEVELS.ADVANCED],
-    ...allSkills[SKILLS_LEVELS.INTERMEDIATE],
-    ...allSkills[SKILLS_LEVELS.EXPERT]
+    ...allSkills[SKILLS_LEVELS.INTERMEDIATE]
   ];
 
   const {data: skills = []} = useFetchRecommendedSkillsQuery(undefined, {

@@ -69,7 +69,7 @@ const Skills = () => {
           <Tab
             value={skillRequestStatus.PROPOSED}
             data-testid="skill-tab-proposed"
-            label="Proposed"
+            label="Requested"
           />
           <Tab
             value={skillRequestStatus.REJECTED}

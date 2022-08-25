@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import {NavLink as RouterLink} from 'react-router-dom';
 
 import {
   TableContainer,
@@ -20,6 +21,8 @@ import usePermissions from 'hooks/permissions';
 import useTable from 'hooks/useTable';
 import {PermissionEnum} from 'constants/permissions';
 import {useFetchRequestedSkillsQuery} from 'services/skills';
+
+import routes from '../../../../constants/routes';
 
 const headCells = [
   {key: 'name', label: 'Skill name', sortable: true},
@@ -67,16 +70,16 @@ const RequestedList = ({status}) => {
           {skills.map(skill => (
             <TableRow key={skill.id}>
               <TableCell maxWidth={300}>{skill.name}</TableCell>
-              <TableCell maxWidth={400}>
+              <TableCell maxWidth={300}>
                 {skill.tags.map(item => (
                   <ChipOutlined size="small" key={item.name} label={item.name} />
                 ))}
               </TableCell>
-              <TableCell>{skill.description}</TableCell>
+              <TableCell maxWidth={200}>{skill.description}</TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="flex-end">
                   {hasPermissions([PermissionEnum.SKILLS_DETAILS]) && (
-                    <IconButton onClick={() => {}}>
+                    <IconButton component={RouterLink} to={routes.skills.details.link(skill.id)}>
                       <RateReviewIcon />
                     </IconButton>
                   )}
