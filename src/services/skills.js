@@ -55,6 +55,15 @@ const skillsApi = api.injectEndpoints({
         method: 'DELETE'
       }),
       invalidatesTags: ['Skills']
+    }),
+
+    rejectRequestedSkill: builder.mutation({
+      query: ({id, ...params}) => ({
+        url: apiUrls.skills.rejectedSkill(id),
+        method: 'PATCH',
+        body: params
+      }),
+      invalidatesTags: ['RequestedSkills']
     })
   })
 });
@@ -72,5 +81,6 @@ export const {
   useFetchRequestedSkillsQuery,
   useAddSkillMutation,
   useDeleteSkillMutation,
-  useUpdateSkillMutation
+  useUpdateSkillMutation,
+  useRejectRequestedSkillMutation
 } = skillsApi;
