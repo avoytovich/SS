@@ -1,14 +1,13 @@
 import React from 'react';
-import {ErrorBoundary} from 'react-error-boundary';
 
 import PageLayout from 'components/Common/Layout/PageLayout';
-import ErrorFallback from 'components/ErrorFallback';
-import TagList from 'components/Tags/TagList';
-import TagModal from 'components/Tags/TagModal';
 import useModal from 'hooks/useModal';
 import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 import {ButtonContained} from 'components/Button';
+
+import TagModal from './components/TagModal';
+import TagList from './components/TagList';
 
 const Tags = () => {
   const {hasPermissions} = usePermissions();
@@ -47,10 +46,8 @@ const Tags = () => {
 
   return (
     <PageLayout title="Tags" extra={extraButtons}>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <TagList onSaveOrUpdate={onSaveOrUpdateTag} hasPermissions={hasPermissions} />
-        {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
-      </ErrorBoundary>
+      <TagList onUpdate={onSaveOrUpdateTag} />
+      {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
     </PageLayout>
   );
 };

@@ -40,3 +40,14 @@ export const employeeSkillLevels = new Map([
   [SKILLS_LEVELS.INTERMEDIATE, 2],
   [SKILLS_LEVELS.ADVANCED, 3]
 ]);
+
+export const REJECT_REASONS = [
+  {
+    id: 'duplicated',
+    name: 'Duplicated'
+  },
+  {
+    id: 'other',
+    name: 'Other'
+  }
+];
