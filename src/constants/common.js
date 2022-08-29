@@ -20,29 +20,25 @@ export const INPUT_TYPES = {
 export const SKILLS_LEVELS = {
   BASIC: 'basic',
   INTERMEDIATE: 'intermediate',
-  ADVANCED: 'advanced',
-  EXPERT: 'expert'
+  ADVANCED: 'advanced'
 };
 
 export const SKILLS_LEVELS_NAMES = {
   BASIC: 'Basic',
   INTERMEDIATE: 'Intermediate',
-  ADVANCED: 'Advanced',
-  EXPERT: 'Expert'
+  ADVANCED: 'Advanced'
 };
 
 export const SKILLS_COLORS = {
   [SKILLS_LEVELS.BASIC]: 'blue',
   [SKILLS_LEVELS.INTERMEDIATE]: 'orange',
-  [SKILLS_LEVELS.ADVANCED]: 'green',
-  [SKILLS_LEVELS.EXPERT]: 'dark'
+  [SKILLS_LEVELS.ADVANCED]: 'green'
 };
 
 export const employeeSkillLevels = new Map([
   [SKILLS_LEVELS.BASIC, 1],
   [SKILLS_LEVELS.INTERMEDIATE, 2],
-  [SKILLS_LEVELS.ADVANCED, 3],
-  [SKILLS_LEVELS.EXPERT, 4]
+  [SKILLS_LEVELS.ADVANCED, 3]
 ]);
 
 export const REJECT_REASONS = [

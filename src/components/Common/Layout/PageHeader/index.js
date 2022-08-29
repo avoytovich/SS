@@ -17,11 +17,7 @@ const PageHeader = ({title, subTitle, children, extra, rest}) => {
           </Heading>
           {subTitle && <div className="page-header--description">{subTitle}</div>}
         </div>
-        {extra && (
-          <div className="page-header--title-wrap--extra">
-            <span>{extra}</span>
-          </div>
-        )}
+        {extra && <div className="page-header--title-wrap--extra">{extra}</div>}
       </Box>
       {children}
     </div>

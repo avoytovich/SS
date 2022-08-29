@@ -37,7 +37,8 @@ const apiUrls = {
     root: '/seniorities'
   },
   skillRequests: {
-    root: '/skill-requests'
+    root: '/skill-requests',
+    details: id => `/skill-requests/${id}`
   }
 };
 
