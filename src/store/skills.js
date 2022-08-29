@@ -6,7 +6,6 @@ const initialState = {
   [SKILLS_LEVELS.BASIC]: [],
   [SKILLS_LEVELS.INTERMEDIATE]: [],
   [SKILLS_LEVELS.ADVANCED]: [],
-  [SKILLS_LEVELS.EXPERT]: [],
   senioritySkills: [],
   allSkillsID: []
 };
@@ -33,7 +32,6 @@ const skillsSlice = createSlice({
       state[SKILLS_LEVELS.BASIC] = payload[SKILLS_LEVELS.BASIC];
       state[SKILLS_LEVELS.ADVANCED] = payload[SKILLS_LEVELS.ADVANCED];
       state[SKILLS_LEVELS.INTERMEDIATE] = payload[SKILLS_LEVELS.INTERMEDIATE];
-      state[SKILLS_LEVELS.EXPERT] = payload[SKILLS_LEVELS.EXPERT];
     },
     setBasicSkills: (state, {payload}) => {
       state[SKILLS_LEVELS.BASIC] = [...state[SKILLS_LEVELS.BASIC], payload];

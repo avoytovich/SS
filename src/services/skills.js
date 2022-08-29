@@ -22,6 +22,8 @@ const skillsApi = api.injectEndpoints({
       providesTags: ['AutocompleteSkills'],
       transformResponse: response => response.data
     }),
+
+    // TODO: move fetchRequestedSkills to skillsRequested.js
     fetchRequestedSkills: builder.query({
       query: params => ({
         url: apiUrls.skills.requested,
@@ -30,6 +32,7 @@ const skillsApi = api.injectEndpoints({
       }),
       providesTags: ['RequestedSkills']
     }),
+
     addSkill: builder.mutation({
       query: ({...params}) => ({
         url: apiUrls.skills.root,

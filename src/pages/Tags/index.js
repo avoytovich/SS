@@ -31,18 +31,11 @@ const Tags = () => {
     setIsOpen(true);
   };
 
-  // TODO Refactor to avoid passing an array, as it forces setting up "key" properties that look redundant in this use case
-  const extraButtons = hasPermissions([PermissionEnum.TAGS_CREATE])
-    ? [
-        <ButtonContained
-          key="tag-page-create-btn"
-          data-testid="tag-page-create-btn"
-          onClick={onCreateTag}
-        >
-          Create new tag
-        </ButtonContained>
-      ]
-    : [];
+  const extraButtons = hasPermissions([PermissionEnum.TAGS_CREATE]) ? (
+    <ButtonContained data-testid="tag-page-create-btn" onClick={onCreateTag}>
+      Create new tag
+    </ButtonContained>
+  ) : null;
 
   return (
     <PageLayout title="Tags" extra={extraButtons}>
