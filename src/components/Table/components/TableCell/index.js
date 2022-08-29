@@ -5,7 +5,8 @@ const StyledTableCell = styled(MuiTableCell, {
   shouldForwardProp: prop => prop !== 'maxWidth'
 })(({maxWidth}) => ({
   width: 'max-content',
-  maxWidth
+  maxWidth,
+  padding: 5
 }));
 
 const TableCell = props => <StyledTableCell {...props} />;

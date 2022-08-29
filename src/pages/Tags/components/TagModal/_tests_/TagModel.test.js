@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {fireEvent, render, screen, act, waitFor} from 'containers/TestProviderWrapper';
-import TagModal from 'components/Tags/TagModal';
+
+import TagModal from '../index';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
