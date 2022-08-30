@@ -20,7 +20,9 @@ const PageLayout = ({
   includeAppName,
   subTitle,
   children,
-  isLoading
+  isLoading,
+  isBack,
+  onBack
 }) => {
   const {isAuthenticated} = useSelector(state => state.auth);
 
@@ -34,7 +36,15 @@ const PageLayout = ({
         </PageContent>
       ) : (
         <PageContent>
-          {title && <PageHeader title={title} extra={extra} subTitle={subTitle} />}
+          {title && (
+            <PageHeader
+              title={title}
+              extra={extra}
+              subTitle={subTitle}
+              isBack={isBack}
+              onBack={onBack}
+            />
+          )}
           <MainContent className={type}>{children}</MainContent>
         </PageContent>
       )}
@@ -50,7 +60,9 @@ PageLayout.propTypes = {
   extra: PropTypes.node,
   children: PropTypes.node,
   hiddenHeader: PropTypes.bool,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  isBack: PropTypes.bool,
+  onBack: PropTypes.func
 };
 
 PageLayout.defaultProps = {
@@ -58,7 +70,8 @@ PageLayout.defaultProps = {
   pageTitle: '',
   subTitle: '',
   type: 'fullPage', // cardsLayout,
-  hiddenHeader: false
+  hiddenHeader: false,
+  isBack: false
 };
 
 export default PageLayout;
