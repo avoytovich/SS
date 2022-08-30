@@ -24,3 +24,9 @@ export const ArrayObjsToArrayIds = array => {
 
   return ids;
 };
+
+export const formatDate = (date, options = {}) => {
+  if (!date) return date;
+
+  return new Intl.DateTimeFormat('en-US', options).format(new Date(date));
+};
