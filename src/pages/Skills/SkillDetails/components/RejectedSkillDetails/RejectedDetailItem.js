@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles';
 import {Grid} from '@mui/material';
 
@@ -25,5 +26,11 @@ const RejectedDetailItem = ({title, value, isValueList, ...rest}) => (
     </StyledRejectedBox>
   </Grid>
 );
+
+RejectedDetailItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
+  isValueList: PropTypes.bool
+};
 
 export default RejectedDetailItem;
