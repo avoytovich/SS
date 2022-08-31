@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Grid} from '@mui/material';
+import {styled} from '@mui/material/styles';
 import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,6 +12,12 @@ import {BoxSubtitle} from 'components/Box';
 import {DropdownMenu} from 'components/Menu';
 
 import SeniorityGroup from '../SeniorityGroup';
+
+const StyledGrid = styled(Grid)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between'
+}));
 
 const SkillSetSeniority = ({initialSkillsSet}) => {
   const dispatch = useDispatch();
@@ -82,9 +89,11 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
       <Grid container spacing={2}>
         <Grid item container spacing={2} xs={12}>
           <Grid item xs={8}>
-            <Subtitle>Basic skills</Subtitle>
+            <Subtitle>Beginner</Subtitle>
             <Subtitle size="sm">
-              Need technical guidelines & supervision to implement tasks
+              You have exposure to the skill and understand basic concepts, but you lack experience.
+              Or you don’t have a commercial experience on this technology. For transparency,
+              there’s nothing wrong with writing “beginner” in parentheses next to the skill
             </Subtitle>
           </Grid>
           <Grid item xs={4} textAlign="right">
@@ -107,10 +116,14 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
             />
           </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <StyledGrid item xs={6}>
           <BoxSubtitle>
-            <Subtitle>Intermediate</Subtitle>
-            <Subtitle size="sm">Enough knowledge to implement technical tasks her/himself</Subtitle>
+            <Subtitle>Competent</Subtitle>
+            <Subtitle size="sm">
+              You have experience with and can carry out the skill, You have a commercial
+              experience, but you don’t ready to evaluate this skill as advanced. For this level
+              skill, you normally wouldn’t need a qualifier
+            </Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
             isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.INTERMEDIATE}
@@ -121,12 +134,12 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
             onSelectSkill={handleSelectSkill}
             onClickGroup={handleClickOnGroup}
           />
-        </Grid>
-        <Grid item xs={6}>
+        </StyledGrid>
+        <StyledGrid item xs={6}>
           <BoxSubtitle>
             <Subtitle>Advanced</Subtitle>
             <Subtitle size="sm">
-              Strong knowledge, can set/explain technical tasks and guide others
+              You have solid experience and training with the skill and understand advanced concepts
             </Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
@@ -138,7 +151,7 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
             onSelectSkill={handleSelectSkill}
             onClickGroup={handleClickOnGroup}
           />
-        </Grid>
+        </StyledGrid>
       </Grid>
     </Card>
   );
