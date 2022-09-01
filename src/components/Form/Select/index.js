@@ -4,6 +4,8 @@ import {FormHelperText} from '@mui/material';
 import MuiTextField from '@mui/material/TextField';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 
+import InputLabel from '../InputLabel';
+
 import useStyles from './styles';
 
 const SelectField = ({
@@ -45,6 +47,7 @@ const SelectField = ({
 
   return (
     <div className={classes.selectWrapper}>
+      <InputLabel>{label}</InputLabel>
       <MuiAutocomplete
         multiple={multiple}
         id={`id-${name}`}

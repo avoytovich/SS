@@ -25,7 +25,7 @@ const PageLayout = ({
   onBack
 }) => {
   const {isAuthenticated} = useSelector(state => state.auth);
-
+  console.log(type);
   return (
     <PageContainer data-testid="main-content-wrapper">
       <HelmetWrapper title={pageTitle || title} includeAppName={includeAppName} />

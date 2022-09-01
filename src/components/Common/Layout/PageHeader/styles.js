@@ -9,6 +9,11 @@ const useStyles = makeStyles({
     padding: '30px 0',
     margin: 0,
     boxSizing: 'border-box'
+  },
+  wrapExtra: {
+    '& .MuiButton-root': {
+      marginLeft: '15px'
+    }
   }
 });
 

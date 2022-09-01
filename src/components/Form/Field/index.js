@@ -21,6 +21,7 @@ const Field = ({label, name, type, formik, ...props}) => (
       {...formik.getFieldProps(name)}
       {...props}
     />
+    {formik.error && formik.error[name] && <div>{formik.error[name]}</div>}
   </StyledField>
 );
 
