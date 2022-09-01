@@ -10,11 +10,7 @@ import RejectedDetailItem from './RejectedDetailItem';
 
 const RejectedSkillDetails = () => {
   const {id} = useParams();
-  const {
-    data: {data: skill = {}} = {},
-    isFetching,
-    isLoading
-  } = useFetchSkillRequestQuery({id: Number(id)});
+  const {data: {data: skill = {}} = {}, isFetching} = useFetchSkillRequestQuery({id: Number(id)});
 
   const rejectedReason =
     skill.reject_reason === REJECT_REASONS[0].id
@@ -22,7 +18,7 @@ const RejectedSkillDetails = () => {
       : skill.reject_reason;
 
   return (
-    <PageLayout title={`Rejected ${skill.name} skill`} isLoading={isLoading || isFetching}>
+    <PageLayout title={`Rejected ${skill.name} skill`} isBack isLoading={isFetching}>
       <Grid container spacing={2}>
         <RejectedDetailItem title="Skill name" value={skill.name} lg={6} />
         <RejectedDetailItem title="Proposed by" value={skill.user_full_name} lg={3} />

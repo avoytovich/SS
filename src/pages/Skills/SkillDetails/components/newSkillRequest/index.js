@@ -3,23 +3,28 @@ import {useFormik} from 'formik';
 import {Grid} from '@mui/material';
 import {useSnackbar} from 'notistack';
 
-import {useFetchSkillRequestQuery, useApproveSkillRequestsMutation} from 'services/skillRequests';
+import {useFetchSkillRequestQuery, useApproveRequestedSkillMutation} from 'services/skillRequests';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Field from 'components/Form/Field';
 import SelectField from 'components/Form/Select';
 import {formSubmitHandling} from 'utils/forms';
 import {useFetchTagsQuery} from 'services/tags';
-import {ButtonContained, ButtonOutlined} from 'components/Button';
+import {ButtonContained} from 'components/Button';
 import routes from 'constants/routes';
 
+import RejectSkillModal from '../../../components/RejectSkillModal';
 import RejectedDetailItem from '../RejectedSkillDetails/RejectedDetailItem';
+import useModal from '../../../../../hooks/useModal';
 
 import ReviewSkillSchema from './reviewSkillShema';
+
+// TODO: Rewrite it
 
 const newSkillRequest = () => {
   const {id} = useParams();
   const {enqueueSnackbar} = useSnackbar();
   const history = useHistory();
+  const rejectModal = useModal();
 
   const {data: {tags = []} = {}, isLoading: isLoadingTags} = useFetchTagsQuery({});
 
@@ -29,7 +34,11 @@ const newSkillRequest = () => {
     isLoading
   } = useFetchSkillRequestQuery({id: Number(id)});
 
-  const [approveSkillRequest] = useApproveSkillRequestsMutation();
+  const [approveRequestedSkill] = useApproveRequestedSkillMutation();
+
+  const handleModalReject = () => {
+    rejectModal.toggle();
+  };
 
   const handleBack = () => {
     history.push(routes.skills.list);
@@ -45,7 +54,7 @@ const newSkillRequest = () => {
     params.tags = newValues;
 
     formSubmitHandling(
-      approveSkillRequest,
+      approveRequestedSkill,
       {
         id: skill.id,
         ...params
@@ -83,14 +92,21 @@ const newSkillRequest = () => {
     onSubmit: handleSubmit
   });
 
+  const handleApprove = () => {
+    formik.submitForm();
+  };
+
   return (
     <PageLayout
       title={`Review ${skill.name} skill`}
       isLoading={isLoadingTags || isLoading || isFetching}
+      isBack
       extra={
         <>
-          <ButtonContained onClick={formik.submitForm}>Save</ButtonContained>
-          <ButtonOutlined onClick={handleBack}>Cancel</ButtonOutlined>
+          <ButtonContained onClick={handleModalReject} color="error">
+            Reject
+          </ButtonContained>
+          <ButtonContained onClick={handleApprove}>Approve</ButtonContained>
         </>
       }
     >
@@ -122,10 +138,14 @@ const newSkillRequest = () => {
           </form>
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
+          {/* // TODO: Rewrite RejectedDetailItem and use it in both components  */}
           <RejectedDetailItem title="Proposed by" value={skill.user_full_name} />
           <RejectedDetailItem title="Comment" value={skill.comment} />
         </Grid>
       </Grid>
+      {rejectModal.isOpen && skill && (
+        <RejectSkillModal isOpen={rejectModal.isOpen} skill={skill} onClose={handleModalReject} />
+      )}
     </PageLayout>
   );
 };

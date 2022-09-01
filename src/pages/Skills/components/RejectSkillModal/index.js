@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {useSnackbar} from 'notistack';
 import {Form, Formik} from 'formik';
 
-import {useFetchAutocompleteSkillsQuery, useRejectRequestedSkillMutation} from 'services/skills';
+import {useFetchAutocompleteSkillsQuery} from 'services/skills';
+import {useRejectRequestedSkillMutation} from 'services/skillRequests';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import Input from 'components/Common/Form/Input';
 import SelectField from 'components/Common/Form/Select';
