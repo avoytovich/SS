@@ -12,6 +12,20 @@ const skillRequestsApi = api.injectEndpoints({
         params
       })
     }),
+    approveSkillRequests: builder.mutation({
+      query: ({id, ...params}) => ({
+        url: apiUrls.skillRequests.approve(id),
+        method: 'POST',
+        body: params
+      })
+    }),
+    rejectSkillRequests: builder.mutation({
+      query: ({id, ...params}) => ({
+        url: apiUrls.skillRequests.reject(id),
+        method: 'PATCH',
+        body: params
+      })
+    }),
     fetchSkillRequest: builder.query({
       query: ({id, ...params}) => ({
         url: apiUrls.skillRequests.details(id),
@@ -25,4 +39,9 @@ const skillRequestsApi = api.injectEndpoints({
 
 export default skillRequestsApi;
 
-export const {useAddSkillRequestsMutation, useFetchSkillRequestQuery} = skillRequestsApi;
+export const {
+  useAddSkillRequestsMutation,
+  useApproveSkillRequestsMutation,
+  useRejectSkillRequestsMutation,
+  useFetchSkillRequestQuery
+} = skillRequestsApi;
