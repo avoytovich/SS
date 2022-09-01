@@ -138,6 +138,7 @@ const newSkillRequest = () => {
           </form>
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
+          {/* // TODO: Rewrite RejectedDetailItem and use it in both components  */}
           <RejectedDetailItem title="Proposed by" value={skill.user_full_name} />
           <RejectedDetailItem title="Comment" value={skill.comment} />
         </Grid>
