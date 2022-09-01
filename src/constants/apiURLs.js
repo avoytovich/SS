@@ -38,7 +38,9 @@ const apiUrls = {
   },
   skillRequests: {
     root: '/skill-requests',
-    details: id => `/skill-requests/${id}`
+    details: id => `/skill-requests/${id}`,
+    approve: id => `/skill-requests/${id}/approve`,
+    reject: id => `/skill-requests/${id}/reject`
   }
 };
 

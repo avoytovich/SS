@@ -31,11 +31,15 @@ const formErrorsHandling = (errors, actions) => {
   const formErrors = {};
   const {fields} = errors.data;
 
-  // eslint-disable-next-line guard-for-in,no-restricted-syntax
-  for (const key in fields) {
-    formErrors[key] = errorCodes[fields[key]];
+  if (fields) {
+    // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    for (const key in fields) {
+      formErrors[key] = errorCodes[fields[key]];
+    }
+    actions.setErrors(formErrors);
   }
-  actions.setErrors(formErrors);
+
+  console.log(fields);
 };
 
 const formSubmitHandling = (submitFn, values, actions, onSuccess, onError) => {

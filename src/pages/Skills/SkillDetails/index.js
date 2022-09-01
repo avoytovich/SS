@@ -1,20 +1,21 @@
 import {useParams} from 'react-router-dom';
 import {useFormik, withFormik} from 'formik';
 import {Grid} from '@mui/material';
+import {useSnackbar} from 'notistack';
 
-import {useFetchSkillRequestQuery} from 'services/skillRequests';
+import {useFetchSkillRequestQuery, useApproveSkillRequestsMutation} from 'services/skillRequests';
 import PageLayout from 'components/Common/Layout/PageLayout';
 import Field from 'components/Form/Field';
 import SelectField from 'components/Form/Select';
-
-import {useFetchTagsQuery} from '../../../services/tags';
-import {ButtonContained} from '../../../components/Button';
+import {formSubmitHandling} from 'utils/forms';
+import {useFetchTagsQuery} from 'services/tags';
+import {ButtonContained} from 'components/Button';
 
 import ReviewSkillSchema from './reviewSkillShema';
 
 const SkillDetails = () => {
   const {id} = useParams();
-  console.log(id);
+  const {enqueueSnackbar} = useSnackbar();
 
   const {data: {tags = []} = {}, isLoading: isLoadingTags} = useFetchTagsQuery({});
 
@@ -23,11 +24,23 @@ const SkillDetails = () => {
     isFetching,
     isLoading
   } = useFetchSkillRequestQuery({id: Number(id)});
-  console.log(skill, isLoading, isFetching);
 
-  const handleSubmit = values => {
-    console.log(JSON.stringify(values, null, 2));
-    alert(JSON.stringify(values, null, 2));
+  const [approveSkillRequest] = useApproveSkillRequestsMutation();
+
+  const handleSubmit = (params, actions) => {
+    formSubmitHandling(
+      approveSkillRequest,
+      {...params},
+      actions,
+      () => {
+        enqueueSnackbar(`${skill.name} have successfully approved`);
+      },
+      () => {
+        enqueueSnackbar(`${skill.name} have not approved, please check form fields`, {
+          variant: 'error'
+        });
+      }
+    );
   };
 
   const formik = useFormik({
@@ -42,8 +55,6 @@ const SkillDetails = () => {
     enableReinitialize: true,
     onSubmit: handleSubmit
   });
-
-  console.log(isLoadingTags);
 
   return (
     <PageLayout
@@ -82,8 +93,6 @@ const SkillDetails = () => {
               formik={formik}
               placeholder="Type skill name"
             />
-
-            <button type="submit">Submit</button>
           </form>
         </Grid>
         <Grid item xs={12} md={5} lg={6}>
