@@ -20,6 +20,8 @@ import {
   getSubmitValues
 } from './utils';
 
+// FIX: problem with call this modal
+
 const RejectSkillModal = ({isOpen, skill, onClose}) => {
   const {enqueueSnackbar} = useSnackbar();
   const {profile} = useSelector(state => state.auth);

@@ -36,11 +36,7 @@ const newSkillRequest = () => {
 
   const [approveRequestedSkill] = useApproveRequestedSkillMutation();
 
-  const handleClickReject = () => {
-    rejectModal.toggle();
-  };
-
-  const onCloseReject = () => {
+  const handleModalReject = () => {
     rejectModal.toggle();
   };
 
@@ -107,7 +103,7 @@ const newSkillRequest = () => {
       isBack
       extra={
         <>
-          <ButtonContained onClick={handleClickReject} color="error">
+          <ButtonContained onClick={handleModalReject} color="error">
             Reject
           </ButtonContained>
           <ButtonContained onClick={handleApprove}>Approve</ButtonContained>
@@ -146,9 +142,8 @@ const newSkillRequest = () => {
           <RejectedDetailItem title="Comment" value={skill.comment} />
         </Grid>
       </Grid>
-      <RejectSkillModal isOpen skill={skill} onClose={onCloseReject} />
       {rejectModal.isOpen && skill && (
-        <RejectSkillModal isOpen={rejectModal.isOpen} skill={skill} onClose={onCloseReject} />
+        <RejectSkillModal isOpen={rejectModal.isOpen} skill={skill} onClose={handleModalReject} />
       )}
     </PageLayout>
   );
