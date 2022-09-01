@@ -1,4 +1,4 @@
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import {useFormik, withFormik} from 'formik';
 import {Grid} from '@mui/material';
 import {useSnackbar} from 'notistack';
@@ -9,13 +9,16 @@ import Field from 'components/Form/Field';
 import SelectField from 'components/Form/Select';
 import {formSubmitHandling} from 'utils/forms';
 import {useFetchTagsQuery} from 'services/tags';
-import {ButtonContained} from 'components/Button';
+import {ButtonContained, ButtonOutlined} from 'components/Button';
+
+import routes from '../../../constants/routes';
 
 import ReviewSkillSchema from './reviewSkillShema';
 
 const SkillDetails = () => {
   const {id} = useParams();
   const {enqueueSnackbar} = useSnackbar();
+  const history = useHistory();
 
   const {data: {tags = []} = {}, isLoading: isLoadingTags} = useFetchTagsQuery({});
 
@@ -27,13 +30,29 @@ const SkillDetails = () => {
 
   const [approveSkillRequest] = useApproveSkillRequestsMutation();
 
+  const handleBack = () => {
+    history.push(routes.skills.list);
+  };
+
   const handleSubmit = (params, actions) => {
+    const newValues = [];
+
+    if (params.tags && params.tags.length > 0) {
+      params.tags.map(value => newValues.push(value.id));
+    }
+
+    params.tags = newValues;
+
     formSubmitHandling(
       approveSkillRequest,
-      {...params},
+      {
+        id: skill.id,
+        ...params
+      },
       actions,
       () => {
         enqueueSnackbar(`${skill.name} have successfully approved`);
+        handleBack();
       },
       () => {
         enqueueSnackbar(`${skill.name} have not approved, please check form fields`, {
@@ -44,11 +63,18 @@ const SkillDetails = () => {
   };
 
   const formik = useFormik({
-    initialValues: skill ?? {
-      name: '',
-      description: '',
-      tags: []
-    },
+    initialValues: skill
+      ? {
+          name: skill.name,
+          description: skill.description,
+          comment: skill.comment,
+          tags: skill.tags
+        }
+      : {
+          name: '',
+          description: '',
+          tags: []
+        },
     validateOnBlur: false,
     validateOnChange: false,
     validationSchema: ReviewSkillSchema,
@@ -64,7 +90,7 @@ const SkillDetails = () => {
       extra={
         <>
           <ButtonContained onClick={formik.submitForm}>Save</ButtonContained>
-          <ButtonContained>Cancel</ButtonContained>
+          <ButtonOutlined onClick={handleBack}>Cancel</ButtonOutlined>
         </>
       }
     >

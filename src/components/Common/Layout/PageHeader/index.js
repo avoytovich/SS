@@ -35,7 +35,7 @@ const PageHeader = ({title, subTitle, children, extra, isBack, onBack, rest}) =>
           </Heading>
           {subTitle && <div className="page-header--description">{subTitle}</div>}
         </div>
-        {extra && <div className="page-header--title-wrap--extra">{extra}</div>}
+        {extra && <div className={classes.wrapExtra}>{extra}</div>}
       </Box>
       {children}
     </div>
