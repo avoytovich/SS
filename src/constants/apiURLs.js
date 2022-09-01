@@ -24,8 +24,7 @@ const apiUrls = {
     autocomplete: '/skills/autocomplete',
     requested: '/skill-requests',
     rootWithQueries: query => `/skills/?${query}`,
-    details: id => `/skills/${id}`,
-    rejectedSkill: id => `/skill-requests/${id}/reject`
+    details: id => `/skills/${id}`
   },
   competencies: {
     root: '/competencies'
