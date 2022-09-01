@@ -22,11 +22,7 @@ const RejectedSkillDetails = () => {
       : skill.reject_reason;
 
   return (
-    <PageLayout
-      title={`Rejected ${skill.name} skill`}
-      type="reject-skills-page"
-      isLoading={isLoading || isFetching}
-    >
+    <PageLayout title={`Rejected ${skill.name} skill`} isLoading={isLoading || isFetching}>
       <Grid container spacing={2}>
         <RejectedDetailItem title="Skill name" value={skill.name} lg={6} />
         <RejectedDetailItem title="Proposed by" value={skill.user_full_name} lg={3} />

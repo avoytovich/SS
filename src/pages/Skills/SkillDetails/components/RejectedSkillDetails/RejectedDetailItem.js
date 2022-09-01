@@ -17,7 +17,7 @@ const ChipContainer = ({values}) => {
 };
 
 const RejectedDetailItem = ({title, value, isValueList, ...rest}) => (
-  <Grid item xs={12} md {...rest}>
+  <Grid item xs={12} md={6} {...rest}>
     <StyledRejectedBox mb={2}>
       <Subtitle size="sm" mb={1}>
         {title}
