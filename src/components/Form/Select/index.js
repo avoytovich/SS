@@ -28,11 +28,9 @@ const SelectField = ({
 }) => {
   const classes = useStyles();
 
-  const {touched, errors} = formik;
+  const {errors} = formik;
 
-  console.log(defaultValue);
-
-  const hasError = touched[name] && errors[name];
+  const hasError = errors && errors[name];
 
   const handleChangeField = (event, values) => {
     formik.setFieldError(name, null);
@@ -63,7 +61,7 @@ const SelectField = ({
           <MuiTextField {...param} error={hasError} name="autocomplete" placeholder={placeholder} />
         )}
       />
-      {hasError && <FormHelperText error={hasError}>{errors}</FormHelperText>}
+      {hasError && <FormHelperText error={hasError}>{errors[name]}</FormHelperText>}
     </div>
   );
 };

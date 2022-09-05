@@ -18,10 +18,10 @@ const StyledMuiInput = styled(MuiInput)(({theme}) => ({
   '& .MuiFormHelperText-root': {
     margin: '4px 0 8px'
   },
-  '& .Mui-error': {
-    '& input': {
-      color: theme.palette.error.main,
-      borderColor: theme.palette.error.main
+  '&.Mui-error': {
+    borderColor: theme.palette.error.main,
+    '& input, & textarea': {
+      color: theme.palette.error.main
     }
   },
   '& .MuiOutlinedInput-input': {

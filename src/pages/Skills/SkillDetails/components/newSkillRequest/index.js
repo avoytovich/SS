@@ -120,7 +120,6 @@ const newSkillRequest = () => {
               options={tags}
               defaultValue={formik.values.tags}
               multiple
-              errors={formik.errors.tags}
               placeholder="Choose tags"
               label="Tags"
               formik={formik}
