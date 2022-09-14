@@ -9,28 +9,28 @@ import {ButtonContained, ButtonOutlined} from 'components/Button';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
 import Input from 'components/Common/Form/Input';
 import {formSubmitHandling} from 'utils/forms';
-import {useUpdateTagMutation, useAddTagMutation, getTags} from 'services/tags';
+import {useUpdateGroupMutation, useAddGroupMutation, getGroups} from 'services/groups';
 import {useURLParams} from 'hooks/dataGrid';
 import {defaultPage, pageParamName} from 'constants/dataGrid';
 
-import ModifyTagSchema from './modifyTagShema';
+import ModifyGroupSchema from './modifyGroupShema';
 
-export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
+export default function GroupModal({isOpen, id, groupName, onClose, ...rest}) {
   const dispatch = useDispatch();
   const {enqueueSnackbar} = useSnackbar();
   const {clearQueryParams, isAllParamsEmpty, hasOnlyOneParam, isParamEqualTo} = useURLParams();
-  const [updateTag] = useUpdateTagMutation();
-  const [addTag] = useAddTagMutation();
-  const title = id ? `Edit "${tagName}" tag` : 'Create new tag';
+  const [updateGroup] = useUpdateGroupMutation();
+  const [addGroup] = useAddGroupMutation();
+  const title = id ? `Edit "${groupName}" group` : 'Create new group';
 
   const isFirstPage = useMemo(
     () => hasOnlyOneParam(pageParamName) && isParamEqualTo(pageParamName, defaultPage.toString()),
     [hasOnlyOneParam, isParamEqualTo]
   );
 
-  const fetchTags = useCallback(() => {
+  const fetchGroups = useCallback(() => {
     if (isAllParamsEmpty() || isFirstPage) {
-      dispatch(getTags);
+      dispatch(getGroups);
     }
   }, [isAllParamsEmpty, isFirstPage]);
 
@@ -40,17 +40,17 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
     }
 
     formSubmitHandling(
-      id ? updateTag : addTag,
+      id ? updateGroup : addGroup,
       {...values},
       actions,
       () => {
-        fetchTags();
+        fetchGroups();
         clearQueryParams();
         onClose();
-        enqueueSnackbar('Tag have successfully saved');
+        enqueueSnackbar('Group have successfully saved');
       },
       () => {
-        enqueueSnackbar('Tag have not saved, please check form fields', {variant: 'error'});
+        enqueueSnackbar('Group have not saved, please check form fields', {variant: 'error'});
       }
     );
   };
@@ -63,7 +63,7 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
       onCancel={onClose}
       onSave={onSave}
       title={title}
-      text="Input name of the tag"
+      text="Input name of the group"
       withCustomBtns
       {...rest}
     >
@@ -71,25 +71,25 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
         validateOnBlur={false}
         validateOnChange
         onSubmit={onSave}
-        validationSchema={ModifyTagSchema}
-        initialValues={{name: tagName || ''}}
+        validationSchema={ModifyGroupSchema}
+        initialValues={{name: groupName || ''}}
         enableReinitialize
       >
         {({isSubmitting, isValid, dirty}) => (
           <Form autoComplete="off">
             <Input
               name="name"
-              label="Tag name"
-              placeholder="Type tag name"
+              label="Group name"
+              placeholder="Type group name"
               sx={{marginBottom: '16px'}}
             />
             <DialogActions>
-              <ButtonOutlined data-testid="tag-modal-cancel-btn" onClick={onClose}>
+              <ButtonOutlined data-testid="group-modal-cancel-btn" onClick={onClose}>
                 Cancel
               </ButtonOutlined>
               <ButtonContained
                 type="submit"
-                data-testid="tag-modal-confirm-btn"
+                data-testid="group-modal-confirm-btn"
                 disabled={isSubmitting || !isValid || !dirty}
               >
                 {id ? 'Edit' : 'Create'}
@@ -102,14 +102,14 @@ export default function TagModal({isOpen, id, tagName, onClose, ...rest}) {
   );
 }
 
-TagModal.propTypes = {
+GroupModal.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   name: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-TagModal.defaultProps = {
+GroupModal.defaultProps = {
   id: '',
-  tagName: ''
+  groupName: ''
 };

@@ -23,7 +23,7 @@ function SearchField({value, id, label, minWidth, size, onChange, onClear, ...re
     </IconButton>
   );
 
-  const handleTagSearch = e => onChange(e.target.value);
+  const handleGroupSearch = ({target}) => onChange(target.value);
 
   return (
     <StyledTextField
@@ -32,7 +32,7 @@ function SearchField({value, id, label, minWidth, size, onChange, onClear, ...re
       placeholder={label}
       width={minWidth}
       size={size}
-      onChange={handleTagSearch}
+      onChange={handleGroupSearch}
       value={value}
       {...rest}
       InputProps={{

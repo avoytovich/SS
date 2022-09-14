@@ -19,65 +19,65 @@ import {IconButton} from 'components/Button';
 import usePermissions from 'hooks/permissions';
 import useTable from 'hooks/useTable';
 import {PermissionEnum} from 'constants/permissions';
-import {useDeleteTagMutation, useFetchTagsQuery} from 'services/tags';
+import {useDeleteGroupMutation, useFetchGroupsQuery} from 'services/groups';
 import {useURLParams} from 'hooks/dataGrid';
 import useModal from 'hooks/useModal';
 
-import DeleteTagModal from '../DeleteTagModal';
+import DeleteGroupModal from '../DeleteGroupModal';
 
 const headCells = [
-  {key: 'name', label: 'Tag Name', sortable: true},
+  {key: 'name', label: 'Group Name', sortable: true},
   {key: 'skills_count', label: '# of skills'},
   {key: 'action', label: 'Actions', align: 'right'}
 ];
 
-const TagList = ({onUpdate}) => {
+const GroupList = ({onUpdate}) => {
   const {clearQueryParams} = useURLParams();
   const {hasPermissions} = usePermissions();
   const {page, search, sort, onSearchChange} = useTable();
-  const [deleteTag] = useDeleteTagMutation();
+  const [deleteGroup] = useDeleteGroupMutation();
   const {
     isOpen,
     setIsOpen: setOpenDeleteModal,
-    setValues: setDeleteModalTag,
-    values: selectedTag
+    setValues: setDeleteModalGroup,
+    values: selectedGroup
   } = useModal();
   const {
-    data: {tags = [], pages = 0} = {},
+    data: {groups = [], pages = 0} = {},
     isLoading,
     isError
-  } = useFetchTagsQuery({
+  } = useFetchGroupsQuery({
     ...(page && {page}),
     ...(search && {search}),
     ...(sort && {sort})
   });
   const emptyMessage =
-    isError || search || sort ? 'No tags. Please select other filters' : 'No tags yet';
+    isError || search || sort ? 'No groups. Please select other filters' : 'No groups yet';
 
-  const handleEditTag = tag => {
+  const handleEditTag = group => {
     onUpdate({
-      tagName: tag.name,
-      ...tag
+      groupName: group.name,
+      ...group
     });
   };
 
-  const handleDeleteTag = tag => {
-    setDeleteModalTag(tag);
+  const handleDeleteGroup = group => {
+    setDeleteModalGroup(group);
     setOpenDeleteModal(true);
 
-    if (tags.length === 1) {
+    if (groups.length === 1) {
       clearQueryParams();
     }
   };
 
-  const handleDeleteTagCancel = useCallback(() => {
+  const handleDeleteGroupCancel = useCallback(() => {
     setOpenDeleteModal(false);
   }, [setOpenDeleteModal]);
 
-  const handleDeleteTagConfirm = useCallback(() => {
-    deleteTag({id: selectedTag.id});
+  const handleDeleteGroupConfirm = useCallback(() => {
+    deleteGroup({id: selectedGroup.id});
     setOpenDeleteModal(false);
-  }, [deleteTag, setOpenDeleteModal, selectedTag]);
+  }, [deleteGroup, setOpenDeleteModal, selectedGroup]);
 
   const handleClearSearch = () => {
     onSearchChange('');
@@ -92,29 +92,29 @@ const TagList = ({onUpdate}) => {
       <TableContainer>
         <Box component="form">
           <SearchField
-            id="tag-name-search"
+            id="group-name-search"
             value={search}
             label="Search by name"
             onChange={onSearchChange}
             onClear={handleClearSearch}
           />
         </Box>
-        <Table id="tag-list">
+        <Table id="group-list">
           <TableHead headCells={headCells} />
           <TableBody>
-            {tags.map(tag => (
-              <TableRow key={tag.id}>
-                <TableCell>{tag.name}</TableCell>
-                <TableCell>{tag.skills_count}</TableCell>
+            {groups.map(group => (
+              <TableRow key={group.id}>
+                <TableCell>{group.name}</TableCell>
+                <TableCell>{group.skills_count}</TableCell>
                 <TableCell>
                   <Box display="flex" justifyContent="flex-end">
-                    {hasPermissions([PermissionEnum.TAGS_EDIT]) && (
-                      <IconButton onClick={() => handleEditTag(tag)}>
+                    {hasPermissions([PermissionEnum.GROUPS_EDIT]) && (
+                      <IconButton onClick={() => handleEditTag(group)}>
                         <EditIcon />
                       </IconButton>
                     )}
-                    {hasPermissions([PermissionEnum.TAGS_DELETE]) && (
-                      <IconButton onClick={() => handleDeleteTag(tag)}>
+                    {hasPermissions([PermissionEnum.GROUPS_DELETE]) && (
+                      <IconButton onClick={() => handleDeleteGroup(group)}>
                         <DeleteIcon />
                       </IconButton>
                     )}
@@ -124,21 +124,21 @@ const TagList = ({onUpdate}) => {
             ))}
           </TableBody>
         </Table>
-        {tags.length === 0 && <NoRowsOverlay emptyMessage={emptyMessage} />}
+        {groups.length === 0 && <NoRowsOverlay emptyMessage={emptyMessage} />}
         <TablePagination count={pages} />
       </TableContainer>
-      <DeleteTagModal
-        onCancel={handleDeleteTagCancel}
-        onConfirm={handleDeleteTagConfirm}
+      <DeleteGroupModal
+        onCancel={handleDeleteGroupCancel}
+        onConfirm={handleDeleteGroupConfirm}
         open={isOpen}
-        tag={selectedTag}
+        group={selectedGroup}
       />
     </>
   );
 };
 
-TagList.propTypes = {
+GroupList.propTypes = {
   onUpdate: PropTypes.func.isRequired
 };
 
-export default TagList;
+export default GroupList;

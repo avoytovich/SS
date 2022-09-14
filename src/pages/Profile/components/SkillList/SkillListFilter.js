@@ -10,7 +10,7 @@ import useStyles from '../styles';
 
 const SkillListFilter = ({
   search,
-  tags,
+  groups,
   filterValues,
   onSelect,
   onSearchFilter,
@@ -18,7 +18,7 @@ const SkillListFilter = ({
   onClearSearch
 }) => {
   const classes = useStyles();
-  const options = useMemo(() => getOptions(tags, 'id', 'name'), [tags, getOptions]);
+  const options = useMemo(() => getOptions(groups, 'id', 'name'), [groups, getOptions]);
 
   return (
     <Box component="form" className={classes.filterContainer}>
@@ -31,8 +31,8 @@ const SkillListFilter = ({
       />
       <Autocomplete
         multiple
-        name="tags"
-        label="Tags"
+        name="groups"
+        label="Groups"
         options={options}
         values={filterValues}
         onSelect={onSelect}
@@ -44,7 +44,7 @@ const SkillListFilter = ({
 
 SkillListFilter.propTypes = {
   search: PropTypes.string,
-  tags: PropTypes.arrayOf(PropTypes.object).isRequired,
+  groups: PropTypes.arrayOf(PropTypes.object).isRequired,
   filterValues: PropTypes.arrayOf(PropTypes.object),
   onSelect: PropTypes.func,
   onSearchFilter: PropTypes.func,

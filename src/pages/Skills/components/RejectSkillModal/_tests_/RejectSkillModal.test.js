@@ -10,7 +10,7 @@ jest.mock('react-router-dom', () => ({
     push: jest.fn()
   }),
   useLocation: () => ({
-    pathname: '/tags'
+    pathname: '/groups'
   })
 }));
 

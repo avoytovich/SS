@@ -8,7 +8,7 @@ import NotFound from 'pages/NotFound';
 import Skills from 'pages/Skills';
 import SkillDetails from 'pages/Skills/SkillDetails';
 import Employees from 'pages/Employees';
-import Tags from 'pages/Tags';
+import Group from 'pages/Group';
 import MyProfile from 'pages/Profile';
 import Home from 'pages/Home';
 import SkillSet from 'pages/SkillSet';
@@ -30,8 +30,8 @@ const AppRouter = () => (
     <PrivateRoute path={routes.employees.list} permissions={[PermissionEnum.USERS_LIST]} exact>
       <Employees />
     </PrivateRoute>
-    <PrivateRoute path={routes.tags.list} permissions={[PermissionEnum.TAGS_LIST]} exact>
-      <Tags />
+    <PrivateRoute path={routes.groups.list} permissions={[PermissionEnum.GROUPS_LIST]} exact>
+      <Group />
     </PrivateRoute>
     <PrivateRoute path={routes.profile} permissions={[PermissionEnum.USERS_ME]} exact>
       <MyProfile />

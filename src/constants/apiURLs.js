@@ -12,11 +12,11 @@ const apiUrls = {
     management: '/users/management',
     autocomplete: 'users/autocomplete'
   },
-  tags: {
-    root: '/tags',
-    rootWithQueries: query => `/tags/?${query}`,
-    details: id => `/tags/${id}`,
-    autocomplete: 'tags/autocomplete'
+  groups: {
+    root: '/groups',
+    rootWithQueries: query => `/groups/?${query}`,
+    details: id => `/groups/${id}`,
+    autocomplete: 'groups/autocomplete'
   },
   skills: {
     root: '/skills',

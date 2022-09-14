@@ -12,8 +12,8 @@ const columns = [
     hideable: false
   },
   {
-    field: 'tags',
-    headerName: 'Tag name',
+    field: 'groups',
+    headerName: 'Group name',
     minWidth: 90,
     renderCell: params => <ChipList values={params.value} />,
     flex: 3,

@@ -24,14 +24,14 @@ const api = createApi({
     'SkillRequests',
     'Skills',
     'Specializations',
-    'Tags',
+    'Groups',
     'RecommendedSkills',
     'AutocompleteSkills',
     'ProfileSkills',
     'UserRoles',
     'UserManagements',
     'UsersAutocomplete',
-    'AutocompleteTags',
+    'AutocompleteGroups',
     'RequestedSkills'
   ],
   endpoints: () => ({})

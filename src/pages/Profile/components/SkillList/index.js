@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {Box} from '@mui/material';
 
 import {useFetchProfileSkillsQuery} from 'services/profile';
-import {useFetchAutocompleteTagsQuery} from 'services/tags';
+import {useFetchAutocompleteGroupsQuery} from 'services/groups';
 import {
   useDataGridPagination,
   useDataGridSort,
@@ -10,15 +10,17 @@ import {
   useDataGridSearch
 } from 'hooks/dataGrid';
 import useDataGridFilter from 'hooks/dataGrid/useDataGridFilter';
-import {filterTagParamName} from 'constants/dataGrid';
+import {filterGroupParamName} from 'constants/dataGrid';
 
 import SkillListFilter from './SkillListFilter';
 import SkillTable from './SkillTable';
 import {getFilterByQueryParams, updateFilterParam} from './utils';
 
 export default function SkillList() {
-  const [tagsSearch, setTagsSearch] = useState('');
-  const {data: tags = []} = useFetchAutocompleteTagsQuery({...(tagsSearch && {tagsSearch})});
+  const [groupsSearch, setGroupSearch] = useState('');
+  const {data: groups = []} = useFetchAutocompleteGroupsQuery({
+    ...(groupsSearch && {groupsSearch})
+  });
 
   const {queryParams, updateURLParams} = useURLParams();
   const {sort, sortModel, onSortChange} = useDataGridSort(queryParams, updateURLParams);
@@ -28,8 +30,8 @@ export default function SkillList() {
     queryParams,
     updateURLParams,
     updateFilterParam,
-    filterTagParamName,
-    tags,
+    filterGroupParamName,
+    groups,
     getFilterByQueryParams
   );
 
@@ -38,7 +40,7 @@ export default function SkillList() {
       ...(page && {page}),
       ...(search && {search}),
       ...(sort && {sort}),
-      ...(filter.length > 0 && {tags: filter.map(t => t.id).toString()})
+      ...(filter.length > 0 && {groups: filter.map(t => t.id).toString()})
     }),
     [page, search, sort, filter]
   );
@@ -71,12 +73,12 @@ export default function SkillList() {
     <Box data-testid="profile-skill-list-box">
       <SkillListFilter
         search={search}
-        tags={tags}
+        groups={groups}
         filterValues={filter}
         onSelect={handleSelect}
         onSearch={handleSearch}
         onClearSearch={handleClearFilter}
-        onSearchFilter={setTagsSearch}
+        onSearchFilter={setGroupSearch}
       />
       <SkillTable
         rows={skills}

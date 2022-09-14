@@ -26,7 +26,7 @@ import routes from '../../../../constants/routes';
 
 const headCells = [
   {key: 'name', label: 'Skill name', sortable: true},
-  {key: 'tags', label: 'Tags'},
+  {key: 'groups', label: 'Groups'},
   {key: 'description', label: 'Description'},
   {key: 'action', label: 'Actions', align: 'right'}
 ];
@@ -40,6 +40,7 @@ const RequestedList = ({status}) => {
     ...(search && {search}),
     ...(sort && {sort})
   });
+  const isSkillsEmpty = skills.length === 0;
 
   const handleSearchChange = value => {
     onSearchChange(value);
@@ -71,7 +72,7 @@ const RequestedList = ({status}) => {
             <TableRow key={skill.id}>
               <TableCell maxWidth={300}>{skill.name}</TableCell>
               <TableCell maxWidth={300}>
-                {skill.tags.map(item => (
+                {skill.groups?.map(item => (
                   <ChipOutlined size="small" key={item.name} label={item.name} />
                 ))}
               </TableCell>
@@ -89,7 +90,7 @@ const RequestedList = ({status}) => {
           ))}
         </TableBody>
       </Table>
-      {skills.length === 0 && <NoRowsOverlay />}
+      {isSkillsEmpty && <NoRowsOverlay />}
       <TablePagination count={pages} />
     </TableContainer>
   );

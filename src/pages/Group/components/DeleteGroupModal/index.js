@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Typography from 'components/Typography/components/Typography';
 import {DialogConfirm} from 'components/Dialog';
 
-const DeleteTagModal = ({onCancel, onConfirm, open, tag}) => (
+const DeleteGroupModal = ({onCancel, onConfirm, open, group}) => (
   <DialogConfirm
     confirmButtonContent="Delete"
     onCancel={onCancel}
@@ -13,20 +13,22 @@ const DeleteTagModal = ({onCancel, onConfirm, open, tag}) => (
     severity="error"
     title="Are you sure?"
   >
-    <Typography>{tag?.name ? `Would you like to remove "${tag.name}" tag?` : null}</Typography>
+    <Typography>
+      {group?.name ? `Would you like to remove "${group.name}" group?` : null}
+    </Typography>
   </DialogConfirm>
 );
 
-DeleteTagModal.proTypes = {
+DeleteGroupModal.proTypes = {
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   open: PropTypes.bool,
-  tag: PropTypes.shape({name: PropTypes.string})
+  group: PropTypes.shape({name: PropTypes.string})
 };
 
-DeleteTagModal.defaultProps = {
+DeleteGroupModal.defaultProps = {
   open: false,
-  tag: null
+  group: null
 };
 
-export default React.memo(DeleteTagModal);
+export default React.memo(DeleteGroupModal);

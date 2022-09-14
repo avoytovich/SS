@@ -3,8 +3,8 @@ const routes = {
   login: '/login',
   profile: '/profile',
   skillSet: '/skill-set',
-  tags: {
-    list: '/tags'
+  groups: {
+    list: '/groups'
   },
   skills: {
     list: '/skills',

@@ -41,7 +41,7 @@ function ButtonGroupBasic(props) {
   const {children, position, ...restProps} = props;
 
   return (
-    <StyledButtonGroupBasic classNames={position} {...restProps}>
+    <StyledButtonGroupBasic classnames={position} {...restProps}>
       {children}
     </StyledButtonGroupBasic>
   );
