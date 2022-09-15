@@ -33,7 +33,7 @@ const Group = () => {
 
   const extraButtons = hasPermissions([PermissionEnum.GROUPS_CREATE]) ? (
     <ButtonContained data-testid="group-page-create-btn" onClick={onCreateTag}>
-      Create new tag
+      Create new group
     </ButtonContained>
   ) : null;
 
