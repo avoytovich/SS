@@ -60,7 +60,7 @@ const skillsApi = api.injectEndpoints({
 });
 
 export const getSkills = {
-  type: `${skillsApi.reducerPath}/invalidateTags`,
+  type: `${skillsApi.reducerPath}/invalidateGroups`,
   payload: ['Skills']
 };
 

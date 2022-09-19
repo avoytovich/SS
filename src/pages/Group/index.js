@@ -6,10 +6,10 @@ import usePermissions from 'hooks/permissions';
 import {PermissionEnum} from 'constants/permissions';
 import {ButtonContained} from 'components/Button';
 
-import TagModal from './components/TagModal';
-import TagList from './components/TagList';
+import GroupModal from './components/GroupModal';
+import GroupList from './components/GroupList';
 
-const Tags = () => {
+const Group = () => {
   const {hasPermissions} = usePermissions();
   const {isOpen, values, setIsOpen, setValues} = useModal();
 
@@ -23,26 +23,26 @@ const Tags = () => {
     setIsOpen(true);
   };
 
-  const onSaveOrUpdateTag = tagValues => {
-    if (tagValues) {
-      setValues(tagValues);
+  const onSaveOrUpdateGroup = groupValues => {
+    if (groupValues) {
+      setValues(groupValues);
     }
 
     setIsOpen(true);
   };
 
-  const extraButtons = hasPermissions([PermissionEnum.TAGS_CREATE]) ? (
-    <ButtonContained data-testid="tag-page-create-btn" onClick={onCreateTag}>
-      Create new tag
+  const extraButtons = hasPermissions([PermissionEnum.GROUPS_CREATE]) ? (
+    <ButtonContained data-testid="group-page-create-btn" onClick={onCreateTag}>
+      Create new group
     </ButtonContained>
   ) : null;
 
   return (
-    <PageLayout title="Tags" extra={extraButtons}>
-      <TagList onUpdate={onSaveOrUpdateTag} />
-      {isOpen && <TagModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
+    <PageLayout title="Groups" extra={extraButtons}>
+      <GroupList onUpdate={onSaveOrUpdateGroup} />
+      {isOpen && <GroupModal isOpen={isOpen} onClose={onCloseModal} {...values} />}
     </PageLayout>
   );
 };
 
-export default Tags;
+export default Group;

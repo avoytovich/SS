@@ -24,7 +24,7 @@ const RejectedSkillDetails = () => {
         <RejectedDetailItem title="Proposed by" value={skill.user_full_name} lg={3} />
         <RejectedDetailItem title="Rejected by" value={skill.reviewer_full_name} lg={3} />
 
-        <RejectedDetailItem title="Tags" value={skill.tags} isValueList lg={6} />
+        <RejectedDetailItem title="Groups" value={skill.groups} isValueList lg={6} />
         <RejectedDetailItem title="Proposed at" value={formatDate(skill.created_at)} lg={3} />
         <RejectedDetailItem title="Rejected at" value={formatDate(skill.updated_at)} lg={3} />
 

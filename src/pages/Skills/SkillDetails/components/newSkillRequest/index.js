@@ -8,7 +8,7 @@ import PageLayout from 'components/Common/Layout/PageLayout';
 import Field from 'components/Form/Field';
 import SelectField from 'components/Form/Select';
 import {formSubmitHandling} from 'utils/forms';
-import {useFetchTagsQuery} from 'services/tags';
+import {useFetchGroupsQuery} from 'services/groups';
 import {ButtonContained} from 'components/Button';
 import routes from 'constants/routes';
 
@@ -26,7 +26,7 @@ const newSkillRequest = () => {
   const history = useHistory();
   const rejectModal = useModal();
 
-  const {data: {tags = []} = {}, isLoading: isLoadingTags} = useFetchTagsQuery({});
+  const {data: {groups = []} = {}, isLoading: isLoadingTags} = useFetchGroupsQuery({});
 
   const {
     data: {data: skill = {}} = {},
@@ -47,11 +47,11 @@ const newSkillRequest = () => {
   const handleSubmit = (params, actions) => {
     const newValues = [];
 
-    if (params.tags && params.tags.length > 0) {
-      params.tags.map(value => newValues.push(value.id));
+    if (params.groups && params.groups.length > 0) {
+      params.groups.map(value => newValues.push(value.id));
     }
 
-    params.tags = newValues;
+    params.groups = newValues;
 
     formSubmitHandling(
       approveRequestedSkill,
@@ -78,12 +78,12 @@ const newSkillRequest = () => {
           name: skill.name,
           description: skill.description,
           comment: skill.comment,
-          tags: skill.tags
+          groups: skill.groups
         }
       : {
           name: '',
           description: '',
-          tags: []
+          groups: []
         },
     validateOnBlur: false,
     validateOnChange: false,
@@ -116,12 +116,12 @@ const newSkillRequest = () => {
             <Field name="name" label="Skill name" formik={formik} placeholder="Type skill name" />
 
             <SelectField
-              name="tags"
-              options={tags}
-              defaultValue={formik.values.tags}
+              name="groups"
+              options={groups}
+              defaultValue={formik.values.groups}
               multiple
-              placeholder="Choose tags"
-              label="Tags"
+              placeholder="Choose groups"
+              label="Groups"
               formik={formik}
             />
 

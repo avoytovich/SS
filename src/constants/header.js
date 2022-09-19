@@ -10,10 +10,10 @@ const navigationLinks = [
     exact: true
   },
   {
-    pathName: routes.tags.list,
-    linkName: 'Tags',
-    key: 'tags',
-    permissions: [PermissionEnum.TAGS_LIST],
+    pathName: routes.groups.list,
+    linkName: 'Groups',
+    key: 'groups',
+    permissions: [PermissionEnum.GROUPS_LIST],
     exact: true
   },
   {

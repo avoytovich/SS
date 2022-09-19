@@ -5,13 +5,13 @@ import {UserRoleEnum} from './userRoles';
  * The scopes shall be aligned with backend
  */
 export const PermissionEnum = {
-  // Tags page (admin page)
+  // Groups page (admin page)
 
-  TAGS_CREATE: 'app.tags.create',
-  TAGS_DELETE: 'app.tags.delete',
-  TAGS_EDIT: 'app.tags.edit',
-  TAGS_LIST: 'app.tags.list',
-  TAGS_DETAILS: 'app.tags.read',
+  GROUPS_CREATE: 'app.groups.create',
+  GROUPS_DELETE: 'app.groups.delete',
+  GROUPS_EDIT: 'app.groups.edit',
+  GROUPS_LIST: 'app.groups.list',
+  GROUPS_DETAILS: 'app.groups.read',
 
   // Skills page (admin page)
 
@@ -48,11 +48,11 @@ export const PermissionEnum = {
 export const USER_ROLES_PERMISSIONS = {
   [UserRoleEnum.GUEST]: [],
   [UserRoleEnum.ADMIN]: [
-    PermissionEnum.TAGS_CREATE,
-    PermissionEnum.TAGS_DELETE,
-    PermissionEnum.TAGS_EDIT,
-    PermissionEnum.TAGS_LIST,
-    PermissionEnum.TAGS_DETAILS,
+    PermissionEnum.GROUPS_CREATE,
+    PermissionEnum.GROUPS_DELETE,
+    PermissionEnum.GROUPS_EDIT,
+    PermissionEnum.GROUPS_LIST,
+    PermissionEnum.GROUPS_DETAILS,
     PermissionEnum.SKILLS_CREATE,
     PermissionEnum.SKILLS_DELETE,
     PermissionEnum.SKILLS_EDIT,
@@ -71,11 +71,11 @@ export const USER_ROLES_PERMISSIONS = {
     PermissionEnum.USERS_MANAGMENT_DELETE
   ],
   [UserRoleEnum.MODERATOR]: [
-    PermissionEnum.TAGS_CREATE,
-    PermissionEnum.TAGS_DELETE,
-    PermissionEnum.TAGS_EDIT,
-    PermissionEnum.TAGS_LIST,
-    PermissionEnum.TAGS_DETAILS,
+    PermissionEnum.GROUPS_CREATE,
+    PermissionEnum.GROUPS_DELETE,
+    PermissionEnum.GROUPS_EDIT,
+    PermissionEnum.GROUPS_LIST,
+    PermissionEnum.GROUPS_DETAILS,
     PermissionEnum.SKILLS_CREATE,
     PermissionEnum.SKILLS_DELETE,
     PermissionEnum.SKILLS_EDIT,
@@ -93,7 +93,7 @@ export const USER_ROLES_PERMISSIONS = {
   [UserRoleEnum.MANAGER]: [
     PermissionEnum.SKILLS_LIST,
     PermissionEnum.SKILLS_DETAILS,
-    PermissionEnum.TAGS_LIST,
+    PermissionEnum.GROUPS_LIST,
     PermissionEnum.SKILLSSET_LIST,
     PermissionEnum.SKILLSSET_CREATE,
     PermissionEnum.SKILLSSET_DELETE,

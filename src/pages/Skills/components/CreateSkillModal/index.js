@@ -4,7 +4,7 @@ import {Formik, Form} from 'formik';
 import {useDispatch} from 'react-redux';
 import {useSnackbar} from 'notistack';
 
-import {useFetchTagsQuery} from 'services/tags';
+import {useFetchGroupsQuery} from 'services/groups';
 import {useUpdateSkillMutation, useAddSkillMutation, getSkills} from 'services/skills';
 import {useURLParams} from 'hooks/dataGrid';
 import {diffFormValues, formSubmitHandling} from 'utils/forms';
@@ -27,11 +27,11 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
     useUpdateSkillMutation();
   const [addSkill, {isLoading: isAddLoading, isSuccess: isAddSuccess}] = useAddSkillMutation();
 
-  const {data: {tags = []} = {}} = useFetchTagsQuery({});
+  const {data: {groups = []} = {}} = useFetchGroupsQuery({});
 
   const title = isEdit ? 'Edit skill' : 'Create new skill';
 
-  const initialState = isEdit ? {...skill} : {name: '', description: '', tags: []};
+  const initialState = isEdit ? {...skill} : {name: '', description: '', groups: []};
 
   useEffect(() => {
     if (isUpdateSuccess || isAddSuccess) {
@@ -54,9 +54,9 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
     const newValues = [];
     const values = diffFormValues(initialState, {...params});
 
-    if (values.tags && values.tags.length > 0) {
-      values.tags.map(value => newValues.push(value.id));
-      values.tags = newValues;
+    if (values.groups && values.groups.length > 0) {
+      values.groups.map(value => newValues.push(value.id));
+      values.groups = newValues;
     }
 
     if (isEdit) {
@@ -100,12 +100,12 @@ const CreateSkillModal = ({isOpen, skill, onClose}) => {
           <Form autoComplete="off">
             <Input name="name" label="Name" placeholder="Type skill name" />
             <SelectField
-              name="tags"
-              label="Tags"
-              options={tags}
+              name="groups"
+              label="Groups"
+              options={groups}
               multiple
               errors={errors}
-              placeholder="Choose tags"
+              placeholder="Choose groups"
             />
             <Input
               name="description"

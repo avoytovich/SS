@@ -6,7 +6,7 @@ import {Form, Formik} from 'formik';
 import {DialogActions} from '@mui/material';
 
 import {useAddSkillRequestsMutation} from 'services/skillRequests';
-import {useFetchTagsQuery} from 'services/tags';
+import {useFetchGroupsQuery} from 'services/groups';
 import {formSubmitHandling} from 'utils/forms';
 import Input from 'components/Common/Form/Input';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
@@ -19,12 +19,12 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
   const {id} = useSelector(state => state.auth.profile);
   const [addSkillRequests, {isLoading}] = useAddSkillRequestsMutation();
   const {enqueueSnackbar} = useSnackbar();
-  const {data: {tags = []} = {}} = useFetchTagsQuery({});
+  const {data: {groups = []} = {}} = useFetchGroupsQuery({});
 
   const onSave = (values, actions) => {
     formSubmitHandling(
       addSkillRequests,
-      {...values, tags: values.tags.map(value => value.id), users_id: id},
+      {...values, groups: values.groups.map(value => value.id), users_id: id},
       actions,
       () => {
         onClose();
@@ -64,11 +64,11 @@ export default function SkillSetModal({isOpen, onClose, ...rest}) {
               sx={{marginBottom: '16px'}}
             />
             <SelectField
-              name="tags"
-              label="Tags"
-              options={tags}
+              name="groups"
+              label="Groups"
+              options={groups}
               multiple
-              placeholder="Choose tags"
+              placeholder="Choose group"
               errors={errors}
             />
             <Input

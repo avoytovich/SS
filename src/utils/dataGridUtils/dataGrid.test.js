@@ -7,7 +7,7 @@ import {
 } from 'utils/dataGridUtils';
 import {ASC, DESC} from 'constants/dataGrid';
 
-describe('TagList utils', () => {
+describe('GroupList utils', () => {
   describe('setURLSearchParams', () => {
     const paramName = 'search';
     const query = `?${paramName}=test`;

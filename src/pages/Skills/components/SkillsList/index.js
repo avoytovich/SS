@@ -25,13 +25,13 @@ import {Box} from 'components/Box';
 import {IconButton} from 'components/Button';
 import {DeleteIcon, EditIcon} from 'components/Icons';
 import CustomizedDialogs from 'components/Modals/CustomizedDialogs';
-import {useFetchAutocompleteTagsQuery} from 'services/tags';
+import {useFetchAutocompleteGroupsQuery} from 'services/groups';
 import Autocomplete from 'components/Autocomplete';
 import {getOptions} from 'utils/dataGridUtils';
 
 const headCells = [
   {key: 'name', label: 'Skill name', sortable: true},
-  {key: 'tags', label: 'Tags'},
+  {key: 'groups', label: 'Groups'},
   {key: 'engineers_count', label: '#Engineers', sortable: true},
   {key: 'action', label: 'Actions', align: 'right'}
 ];
@@ -43,21 +43,23 @@ const SkillsList = ({onChanges}) => {
   const {hasPermissions} = usePermissions();
   const {clearQueryParams} = useURLParams();
   const {page, search, sort, onSearchChange, onFilterChange, getFilterValue} = useTable();
-  const tagFilters = getFilterValue('tags');
+  const groupFilters = getFilterValue('groups');
   const [deleteSkill] = useDeleteSkillMutation();
-  const {data: tags = []} = useFetchAutocompleteTagsQuery();
+  const {data: groups = []} = useFetchAutocompleteGroupsQuery();
   const {data: {skills = [], pages = 0} = {}, isLoading} = useFetchSkillsQuery({
     ...(page && {page}),
     ...(search && {search}),
     ...(sort && {sort}),
-    ...(tagFilters.length > 0 && {tags: tagFilters.toString()})
+    ...(groupFilters.length > 0 && {groups: groupFilters.toString()})
   });
-  const tagOptions = getOptions(tags, 'id', 'name');
-  const selectedTagOptions = getOptions(
-    tags.filter(t => tagFilters.includes(t.id)),
+  const groupOptions = getOptions(groups, 'id', 'name');
+  const selectedGroupOptions = getOptions(
+    groups.filter(t => groupFilters.includes(t.id)),
     'id',
     'name'
   );
+
+  const isSkillsEmpty = skills.length === 0;
 
   const handleSkillSearch = value => {
     onSearchChange(value);
@@ -97,10 +99,10 @@ const SkillsList = ({onChanges}) => {
       });
   };
 
-  const onSelectTags = selectedTags => {
-    const selectedTagIds = selectedTags.map(v => v.id);
+  const onSelectGroups = selectedGroups => {
+    const selectedGroupIds = selectedGroups.map(v => v.id);
 
-    onFilterChange('tags', selectedTagIds);
+    onFilterChange('groups', selectedGroupIds);
   };
 
   if (isLoading) {
@@ -121,11 +123,11 @@ const SkillsList = ({onChanges}) => {
           />
           <Autocomplete
             multiple
-            name="tags"
-            label="Tags"
-            options={tagOptions}
-            values={selectedTagOptions}
-            onSelect={onSelectTags}
+            name="groups"
+            label="Groups"
+            options={groupOptions}
+            values={selectedGroupOptions}
+            onSelect={onSelectGroups}
           />
         </FilterContainer>
         <Table id="requested-skill-list">
@@ -135,7 +137,7 @@ const SkillsList = ({onChanges}) => {
               <TableRow key={skill.id}>
                 <TableCell maxWidth={300}>{skill.name}</TableCell>
                 <TableCell maxWidth={400}>
-                  {skill.tags.map(item => (
+                  {skill.groups?.map(item => (
                     <ChipOutlined size="small" key={item.name} label={item.name} />
                   ))}
                 </TableCell>
@@ -158,7 +160,7 @@ const SkillsList = ({onChanges}) => {
             ))}
           </TableBody>
         </Table>
-        {skills.length === 0 && <NoRowsOverlay />}
+        {isSkillsEmpty && <NoRowsOverlay />}
         <TablePagination count={pages} />
       </TableContainer>
       {confirmModal.isOpen && (
