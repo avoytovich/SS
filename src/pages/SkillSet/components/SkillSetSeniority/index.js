@@ -106,10 +106,10 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
           </Grid>
           <Grid item xs={12}>
             <SeniorityGroup
-              isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.BASIC}
+              isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.BEGINNER}
               selectedSkills={selectedSkills}
-              name={SKILLS_LEVELS.BASIC}
-              skills={skills[SKILLS_LEVELS.BASIC]}
+              name={SKILLS_LEVELS.BEGINNER}
+              skills={skills[SKILLS_LEVELS.BEGINNER]}
               onDeleteSkill={handleDeleteSkill}
               onSelectSkill={handleSelectSkill}
               onClickGroup={handleClickOnGroup}
@@ -126,10 +126,10 @@ const SkillSetSeniority = ({initialSkillsSet}) => {
             </Subtitle>
           </BoxSubtitle>
           <SeniorityGroup
-            isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.INTERMEDIATE}
+            isCanToMoved={selectedGroup && selectedGroup !== SKILLS_LEVELS.COMPETENT}
             selectedSkills={selectedSkills}
-            name={SKILLS_LEVELS.INTERMEDIATE}
-            skills={skills[SKILLS_LEVELS.INTERMEDIATE]}
+            name={SKILLS_LEVELS.COMPETENT}
+            skills={skills[SKILLS_LEVELS.COMPETENT]}
             onDeleteSkill={handleDeleteSkill}
             onSelectSkill={handleSelectSkill}
             onClickGroup={handleClickOnGroup}

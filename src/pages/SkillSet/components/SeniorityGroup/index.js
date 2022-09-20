@@ -18,7 +18,7 @@ const SeniorityGroup = ({
   const handleDeleteSkill = skill => {
     if (onDeleteSkill) onDeleteSkill(name, skill);
   };
-
+  console.log('SKILLS: ', skills);
   const handleSelectSkill = skill => {
     if (onSelectSkill) onSelectSkill(name, skill);
   };

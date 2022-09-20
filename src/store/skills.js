@@ -3,8 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 import {SKILLS_LEVELS} from '../constants/common';
 
 const initialState = {
-  [SKILLS_LEVELS.BASIC]: [],
-  [SKILLS_LEVELS.INTERMEDIATE]: [],
+  [SKILLS_LEVELS.BEGINNER]: [],
+  [SKILLS_LEVELS.COMPETENT]: [],
   [SKILLS_LEVELS.ADVANCED]: [],
   senioritySkills: [],
   allSkillsID: []
@@ -29,12 +29,12 @@ const skillsSlice = createSlice({
       state[to] = moved;
     },
     setInitialSkillsSet: (state, {payload}) => {
-      state[SKILLS_LEVELS.BASIC] = payload[SKILLS_LEVELS.BASIC];
+      state[SKILLS_LEVELS.BEGINNER] = payload[SKILLS_LEVELS.BEGINNER];
       state[SKILLS_LEVELS.ADVANCED] = payload[SKILLS_LEVELS.ADVANCED];
-      state[SKILLS_LEVELS.INTERMEDIATE] = payload[SKILLS_LEVELS.INTERMEDIATE];
+      state[SKILLS_LEVELS.COMPETENT] = payload[SKILLS_LEVELS.COMPETENT];
     },
     setBasicSkills: (state, {payload}) => {
-      state[SKILLS_LEVELS.BASIC] = [...state[SKILLS_LEVELS.BASIC], payload];
+      state[SKILLS_LEVELS.BEGINNER] = [...state[SKILLS_LEVELS.BEGINNER], payload];
     }
   }
 });
