@@ -24,7 +24,7 @@ export const SKILLS_LEVELS = {
 };
 
 export const SKILLS_LEVELS_NAMES = {
-  BASIC: 'Basic',
+  BASIC: 'Beginner',
   INTERMEDIATE: 'Intermediate',
   ADVANCED: 'Advanced'
 };
