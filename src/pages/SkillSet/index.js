@@ -43,8 +43,8 @@ function SkillSet() {
 
   const handleSubmitSkills = () => {
     const values = {
-      basic: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.BASIC]),
-      intermediate: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.INTERMEDIATE]),
+      beginner: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.BEGINNER]),
+      competent: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.COMPETENT]),
       advanced: ArrayObjsToArrayIds(allSkills[SKILLS_LEVELS.ADVANCED])
     };
 

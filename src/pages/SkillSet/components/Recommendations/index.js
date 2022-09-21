@@ -24,9 +24,9 @@ const StyledBox = styled(Box)(({theme}) => ({
 export default function RecommendationSkills({onSelectSkill}) {
   const allSkills = useSelector(state => state.skills);
   const senioritySkills = [
-    ...allSkills[SKILLS_LEVELS.BASIC],
+    ...allSkills[SKILLS_LEVELS.BEGINNER],
     ...allSkills[SKILLS_LEVELS.ADVANCED],
-    ...allSkills[SKILLS_LEVELS.INTERMEDIATE]
+    ...allSkills[SKILLS_LEVELS.COMPETENT]
   ];
 
   const {data: skills = []} = useFetchRecommendedSkillsQuery(undefined, {
