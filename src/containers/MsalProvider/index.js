@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback, useContext} from 'react';
 import * as msal from '@azure/msal-browser';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {setAuthData, setProfilePhoto} from 'store/auth';
@@ -38,6 +38,7 @@ function callMSGraph(endpoint, token, callback) {
 
 export const MsalProvider = ({children, config}) => {
   const dispatch = useDispatch();
+  const authData = useSelector(state => state.auth?.authData);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [initialPath, setInitialPath] = useState();
   const [publicClient, setPublicClient] = useState();
@@ -54,37 +55,46 @@ export const MsalProvider = ({children, config}) => {
 
     setPublicClient(pc);
 
-    pc.handleRedirectPromise()
-      .then(response => {
-        setLoading(false);
-        if (response) {
-          const usr = pc.getAccountByUsername(response?.account?.username);
-          dispatch(setAuthData(usr));
+    if (Session.get('auth')) {
+      const usr = pc.getAccountByUsername(authData.username);
+      dispatch(setAuthData(usr));
+      setIsAuthenticated(true);
+    } else {
+      pc.handleRedirectPromise()
+        .then(response => {
+          setLoading(false);
+          if (response) {
+            const usr = pc.getAccountByUsername(response?.account?.username);
+            dispatch(setAuthData(usr));
 
-          if (response.accessToken) {
-            callMSGraph(graphConfig.graphMePhotoEndpoint, response.accessToken, data => {
-              const TYPED_ARRAY = new Uint8Array(data);
-              const STRING_CHAR = String.fromCharCode.apply(null, TYPED_ARRAY);
-              const base64String = btoa(STRING_CHAR);
-              dispatch(setProfilePhoto(`data:image/*;base64, ${base64String}`));
-            });
+            if (response.accessToken) {
+              callMSGraph(graphConfig.graphMePhotoEndpoint, response.accessToken, data => {
+                const TYPED_ARRAY = new Uint8Array(data);
+                const STRING_CHAR = String.fromCharCode.apply(null, TYPED_ARRAY);
+                const base64String = btoa(STRING_CHAR);
+                dispatch(setProfilePhoto(`data:image/*;base64, ${base64String}`));
+              });
 
-            Session.set(response.accessToken);
-            const path = Session.get(INIT_PAGE);
+              Session.set(response.accessToken);
+              const path = Session.get(INIT_PAGE);
 
-            setInitialPath(path);
-            Session.set(INIT_PAGE, null);
-            setIsAuthenticated(true);
+              setInitialPath(path);
+              Session.set(INIT_PAGE, null);
+              setIsAuthenticated(true);
+            }
+          } else {
+            pc.loginRedirect(loginScope);
           }
-        } else {
-          pc.loginRedirect(loginScope);
-        }
-      })
-      .catch(error => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        setLoginError(error);
-      });
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+          setLoginError(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
 
     if (pc.getAccountByUsername()) {
       const usr = pc.getAccountByUsername();
