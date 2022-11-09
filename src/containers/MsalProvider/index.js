@@ -90,6 +90,9 @@ export const MsalProvider = ({children, config}) => {
           // eslint-disable-next-line no-console
           console.log(error);
           setLoginError(error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
 
