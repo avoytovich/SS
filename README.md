@@ -9,6 +9,8 @@ Smart Skills React web application
 
 ENV variables described in `.env.example`
 
+Added temporary variable REACT_APP_MSAL_DISABLE to disable login in CCO
+
 ## Development
 
 Provide environment variables into `.env` file (see `.env.example`)

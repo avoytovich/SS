@@ -21,10 +21,17 @@ ReactDOM.render(
       <PersistGate loading={null} persistor={persistor}>
         <HelmetProvider>
           <SnackbarProviderWrapper>
-            <MsalProvider config={MSAL_CONFIG}>
-              <CssBaseline />
-              <App />
-            </MsalProvider>
+            {process.env.REACT_APP_MSAL_DISABLE !== 'true' ? (
+                <MsalProvider config={MSAL_CONFIG}>
+                  <CssBaseline />
+                  <App />
+                </MsalProvider>
+            ) : (
+                <section>
+                  <CssBaseline />
+                  <App />
+                </section>
+            )}
           </SnackbarProviderWrapper>
         </HelmetProvider>
       </PersistGate>
