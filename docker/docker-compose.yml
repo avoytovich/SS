@@ -1,0 +1,35 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  frontend:
+    container_name: smart-skills-fr
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: smart-skills-fr-app
+    volumes:
+      - ./../:/app
+    working_dir: /app
+    networks:
+      frontend:
+        ipv4_address: 172.20.0.2
+    ports:
+      - target: 3000
+        host_ip: 127.0.0.1
+        published: 3000
+        protocol: tcp
+        mode: host
+    command: /usr/local/bin/npm run start
+    restart: always
+
+networks:
+  frontend:
+    name: smartskills-external
+    driver: bridge
+    external: true
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+        - gateway: 172.20.0.1
