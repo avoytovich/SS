@@ -9,7 +9,7 @@ const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL_PREFIXES.PREFIX_BASE_URL,
     prepareHeaders: headers => {
-      const token = Session.get();
+      const token = process.env.REACT_APP_MSAL_DISABLE !== 'true' ? Session.get() : 'fake-token';
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }

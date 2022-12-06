@@ -9,6 +9,8 @@ Smart Skills React web application
 
 ENV variables described in `.env.example`
 
+Added temporary variable REACT_APP_MSAL_DISABLE to disable login in CCO
+
 ## Development
 
 Provide environment variables into `.env` file (see `.env.example`)
@@ -77,6 +79,43 @@ npm run build
 ```
 
 - Build will be in `./build` folder
+
+### Local deployment with Docker
+
+The "./docker" directory contains "docker-compose.yml" and "Dockerfile", as well as the "./docker/bin" directory, which contains scripts for launching the external network and Frontend docker container.
+
+#### (The scripts are written taking into account that you are running on Linux or MacOS and the executable docker file is located along the path "/usr/local/bin". If this is not the case, edit the files in the "./docker/bin" directory to reflect your paths)
+
+
+Create the external network first:
+
+```shell
+./docker/bin/network-create.sh
+```
+
+Build containers:
+
+```shell
+./docker/bin/docker-build.sh
+```
+
+Start containers:
+
+```shell
+./docker/bin/docker-up.sh
+```
+
+Enter to backend console;
+
+```shell
+./docker/bin/docker-console.sh
+```
+
+After the done actions, the backend will be available to you at the address:
+
+```shell
+http://localhost:8000/docs
+```
 
 ## Learn More
 
