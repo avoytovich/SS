@@ -38,7 +38,8 @@ const skillsApi = api.injectEndpoints({
         url: apiUrls.skills.root,
         method: 'POST',
         body: params
-      })
+      }),
+      invalidatesTags: ['Skills']
     }),
 
     updateSkill: builder.mutation({
