@@ -57,9 +57,6 @@ dependency:
   # <<: *security_run_definition
   stage: security
   image: node:14.15.0
-  only:
-    refs:
-      - develop
   script:
     - echo ****** Check 3rd party lib.
     - npm install -g @appthreat/cdxgen
@@ -68,9 +65,6 @@ dependency:
 issues_sync:
   # <<: *security_run_definition
   stage: issues_sync
-  only:
-    refs:
-      - develop
   image: ${CI_REGISTRY}/to/coverity_scanner:${COVERITY_VERSION}
   before_script:
    - export COVERITY_BIN_DIR="$(find /opt/coverity/analysis -maxdepth 2 -type d -name "bin" -print)"
