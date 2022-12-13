@@ -1,6 +1,6 @@
-.security_run_rule: &security_run_definition
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+# .security_run_rule: &security_run_definition
+#   rules:
+#     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
 
 secret_detection:
   # <<: *security_run_definition
