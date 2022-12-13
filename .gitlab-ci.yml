@@ -5,6 +5,7 @@ stages:
   - quality
   - test
   - security
+  - issues_sync
   - publish
   - deploy
 
