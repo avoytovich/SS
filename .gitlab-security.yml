@@ -1,0 +1,85 @@
+.security_run_rule: &security_run_definition
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+
+secret_detection:
+  <<: *security_run_definition
+  variables:
+    SECRET_DETECTION_HISTORIC_SCAN: "true"
+  artifacts:
+    reports:
+      secret_detection: gl-secret-detection-report.json
+    # this is the way to make artifacts appear 
+    paths:
+      - gl-secret-detection-report.json
+    expire_in: 1 day  
+  allow_failure: true
+
+container_scanning:
+  stage: security
+  variables:
+    DOCKER_IMAGE: $CONTAINER_RELEASE_IMAGE
+  allow_failure: true
+
+coverity_full:
+  <<: *security_run_definition
+  stage: security
+  image: ${CI_REGISTRY}/to/coverity_scanner:${COVERITY_VERSION}
+  variables:
+    DOCKER_AUTH_CONFIG: '{"auths":{"registry.logika.com":{"auth":"${DOCKER_AUTH_CONFIG_HASH}"}}}'
+  before_script:
+    - export COVERITY_BIN_DIR="$(find /opt/coverity/analysis -maxdepth 2 -type d -name "bin" -print)"
+    - export COVERITY_IDIR="$(mktemp -d)/$CI_PROJECT_NAME"
+    - export COVERITY_CLI_CONNECT_USERNAME=${COVERITY_USERNAME}
+    - export COVERITY_CLI_CONNECT_PASSWORD=${COVERITY_TOKEN}
+    - install -m 400 <(echo ${COVERITY_AUTH_KEY_FILE}) $COVERITY_BIN_DIR/key
+    - sed -i 's@PUT_THE_LICENSE_KEY_HERE@'"$COVERITY_LICENSE_KEY"'@' ${COVERITY_BIN_DIR}/license.dat
+  script:
+    - >
+      cov-capture --dir ${COVERITY_IDIR}
+      --return-emit-failures
+      --delete-stale-tus
+      --source-dir ${CI_PROJECT_DIR}
+      --language javascript
+      --language typescript
+    - >
+      cov-analyze --dir ${COVERITY_IDIR}
+      --strip-path ${CI_PROJECT_DIR}
+    - >
+      cov-commit-defects --dir ${COVERITY_IDIR} 
+      --url $COVERITY_URL
+      --stream $CI_PROJECT_NAME
+      --auth-key-file $COVERITY_BIN_DIR/key
+      --ticker-mode none
+
+dependency:
+  <<: *security_run_definition
+  stage: security
+  image: node:14.15.0
+  only:
+    refs:
+      - develop
+  script:
+    - echo ****** Check 3rd party lib.
+    - npm install -g @appthreat/cdxgen
+    - cdxgen --required-only -r -o bom.json --server-url https://de-dependency.lohika.com --api-key ${DEP_API_KEY} --project-id ${DEP_PROJECT_ID}
+
+issues_sync:
+  <<: *security_run_definition
+  stage: issues_sync
+  only:
+    refs:
+      - develop
+  image: ${CI_REGISTRY}/to/coverity_scanner:${COVERITY_VERSION}
+  before_script:
+   - export COVERITY_BIN_DIR="$(find /opt/coverity/analysis -maxdepth 2 -type d -name "bin" -print)"
+  script:
+    - echo ****** Synchronize Coverity issues with Gitlab Issues.
+    - python3 $COVERITY_BIN_DIR/sync.py --USERNAME ${COVERITY_USERNAME} --TOKEN ${COVERITY_TOKEN} --PROJECT ${CI_PROJECT_NAME} --ACCESS_TOKEN ${GITLAB_ACCESS_TOKEN} --PROJECT_ID ${CI_PROJECT_ID}
+    - echo ****** Synchronize Dependency Tracker issues with Gitlab Issues.
+    - python3 $COVERITY_BIN_DIR/sync_dep.py --DT_TOKEN ${DEP_API_KEY} --ACCESS_TOKEN ${GITLAB_ACCESS_TOKEN} --PROJECT_ID ${CI_PROJECT_ID} --DT_PROJECT ${DEP_PROJECT_ID}
+    - echo ****** Synchronize Secrets scan issues with Gitlab Issues.
+    - python3 $COVERITY_BIN_DIR/sync_sec.py --ACCESS_TOKEN ${GITLAB_ACCESS_TOKEN} --PROJECT_DIR ${CI_PROJECT_DIR} --PROJECT_ID ${CI_PROJECT_ID} 
+    - echo ****** Synchronize Docker scan issues with Gitlab Issues. 
+    - python3 $COVERITY_BIN_DIR/sync_dock.py --ACCESS_TOKEN ${GITLAB_ACCESS_TOKEN} --PROJECT_DIR ${CI_PROJECT_DIR} --PROJECT_ID ${CI_PROJECT_ID} 
+  allow_failure: true
