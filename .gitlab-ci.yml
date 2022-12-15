@@ -3,8 +3,16 @@ image: docker:20.10.10
 stages:
   - build_test_image
   - quality
+  - test
+  - security
+  - issues_sync
   - publish
   - deploy
+
+include:
+  - .gitlab-security.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/Container-Scanning.gitlab-ci.yml
 
 variables:
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
