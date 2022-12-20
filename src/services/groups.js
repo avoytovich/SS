@@ -25,7 +25,8 @@ const groupsApi = api.injectEndpoints({
         url: apiUrls.groups.root,
         method: 'POST',
         body: params
-      })
+      }),
+      invalidatesTags: ['Groups']
     }),
     updateGroup: builder.mutation({
       query: ({id, ...params}) => ({
