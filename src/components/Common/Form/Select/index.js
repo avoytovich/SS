@@ -31,10 +31,6 @@ const SelectField = ({
 
   const hasError = touched[name] && errors[name];
 
-  console.log(errors);
-  console.log(touched);
-  console.log(hasError);
-
   const handleChangeField = (event, values) => {
     formikProps.setFieldError(name, null);
     formikProps.setFieldValue(name, values);
