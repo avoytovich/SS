@@ -17,7 +17,8 @@ const skillRequestsApi = api.injectEndpoints({
         url: apiUrls.skillRequests.approve(id),
         method: 'POST',
         body: params
-      })
+      }),
+      invalidatesTags: ['Skills', 'RequestedSkills']
     }),
 
     rejectRequestedSkill: builder.mutation({
